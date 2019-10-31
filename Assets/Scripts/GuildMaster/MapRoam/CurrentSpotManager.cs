@@ -12,6 +12,7 @@ namespace GuildMaster.MapRoam {
 
         public void GotoSpot(Spot spot) {
             _currentSpot = spot;
+            Debug.Log("GotoSpot called");
         }
     }
 }
