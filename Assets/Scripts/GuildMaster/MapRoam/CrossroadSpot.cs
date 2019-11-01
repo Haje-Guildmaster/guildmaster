@@ -1,30 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GuildMaster.MapRoam {
+    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/CrossroadSpot", order = 2)]
     public class CrossroadSpot: Spot {
         [SerializeField] private List<Spot> connectedSpots;
-        [SerializeField] private List<CheckClick> buttons;
-        
-        private void Start() {
-            base.Init();
-            if (buttons.Count != connectedSpots.Count)
-                throw new Exception("CrossroadSpot: The number of buttons and connectedSpots should be same.");
-            var cnt = 0;
-            foreach (var button in buttons) {
-                var i = cnt++;
-                button.clicked.AddListener(()=> {
-                    TryGotoSpot(i);
-                });
-            }
-        }
+        // 버튼 위치마다 오브젝트(Transform)를 두고 그 전부의 부모를 prefab로 만들어서 넣도록 함.
+        [SerializeField] private Transform buttonsParent;
 
-        private void TryGotoSpot(int index) {
-            Debug.Log("TryGotoSpot(" + index + ") called");
-            Debug.Log(SpotManager);
-            SpotManager.GotoSpot(connectedSpots[index]);
+        public List<Tuple<Transform, Spot>> RoadButtonPlaces { get; private set; }
+        
+        private void OnEnable() {
+            if (buttonsParent.childCount != connectedSpots.Count)
+                throw new Exception("CrossroadSpot: The number of buttons have to be same with connectedSpots.");
+            RoadButtonPlaces = buttonsParent.Cast<Transform>().Zip(connectedSpots, 
+                (transform, spot) => new Tuple<Transform, Spot>(transform, spot)).ToList();
         }
     }
 }
