@@ -6,6 +6,6 @@ namespace GuildMaster
 {
     public abstract class CharacterBase : ObjectBase
     {
-
+        public abstract void GetDamage(int damage);
     }
 }

@@ -11,6 +11,11 @@ namespace GuildMaster
         public override int DEF { get; set; }
         public override int SPD { get; set; }
 
+        public SlimeInfo()
+        {
+            Init();
+        }
+
         public override void Init()
         {
             HP = 5;
