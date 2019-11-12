@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GuildMaster
 {
-    public class Slime : MobBase
+    public abstract class MobInfoBase : ObjectInfoBase
     {
-        public override ObjectInfoBase Info { get; set; }
+
     }
 }
