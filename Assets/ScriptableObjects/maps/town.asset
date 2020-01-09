@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 891621dc8c45421da798b23fa96a3462, type: 3}
   m_Name: map
   m_EditorClassIdentifier: 
+  places: []
