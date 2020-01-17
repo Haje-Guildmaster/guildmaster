@@ -1,8 +1,10 @@
+using System;
+
 namespace GuildMaster.TownRoam
 {
-    public class Address
+    [Obsolete]
+    public struct Address
     {
-        public Town town;
-        public int indext;
+        
     }
 }
