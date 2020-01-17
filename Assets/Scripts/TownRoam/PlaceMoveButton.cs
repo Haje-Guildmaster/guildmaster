@@ -14,5 +14,24 @@ namespace GuildMaster.TownRoam
         {
             clicked.Invoke(this);
         }
+        
+        // Draw a line to the connected place in the scene view. 
+        private void OnDrawGizmos()
+        {
+            if (ReferenceEquals(connectedPlace, null)) return;
+            Gizmos.color = Color.cyan;
+            Vector3 lineEnd = connectedPlace.Center;
+            var here = GetComponentInParent<Place>();
+            foreach (var btn in connectedPlace.GetComponentsInChildren<PlaceMoveButton>())
+            {
+                if (btn.connectedPlace == here)
+                {
+                    lineEnd = btn.transform.position;
+                    break;
+                }
+            }
+
+            Gizmos.DrawLine(transform.position, lineEnd);
+        }
     }
 }
