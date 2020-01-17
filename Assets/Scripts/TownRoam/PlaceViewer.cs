@@ -26,13 +26,25 @@ namespace GuildMaster.TownRoam
         }
         public void Goto(Place p)
         {
+            // 현재는 카메라를 이동시키며 그 Place를 활성화시키는 방법을 사용하고 있으나,
+            // 그 장소를 복제하여 그곳을 비추는 것도 괜찮아 보입니다.
+            if (p == null) throw new Exception("PlaceViewer cannot Goto null");
+            
+            // 전에 있던 장소 비활성화&현재 장소 활성화.
+            // ReSharper disable once UseNullPropagation
+            if (!ReferenceEquals(_currentPlace, null)) 
+                _currentPlace.gameObject.SetActive(false);           
             _currentPlace = p;
-            if (p == null) return;
-
+            p.gameObject.SetActive(true);  
+            
+            
             SubscribeMoveButtons(p.gameObject);
         }
 
-
+        
+        /*
+         * 현재 장소의 모든 PlaceMoveButtons의 onclick이벤트에 listener 부착.
+         */
         private void SubscribeMoveButtons(GameObject parentObject)
         {
             _subscribedButtonClickEvents.ForEach(e=> e.RemoveListener(OnPlaceMoveButtonClicked));
