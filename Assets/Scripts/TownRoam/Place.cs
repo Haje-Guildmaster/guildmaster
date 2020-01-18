@@ -15,7 +15,7 @@ namespace GuildMaster.TownRoam
         public string placeName;
         public SpriteRenderer backgroundRenderer;
         
-        private void Start()
+        private void Awake()
         {
             gameObject.SetActive(false);
         }

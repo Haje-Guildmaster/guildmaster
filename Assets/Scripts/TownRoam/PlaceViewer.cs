@@ -13,7 +13,8 @@ namespace GuildMaster.TownRoam
         private void Start()
         {
             _camera = GetComponent<Camera>();
-            Goto(startPlace);
+            if (startPlace!=null)
+                Goto(startPlace);
         }
 
         

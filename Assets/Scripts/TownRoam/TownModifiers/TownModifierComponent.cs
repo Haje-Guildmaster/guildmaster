@@ -2,7 +2,7 @@
 using GuildMaster.TownRoam.Towns;
 using UnityEngine;
 
-namespace GuildMaster.TownRoam
+namespace GuildMaster.TownRoam.TownModifiers
 {
     public class TownModifierComponent : MonoBehaviour
     {

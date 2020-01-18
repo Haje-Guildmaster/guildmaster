@@ -10,6 +10,7 @@ namespace GuildMaster.TownRoam.Towns
         public abstract Place Entrance { get; }
 
         public bool IsTypeOf<T>() => GetType() == typeof(T);
+        
         [Obsolete]
         public Place GetPlaceByName(string placeName)
         {
