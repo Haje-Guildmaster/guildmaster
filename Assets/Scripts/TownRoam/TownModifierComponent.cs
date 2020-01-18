@@ -1,4 +1,5 @@
 ﻿using GuildMaster.TownRoam.TownModifiers;
+using GuildMaster.TownRoam.Towns;
 using UnityEngine;
 
 namespace GuildMaster.TownRoam
@@ -6,7 +7,7 @@ namespace GuildMaster.TownRoam
     public class TownModifierComponent : MonoBehaviour
     {
         [SerializeField] private Town town;
-        private TownModifier _townLoader;
+        private readonly TownModifier _townLoader;
 
         public TownModifierComponent(TownModifier townLoader)
         {

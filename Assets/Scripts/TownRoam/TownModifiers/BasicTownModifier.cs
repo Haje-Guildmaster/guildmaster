@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GuildMaster.TownRoam.Towns;
+using UnityEngine;
 
 namespace GuildMaster.TownRoam.TownModifiers
 {
