@@ -1,4 +1,5 @@
 ﻿using System;
+using GuildMaster.TownRoam.TownModifiers;
 using GuildMaster.TownRoam.Towns;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,13 +10,18 @@ namespace GuildMaster.TownRoam
     {
         [SerializeField] private PlaceViewer placeViewer;
         
-        public static void Load(Town town) => Instance._Load(town);
+        public static T Load<T>(T town)where T: Town => Instance._Load(town);
         
         
-        private void _Load(Town town)
+        private T _Load<T>(T town, params TownModifier[] modifiers) where T: Town
         {
             var townObj = Instantiate(town);
+            foreach (var modifier in modifiers)
+            {
+                modifier.Modify(townObj);
+            }
             placeViewer.Goto(townObj.Entrance);
+            return townObj;
         }
         
         private static TownLoader _instance;
