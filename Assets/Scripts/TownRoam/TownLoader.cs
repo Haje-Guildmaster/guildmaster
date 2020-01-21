@@ -8,37 +8,43 @@ namespace GuildMaster.TownRoam
 {
     public class TownLoader: MonoBehaviour
     {
+        [SerializeField] private Transform townParent;
         [SerializeField] private PlaceViewer placeViewer;
+        public Town LoadedTown { get; private set; }
         
-        public static T Load<T>(T town)where T: Town => Instance._Load(town);
-        
-        
-        private T _Load<T>(T town, params TownModifier[] modifiers) where T: Town
+        private void Start()
         {
-            var townObj = Instantiate(town);
-            foreach (var modifier in modifiers)
-            {
-                modifier.Modify(townObj);
-            }
-            placeViewer.Goto(townObj.Entrance);
-            return townObj;
+            Load(TownLoadManager.Reservation.ReservedTown, TownLoadManager.Reservation.ReservedOption);
         }
-        
-        private static TownLoader _instance;
 
-        private static TownLoader Instance
+        private void Load(Town town, TownLoadManager.Option option)
         {
-            get
+            if (town == null) throw new Exception("Failed to load. Town object to copy does not exist");
+
+            Place startPlace;
+            (LoadedTown, startPlace) = _Gen(town, option);
+            LoadedTown.transform.SetParent(townParent);
+            placeViewer.Goto(startPlace);
+        }
+
+        private static (Town, Place) _Gen(Town town, TownLoadManager.Option option)
+        {
+            var type = option.type;
+            switch (town)
             {
-                if (_instance != null)
-                    return _instance;
-                _instance = FindObjectOfType<TownLoader>();
-                if (!_instance)
-                    throw new Exception("There needs to be an active TownLoader in the scene");
-                return _instance;
+                case var et when type == TownLoadManager.Option.Type.EmptyTown:
+                {
+                    var load = TownObjectLoader.Load(et);
+                    return (load, load.Entrance);
+                }
+                case TestTown testTown when type == TownLoadManager.Option.Type.Default:
+                {
+                    var load = TownObjectLoader.Load(testTown, new TestTownBasicModifier());
+                    return (load, load.Entrance);
+                }
+                default:
+                    throw new Exception($"It is not possible to load {town.GetType().Name} with option {option}");
             }
         }
-        
-        
     }
 }

@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace GuildMaster.TownRoam.TownModifiers
 {
-    public class BasicTownModifier: TownModifier
+    public class TestTownBasicModifier: Modifier<TestTown>
     {
-        public override void Modify(Town town)
+        public override void Modify(TestTown town)
         {
             // do nothing
         }
