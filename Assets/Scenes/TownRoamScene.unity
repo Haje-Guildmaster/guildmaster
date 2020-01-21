@@ -188,7 +188,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5ddc85353f4e6fa687174bca5e2ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPlace: {fileID: 0}
 --- !u!81 &2093325971
 AudioListener:
   m_ObjectHideFlags: 0
@@ -227,7 +226,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

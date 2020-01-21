@@ -14,7 +14,6 @@ namespace GuildMaster.TownRoam
         
         private void Start()
         {
-            
             if (TownLoadManager.Reservation.ReservedTown == null)
                 Debug.Log("No town reserved for load");
             else
@@ -24,10 +23,11 @@ namespace GuildMaster.TownRoam
         private void LoadReserved(Town town, TownLoadManager.Option option)
         {
             if (town == null) throw new Exception("Failed to load. Town object to copy does not exist");
-
-            Place startPlace;
-            (LoadedTown, startPlace) = _Gen(town, option);
-            LoadedTown.transform.SetParent(townParent);
+            
+            var (generatedTown, startPlace) = _Gen(town, option);
+            
+            generatedTown.transform.SetParent(townParent);
+            LoadedTown = generatedTown;
             placeViewer.Goto(startPlace);
         }
 

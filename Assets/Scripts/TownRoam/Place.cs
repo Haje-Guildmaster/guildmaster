@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GuildMaster.TownRoam.Towns;
 using UnityEngine;
 
 
@@ -14,10 +15,5 @@ namespace GuildMaster.TownRoam
         
         public string placeName;
         public SpriteRenderer backgroundRenderer;
-        
-        private void Awake()
-        {
-            gameObject.SetActive(false);
-        }
     }
 }

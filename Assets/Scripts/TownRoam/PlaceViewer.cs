@@ -8,18 +8,16 @@ namespace GuildMaster.TownRoam
     [ExecuteInEditMode]
     public class PlaceViewer: MonoBehaviour
     {
-        [SerializeField] private Place startPlace;
+        private const int PlaceViewedLayer = 8;
         
         private void Start()
         {
             _camera = GetComponent<Camera>();
-            if (startPlace!=null)
-                Goto(startPlace);
         }
-
         
         private void Update()
         {
+            // _currentPlace 오브젝트가 삭제되면 오류납니다. 삭제될 일이 잇다면 !=로 바꿔주세요.
             if (ReferenceEquals(_currentPlace, null)) return;
             // 화면 비율이 바뀌는 것을 걱정해 Update에 넣습니다. 화면 비율이 바뀌지 않는 게 확실하면 Goto에 넣어주세요.
             _camera.orthographicSize = Math.Max(_currentPlace.Size.y/2, _currentPlace.Size.x/2/_camera.aspect);
@@ -32,16 +30,15 @@ namespace GuildMaster.TownRoam
             if (p == null) throw new Exception("PlaceViewer cannot Goto null");
             
             // 전에 있던 장소 비활성화&현재 장소 활성화.
-            // ReSharper disable once UseNullPropagation
-            if (!ReferenceEquals(_currentPlace, null)) 
-                _currentPlace.gameObject.SetActive(false);           
+            if (_currentPlace != null)
+                SetLayersOfChildren(_currentPlace.gameObject, _originalLayer);         
             _currentPlace = p;
 
-            var go = p.gameObject;
+            var gObj = p.gameObject;
+            _originalLayer = gObj.layer;
+            SetLayersOfChildren(gObj, PlaceViewedLayer);
             
-            go.SetActive(true);  
-            
-            SubscribeMoveButtons(go);
+            SubscribeMoveButtons(gObj);
         }
 
         
@@ -63,6 +60,12 @@ namespace GuildMaster.TownRoam
             Goto(button.connectedPlace);
         }
 
+        private void SetLayersOfChildren(GameObject gObj, int layer)
+        {
+            foreach (var t in gObj.GetComponentsInChildren<Transform>())
+                t.gameObject.layer = layer;
+        }
+        private int _originalLayer;
         private Place _currentPlace;
         private readonly List<PlaceMoveButton.ClickedEvent> _subscribedButtonClickEvents = new List<PlaceMoveButton.ClickedEvent>();
         private Camera _camera;
