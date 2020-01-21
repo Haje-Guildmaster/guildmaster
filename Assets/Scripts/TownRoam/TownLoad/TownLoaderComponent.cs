@@ -4,9 +4,10 @@ using GuildMaster.TownRoam.Towns;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GuildMaster.TownRoam
+namespace GuildMaster.TownRoam.TownLoad
 {
-    public class TownLoader: MonoBehaviour
+    // TownLoadManager에 요청된 Town 정보를 읽어 실제로 불러옴.
+    public class TownLoaderComponent: MonoBehaviour
     {
         [SerializeField] private Transform townParent;
         [SerializeField] private PlaceViewer placeViewer;

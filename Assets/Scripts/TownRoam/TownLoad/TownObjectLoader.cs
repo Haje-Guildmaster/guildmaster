@@ -3,7 +3,7 @@ using GuildMaster.TownRoam.TownModifiers;
 using GuildMaster.TownRoam.Towns;
 using UnityEngine;
 
- namespace GuildMaster.TownRoam
+ namespace GuildMaster.TownRoam.TownLoad
 {
     public static class TownObjectLoader
     { 

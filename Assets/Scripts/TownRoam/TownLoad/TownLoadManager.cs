@@ -5,11 +5,11 @@ using GuildMaster.TownRoam.Towns;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GuildMaster.TownRoam
+namespace GuildMaster.TownRoam.TownLoad
 {
     /*
      * TownRoamScene을 열 때 사용하는 클래스로, SceneManager.LoadScene과 비슷하게 LoadTownScene 함수를 제공.
-     * TownLoader에게 새로 여는 함수에 대한 정보를 전달합니다.
+     * TownLoader에게 새로 여는 Town에 대한 정보를 전달합니다.
      * 죄송합니다 c++하는 기분으로 짜다가 뭔가 코드가 일관성 없게 되어버렸습니다.
      */
     public static class TownLoadManager
