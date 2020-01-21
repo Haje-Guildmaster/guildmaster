@@ -14,10 +14,14 @@ namespace GuildMaster.TownRoam
         
         private void Start()
         {
-            Load(TownLoadManager.Reservation.ReservedTown, TownLoadManager.Reservation.ReservedOption);
+            
+            if (TownLoadManager.Reservation.ReservedTown == null)
+                Debug.Log("No town reserved for load");
+            else
+                LoadReserved(TownLoadManager.Reservation.ReservedTown, TownLoadManager.Reservation.ReservedOption);
         }
 
-        private void Load(Town town, TownLoadManager.Option option)
+        private void LoadReserved(Town town, TownLoadManager.Option option)
         {
             if (town == null) throw new Exception("Failed to load. Town object to copy does not exist");
 
