@@ -2,6 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using GuildMaster.Tools;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GuildMaster.Npcs
@@ -10,6 +11,9 @@ namespace GuildMaster.Npcs
     {
         [SerializeField] private Image illustration;
         [SerializeField] private Text dialogTextBox;
+        [SerializeField] private RectTransform interactionButtonsParent;
+        [SerializeField] private NpcInteractionButton interactionButtonPrefab;
+        
         public Image Illustration => illustration;
         public Text DialogTextBox => dialogTextBox;
 
@@ -20,8 +24,8 @@ namespace GuildMaster.Npcs
         public void Open(NpcData npc)
         {
             _npcData = npc;
-            InitialScreen();
             gameObject.SetActive(true);
+            InitialScreen();
         }
         
         public void Close()
@@ -32,21 +36,56 @@ namespace GuildMaster.Npcs
 
 
         private NpcData _npcData;
+        private float _interactionListBottom;
+        private const float InteractionButtonYDiff = 43f;
         private void InitialScreen()
         {
+            illustration.GetComponent<YouSpinMeRound>().x = 0;
+            illustration.GetComponent<YouSpinMeRound>().y = 0;
+            illustration.GetComponent<YouSpinMeRound>().z = 0;
+            
+            
             var data = _npcData.basicData;
             illustration.sprite = data.illustration;
-            dialogTextBox.text = data.greeting;
+            dialogTextBox.text = data.greeting.Replace("\\n", "\n");
+            InitializeInteractionButtonList();
         }
 
-        private void InitializeInteractionList()
+        private void InitializeInteractionButtonList()
         {
-            throw new NotImplementedException();
+            foreach (Transform child in interactionButtonsParent)
+                Destroy(child.gameObject);
+
+            _interactionListBottom = 0f;
+            AddInteractionButtonToList("대화하기", ()=>
+            {
+                dialogTextBox.text = "(들리지 않는 것 같다..)";
+                illustration.GetComponent<YouSpinMeRound>().z -= 20;
+            });
+            AddInteractionButtonToList("거래", ()=>
+            {
+                dialogTextBox.text = "(들리지 않는 것 같다...)";
+                illustration.GetComponent<YouSpinMeRound>().x += 20;
+                illustration.GetComponent<YouSpinMeRound>().y += 20;
+            });
+            if (_npcData.HasQuests) ;
+            // AddInteractionButtonToList();
+            AddInteractionButtonToList("때리기", () =>
+            {
+                dialogTextBox.text = "아야!";
+                illustration.GetComponent<YouSpinMeRound>().x *= 2;
+                illustration.GetComponent<YouSpinMeRound>().y *= 2;
+                illustration.GetComponent<YouSpinMeRound>().z *= 2;
+            });
         }
 
-        private void AddInteractionToList()
+        private void AddInteractionButtonToList(string buttonText, UnityAction handler)
         {
-            throw new NotImplementedException();
+            var button = Instantiate(interactionButtonPrefab, interactionButtonsParent);
+            button.button.onClick.AddListener(handler);
+            button.buttonText.text = buttonText;
+            button.transform.localPosition += new Vector3(0, _interactionListBottom, 0);
+            _interactionListBottom -= InteractionButtonYDiff;
         }
     }
 }

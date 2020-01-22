@@ -15,6 +15,6 @@ MonoBehaviour:
   basicData:
     npcName: HWANG
     illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
-    greeting: "\uD5E4\uC774 \uC694"
+    greeting: "[\uD669\uC528]\\n\uD5E4\uC774 \uC694"
   questData:
     hasQuests: 1
