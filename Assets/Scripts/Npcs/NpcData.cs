@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace GuildMaster.Npcs
 {
+    [CreateAssetMenu(fileName = "Npc", menuName = "ScriptableObjects/NpcData", order = 0)]
     public class NpcData : ScriptableObject
     {
         public NpcBasicData basicData;

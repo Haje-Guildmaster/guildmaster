@@ -26,6 +26,7 @@ namespace GuildMaster.Npcs
         
         public void Close()
         {
+            Debug.Log("ASDFASDF");
             gameObject.SetActive(false);
         }
 
