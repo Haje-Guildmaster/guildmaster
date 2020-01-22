@@ -9,6 +9,8 @@ namespace GuildMaster.Npcs
     {
         [SerializeField] private Image illustration;
         [SerializeField] private Text dialogTextBox;
+        public Image Illustration => illustration;
+        public Text DialogTextBox => dialogTextBox;
 
         public void Start()
         {
@@ -16,16 +18,33 @@ namespace GuildMaster.Npcs
         }
         public void Open(NpcData npc)
         {
-            var data = npc.basicData;
-            illustration.sprite = data.illustration;
-            dialogTextBox.text = data.greeting;
+            _npcData = npc;
+            InitialScreen();
             gameObject.SetActive(true);
         }
+        
         public void Close()
         {
             gameObject.SetActive(false);
         }
-        
 
+
+        private NpcData _npcData;
+        private void InitialScreen()
+        {
+            var data = _npcData.basicData;
+            illustration.sprite = data.illustration;
+            dialogTextBox.text = data.greeting;
+        }
+
+        private void InitializeInteractionList()
+        {
+            
+        }
+
+        private void AddInteractionToList()
+        {
+            
+        }
     }
 }

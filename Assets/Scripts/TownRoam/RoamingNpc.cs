@@ -11,6 +11,11 @@ namespace GuildMaster.TownRoam
         public UnityEvent<NpcData> clicked;
 
         public RoamingNpc(){}
+
+        public RoamingNpc(NpcData npcData)
+        {
+            this.npcData = npcData;
+        }
         private void OnMouseUpAsButton()
         {
             clicked.Invoke(npcData);

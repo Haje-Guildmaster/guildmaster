@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GuildMaster.Npcs
 {
     [Serializable]
-    public class NpcBasicData
+    public struct NpcBasicData
     {
         public string npcName;
         public Sprite illustration;

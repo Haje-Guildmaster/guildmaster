@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GuildMaster.Npcs.NpcInteractions;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GuildMaster.Npcs
@@ -8,6 +8,7 @@ namespace GuildMaster.Npcs
     {
         public NpcBasicData basicData;
         public NpcRoamData roamData;
-        public List<NpcInteraction> interactions;
+        public NpcQuestData questData;
+        public bool HasQuests => questData.hasQuests;
     }
 }
