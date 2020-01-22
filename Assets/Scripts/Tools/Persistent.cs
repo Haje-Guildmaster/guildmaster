@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace GuildMaster
+namespace GuildMaster.Tools
 {
     public class Persistent: MonoBehaviour
     {
