@@ -1,14 +1,14 @@
 ﻿using GuildMaster.Npcs;
+using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace GuildMaster.TownRoam
 {
-    [RequireComponent(typeof(Collider2D))]
-    public class RoamingNpc: MonoBehaviour
+    public class RoamingNpc: GenericButton<NpcData>
     {
         [SerializeField] private NpcData npcData;
-        public UnityEvent<NpcData> clicked;
+        protected override NpcData EventParameter => npcData;
 
         public RoamingNpc(){}
 
@@ -16,10 +16,5 @@ namespace GuildMaster.TownRoam
         {
             this.npcData = npcData;
         }
-        private void OnMouseUpAsButton()
-        {
-            clicked.Invoke(npcData);
-        }
-        
     }
 }

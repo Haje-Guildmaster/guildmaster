@@ -1,19 +1,14 @@
 ﻿using System;
+using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace GuildMaster.TownRoam
 {
-    [RequireComponent(typeof(Collider2D))]
-    public class PlaceMoveButton: MonoBehaviour
+    public class PlaceMoveButton: GenericButton<PlaceMoveButton>
     {
-        public class ClickedEvent : UnityEvent<PlaceMoveButton> { }
+        protected override PlaceMoveButton EventParameter => this;
         public Place connectedPlace;
-        public ClickedEvent clicked = new ClickedEvent();
-        private void OnMouseUpAsButton()
-        {
-            clicked.Invoke(this);
-        }
         
         // Draw a line to the connected place in the scene view. 
         private void OnDrawGizmos()

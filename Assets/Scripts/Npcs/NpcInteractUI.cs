@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,12 +40,12 @@ namespace GuildMaster.Npcs
 
         private void InitializeInteractionList()
         {
-            
+            throw new NotImplementedException();
         }
 
         private void AddInteractionToList()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

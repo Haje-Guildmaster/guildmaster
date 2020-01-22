@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using GuildMaster.Npcs;
+using GuildMaster.Tools;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace GuildMaster.TownRoam
 {
@@ -8,6 +12,8 @@ namespace GuildMaster.TownRoam
     [ExecuteInEditMode]
     public class PlaceViewer: MonoBehaviour
     {
+        [SerializeField] private NpcInteractUI npcInteractUi;
+        
         private const int PlaceViewedLayer = 8;
         
         private void Start()
@@ -38,26 +44,28 @@ namespace GuildMaster.TownRoam
             _originalLayer = gObj.layer;
             SetLayersOfChildren(gObj, PlaceViewedLayer);
             
-            SubscribeMoveButtons(gObj);
+            UpdateSubscribedButtons<PlaceMoveButton, PlaceMoveButton>
+                (_subscribedMoveButtonEvents, gObj, btn => Goto(btn.connectedPlace));
+            UpdateSubscribedButtons<RoamingNpc, NpcData>
+                (_subscribedRoamingNpcEvents, gObj, npc=> npcInteractUi.Open(npc));
         }
 
         
         /*
-         * 현재 장소의 모든 PlaceMoveButtons의 onclick이벤트에 listener 부착.
+         * 주어진 parentObject와 그 모든 자녀에서 TComponent 타입의 버튼 컴포턴트를 찾고,
+         * 그 전체에게 주어진 핸들러 부착.
          */
-        private void SubscribeMoveButtons(GameObject parentObject)
+        private static void UpdateSubscribedButtons<TComponent, TEventParam>
+            (List<GenericButton<TEventParam>.ClickedEvent> list, GameObject parentObject, UnityAction<TEventParam> handler) 
+            where TComponent: GenericButton<TEventParam>
         {
-            _subscribedButtonClickEvents.ForEach(e=> e.RemoveListener(OnPlaceMoveButtonClicked));
-            _subscribedButtonClickEvents.Clear();
-            foreach (var button in parentObject.GetComponentsInChildren<PlaceMoveButton>())
+            list.ForEach(e=> e?.RemoveListener(handler));
+            list.Clear();
+            foreach (var button in parentObject.GetComponentsInChildren<TComponent>())
             {
-                button.clicked.AddListener(OnPlaceMoveButtonClicked);
-                _subscribedButtonClickEvents.Add(button.clicked);
+                button.clicked.AddListener(handler);
+                list.Add(button.clicked);
             }
-        }
-        private void OnPlaceMoveButtonClicked(PlaceMoveButton button)
-        {
-            Goto(button.connectedPlace);
         }
 
         private void SetLayersOfChildren(GameObject gObj, int layer)
@@ -67,7 +75,8 @@ namespace GuildMaster.TownRoam
         }
         private int _originalLayer;
         private Place _currentPlace;
-        private readonly List<PlaceMoveButton.ClickedEvent> _subscribedButtonClickEvents = new List<PlaceMoveButton.ClickedEvent>();
+        private readonly List<PlaceMoveButton.ClickedEvent> _subscribedMoveButtonEvents = new List<PlaceMoveButton.ClickedEvent>();
+        private readonly List<RoamingNpc.ClickedEvent> _subscribedRoamingNpcEvents = new List<RoamingNpc.ClickedEvent>();
         private Camera _camera;
     }
 }
