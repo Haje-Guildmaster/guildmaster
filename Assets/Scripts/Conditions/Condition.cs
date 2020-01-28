@@ -14,6 +14,16 @@ namespace GuildMaster.Conditions
         }
 
         [Serializable]
+        public class Always : Condition
+        {
+            public bool isTrue;
+
+            public Always(bool isTrue)
+            {
+                this.isTrue = isTrue;
+            }
+        }
+        [Serializable]
         public class LevelOver : Condition
         {
             public int level;

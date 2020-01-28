@@ -1,19 +1,31 @@
-﻿using GuildMaster.Conditions;
+﻿using System;
+using System.Collections.Generic;
+using GuildMaster.Conditions;
+using GuildMaster.Npcs;
 using UnityEngine;
-    
+
 namespace GuildMaster.Quests
 {
+    using Script = String;
     [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/QuestData", order = 0)]
     public class QuestData: ScriptableObject
     {
         [SerializeField] private Condition activationCondition;
-        [SerializeField] private Condition completionCondition;
-        [SerializeField] private string testTalkScript;
-        [SerializeField] private string testCompleteScript;
+        [SerializeField] private Script questReceiveScript;
+        [SerializeField] private List<Step> steps;
+        
         
         public Condition ActivationCondition => activationCondition;
-        public Condition CompletionCondition => completionCondition;
-        public string TestTalkScript => testTalkScript;
-        public string TestCompleteScript => testCompleteScript;
+        public Script QuestReceiveScript => questReceiveScript;
+        public List<Step> Steps => steps;
+
+        [Serializable]
+        public class Step
+        {
+            public Condition completeCondition;
+            public NpcData reportTo;
+            public Script reportScript;
+        }
+        
     }
 }
