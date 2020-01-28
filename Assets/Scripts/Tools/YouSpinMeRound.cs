@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
 
 namespace GuildMaster.Tools
 {
+    // 빙글빙글 돌아요
     public class YouSpinMeRound : MonoBehaviour
     {
         public float x, y, z;
