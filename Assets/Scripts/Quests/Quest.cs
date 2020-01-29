@@ -1,6 +1,9 @@
-﻿namespace GuildMaster.Quests
+﻿using System;
+
+namespace GuildMaster.Quests
 {
     // 퀘스트 진행상황을 저장함.
+    [Serializable]
     public class Quest
     {
         private QuestData _questData;

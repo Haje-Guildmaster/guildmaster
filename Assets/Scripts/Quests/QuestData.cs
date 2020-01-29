@@ -14,7 +14,6 @@ namespace GuildMaster.Quests
         [SerializeField] private Script questReceiveScript;
         [SerializeField] private List<Step> steps;
         
-        
         public Condition ActivationCondition => activationCondition;
         public Script QuestReceiveScript => questReceiveScript;
         public List<Step> Steps => steps;

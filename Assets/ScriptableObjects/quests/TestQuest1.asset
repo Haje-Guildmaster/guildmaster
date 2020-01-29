@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276ece82c7e44d24c9bf1e91f82ff816, type: 3}
   m_Name: TestQuest1
   m_EditorClassIdentifier: 
-  testTalkScript: 
-  testCompleteScript: 
+  questReceiveScript: 
+  steps: []
