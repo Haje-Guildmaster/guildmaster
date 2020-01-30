@@ -10,7 +10,7 @@ namespace GuildMaster.Quests
     [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/QuestData", order = 0)]
     public class QuestData: ScriptableObject
     {
-        [SerializeField] private Condition activationCondition;
+        [SerializeReference] [SerializeReferenceButton] private Condition activationCondition;
         [SerializeField] private Script questReceiveScript;
         [SerializeField] private List<Step> steps;
         

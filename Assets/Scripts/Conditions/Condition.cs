@@ -9,15 +9,14 @@ namespace GuildMaster.Conditions
     [Serializable]
     public class Condition
     {
-        private Condition()
-        {
-        }
+        private Condition() {}
 
         [Serializable]
         public class Always : Condition
         {
             public bool isTrue;
 
+            public Always() {}
             public Always(bool isTrue)
             {
                 this.isTrue = isTrue;
@@ -27,6 +26,8 @@ namespace GuildMaster.Conditions
         public class LevelOver : Condition
         {
             public int level;
+
+            public LevelOver() {}
 
             public LevelOver(int level)
             {
@@ -39,6 +40,8 @@ namespace GuildMaster.Conditions
         {
             public QuestData quest;
 
+            public CompletedQuest() {}
+
             public CompletedQuest(QuestData quest)
             {
                 this.quest = quest;
@@ -46,9 +49,12 @@ namespace GuildMaster.Conditions
         }
 
         [Serializable]
-        public class And: Condition
+        public class And : Condition
         {
-            public Condition[] conditions;
+            [SerializeReference] [SerializeReferenceButton] public Condition[] conditions;
+
+
+            public And() {}
 
             public And(params Condition[] list)
             {
@@ -60,7 +66,7 @@ namespace GuildMaster.Conditions
         public class Or: Condition
         {
             public Condition[] conditions;
-
+            
             public Or(params Condition[] list)
             {
                 conditions = list;

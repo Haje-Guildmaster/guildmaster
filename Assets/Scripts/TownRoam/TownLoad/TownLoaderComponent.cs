@@ -10,8 +10,8 @@ namespace GuildMaster.TownRoam.TownLoad
     // TownLoadManager에 요청된 Town 정보를 읽어 실제로 불러옴.
     public class TownLoaderComponent: MonoBehaviour
     {
-        [SerializeField][CanBeNull] private Transform townParent;
-        [SerializeField] private PlaceViewer placeViewer;
+        [SerializeField] private Transform townParent = null;
+        [SerializeField] private PlaceViewer placeViewer = null;
         public Town LoadedTown { get; private set; }
         
         private void Start()
