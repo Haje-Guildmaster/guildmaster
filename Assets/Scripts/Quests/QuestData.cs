@@ -21,7 +21,7 @@ namespace GuildMaster.Quests
         [Serializable]
         public class Step
         {
-            public Condition completeCondition;
+            public QuestCondition completeCondition;
             public NpcData reportTo;
             public Script reportScript;
         }
