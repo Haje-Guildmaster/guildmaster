@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74f89be522304e03b76226df20976ecb, type: 3}
-  m_Name: npc_hwang
+  m_Name: npc_deligo
   m_EditorClassIdentifier: 
   basicData:
-    npcName: HWANG
-    illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
-    greeting: "\uD5E4\uC774 \uC694"
+    npcName: Deligo
+    illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}
+    greeting: "\uC77C\uD574\uB77C \uB178\uC608\uB4E4\uC544"
   questData:
-    questList: []
+    questList:
+    - {fileID: 11400000, guid: daa6bc9096189c34aa370b17e9a63d3b, type: 2}

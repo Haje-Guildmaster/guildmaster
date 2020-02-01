@@ -10,6 +10,6 @@ namespace GuildMaster.Npcs
         public NpcBasicData basicData;
         public NpcRoamData roamData;
         public NpcQuestData questData;
-        public bool HasQuests => questData.hasQuests;
+        public bool HasQuests => questData.HasQuests;
     }
 }

@@ -12,5 +12,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276ece82c7e44d24c9bf1e91f82ff816, type: 3}
   m_Name: TestQuest1
   m_EditorClassIdentifier: 
-  questReceiveScript: 
-  steps: []
+  activationCondition:
+    id: 0
+  questReceiveScript:
+    str: "\uC548\uB0D0\uC138\uC5EC"
+  steps:
+  - stepCondition:
+      id: 0
+    _stepMission:
+      id: 1
+  - stepCondition:
+      id: 0
+    _stepMission:
+      id: 2
+  - stepCondition:
+      id: 0
+    _stepMission:
+      id: 3
+  references:
+    version: 1
+    00000000:
+      type: {class: , ns: , asm: }
+    00000001:
+      type: {class: StepMission/TalkStep, ns: GuildMaster.Quests, asm: Assembly-CSharp}
+      data:
+        talkTo: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
+        script:
+          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 1. => Deligo"
+    00000002:
+      type: {class: StepMission/TalkStep, ns: GuildMaster.Quests, asm: Assembly-CSharp}
+      data:
+        talkTo: {fileID: 11400000, guid: fe98045256db20c43b43d0c978485e3e, type: 2}
+        script:
+          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 2. => Hwang"
+    00000003:
+      type: {class: StepMission/TalkStep, ns: GuildMaster.Quests, asm: Assembly-CSharp}
+      data:
+        talkTo: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
+        script:
+          str: "\uD018\uC2A4\uD2B8 \uB05D."

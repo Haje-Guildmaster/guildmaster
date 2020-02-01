@@ -45,9 +45,9 @@ namespace GuildMaster.Npcs
             illustration.GetComponent<YouSpinMeRound>().z = 0;
             
             
-            var data = _npcData.basicData;
-            illustration.sprite = data.illustration;
-            dialogTextBox.text = data.greeting.Replace("\\n", "\n");
+            var basicData = _npcData.basicData;
+            illustration.sprite = basicData.illustration;
+            dialogTextBox.text = $"[{basicData.npcName}]\n{basicData.greeting}";
             InitializeInteractionButtonList();
         }
 
