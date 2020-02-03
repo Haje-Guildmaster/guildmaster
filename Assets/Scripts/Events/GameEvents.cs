@@ -1,0 +1,15 @@
+﻿using GuildMaster.Dialog;
+using GuildMaster.Npcs;
+using GuildMaster.Quests;
+using UnityEngine.Events;
+
+namespace GuildMaster.Events
+{
+    // 게임에서 일어나는 여러 이벤트를 제공합니다.
+    // 객체 간의 통신 중계 역할입니다.
+    public static class GameEvents
+    {
+        private class QuestScriptPlayEndEvent : UnityEvent<StepMission.TalkStep> {}
+        public static readonly UnityEvent<StepMission.TalkStep> QuestScriptPlayEnd = new QuestScriptPlayEndEvent();
+    }
+}

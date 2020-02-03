@@ -7,6 +7,7 @@ using GuildMaster.Npcs;
 namespace GuildMaster.Quests
 {
     // 퀘스트 진행상황을 저장함.
+    // QuestData의 iterator.
     public class Quest
     {
         public Quest(QuestData questData)

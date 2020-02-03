@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GuildMaster.Data;
+using GuildMaster.Events;
 using UnityEngine;
 
 namespace GuildMaster.Quests
@@ -8,20 +9,37 @@ namespace GuildMaster.Quests
     [Serializable]
     public class QuestManager
     {
-        private HashSet<QuestData> _completedQuests = new HashSet<QuestData>();
-        private readonly PlayerData _playerData;
-
         public QuestManager(PlayerData playerData)
         {
             _playerData = playerData;
+            GameEvents.QuestScriptPlayEnd.AddListener(OnQuestScriptPlayEnd);
         }
+        
+        private readonly PlayerData _playerData;
 
-        private List<Quest> _quests;
-
-        public void AddQuest(QuestData questData) => _quests.Add(new Quest(questData));
+        public bool ReceiveQuest(QuestData questData)
+        {
+            if (!_playerData.CheckCondition(questData.ActivationCondition))
+                return false;
+            _quests.Add(new Quest(questData));
+            return true;
+        }
         public bool AbandonQuest(Quest quest) => _quests.Remove(quest);
+        public bool CompletedQuest(QuestData questData) => _completedQuests.Contains(questData);
+        
+        
+        // Event Listeners
+        private void OnQuestScriptPlayEnd(StepMission.TalkStep step)
+        {
+            AddProgress<StepMission.TalkStep>(s=>s==step, 1);
+        }
+        
+        
+        
+        private List<Quest> _quests = new List<Quest>();
+        private HashSet<QuestData> _completedQuests = new HashSet<QuestData>();
 
-        public void UpdateQuests()
+        private void UpdateQuests()
         {
             foreach (var quest in _quests)
             {
@@ -34,10 +52,9 @@ namespace GuildMaster.Quests
             }
         }
 
-        public bool CompletedQuest(QuestData questData) => _completedQuests.Contains(questData);
-
-        private void AddProgress<T>(Func<T, bool> filter, int progress) where T : StepMission
+        private int AddProgress<T>(Func<T, bool> filter, int progress) where T : StepMission
         {
+            var cnt = 0;
             foreach (var quest in _quests)
             {
                 if (_playerData.CheckCondition(quest.CurrentStep.StepCondition) 
@@ -45,8 +62,12 @@ namespace GuildMaster.Quests
                     && filter(tMission))
                 {
                     quest.StepProgress += progress;
+                    cnt++;
                 }
             }
+            Debug.Log($"Added {progress} progress to {cnt} quests");
+            UpdateQuests();
+            return cnt;
         }
 
         private void _CompleteQuest(Quest quest)
