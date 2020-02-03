@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activationCondition:
     id: 0
-  questReceiveScript:
-    str: "\uC548\uB0D0\uC138\uC5EC"
+  questSuggestScript:
+    str: "\uC800\uAE30 \uAC00\uC11C \uD669\uC528\uB791 \uB300\uD654\uD558\uACE0 \uC640\uB77C"
   steps:
   - stepCondition:
       id: 0
@@ -34,20 +34,20 @@ MonoBehaviour:
     00000000:
       type: {class: , ns: , asm: }
     00000001:
-      type: {class: StepMission/TalkStep, ns: GuildMaster.Quests, asm: Assembly-CSharp}
+      type: {class: StepMission/TalkMission, ns: GuildMaster.Quests, asm: Assembly-CSharp}
       data:
         talkTo: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
         script:
-          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 1. => Deligo"
+          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 1 => deligo"
     00000002:
-      type: {class: StepMission/TalkStep, ns: GuildMaster.Quests, asm: Assembly-CSharp}
+      type: {class: StepMission/TalkMission, ns: GuildMaster.Quests, asm: Assembly-CSharp}
       data:
         talkTo: {fileID: 11400000, guid: fe98045256db20c43b43d0c978485e3e, type: 2}
         script:
-          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 2. => Hwang"
+          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 2 =>Hwang"
     00000003:
-      type: {class: StepMission/TalkStep, ns: GuildMaster.Quests, asm: Assembly-CSharp}
+      type: {class: StepMission/TalkMission, ns: GuildMaster.Quests, asm: Assembly-CSharp}
       data:
         talkTo: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
         script:
-          str: "\uD018\uC2A4\uD2B8 \uB05D."
+          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 3. \uB05D."

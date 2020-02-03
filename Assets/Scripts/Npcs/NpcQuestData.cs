@@ -10,7 +10,7 @@ namespace GuildMaster.Npcs
     public class NpcQuestData
     {
         public bool HasQuests => false;
-        [SerializeReference] private List<QuestData> questList;
+        [SerializeField] private List<QuestData> questList = new List<QuestData>();
         public ReadOnlyCollection<QuestData> QuestList => questList.AsReadOnly();
     }
 }

@@ -12,7 +12,7 @@ namespace GuildMaster.Quests
         private StepMission() {}
 
         [Serializable]
-        public class TalkStep : StepMission
+        public class TalkMission : StepMission
         {
             public override int MaxProgress => 1;
             public NpcData talkTo;

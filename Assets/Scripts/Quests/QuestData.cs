@@ -11,11 +11,11 @@ namespace GuildMaster.Quests
     public class QuestData: ScriptableObject
     {
         [SerializeReference] [SerializeReferenceButton] private Condition activationCondition;
-        [SerializeField] private Script questReceiveScript;
+        [SerializeField] private Script questSuggestScript;
         [SerializeField] private List<QuestStep> steps;
         
         public Condition ActivationCondition => activationCondition;
-        public Script QuestReceiveScript => questReceiveScript;
+        public Script QuestSuggestScript => questSuggestScript;
         public IEnumerable<QuestStep> Steps => steps;
     }
     

@@ -9,7 +9,7 @@ namespace GuildMaster.Events
     // 객체 간의 통신 중계 역할입니다.
     public static class GameEvents
     {
-        private class QuestScriptPlayEndEvent : UnityEvent<StepMission.TalkStep> {}
-        public static readonly UnityEvent<StepMission.TalkStep> QuestScriptPlayEnd = new QuestScriptPlayEndEvent();
+        private class QuestScriptPlayEndEvent : UnityEvent<StepMission.TalkMission> {}
+        public static readonly UnityEvent<StepMission.TalkMission> QuestScriptPlayEnd = new QuestScriptPlayEndEvent();
     }
 }

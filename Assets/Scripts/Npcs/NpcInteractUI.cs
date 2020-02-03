@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using GuildMaster.Data;
+using GuildMaster.Dialog;
+using GuildMaster.Events;
+using GuildMaster.Quests;
 using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,6 +20,7 @@ namespace GuildMaster.Npcs
         [SerializeField] private RectTransform interactionButtonsParent;
         [SerializeField] private NpcInteractionButton interactionButtonPrefab;
         
+        
         public Image Illustration => illustration;
         public Text DialogTextBox => dialogTextBox;
 
@@ -25,26 +32,25 @@ namespace GuildMaster.Npcs
         {
             _npcData = npc;
             gameObject.SetActive(true);
+            
             InitialScreen();
+
+            var questTalks = PlayerData.Instance.QuestManager.GetCompletableTalkMissions(npc);
+            if (questTalks.Any())
+                PlayTalkMissionScript(questTalks[0]);
         }
         
         public void Close()
         {
-            Debug.Log("ASDFASDF");
             gameObject.SetActive(false);
         }
 
-
+        
         private NpcData _npcData;
         private float _interactionListBottom;
         private const float InteractionButtonYDiff = 43f;
         private void InitialScreen()
         {
-            illustration.GetComponent<YouSpinMeRound>().x = 0;
-            illustration.GetComponent<YouSpinMeRound>().y = 0;
-            illustration.GetComponent<YouSpinMeRound>().z = 0;
-            
-            
             var basicData = _npcData.basicData;
             illustration.sprite = basicData.illustration;
             dialogTextBox.text = $"[{basicData.npcName}]\n{basicData.greeting}";
@@ -57,25 +63,18 @@ namespace GuildMaster.Npcs
                 Destroy(child.gameObject);
 
             _interactionListBottom = 0f;
-            AddInteractionButtonToList("대화하기", ()=>
+            AddInteractionButtonToList("퀘스트 받기", ()=>
             {
-                dialogTextBox.text = "(들리지 않는 것 같다..)";
-                illustration.GetComponent<YouSpinMeRound>().z -= 20;
-            });
-            AddInteractionButtonToList("거래", ()=>
-            {
-                dialogTextBox.text = "(들리지 않는 것 같다...)";
-                illustration.GetComponent<YouSpinMeRound>().x += 20;
-                illustration.GetComponent<YouSpinMeRound>().y += 20;
-            });
-            if (_npcData.HasQuests) ;
-            // AddInteractionButtonToList();
-            AddInteractionButtonToList("때리기", () =>
-            {
-                dialogTextBox.text = "아야!";
-                illustration.GetComponent<YouSpinMeRound>().x *= 2;
-                illustration.GetComponent<YouSpinMeRound>().y *= 2;
-                illustration.GetComponent<YouSpinMeRound>().z *= 2;
+                var questManager = PlayerData.Instance.QuestManager;
+                var availableQuests = questManager.WhereAvailable(_npcData.questData.QuestList);
+                if (availableQuests.Any())
+                {
+                    var quest = availableQuests[0];
+                    PlayScript(quest.QuestSuggestScript);
+                    questManager.ReceiveQuest(quest);
+                }
+                else
+                    dialogTextBox.text = "가능한 퀘스트가 없습니다.";
             });
         }
 
@@ -86,6 +85,16 @@ namespace GuildMaster.Npcs
             button.buttonText.text = buttonText;
             button.transform.localPosition += new Vector3(0, _interactionListBottom, 0);
             _interactionListBottom -= InteractionButtonYDiff;
+        }
+
+        private void PlayScript(Script script)
+        {
+            dialogTextBox.text = script.str;
+        }
+        private void PlayTalkMissionScript(StepMission.TalkMission talkMission)
+        {
+            PlayScript(talkMission.script);
+            GameEvents.QuestScriptPlayEnd.Invoke(talkMission);
         }
     }
 }

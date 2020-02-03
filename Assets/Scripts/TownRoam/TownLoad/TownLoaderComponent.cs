@@ -17,7 +17,7 @@ namespace GuildMaster.TownRoam.TownLoad
         private void Start()
         {
             if (TownLoadManager.Reservation.ReservedTown == null)
-                Debug.Log("No town reserved for load");
+                Debug.LogWarning("No town reserved for load");
             else
                 LoadReserved(TownLoadManager.Reservation.ReservedTown, TownLoadManager.Reservation.ReservedOption);
         }

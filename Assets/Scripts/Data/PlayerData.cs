@@ -14,9 +14,9 @@ namespace GuildMaster.Data
     {
         private PlayerData()
         {
-            _questManagerManager = new QuestManager(this);
+            QuestManager = new QuestManager(this);
         }
-        private readonly QuestManager _questManagerManager;
+        public readonly QuestManager QuestManager;
 
         private int _level = 1;
 
@@ -33,7 +33,7 @@ namespace GuildMaster.Data
                 case Condition.Or or:
                     return or.conditions.Aggregate(false, (calc, cond) => calc || CheckCondition(cond));
                 case Condition.CompletedQuest hasCompletedQuest:
-                    return _questManagerManager.CompletedQuest(hasCompletedQuest.quest);
+                    return QuestManager.CompletedQuest(hasCompletedQuest.quest);
                 case Condition.LevelOver levelOver:
                     return levelOver.level > _level;
                 default:
@@ -41,11 +41,11 @@ namespace GuildMaster.Data
             }
         }
 
-        //private static PlayerData _instance;
+        private static PlayerData _instance;
 
-        // public static PlayerData Instance
-        // {
-            // get { return _instance = _instance ?? new PlayerData(); }
-        // }
+        public static PlayerData Instance
+        {
+            get { return _instance = _instance ?? new PlayerData(); }
+        }
     }
 }
