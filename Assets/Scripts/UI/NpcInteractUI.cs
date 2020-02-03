@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Dialog;
 using GuildMaster.Events;
+using GuildMaster.Npcs;
 using GuildMaster.Quests;
-using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace GuildMaster.Npcs
+namespace GuildMaster.UI
 {
     public class NpcInteractUI: MonoBehaviour
     {
@@ -19,14 +16,20 @@ namespace GuildMaster.Npcs
         [SerializeField] private Text dialogTextBox;
         [SerializeField] private RectTransform interactionButtonsParent;
         [SerializeField] private NpcInteractionButton interactionButtonPrefab;
-        
+        [SerializeField] private QuestSuggestWindow questSuggestWindow;
         
         public Image Illustration => illustration;
         public Text DialogTextBox => dialogTextBox;
 
-        public void Start()
+        private void Awake()
         {
             gameObject.SetActive(false);
+        }
+
+        private void Start()
+        {
+            questSuggestWindow.accepted.AddListener(()=>{PlayScript(new Script{str="(퀘스트를 수락하셨습니다)"});});
+            questSuggestWindow.declined.AddListener(()=>{PlayScript(new Script{str="(퀘스트를 거부하셨습니다)"});});
         }
         public void Open(NpcData npc)
         {
@@ -71,7 +74,7 @@ namespace GuildMaster.Npcs
                 {
                     var quest = availableQuests[0];
                     PlayScript(quest.QuestSuggestScript);
-                    questManager.ReceiveQuest(quest);
+                    questSuggestWindow.Open(quest, _npcData);
                 }
                 else
                     dialogTextBox.text = "가능한 퀘스트가 없습니다.";
