@@ -23,8 +23,9 @@ namespace GuildMaster.TownRoam
         
         private void Update()
         {
-            // _currentPlace 오브젝트가 삭제되면 오류납니다. 삭제될 일이 잇다면 !=로 바꿔주세요.
-            if (ReferenceEquals(_currentPlace, null)) return;
+            if (_currentPlace == null) return;
+            // if (ReferenceEquals(_currentPlace, null)) return;
+            
             // 화면 비율이 바뀌는 것을 걱정해 Update에 넣습니다. 화면 비율이 바뀌지 않는 게 확실하면 Goto에 넣어주세요.
             _camera.orthographicSize = Math.Max(_currentPlace.Size.y/2, _currentPlace.Size.x/2/_camera.aspect);
             transform.position = _currentPlace.Center;
