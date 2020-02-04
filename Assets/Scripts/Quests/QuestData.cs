@@ -24,7 +24,7 @@ namespace GuildMaster.Quests
 
         public Condition ActivationCondition => activationCondition;
         public Script QuestSuggestScript => questSuggestScript;
-        public IEnumerable<QuestStep> Steps => steps;
+        public List<QuestStep> Steps => steps;
     }
     
 }
