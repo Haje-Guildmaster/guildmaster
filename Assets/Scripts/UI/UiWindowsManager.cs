@@ -6,11 +6,14 @@ using UnityEngine;
 
 namespace GuildMaster.UI
 {
-    public class UiWindowManager: MonoBehaviour
+    public class UiWindowsManager: MonoBehaviour
     {
         [SerializeField] private NpcInteractWindow npcInteractWindow;
         [SerializeField] private QuestSuggestWindow questSuggestWindow;
-
+        [SerializeField] private QuestListWindow questListWindow;
+        [SerializeField] private QuestInspectWindow questInspectWindow;
+        
+        
         public void OpenNpcInteractWindow(NpcData npcData)
         {
             npcInteractWindow.SetNpc(npcData);
@@ -22,15 +25,28 @@ namespace GuildMaster.UI
             questSuggestWindow.Set(questData, npcData);
             questSuggestWindow.Open();
         }
+
+        public void OpenQuestListWindow() => questListWindow.Open();
+        public void ToggleQuestListWindow()
+        {
+            Debug.Log("Asdf");
+            questListWindow.Toggle();
+        }
+
+        public void OpenQuestInspectWindow(ReadonlyQuest quest)
+        {
+            questInspectWindow.Set(quest);
+            questInspectWindow.Open();
+        }
         
-        private static UiWindowManager _instance;
-        public static UiWindowManager Instance 
+        private static UiWindowsManager _instance;
+        public static UiWindowsManager Instance 
         {
             get
             {
                 if (_instance != null)
                     return _instance;
-                _instance = FindObjectOfType<UiWindowManager>();  
+                _instance = FindObjectOfType<UiWindowsManager>();  
                 if (!_instance)
                     throw new Exception("There needs to be an active WindowManager component in the scene");
                 return _instance;

@@ -9,6 +9,7 @@ namespace GuildMaster.UI
     public abstract class Window: MonoBehaviour, IPointerDownHandler
     {
         public UnityEvent closed = new UnityEvent();
+        public bool enableToggle;
         
         protected void Awake()
         {
@@ -21,6 +22,14 @@ namespace GuildMaster.UI
             OnOpen();
         }
 
+        public void Toggle()
+        {
+            if (!enableToggle) return;
+            if (gameObject.activeSelf)
+                Close();
+            else
+                Open();
+        }
         public void Close()
         {
             OnClose();
