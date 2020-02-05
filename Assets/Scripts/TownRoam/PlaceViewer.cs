@@ -46,7 +46,7 @@ namespace GuildMaster.TownRoam
             UpdateSubscribedButtons<PlaceMoveButton, PlaceMoveButton>
                 (_subscribedMoveButtonEvents, gObj, btn => Goto(btn.connectedPlace));
             UpdateSubscribedButtons<RoamingNpc, NpcData>
-                (_subscribedRoamingNpcEvents, gObj, npc=> UiWindowManager.Instance.OpenNpcInteractWindow(npc));
+                (_subscribedRoamingNpcEvents, gObj, npc=> UiWindowsManager.Instance.OpenNpcInteractWindow(npc));
         }
 
         

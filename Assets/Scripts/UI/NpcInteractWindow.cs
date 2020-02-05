@@ -59,12 +59,12 @@ namespace GuildMaster.UI
             AddInteractionButtonToList("퀘스트 받기", ()=>
             {
                 var questManager = PlayerData.Instance.QuestManager;
-                var availableQuests = questManager.WhereAvailable(_npcData.questData.QuestList);
+                var availableQuests = questManager.GetAvailableQuestsFrom(_npcData.questData.QuestList);
                 if (availableQuests.Any())
                 {
                     var quest = availableQuests[0];
                     PlayScript(quest.QuestSuggestScript);
-                    UiWindowManager.Instance.OpenQuestSuggestWindow(quest, _npcData);
+                    UiWindowsManager.Instance.OpenQuestSuggestWindow(quest, _npcData);
                 }
                 else
                     dialogTextBox.text = "가능한 퀘스트가 없습니다.";

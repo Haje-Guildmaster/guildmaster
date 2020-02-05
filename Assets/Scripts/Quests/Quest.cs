@@ -10,12 +10,15 @@ namespace GuildMaster.Quests
     // QuestData의 iterator.
     public class Quest
     {
-        public Quest(QuestData questData)
+        
+        public Quest(QuestData questData, NpcData client)
         {
             this.QuestData = questData;
+            this.Client = client;
         }
         
         public readonly QuestData QuestData;
+        public readonly NpcData Client;
         public int Index { get; private set; } = 0;
         public int StepProgress = 0;
         

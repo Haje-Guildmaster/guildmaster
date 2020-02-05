@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Events;
@@ -19,16 +20,23 @@ namespace GuildMaster.Quests
         
         private readonly PlayerData _playerData;
 
-        public bool ReceiveQuest(QuestData questData)
+        public bool ReceiveQuest(QuestData questData, NpcData client)
         {
             if (!CanReceiveQuest(questData)) return false;
-            _quests.Add(new Quest(questData));
+            _quests.Add(new Quest(questData, client));
+            GameEvents.QuestManagerDataChange.Invoke(); // 이벤트 발생.
             return true;
         }
-        public bool AbandonQuest(Quest quest) => _quests.Remove(quest);
+        public bool AbandonQuest(Quest quest)
+        {
+            var ret = _quests.Remove(quest);
+            GameEvents.QuestManagerDataChange.Invoke(); // 이벤트 발생.
+            return ret;
+        }
+
         public bool CompletedQuest(QuestData questData) => _completedQuests.Contains(questData);
         public bool DoingQuest(QuestData questData) => _quests.Count(q => q.QuestData == questData) > 0;
-        
+        public IEnumerable<ReadonlyQuest> CurrentQuests() => _quests.Select(q=>new ReadonlyQuest(q));
 
         public List<StepMission.TalkMission> GetCompletableTalkMissions(NpcData npcData)
         {
@@ -39,7 +47,7 @@ namespace GuildMaster.Quests
                 .Where(tm=>tm.talkTo==npcData)
                 .ToList();
         }
-        public List<QuestData> WhereAvailable(IEnumerable<QuestData> quests) => quests.Where(CanReceiveQuest).ToList();
+        public List<QuestData> GetAvailableQuestsFrom(IEnumerable<QuestData> quests) => quests.Where(CanReceiveQuest).ToList();
 
             // Event Listeners
         private void OnQuestScriptPlayEnd(StepMission.TalkMission mission)
@@ -69,6 +77,7 @@ namespace GuildMaster.Quests
             }
             
             completeQuestQueue.ForEach(_CompleteQuest);
+            GameEvents.QuestManagerDataChange.Invoke(); // 이벤트 발생.
         }
 
         private int AddProgress<T>(Func<T, bool> filter, int progress) where T : StepMission

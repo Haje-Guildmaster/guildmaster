@@ -11,5 +11,6 @@ namespace GuildMaster.Events
     {
         private class QuestScriptPlayEndEvent : UnityEvent<StepMission.TalkMission> {}
         public static readonly UnityEvent<StepMission.TalkMission> QuestScriptPlayEnd = new QuestScriptPlayEndEvent();
+        public static readonly UnityEvent QuestManagerDataChange = new UnityEvent();
     }
 }
