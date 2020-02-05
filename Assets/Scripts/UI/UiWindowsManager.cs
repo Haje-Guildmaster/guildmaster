@@ -29,7 +29,6 @@ namespace GuildMaster.UI
         public void OpenQuestListWindow() => questListWindow.Open();
         public void ToggleQuestListWindow()
         {
-            Debug.Log("Asdf");
             questListWindow.Toggle();
         }
 

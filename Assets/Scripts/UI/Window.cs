@@ -11,14 +11,10 @@ namespace GuildMaster.UI
         public UnityEvent closed = new UnityEvent();
         public bool enableToggle;
         
-        protected void Awake()
-        {
-            gameObject.SetActive(false);
-        }
-        
         public void Open()
         {
             gameObject.SetActive(true);
+            transform.SetAsLastSibling();
             OnOpen();
         }
 

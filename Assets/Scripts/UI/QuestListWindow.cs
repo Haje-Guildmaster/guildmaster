@@ -20,7 +20,7 @@ namespace GuildMaster.UI
 
         private void OnDisable()
         {
-            GameEvents.QuestManagerDataChange.AddListener(Refresh);
+            GameEvents.QuestManagerDataChange.RemoveListener(Refresh);
         }
 
         protected override void OnOpen()
