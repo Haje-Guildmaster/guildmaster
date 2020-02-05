@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 44392299}
   - component: {fileID: 44392301}
   m_Layer: 0
-  m_Name: StaticDataInitializer
+  m_Name: StaticData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace GuildMaster.UI
 {
-    public class QuestSuggestWindow: MonoBehaviour
+    public class QuestSuggestWindow: DraggableWindow
     {
         public UnityEvent closed = new UnityEvent();
         public UnityEvent accepted = new UnityEvent();

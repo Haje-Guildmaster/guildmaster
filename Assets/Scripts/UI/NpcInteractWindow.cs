@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace GuildMaster.UI
 {
-    public class NpcInteractUI: MonoBehaviour
+    public class NpcInteractWindow: Window
     {
         [SerializeField] private Image illustration;
         [SerializeField] private Text dialogTextBox;

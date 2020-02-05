@@ -14,6 +14,9 @@ namespace GuildMaster.Tools
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left)
+                return;
+            
             clicked.Invoke(EventParameter);
         }
 
