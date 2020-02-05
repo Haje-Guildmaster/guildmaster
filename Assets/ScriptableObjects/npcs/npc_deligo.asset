@@ -19,3 +19,4 @@ MonoBehaviour:
   questData:
     questList:
     - {fileID: 11400000, guid: daa6bc9096189c34aa370b17e9a63d3b, type: 2}
+    - {fileID: 11400000, guid: 29298575a04a58e40af17ea1d8ff1f8e, type: 2}
