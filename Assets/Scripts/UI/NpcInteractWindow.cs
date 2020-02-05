@@ -21,33 +21,23 @@ namespace GuildMaster.UI
         public Image Illustration => illustration;
         public Text DialogTextBox => dialogTextBox;
 
-        private void Awake()
-        {
-            gameObject.SetActive(false);
-        }
-
+        
         private void Start()
         {
             questSuggestWindow.accepted.AddListener(()=>{PlayScript(new Script{str="(퀘스트를 수락하셨습니다)"});});
             questSuggestWindow.declined.AddListener(()=>{PlayScript(new Script{str="(퀘스트를 거부하셨습니다)"});});
         }
-        public void Open(NpcData npc)
+        
+        protected override void OnOpen()
         {
-            _npcData = npc;
-            gameObject.SetActive(true);
-            
             InitialScreen();
 
-            var questTalks = PlayerData.Instance.QuestManager.GetCompletableTalkMissions(npc);
+            var questTalks = PlayerData.Instance.QuestManager.GetCompletableTalkMissions(_npcData);
             if (questTalks.Any())
                 PlayTalkMissionScript(questTalks[0]);
         }
-        
-        public void Close()
-        {
-            gameObject.SetActive(false);
-        }
 
+        public void SetNpc(NpcData npcData) => _npcData = npcData;
         
         private NpcData _npcData;
         private float _interactionListBottom;
@@ -74,7 +64,7 @@ namespace GuildMaster.UI
                 {
                     var quest = availableQuests[0];
                     PlayScript(quest.QuestSuggestScript);
-                    questSuggestWindow.Open(quest, _npcData);
+                    UiWindowManager.Instance.OpenQuestSuggestWindow(quest, _npcData);
                 }
                 else
                     dialogTextBox.text = "가능한 퀘스트가 없습니다.";

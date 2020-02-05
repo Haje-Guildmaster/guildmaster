@@ -10,7 +10,6 @@ namespace GuildMaster.UI
 {
     public class QuestSuggestWindow: DraggableWindow
     {
-        public UnityEvent closed = new UnityEvent();
         public UnityEvent accepted = new UnityEvent();
         public UnityEvent declined = new UnityEvent();
         
@@ -22,22 +21,19 @@ namespace GuildMaster.UI
         private QuestData _questData;
         private NpcData _npcData;
 
-        private void Awake()
+        public void Set(QuestData questData, NpcData npcData)
         {
-            gameObject.SetActive(false);
-        }
-
-        public void Open(QuestData questData, NpcData npcData)
-        {
-            gameObject.SetActive(true);
             _questData = questData;
             _npcData = npcData;
+        }
+        
+        protected override void OnOpen()
+        {
             Refresh();
         }
 
-        public void Close()
+        protected override void OnClose()
         {
-            gameObject.SetActive(false);
             closed.Invoke();
         }
 

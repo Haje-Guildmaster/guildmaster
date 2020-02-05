@@ -12,8 +12,6 @@ namespace GuildMaster.TownRoam
     [ExecuteInEditMode]
     public class PlaceViewer: MonoBehaviour
     {
-        [SerializeField] private NpcInteractWindow npcInteractWindow;
-        
         private const int PlaceViewedLayer = 8;
         
         private void Start()
@@ -48,7 +46,7 @@ namespace GuildMaster.TownRoam
             UpdateSubscribedButtons<PlaceMoveButton, PlaceMoveButton>
                 (_subscribedMoveButtonEvents, gObj, btn => Goto(btn.connectedPlace));
             UpdateSubscribedButtons<RoamingNpc, NpcData>
-                (_subscribedRoamingNpcEvents, gObj, npc=> npcInteractWindow.Open(npc));
+                (_subscribedRoamingNpcEvents, gObj, npc=> UiWindowManager.Instance.OpenNpcInteractWindow(npc));
         }
 
         
