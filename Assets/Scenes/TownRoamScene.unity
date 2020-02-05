@@ -2464,6 +2464,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   enableToggle: 0
+  questNameText: {fileID: 897570103}
+  questDescriptionText: {fileID: 1198029517}
+  clientNameText: {fileID: 1851955879}
+  abandonButton: {fileID: 659758840}
 --- !u!114 &1378438459
 MonoBehaviour:
   m_ObjectHideFlags: 0

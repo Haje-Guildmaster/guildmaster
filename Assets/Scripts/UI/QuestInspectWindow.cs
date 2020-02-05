@@ -23,8 +23,15 @@ namespace GuildMaster.UI
             questNameText.text = _quest.QuestData.QuestName;
             questDescriptionText.text = _quest.QuestData.QuestDescription;
             clientNameText.text = _quest.Client.basicData.npcName;
+
+            abandonButton.onClick.RemoveAllListeners();
             var q = _quest;
-            abandonButton.onClick.AddListener(() => PlayerData.Instance.QuestManager.AbandonQuest(q));
+            abandonButton.onClick.AddListener(() =>
+            {
+                PlayerData.Instance.QuestManager.AbandonQuest(q);
+                Close();
+            });
         }
+        
     }
 }
