@@ -32,7 +32,7 @@ namespace GuildMaster.UI
             questListWindow.Toggle();
         }
 
-        public void OpenQuestInspectWindow(ReadonlyQuest quest)
+        public void OpenQuestInspectWindow(Quest quest)
         {
             questInspectWindow.Set(quest);
             questInspectWindow.Open();

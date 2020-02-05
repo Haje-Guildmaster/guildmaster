@@ -36,7 +36,7 @@ namespace GuildMaster.Quests
 
         public bool CompletedQuest(QuestData questData) => _completedQuests.Contains(questData);
         public bool DoingQuest(QuestData questData) => _quests.Count(q => q.QuestData == questData) > 0;
-        public IEnumerable<ReadonlyQuest> CurrentQuests() => _quests.Select(q=>new ReadonlyQuest(q));
+        public ReadOnlyCollection<Quest> CurrentQuests() => _quests.AsReadOnly();
 
         public List<StepMission.TalkMission> GetCompletableTalkMissions(NpcData npcData)
         {
