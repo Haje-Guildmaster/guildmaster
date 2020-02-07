@@ -26,7 +26,10 @@ namespace GuildMaster.Quests
         public bool CanCompleteQuest => CurrentStep == null;
         public bool CanCompleteStep => StepProgress >= CurrentStep.StepMission.MaxProgress;
 
-        public void NextStep() => Index++;
-
+        public void NextStep()
+        {
+            Index++;
+            StepProgress = 0;
+        }
     }
 }
