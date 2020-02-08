@@ -876,7 +876,7 @@ MonoBehaviour:
   illustration: {fileID: 1144330591}
   dialogTextBox: {fileID: 588840109}
   interactionButtonsParent: {fileID: 1080620285}
-  interactionButtonPrefab: {fileID: 5419934695290571500, guid: e88006ac4763bad459109c1f1ee2a592,
+  interactionButtonPrefab: {fileID: 5148570288718421902, guid: e88006ac4763bad459109c1f1ee2a592,
     type: 3}
   questSuggestWindow: {fileID: 1470328427}
 --- !u!1 &531532286
