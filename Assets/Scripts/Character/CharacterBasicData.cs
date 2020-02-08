@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using UnityEditor;
+using System;
 
 namespace GuildMaster.Characters
 {
+    [Serializable]
     public struct CharacterBasicData
     {
         public string usingName;        //현재 이름
