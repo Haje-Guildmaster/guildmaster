@@ -17,11 +17,11 @@ namespace GuildMaster.Tools
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
             
-            clicked.Invoke(EventParameter);
+            clicked.Invoke(EventArgument);
         }
 
 
-        protected abstract T EventParameter { get; }
+        protected abstract T EventArgument { get; }
 
     }
 }

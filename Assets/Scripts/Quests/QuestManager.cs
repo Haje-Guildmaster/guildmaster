@@ -49,7 +49,7 @@ namespace GuildMaster.Quests
         }
         public List<QuestData> GetAvailableQuestsFrom(IEnumerable<QuestData> quests) => quests.Where(CanReceiveQuest).ToList();
 
-            // Event Listeners
+        // Event Listeners
         private void OnQuestScriptPlayEnd(StepMission.TalkMission mission)
         {
             AddProgress<StepMission.TalkMission>(s=>s==mission, 1);

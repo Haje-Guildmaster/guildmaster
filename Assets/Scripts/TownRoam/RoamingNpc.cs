@@ -8,7 +8,7 @@ namespace GuildMaster.TownRoam
     public class RoamingNpc: GenericButton<NpcData>
     {
         [SerializeField] private NpcData npcData;
-        protected override NpcData EventParameter => npcData;
+        protected override NpcData EventArgument => npcData;
 
         public RoamingNpc(){}
 

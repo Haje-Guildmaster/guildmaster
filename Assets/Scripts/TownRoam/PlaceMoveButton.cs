@@ -7,7 +7,7 @@ namespace GuildMaster.TownRoam
 {
     public class PlaceMoveButton: GenericButton<PlaceMoveButton>
     {
-        protected override PlaceMoveButton EventParameter => this;
+        protected override PlaceMoveButton EventArgument => this;
         public Place connectedPlace;
         
         // Draw a line to the connected place in the scene view. 
