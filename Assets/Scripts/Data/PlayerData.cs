@@ -4,6 +4,7 @@ using System.Linq;
 using GuildMaster.Conditions;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
+using GuildMaster.Rewards;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -32,8 +33,18 @@ namespace GuildMaster.Data
             _npcStatusMap.Add(npc, made);
             return made;
         }
-     
-        
+
+        public void ApplyReward(Reward reward)
+        {
+            switch (reward)
+            {
+                case Reward.AffinityReward affinityReward:
+                    GetNpcStatus(affinityReward.targetNpc).Affinity += affinityReward.amout;
+                    break;
+                default:
+                    throw new Exception($"Unexpected Reward: {reward}");
+            }
+        }
         
         
         

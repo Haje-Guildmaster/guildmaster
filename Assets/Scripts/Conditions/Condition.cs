@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace GuildMaster.Conditions
 {
-    [Serializable]
     public class Condition
     {
         private Condition() {}
