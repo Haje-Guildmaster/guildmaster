@@ -6,6 +6,7 @@ using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace GuildMaster.UI
@@ -17,6 +18,7 @@ namespace GuildMaster.UI
         [SerializeField] private RectTransform interactionButtonsParent;
         [SerializeField] private NpcInteractionButton interactionButtonPrefab;
         [SerializeField] private QuestSuggestWindow questSuggestWindow;
+        [SerializeField] private ProgressBar affinityBar;
         
         public Image Illustration => illustration;
         public Text DialogTextBox => dialogTextBox;
@@ -26,7 +28,10 @@ namespace GuildMaster.UI
         {
             questSuggestWindow.accepted.AddListener(()=>{PlayScript(new Script{str="(퀘스트를 수락하셨습니다)"});});
             questSuggestWindow.declined.AddListener(()=>{PlayScript(new Script{str="(퀘스트를 거부하셨습니다)"});});
+            GameEvents.QuestManagerDataChange.AddListener(UpdateAffinityBar);
         }
+        
+        
         
         protected override void OnOpen()
         {
@@ -48,6 +53,7 @@ namespace GuildMaster.UI
             illustration.sprite = basicData.illustration;
             dialogTextBox.text = $"[{basicData.npcName}]\n{basicData.greeting}";
             InitializeInteractionButtonList();
+            UpdateAffinityBar();
         }
 
         private void InitializeInteractionButtonList()
@@ -88,6 +94,11 @@ namespace GuildMaster.UI
         {
             PlayScript(talkMission.script);
             GameEvents.QuestScriptPlayEnd.Invoke(talkMission);
+        }
+
+        private void UpdateAffinityBar()
+        {
+            affinityBar.SetProgress((float) PlayerData.Instance.GetNpcStatus(_npcData).Affinity / 100);
         }
     }
 }
