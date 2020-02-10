@@ -22,7 +22,7 @@ namespace GuildMaster.Data
         
         
         public readonly QuestManager QuestManager;
-        private Dictionary<NpcData, NpcStatus> _npcStatusMap;
+        private readonly Dictionary<NpcData, NpcStatus> _npcStatusMap = new Dictionary<NpcData, NpcStatus>();
         private int _level = 1;
         
         [NotNull] public NpcStatus GetNpcStatus(NpcData npc)
