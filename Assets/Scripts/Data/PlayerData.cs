@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Conditions;
+using GuildMaster.Npcs;
 using GuildMaster.Quests;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GuildMaster.Data
@@ -12,14 +14,29 @@ namespace GuildMaster.Data
 
     public class PlayerData
     {
-        private PlayerData()
+        public static PlayerData Instance
         {
-            QuestManager = new QuestManager(this);
+            get { return _instance = _instance ?? new PlayerData(); }
         }
+        
+        
         public readonly QuestManager QuestManager;
-
+        private Dictionary<NpcData, NpcStatus> _npcStatusMap;
         private int _level = 1;
-
+        
+        [NotNull] public NpcStatus GetNpcStatus(NpcData npc)
+        {
+            if (_npcStatusMap.TryGetValue(npc, out var ret))
+                return ret;
+            var made = new NpcStatus();
+            _npcStatusMap.Add(npc, made);
+            return made;
+        }
+     
+        
+        
+        
+        
         public bool CheckCondition(Condition condition)
         {
             switch (condition)
@@ -40,12 +57,14 @@ namespace GuildMaster.Data
                     throw new Exception($"Unexpected Condition: {condition}");
             }
         }
+        
+        
 
         private static PlayerData _instance;
 
-        public static PlayerData Instance
+        private PlayerData()
         {
-            get { return _instance = _instance ?? new PlayerData(); }
+            QuestManager = new QuestManager(this);
         }
     }
 }

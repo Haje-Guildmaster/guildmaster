@@ -2,6 +2,6 @@
 {
     public class NpcStatus
     {
-        private int _goodwill = 0;
+        public int Affinity { get; private set;} = 0;
     }
 }
