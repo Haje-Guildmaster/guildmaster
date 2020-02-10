@@ -39,7 +39,7 @@ namespace GuildMaster.Data
             switch (reward)
             {
                 case Reward.AffinityReward affinityReward:
-                    GetNpcStatus(affinityReward.targetNpc).Affinity += affinityReward.amout;
+                    GetNpcStatus(affinityReward.targetNpc).Affinity += affinityReward.amount;
                     break;
                 default:
                     throw new Exception($"Unexpected Reward: {reward}");

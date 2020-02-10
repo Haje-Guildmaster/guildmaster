@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using GuildMaster.Conditions;
 using GuildMaster.Dialog;
 using GuildMaster.Npcs;
+using GuildMaster.Rewards;
 using UnityEngine;
 
 namespace GuildMaster.Quests
@@ -16,6 +18,8 @@ namespace GuildMaster.Quests
         [SerializeField] private Script questSuggestScript;
         
         [SerializeField] private List<QuestStep> steps;
+
+        [SerializeReference] [SerializeReferenceButton] private List<Reward> rewards;
         
 
         public string QuestName => questName;
@@ -24,7 +28,8 @@ namespace GuildMaster.Quests
 
         public Condition ActivationCondition => activationCondition;
         public Script QuestSuggestScript => questSuggestScript;
-        public List<QuestStep> Steps => steps;
+        public IEnumerable<QuestStep> Steps => steps;
+        public IEnumerable<Reward> Rewards => rewards;
     }
     
 }

@@ -100,8 +100,11 @@ namespace GuildMaster.Quests
 
         private void _CompleteQuest(Quest quest)
         {
-            // Todo: 보상주기, 퀘스트 완료창?이나 메시지같은거.
-            Debug.Log("Completed a quest");
+            // 보상주기
+            foreach (var reward in quest.QuestData.Rewards)
+                _playerData.ApplyReward(reward);
+
+            Debug.Log($"Completed a quest: {quest.QuestData.QuestName}");
             _completedQuests.Add(quest.QuestData);
             AbandonQuest(quest);
         }

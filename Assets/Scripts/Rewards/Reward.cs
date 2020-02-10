@@ -3,6 +3,7 @@ using GuildMaster.Npcs;
 
 namespace GuildMaster.Rewards
 {
+    [Serializable]
     public class Reward
     {
         private Reward() {}
@@ -11,7 +12,7 @@ namespace GuildMaster.Rewards
         public class AffinityReward : Reward
         {
             public NpcData targetNpc;
-            public int amout;
+            public int amount;
         }
     }
 }

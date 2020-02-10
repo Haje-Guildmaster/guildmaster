@@ -31,6 +31,9 @@ MonoBehaviour:
       id: 0
     _stepMission:
       id: 3
+  rewards:
+  - id: 4
+  - id: 5
   references:
     version: 1
     00000000:
@@ -53,3 +56,13 @@ MonoBehaviour:
         talkTo: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
         script:
           str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 3. \uB05D."
+    00000004:
+      type: {class: Reward/AffinityReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
+      data:
+        targetNpc: {fileID: 11400000, guid: fe98045256db20c43b43d0c978485e3e, type: 2}
+        amount: 20
+    00000005:
+      type: {class: Reward/AffinityReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
+      data:
+        targetNpc: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
+        amount: 40

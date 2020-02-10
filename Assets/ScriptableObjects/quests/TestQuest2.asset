@@ -31,6 +31,7 @@ MonoBehaviour:
       id: 0
     _stepMission:
       id: 3
+  rewards: []
   references:
     version: 1
     00000000:
