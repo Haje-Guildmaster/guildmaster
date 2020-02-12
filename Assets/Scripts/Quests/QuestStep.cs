@@ -1,5 +1,5 @@
 ﻿using System;
-using GuildMaster.Conditions;
+using GuildMaster.Data;
 using GuildMaster.Dialog;
 using GuildMaster.Npcs;
 using UnityEngine;

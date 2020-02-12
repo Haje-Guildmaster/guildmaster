@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using GuildMaster.Quests;
 using UnityEngine;
 
-namespace GuildMaster.Conditions
+namespace GuildMaster.Data
 {
     [Serializable]
     public class Condition

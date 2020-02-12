@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using GuildMaster.Conditions;
 using GuildMaster.Data;
 using GuildMaster.Npcs;
 

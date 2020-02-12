@@ -9,3 +9,11 @@
 `QuestManager`를 포함합니다.\
 조건을 체크할 수 있는 `public bool CheckCondition(Condition condition)`
 을 제공합니다.
+
+#### Condition
+조건을 나타내는 클래스입니다.
+- Always(bool isTrue): 항상 참이거나 항상 거짓.
+- LevelOver(int level): 플레이어 레벨이 몇 이상.
+- CompletedQuest(QuestData quest): 퀘스트를 클리어 했는지.
+- And(params Condition[] list): 리스트의 모든 값이 참이면 참.
+- Or(params Condition[] list): 리스트의 하나라도 참이면 참.

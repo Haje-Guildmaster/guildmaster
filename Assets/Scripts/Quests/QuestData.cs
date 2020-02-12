@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using GuildMaster.Conditions;
+using GuildMaster.Data;
 using GuildMaster.Dialog;
 using GuildMaster.Npcs;
 using GuildMaster.Rewards;
