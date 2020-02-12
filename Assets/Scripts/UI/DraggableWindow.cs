@@ -11,14 +11,13 @@ namespace GuildMaster.UI
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            _dragBeginCursorPos = eventData.pressEventCamera.ScreenToWorldPoint(eventData.position);
+            _dragBeginCursorPos = eventData.position;
             _dragBeginWindowPos = transform.position;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            transform.position = _dragBeginWindowPos
-                                 + eventData.pressEventCamera.ScreenToWorldPoint(eventData.position) - _dragBeginCursorPos;
+            transform.position = _dragBeginWindowPos + (Vector3)eventData.position - _dragBeginCursorPos;
         }
     }
 }

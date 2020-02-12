@@ -26,9 +26,7 @@ namespace GuildMaster.Data
         
         [NotNull] public NpcStatus GetNpcStatus(NpcData npc)
         {
-            if (_npcStatusMap.TryGetValue(npc, out var ret))
-                return ret;
-            return _AddNpcStatus(npc);
+            return _npcStatusMap.TryGetValue(npc, out var ret) ? ret: _AddNpcStatus(npc);
         }
 
         public void ApplyReward(Reward reward)
@@ -67,7 +65,7 @@ namespace GuildMaster.Data
         }
 
 
-        private NpcStatus _AddNpcStatus(NpcData npc)
+        [NotNull] private NpcStatus _AddNpcStatus(NpcData npc)
         {
             var made = new NpcStatus();
             _npcStatusMap.Add(npc, made);

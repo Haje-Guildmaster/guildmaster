@@ -645,9 +645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94e2c16e2d5c4fd3828b1721402f2205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closed:
-    m_PersistentCalls:
-      m_Calls: []
   enableToggle: 1
   questListItemPrefab: {fileID: 319428247961427121, guid: 9561cc2ac5a881a43bd95bb757cef1c0,
     type: 3}
@@ -945,9 +942,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e5b829e6144107915ca4274363b319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closed:
-    m_PersistentCalls:
-      m_Calls: []
   enableToggle: 0
   illustration: {fileID: 1144330591}
   dialogTextBox: {fileID: 588840109}
@@ -2625,9 +2619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c75da6dbfa549da96bf781e08200c65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closed:
-    m_PersistentCalls:
-      m_Calls: []
   enableToggle: 0
   questNameText: {fileID: 897570103}
   questDescriptionText: {fileID: 1198029517}
@@ -3077,9 +3068,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee77370eb6b48579713571535ca16c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closed:
-    m_PersistentCalls:
-      m_Calls: []
   enableToggle: 0
   questNameText: {fileID: 1412380568}
   questDescriptionText: {fileID: 54785021}
