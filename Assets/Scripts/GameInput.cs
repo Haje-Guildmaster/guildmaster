@@ -1,4 +1,5 @@
-﻿using GuildMaster.UI;
+﻿using GuildMaster.Events;
+using GuildMaster.UI;
 using UnityEngine;
 
 namespace GuildMaster
@@ -9,6 +10,10 @@ namespace GuildMaster
         {
             if (Input.GetKeyDown(KeyCode.O))
                 UiWindowsManager.Instance.ToggleQuestListWindow();
+
+            //For Test InGameEvents
+            if (Input.GetKeyDown(KeyCode.T))
+                GameEvents.InGameEventManagerEventOccur.Invoke();
         }
     }
 }
