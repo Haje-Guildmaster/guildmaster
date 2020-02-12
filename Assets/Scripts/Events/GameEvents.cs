@@ -1,6 +1,6 @@
-﻿using GuildMaster.Dialog;
-using GuildMaster.Npcs;
+﻿using GuildMaster.Data;
 using GuildMaster.Quests;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace GuildMaster.Events

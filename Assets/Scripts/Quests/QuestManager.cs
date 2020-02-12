@@ -12,25 +12,30 @@ namespace GuildMaster.Quests
     [Serializable]
     public class QuestManager
     {
+        private void _Changed() => GameEvents.QuestManagerDataChange.Invoke();
+        
+        private readonly PlayerData _playerData;
+        
         public QuestManager(PlayerData playerData)
         {
             _playerData = playerData;
             GameEvents.QuestScriptPlayEnd.AddListener(OnQuestScriptPlayEnd);
         }
         
-        private readonly PlayerData _playerData;
 
         public bool ReceiveQuest(QuestData questData, NpcData client)
         {
             if (!CanReceiveQuest(questData)) return false;
-            _quests.Add(new Quest(questData, client));
-            GameEvents.QuestManagerDataChange.Invoke(); // 이벤트 발생.
+            var made = new Quest(questData, client);
+            made.Changed += _Changed;
+            _quests.Add(made);
+            _Changed();
             return true;
         }
         public bool AbandonQuest(Quest quest)
         {
             var ret = _quests.Remove(quest);
-            GameEvents.QuestManagerDataChange.Invoke(); // 이벤트 발생.
+            _Changed();
             return ret;
         }
 
@@ -77,7 +82,6 @@ namespace GuildMaster.Quests
             }
             
             completeQuestQueue.ForEach(_CompleteQuest);
-            GameEvents.QuestManagerDataChange.Invoke(); // 이벤트 발생.
         }
 
         private int AddProgress<T>(Func<T, bool> filter, int progress) where T : StepMission
@@ -107,6 +111,7 @@ namespace GuildMaster.Quests
             Debug.Log($"Completed a quest: {quest.QuestData.QuestName}");
             _completedQuests.Add(quest.QuestData);
             AbandonQuest(quest);
+            _Changed();
         }
     }
 }
