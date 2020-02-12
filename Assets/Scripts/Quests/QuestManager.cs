@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using GuildMaster.Data;
-using GuildMaster.Events;
 using GuildMaster.Npcs;
+using GuildMaster.UI;
 using UnityEngine;
 
 namespace GuildMaster.Quests
@@ -12,14 +12,14 @@ namespace GuildMaster.Quests
     [Serializable]
     public class QuestManager
     {
-        private void _Changed() => GameEvents.QuestManagerDataChange.Invoke();
+        public event Action Changed;
         
         private readonly PlayerData _playerData;
         
         public QuestManager(PlayerData playerData)
         {
             _playerData = playerData;
-            GameEvents.QuestScriptPlayEnd.AddListener(OnQuestScriptPlayEnd);
+            NpcInteractWindow.QuestScriptPlayEnd += OnQuestScriptPlayEnd;
         }
         
 
@@ -27,15 +27,15 @@ namespace GuildMaster.Quests
         {
             if (!CanReceiveQuest(questData)) return false;
             var made = new Quest(questData, client);
-            made.Changed += _Changed;
+            made.Changed += Changed;
             _quests.Add(made);
-            _Changed();
+            Changed?.Invoke();
             return true;
         }
         public bool AbandonQuest(Quest quest)
         {
             var ret = _quests.Remove(quest);
-            _Changed();
+            Changed?.Invoke();
             return ret;
         }
 
@@ -111,7 +111,7 @@ namespace GuildMaster.Quests
             Debug.Log($"Completed a quest: {quest.QuestData.QuestName}");
             _completedQuests.Add(quest.QuestData);
             AbandonQuest(quest);
-            _Changed();
+            Changed?.Invoke();
         }
     }
 }

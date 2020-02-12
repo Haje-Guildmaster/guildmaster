@@ -10,8 +10,8 @@ namespace GuildMaster.UI
 {
     public class QuestSuggestWindow: DraggableWindow
     {
-        public UnityEvent accepted = new UnityEvent();
-        public UnityEvent declined = new UnityEvent();
+        public event Action Accepted;
+        public event Action Declined;
         
         
         [SerializeField] private Text questNameText;
@@ -32,11 +32,6 @@ namespace GuildMaster.UI
             Refresh();
         }
 
-        protected override void OnClose()
-        {
-            closed.Invoke();
-        }
-
         private void Refresh()
         {
             questNameText.text = _questData.QuestName;
@@ -47,13 +42,13 @@ namespace GuildMaster.UI
         public void AcceptQuest()
         {
             PlayerData.Instance.QuestManager.ReceiveQuest(_questData, _npcData);
-            accepted.Invoke();
+            Accepted?.Invoke();
             Close();
         }
 
         public void DeclineQuest()
         {
-            declined.Invoke();
+            Declined?.Invoke();
             Close();
         }
     }

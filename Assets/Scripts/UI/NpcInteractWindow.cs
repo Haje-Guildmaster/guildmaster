@@ -1,18 +1,20 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Dialog;
-using GuildMaster.Events;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace GuildMaster.UI
 {
     public class NpcInteractWindow: Window
     {
+        public static event Action<StepMission.TalkMission> QuestScriptPlayEnd;
+        
+        
         [SerializeField] private Image illustration;
         [SerializeField] private Text dialogTextBox;
         [SerializeField] private RectTransform interactionButtonsParent;
@@ -26,9 +28,9 @@ namespace GuildMaster.UI
         
         private void Start()
         {
-            questSuggestWindow.accepted.AddListener(()=>{PlayScript(new Script{str="(퀘스트를 수락하셨습니다)"});});
-            questSuggestWindow.declined.AddListener(()=>{PlayScript(new Script{str="(퀘스트를 거부하셨습니다)"});});
-            GameEvents.QuestManagerDataChange.AddListener(UpdateAffinityBar);
+            questSuggestWindow.Accepted += ()=>PlayScript(new Script{str="(퀘스트를 수락하셨습니다)"});
+            questSuggestWindow.Declined += ()=>PlayScript(new Script{str="(퀘스트를 거부하셨습니다)"});;
+            PlayerData.Instance.QuestManager.Changed += UpdateAffinityBar;
         }
         
         
@@ -93,7 +95,7 @@ namespace GuildMaster.UI
         private void PlayTalkMissionScript(StepMission.TalkMission talkMission)
         {
             PlayScript(talkMission.script);
-            GameEvents.QuestScriptPlayEnd.Invoke(talkMission);
+            QuestScriptPlayEnd?.Invoke(talkMission);
         }
 
         private void UpdateAffinityBar()

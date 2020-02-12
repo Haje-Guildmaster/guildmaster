@@ -9,15 +9,16 @@ namespace GuildMaster.Tools
     [RequireComponent(typeof(Collider2D))]
     public abstract class GenericButton<T>: MonoBehaviour, IPointerClickHandler
     {
-        public class ClickedEvent : UnityEvent<T> { }
-        public ClickedEvent clicked = new ClickedEvent();
+        public delegate void ClickedHandler(T param);
+
+        public event ClickedHandler Clicked;
 
         public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
             
-            clicked.Invoke(EventArgument);
+            Clicked?.Invoke(EventArgument);
         }
 
 

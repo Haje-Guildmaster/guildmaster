@@ -18,8 +18,8 @@ namespace GuildMaster.Data
         {
             get { return _instance = _instance ?? new PlayerData(); }
         }
-        
-        
+
+        public event Action Changed;
         public readonly QuestManager QuestManager;
         private readonly Dictionary<NpcData, NpcStatus> _npcStatusMap = new Dictionary<NpcData, NpcStatus>();
         private int _level = 1;
@@ -28,9 +28,7 @@ namespace GuildMaster.Data
         {
             if (_npcStatusMap.TryGetValue(npc, out var ret))
                 return ret;
-            var made = new NpcStatus();
-            _npcStatusMap.Add(npc, made);
-            return made;
+            return _AddNpcStatus(npc);
         }
 
         public void ApplyReward(Reward reward)
@@ -67,14 +65,23 @@ namespace GuildMaster.Data
                     throw new Exception($"Unexpected Condition: {condition}");
             }
         }
-        
-        
+
+
+        private NpcStatus _AddNpcStatus(NpcData npc)
+        {
+            var made = new NpcStatus();
+            _npcStatusMap.Add(npc, made);
+            made.Changed += Changed;
+            Changed?.Invoke();
+            return made;
+        }
 
         private static PlayerData _instance;
 
         private PlayerData()
         {
             QuestManager = new QuestManager(this);
+            QuestManager.Changed += Changed;
         }
     }
 }

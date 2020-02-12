@@ -2228,7 +2228,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1157511143}
-  - component: {fileID: 1157511146}
   - component: {fileID: 1157511145}
   - component: {fileID: 1157511144}
   m_Layer: 5
@@ -2294,18 +2293,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157511142}
   m_CullTransparentMesh: 0
---- !u!114 &1157511146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157511142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af670189d16b4c9b876b0a70737f4873, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1198029516
 GameObject:
   m_ObjectHideFlags: 0
@@ -3094,12 +3081,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   enableToggle: 0
-  accepted:
-    m_PersistentCalls:
-      m_Calls: []
-  declined:
-    m_PersistentCalls:
-      m_Calls: []
   questNameText: {fileID: 1412380568}
   questDescriptionText: {fileID: 54785021}
   clientNameText: {fileID: 1770555264}

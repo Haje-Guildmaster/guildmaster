@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -8,7 +9,7 @@ namespace GuildMaster.UI
 {
     public abstract class Window: MonoBehaviour, IPointerDownHandler
     {
-        public UnityEvent closed = new UnityEvent();
+        public event Action Closed;
         public bool enableToggle;
         
         public void Open()
@@ -29,7 +30,7 @@ namespace GuildMaster.UI
         public void Close()
         {
             OnClose();
-            closed.Invoke();
+            Closed?.Invoke();
             gameObject.SetActive(false);
         }
 

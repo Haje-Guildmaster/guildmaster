@@ -1,6 +1,5 @@
 ﻿using System;
 using GuildMaster.Data;
-using GuildMaster.Events;
 using GuildMaster.Quests;
 using UnityEngine;
 
@@ -15,12 +14,12 @@ namespace GuildMaster.UI
 
         private void OnEnable()
         {
-            GameEvents.QuestManagerDataChange.AddListener(Refresh);
+            PlayerData.Instance.QuestManager.Changed += Refresh;
         }
 
         private void OnDisable()
         {
-            GameEvents.QuestManagerDataChange.RemoveListener(Refresh);
+            PlayerData.Instance.QuestManager.Changed -= Refresh;
         }
 
         protected override void OnOpen()
