@@ -9,8 +9,19 @@ namespace GuildMaster.InGameEvents
     public struct InGameEventChoiceData
     {
         [SerializeField] private Script choiceScript;
-        public bool hasNextStep => false;
-        [SerializeField] private InGameEventSceneData nextstep;
-        
+        [SerializeField] private bool hasNextStep;
+        [SerializeField] private int nextStep;
+
+        public Script ChoiceScript => choiceScript;
+        public bool HasNextStep => hasNextStep;
+        public int NextStep
+        {
+            get
+            {
+                if (hasNextStep)
+                    return -1;
+                return nextStep;
+            }
+        }
     }
 }

@@ -8,7 +8,9 @@ namespace GuildMaster.InGameEvents
     public class InGameEventData : ScriptableObject
     {
         [SerializeField] private string eventName;
-        [SerializeField] private InGameEventSceneData Firststep;
-    }
+        [SerializeField] private List<InGameEventSceneData> scenes;
 
+        public string EventName => eventName;
+        public List<InGameEventSceneData> Scenes => scenes;
+    }
 }

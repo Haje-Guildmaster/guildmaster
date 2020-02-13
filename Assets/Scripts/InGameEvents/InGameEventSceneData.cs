@@ -6,10 +6,13 @@ using UnityEditor;
 
 namespace GuildMaster.InGameEvents
 {
-    [CreateAssetMenu(fileName = "InGameEventScene", menuName = "ScriptableObjects/InGameEventSceneData", order = 0)]
-    public class InGameEventSceneData : ScriptableObject
+    [Serializable]
+    public struct InGameEventSceneData
     {
-        [SerializeField] private Script InGameEventDescription;
+        [SerializeField] private Script inGameEventDescription;
         [SerializeField] private List<InGameEventChoiceData> choices;
+
+        public Script InGameEventDescription => inGameEventDescription;
+        public List<InGameEventChoiceData> Choices => choices;
     }
 }
