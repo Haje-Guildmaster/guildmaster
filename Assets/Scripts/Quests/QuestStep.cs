@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GuildMaster.Data;
 using GuildMaster.Dialog;
 using GuildMaster.Npcs;
@@ -11,7 +12,7 @@ namespace GuildMaster.Quests
     {
         [SerializeReference][SerializeReferenceButton] private Condition stepCondition;
         public Condition StepCondition => stepCondition;
-        [SerializeReference] [SerializeReferenceButton] private StepMission _stepMission;
-        public StepMission StepMission => _stepMission;
+        [SerializeReference] [SerializeReferenceButton] private List<StepMission> _stepMissions;
+        public List<StepMission> StepMissions => _stepMissions;
     }
 }

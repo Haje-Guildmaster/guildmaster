@@ -39,7 +39,7 @@ namespace GuildMaster.UI
         }
 
         private float _listBottom = 0f;
-        private void AddItem(Quest quest)
+        private void AddItem(ReadOnlyQuest quest)
         {
             var item = Instantiate(questListItemPrefab, listItemsParent);
             item.clickChecker.onClick.AddListener(()=>UiWindowsManager.Instance.OpenQuestInspectWindow(quest));

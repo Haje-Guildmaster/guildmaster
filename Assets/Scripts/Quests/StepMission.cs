@@ -4,6 +4,7 @@ using GuildMaster.Npcs;
 
 namespace GuildMaster.Quests
 {
+    [Serializable]
     public abstract class StepMission
     {
         public abstract int MaxProgress { get; }

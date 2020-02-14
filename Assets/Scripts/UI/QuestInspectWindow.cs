@@ -11,9 +11,9 @@ namespace GuildMaster.UI
         public Text clientNameText;
         public Button abandonButton;
         
-        private Quest _quest;
+        private ReadOnlyQuest _quest;
 
-        public void Set(Quest quest)
+        public void Set(ReadOnlyQuest quest)
         {
             _quest = quest;
         }

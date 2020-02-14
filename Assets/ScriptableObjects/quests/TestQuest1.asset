@@ -21,16 +21,16 @@ MonoBehaviour:
   steps:
   - stepCondition:
       id: 0
-    _stepMission:
-      id: 1
+    _stepMissions:
+    - id: 1
   - stepCondition:
       id: 0
-    _stepMission:
-      id: 2
+    _stepMissions:
+    - id: 2
   - stepCondition:
       id: 0
-    _stepMission:
-      id: 3
+    _stepMissions:
+    - id: 3
   rewards:
   - id: 4
   - id: 5
@@ -43,19 +43,19 @@ MonoBehaviour:
       data:
         talkTo: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
         script:
-          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 1 => deligo"
+          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 1 => Deligo"
     00000002:
       type: {class: StepMission/TalkMission, ns: GuildMaster.Quests, asm: Assembly-CSharp}
       data:
         talkTo: {fileID: 11400000, guid: fe98045256db20c43b43d0c978485e3e, type: 2}
         script:
-          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 2 =>Hwang"
+          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 2 => Hwang"
     00000003:
       type: {class: StepMission/TalkMission, ns: GuildMaster.Quests, asm: Assembly-CSharp}
       data:
         talkTo: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
         script:
-          str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 3. \uB05D."
+          str: "\uD018\uC2A4\uD2B8 \uB05D."
     00000004:
       type: {class: Reward/AffinityReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
       data:

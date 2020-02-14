@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Npcs;
@@ -9,6 +8,7 @@ using UnityEngine;
 
 namespace GuildMaster.Quests
 {
+
     [Serializable]
     public class QuestManager
     {
@@ -26,31 +26,36 @@ namespace GuildMaster.Quests
         public bool ReceiveQuest(QuestData questData, NpcData client)
         {
             if (!CanReceiveQuest(questData)) return false;
-            var made = new Quest(questData, client);
-            made.Changed += Changed;
-            _quests.Add(made);
+            _quests.Add(new Quest(questData, client));
             Changed?.Invoke();
             return true;
         }
-        public bool AbandonQuest(Quest quest)
+        public bool AbandonQuest(ReadOnlyQuest roq)
+        {
+            var found = _quests.FirstOrDefault(q => q.QuestId == roq.QuestId);
+            return found != null && AbandonQuest(found);
+        }
+        private bool AbandonQuest(Quest quest)
         {
             var ret = _quests.Remove(quest);
-            Changed?.Invoke();
+            if (ret)
+                Changed?.Invoke();
             return ret;
         }
 
         public bool CompletedQuest(QuestData questData) => _completedQuests.Contains(questData);
         public bool DoingQuest(QuestData questData) => _quests.Count(q => q.QuestData == questData) > 0;
-        public ReadOnlyCollection<Quest> CurrentQuests() => _quests.AsReadOnly();
+        public List<ReadOnlyQuest> CurrentQuests() 
+            => _quests.Select(q => new ReadOnlyQuest(q)).ToList();
 
         public List<StepMission.TalkMission> GetCompletableTalkMissions(NpcData npcData)
         {
-            return _quests.Select(q => q.CurrentStep)
-                .Where(step => _playerData.CheckCondition(step.StepCondition))
-                .Select(q => q.StepMission)
-                .OfType<StepMission.TalkMission>()
-                .Where(tm=>tm.talkTo==npcData)
-                .ToList();
+            return _quests
+                .Where(q => _playerData.CheckCondition(q.CurrentStep.StepCondition))
+                .SelectMany(q => q.DoingMissions)
+                .Where(mp => (!mp.Completed) && mp.Mission is StepMission.TalkMission tm && tm.talkTo == npcData)
+                .Select(mp => mp.Mission)
+                .OfType<StepMission.TalkMission>().ToList();
         }
         public List<QuestData> GetAvailableQuestsFrom(IEnumerable<QuestData> quests) => quests.Where(CanReceiveQuest).ToList();
 
@@ -71,34 +76,39 @@ namespace GuildMaster.Quests
         private void UpdateQuests()
         {
             var completeQuestQueue = new List<Quest>();
+            var flag = false;
             foreach (var quest in _quests)
             {
                 if (quest.CanCompleteStep)
+                {
                     quest.NextStep();
+                    flag = true;
+                }
 
                 if (quest.CanCompleteQuest)
                     // 혹시 모를 상황을 위해 일부로 위의 if (quest.CanCompleteStep)문 안에 넣지 않았습니다.
                     completeQuestQueue.Add(quest);
             }
             
+            if (flag) Changed?.Invoke();
             completeQuestQueue.ForEach(_CompleteQuest);
         }
 
         private int AddProgress<T>(Func<T, bool> filter, int progress) where T : StepMission
         {
             var cnt = 0;
-            foreach (var quest in _quests)
+            
+            foreach (var missionProgress in _quests
+                .Where(quest=>_playerData.CheckCondition(quest.CurrentStep.StepCondition))
+                .SelectMany(quest=>quest.DoingMissions))
             {
-                if (_playerData.CheckCondition(quest.CurrentStep.StepCondition) 
-                    && quest.CurrentStep.StepMission is T tMission
-                    && filter(tMission))
-                {
-                    quest.StepProgress += progress;
-                    cnt++;
-                }
+                if (!(missionProgress.Mission is T tMission && filter(tMission))) continue;
+                cnt++;
+                missionProgress.Progress += progress;
             }
-            Debug.Log($"Added {progress} progress to {cnt} quests");
+            Debug.Log($"Added {progress} progress to {cnt} missions");
             UpdateQuests();
+            Changed?.Invoke();
             return cnt;
         }
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Npcs;
+using UnityEditorInternal;
 
 namespace GuildMaster.Quests
 {
@@ -9,48 +10,38 @@ namespace GuildMaster.Quests
     // QuestData의 iterator.
     public class Quest
     {
-        public event Action Changed;
         public Quest(QuestData questData, NpcData client)
         {
-            this.QuestData = questData;
-            this.Client = client;
+            QuestId = _idCnt++;
+            QuestData = questData;
+            Client = client;
+            StepIndex = -1;
+            NextStep();
         }
-        
+
+        public class MissionProgress
+        {
+            public StepMission Mission;
+            public int Progress;
+            public bool Completed => Progress >= Mission.MaxProgress;
+        }
+        public readonly int QuestId;
         public readonly QuestData QuestData;
         public readonly NpcData Client;
 
-        public int Index
-        {
-            get => _index;
-            private set
-            {
-                _index = value;
-                Changed?.Invoke();
-            }
-        }
-
-        public int StepProgress
-        {
-            get => _stepProgress;
-            set
-            {
-                _stepProgress = value;
-                Changed?.Invoke();
-            }
-        }
-        
-        public QuestStep CurrentStep => QuestData.Steps.ElementAtOrDefault(Index);
+        public int StepIndex { get; private set; }
+        public QuestStep CurrentStep => QuestData.Steps.ElementAtOrDefault(StepIndex);
         public bool CanCompleteQuest => CurrentStep == null;
-        public bool CanCompleteStep => StepProgress >= CurrentStep.StepMission.MaxProgress;
-
+        public bool CanCompleteStep => DoingMissions.Aggregate(true, 
+            (prev,m)=> prev && (m.Progress >= m.Mission.MaxProgress));
         public void NextStep()
         {
-            Index++;
-            StepProgress = 0;
+            StepIndex++;
+            DoingMissions = CurrentStep?.StepMissions
+                .Select(m => new MissionProgress{Mission = m}).ToArray();
         }
-        
-        
-        private int _index;
-        private int _stepProgress;
+        public MissionProgress[] DoingMissions { get; private set; }
+
+        private static int _idCnt = 0;
     }
 }
