@@ -13,7 +13,7 @@ namespace GuildMaster.Quests
     public class QuestData: ScriptableObject
     {
         [SerializeField] private string questName;
-        [SerializeField] private string questDescription;
+        [SerializeField] [TextArea] private string questDescription;
         [SerializeReference] [SerializeReferenceButton] private Condition activationCondition;
         [SerializeField] private Script questSuggestScript;
         
