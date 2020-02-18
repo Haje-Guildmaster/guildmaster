@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Quests;
 using GuildMaster.Rewards;
@@ -14,6 +15,8 @@ namespace GuildMaster.UI
         public Text clientNameText;
         public Text rewardTextPrefab;
         public Transform rewardTextListParent;
+        public MissionProgressView missionProgressViewPrefab;
+        public Transform missionProgressListParent;
 
         private ReadOnlyQuest _quest;
 
@@ -34,6 +37,7 @@ namespace GuildMaster.UI
             questNameText.text = _quest.QuestData.QuestName;
             questDescriptionText.text = _quest.QuestData.QuestDescription;
             clientNameText.text = _quest.Client.basicData.npcName;
+            
             foreach (Transform child in rewardTextListParent)
                 Destroy(child.gameObject);
             foreach (var reward in _quest.QuestData.Rewards)
@@ -41,9 +45,17 @@ namespace GuildMaster.UI
                 var made = Instantiate(rewardTextPrefab, rewardTextListParent);
                 made.text = "* " + GetRewardText(reward);
             }
+            
+            foreach (Transform child in missionProgressListParent)
+                Destroy(child.gameObject);
+            for (var i=0; i < _quest.QuestData.Steps.Count; i++)
+            {
+                var made = Instantiate(missionProgressViewPrefab, missionProgressListParent);
+                made.SetQuestStep(_quest, i);
+            }
         }
 
-        private string GetRewardText(Reward reward)
+        private static string GetRewardText(Reward reward)
         {
             switch (reward)
             {
@@ -53,5 +65,6 @@ namespace GuildMaster.UI
                     return "알 수 없는 보상";
             }
         }
+        
     }
 }

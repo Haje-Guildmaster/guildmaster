@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276ece82c7e44d24c9bf1e91f82ff816, type: 3}
   m_Name: TestQuest2
   m_EditorClassIdentifier: 
-  questName: "\uD669\uC528\uB791 \uB300\uD654\uD558\uB77C!"
-  questDescription: "\uD669\uC528\uC640 \uB300\uD654\uD558\uB294 \uD018\uC2A4\uD2B8\uC774\uB2E4."
+  questName: "\uD669\uC528\uB791 \uB300\uD654\uD558\uB77C!2"
+  questDescription: "\uD669\uC528\uC640 \uB300\uD654\uD558\uB294 \uD018\uC2A4\uD2B8\uC758
+    \uBCF5\uBD99 \uBC84\uC804\uC774\uB2E4. \n\uC2A4\uD06C\uB864\uBC14\n\uD14C\uC2A4\uD2B8\n\uB97C\n\uC704\uD574\n\uC124\uBA85\uC774\n\uC544\uC8FC\n\uAE38\n\uB2E4\n...\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n"
   activationCondition:
     id: 0
   questSuggestScript:

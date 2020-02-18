@@ -18,7 +18,7 @@ namespace GuildMaster.Quests
         public QuestStep CurrentStep => _quest.CurrentStep;
         public bool CanCompleteQuest => _quest.CanCompleteQuest;
         public bool CanCompleteStep => _quest.CanCompleteStep;
-        public (StepMission Mission, int Progress)[] DoingMissions => _quest.DoingMissions;
+        public (StepMission mission, int progress)[] DoingMissions => _quest.DoingMissions;
         private readonly Quest _quest;
     }
 }
