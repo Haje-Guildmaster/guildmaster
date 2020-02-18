@@ -28,7 +28,7 @@ namespace GuildMaster.Quests
 
         public Condition ActivationCondition => activationCondition;
         public Script QuestSuggestScript => questSuggestScript;
-        public IEnumerable<QuestStep> Steps => steps;
+        public ReadOnlyCollection<QuestStep> Steps => steps.AsReadOnly();
         public IEnumerable<Reward> Rewards => rewards;
     }
     

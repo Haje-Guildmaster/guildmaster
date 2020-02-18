@@ -53,9 +53,11 @@ namespace GuildMaster.Quests
             return _quests
                 .Where(q => _playerData.CheckCondition(q.CurrentStep.StepCondition))
                 .SelectMany(q => q.DoingMissions)
-                .Where(mp => (!mp.Completed) && mp.Mission is StepMission.TalkMission tm && tm.talkTo == npcData)
-                .Select(mp => mp.Mission)
-                .OfType<StepMission.TalkMission>().ToList();
+                .Where(mp => (mp.progress<mp.mission.MaxProgress))
+                .Select(mp => mp.mission)
+                .OfType<StepMission.TalkMission>()
+                .Where(tm=> tm.talkTo == npcData)
+                .ToList();
         }
         public List<QuestData> GetAvailableQuestsFrom(IEnumerable<QuestData> quests) => quests.Where(CanReceiveQuest).ToList();
 
@@ -94,19 +96,21 @@ namespace GuildMaster.Quests
             completeQuestQueue.ForEach(_CompleteQuest);
         }
 
-        private int AddProgress<T>(Func<T, bool> filter, int progress) where T : StepMission
+        private int AddProgress<T>(Func<T, bool> filter, int addingProgress) where T : StepMission
         {
             var cnt = 0;
-            
-            foreach (var missionProgress in _quests
-                .Where(quest=>_playerData.CheckCondition(quest.CurrentStep.StepCondition))
-                .SelectMany(quest=>quest.DoingMissions))
+
+            foreach (var quest in _quests.Where(quest=>_playerData.CheckCondition(quest.CurrentStep.StepCondition)))
             {
-                if (!(missionProgress.Mission is T tMission && filter(tMission))) continue;
-                cnt++;
-                missionProgress.Progress += progress;
+                var mps = quest.DoingMissions;
+                for (var i = 0; i < mps.Length; i++)
+                {
+                    if (!(mps[i].mission is T tMission && filter(tMission))) continue;
+                    cnt++;
+                    quest.SetProgress(i, mps[i].progress + addingProgress);
+                }
             }
-            Debug.Log($"Added {progress} progress to {cnt} missions");
+            Debug.Log($"Added {addingProgress} progress to {cnt} missions");
             UpdateQuests();
             Changed?.Invoke();
             return cnt;
