@@ -1,5 +1,8 @@
-﻿using GuildMaster.Events;
+﻿using GuildMaster.Data; //for test
+using GuildMaster.InGameEvents; //for test
+using GuildMaster.Events;
 using GuildMaster.UI;
+using UnityEditor; //for test
 using UnityEngine;
 
 namespace GuildMaster
@@ -13,7 +16,11 @@ namespace GuildMaster
 
             //For Test InGameEvents
             if (Input.GetKeyDown(KeyCode.T))
-                GameEvents.InGameEventManagerEventOccur.Invoke();
+            {
+                InGameEventData inGameEventData = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/ScriptableObjects/InGameEvent/CursedOldBook.asset") as InGameEventData;
+                PlayerData.Instance.InGameEventManager.Occur(inGameEventData);
+                
+            }
         }
     }
 }

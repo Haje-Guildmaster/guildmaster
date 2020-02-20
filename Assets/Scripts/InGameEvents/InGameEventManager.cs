@@ -11,19 +11,17 @@ namespace GuildMaster.InGameEvents
         public InGameEventManager(PlayerData playerData)
         {
             this.playerData = playerData;
-            GameEvents.InGameEventManagerEventOccur.AddListener(Occur);
         }
 
         private readonly PlayerData playerData;
-        private InGameEvent currentInGameEvent;
+        public InGameEvent currentInGameEvent;
 
-        public void Occur() //InGameEventData inGameEventData
+        public void Occur(InGameEventData inGameEventData)
         {
             if (this.currentInGameEvent != null)
                 throw new System.Exception("now doing another event");
-            InGameEventData inGameEventData = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/ScriptableObjects/InGameEvent/CursedOldBook.asset") as InGameEventData;
-            InGameEvent currentInGameEvent = new InGameEvent(inGameEventData);
-            //UiWindowsManager.Instance.
+            currentInGameEvent = new InGameEvent(inGameEventData);
+            UiWindowsManager.Instance.OpenInGameEventWindow();
         }
 
         public void Choose(int choice)
@@ -38,6 +36,7 @@ namespace GuildMaster.InGameEvents
             if (this.currentInGameEvent == null)
                 throw new System.Exception("there is no current event");
             currentInGameEvent.End();
+            UiWindowsManager.Instance.CloseInGameEventWindow();
             currentInGameEvent = null;
         }
     }

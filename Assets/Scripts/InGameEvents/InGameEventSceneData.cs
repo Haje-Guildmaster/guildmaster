@@ -9,10 +9,10 @@ namespace GuildMaster.InGameEvents
     [Serializable]
     public struct InGameEventSceneData
     {
-        [SerializeField] private Script inGameEventDescription;
+        [SerializeField] private string inGameEventDescription;
         [SerializeField] private List<InGameEventChoiceData> choices;
 
-        public Script InGameEventDescription => inGameEventDescription;
+        public string InGameEventDescription => inGameEventDescription;
         public List<InGameEventChoiceData> Choices => choices;
     }
 }

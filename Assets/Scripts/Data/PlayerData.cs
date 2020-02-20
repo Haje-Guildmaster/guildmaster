@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Conditions;
+using GuildMaster.InGameEvents;
 using GuildMaster.Quests;
 using UnityEngine;
 
@@ -15,8 +16,10 @@ namespace GuildMaster.Data
         private PlayerData()
         {
             QuestManager = new QuestManager(this);
+            InGameEventManager = new InGameEventManager(this);
         }
         public readonly QuestManager QuestManager;
+        public readonly InGameEventManager InGameEventManager;
 
         private int _level = 1;
 

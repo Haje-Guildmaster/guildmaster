@@ -1,4 +1,6 @@
 ﻿using System;
+using GuildMaster.Data;
+using GuildMaster.UI;
 using UnityEngine;
 using UnityEditor;
 
@@ -14,26 +16,28 @@ namespace GuildMaster.InGameEvents
 
         public readonly InGameEventData InGameEventData;
         public int currentSceneNum;
+        public InGameEventSceneData currentSceneData => InGameEventData.Scenes[currentSceneNum];
 
         public void Choose(int choice)
         {
-            if (InGameEventData.Scenes.Count < choice || choice < 0)
+            if (InGameEventData.Scenes.Count <= choice || choice < 0)
                 throw new Exception("There is wrong choice");
-            InGameEventSceneData currentScene = InGameEventData.Scenes[currentSceneNum];
-            InGameEventChoiceData currentChoice = currentScene.Choices[choice];
+            InGameEventChoiceData currentChoice = currentSceneData.Choices[choice];
             if (currentChoice.HasNextStep)
             {
                 currentSceneNum = currentChoice.NextStep;
             }
             else
             {
-                End();
+                PlayerData.Instance.InGameEventManager.End();
+                return;
             }
+            UiWindowsManager.Instance.RefreshInGameEventWindow();
         }
 
         public void End()
         {
-            
+            Debug.Log("event end call");
         }
     }
 }
