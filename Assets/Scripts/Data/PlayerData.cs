@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GuildMaster.Data;
+using GuildMaster.InGameEvents;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using GuildMaster.Rewards;
@@ -21,6 +23,7 @@ namespace GuildMaster.Data
 
         public event Action Changed;
         public readonly QuestManager QuestManager;
+        public readonly InGameEventManager InGameEventManager;
         private readonly Dictionary<NpcData, NpcStatus> _npcStatusMap = new Dictionary<NpcData, NpcStatus>();
         private int _level = 1;
         
@@ -79,6 +82,7 @@ namespace GuildMaster.Data
         private PlayerData()
         {
             QuestManager = new QuestManager(this);
+            InGameEventManager = new InGameEventManager(this);
             QuestManager.Changed += Changed;
         }
     }

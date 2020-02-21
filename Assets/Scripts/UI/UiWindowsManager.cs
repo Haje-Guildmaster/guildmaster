@@ -12,7 +12,7 @@ namespace GuildMaster.UI
         [SerializeField] private QuestSuggestWindow questSuggestWindow;
         [SerializeField] private QuestListWindow questListWindow;
         [SerializeField] private QuestInspectWindow questInspectWindow;
-        
+        [SerializeField] private InGameEventWindow inGameEventWindow;
         
         public void OpenNpcInteractWindow(NpcData npcData)
         {
@@ -38,6 +38,21 @@ namespace GuildMaster.UI
             questInspectWindow.Open();
         }
         
+        public void OpenInGameEventWindow()
+        {
+            inGameEventWindow.Open();
+        }
+
+        public void RefreshInGameEventWindow()
+        {
+            inGameEventWindow.Refresh();
+        }
+
+        public void CloseInGameEventWindow()
+        {
+            inGameEventWindow.Close();
+        }
+
         private static UiWindowsManager _instance;
         public static UiWindowsManager Instance 
         {
