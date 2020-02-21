@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f89be522304e03b76226df20976ecb, type: 3}
   m_Name: npc_deligo
   m_EditorClassIdentifier: 
+  npcDataId: 1
   basicData:
     npcName: Deligo
     illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f89be522304e03b76226df20976ecb, type: 3}
   m_Name: npc_hwang
   m_EditorClassIdentifier: 
+  npcDataId: 2
   basicData:
     npcName: HWANG
     illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
