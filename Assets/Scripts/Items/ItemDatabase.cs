@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace GuildMaster.Items
 {
-    [Serializable]
+    [CreateAssetMenu(fileName = "ItemDatabase", menuName = "ScriptableObjects/ItemDatabase", order = 0)]
     public class ItemDatabase: ScriptableObject
     {
-        public ItemDatabase Instance { get; private set;}
+        public static ItemDatabase Instance { get; private set;}
 
         private void Awake()
         {
@@ -20,9 +20,9 @@ namespace GuildMaster.Items
         
         public ItemStaticData GetItemStaticData(Item.ItemCode itemCode)
         {
-            return _itemStaticDataMap[(int) itemCode];
+            return itemStaticDataMap[(int) itemCode];
         }
 
-        private List<ItemStaticData> _itemStaticDataMap = new List<ItemStaticData>();
+        [SerializeField] private List<ItemStaticData> itemStaticDataMap = new List<ItemStaticData>();
     }
 }

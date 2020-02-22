@@ -10,6 +10,7 @@ namespace GuildMaster.Items
         [SerializeReference][SerializeReferenceButton] private ItemEffect usageEffect;
         [SerializeField] private int maxStack;
         [SerializeField] private Sprite itemImage;
+        [SerializeReference][SerializeReferenceButton] private EquipmentStatsRef defaultEquipmentStats;
         
         public ItemEffect UsageEffect => usageEffect;
         public int MaxStack => maxStack;
