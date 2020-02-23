@@ -13,21 +13,41 @@ MonoBehaviour:
   m_Name: ItemDatabase
   m_EditorClassIdentifier: 
   itemStaticDataMap:
-  - usageEffect:
+  - itemName: "\uBE68\uAC15\uD3EC\uC158"
+    isConsumable: 1
+    consumptionEffect:
       id: 0
-    maxStack: 100
-    itemImage: {fileID: 0}
-  - usageEffect:
+    maxStack: 99
+    itemImage: {fileID: 21300000, guid: 3420b425e2bc68a4cad81433b18b6845, type: 3}
+    isEquipable: 1
+    defaultEquipmentStatsRef:
+      id: 1
+  - itemName: "\uB178\uB780\uB3C4\uB07C"
+    isConsumable: 0
+    consumptionEffect:
       id: 1
     maxStack: 0
-    itemImage: {fileID: 0}
-  - usageEffect:
+    itemImage: {fileID: 21300000, guid: 172fd38e4962cef468b7d9a9fb836e93, type: 3}
+    isEquipable: 1
+    defaultEquipmentStatsRef:
+      id: 2
+  - itemName: "\uB2EC\uD33D\uC774 \uAECD\uC9C8"
+    isConsumable: 0
+    consumptionEffect:
       id: 1
-    maxStack: 0
-    itemImage: {fileID: 0}
+    maxStack: 999
+    itemImage: {fileID: 21300000, guid: da407f354517679408cfd88151bf4a77, type: 3}
+    isEquipable: 0
+    defaultEquipmentStatsRef:
+      id: 1
   references:
     version: 1
     00000000:
       type: {class: ItemEffect/DoNothing, ns: GuildMaster.Items, asm: Assembly-CSharp}
     00000001:
       type: {class: , ns: , asm: }
+    00000002:
+      type: {class: EquipmentStatsRef, ns: GuildMaster.Items, asm: Assembly-CSharp}
+      data:
+        equipmentStats:
+          atk: 42

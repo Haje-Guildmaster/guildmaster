@@ -1,20 +1,19 @@
 using System;
+using UnityEngine;
 
 namespace GuildMaster.Items
 {
     [Serializable]
-    public readonly struct EquipmentStats
+    public struct EquipmentStats
     {
-        public readonly int atk;
+        public int atk;
     }
-
+    
     [Serializable]
     public class EquipmentStatsRef
     {
-        public EquipmentStatsRef(EquipmentStats equipmentStats)
-        {
-            this.EquipmentStats = equipmentStats;
-        }
-        public readonly EquipmentStats EquipmentStats;
+        [SerializeField] private EquipmentStats equipmentStats;
+
+        public EquipmentStats EquipmentStats => equipmentStats;
     }
 }

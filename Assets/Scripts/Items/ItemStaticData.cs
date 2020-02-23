@@ -7,13 +7,21 @@ namespace GuildMaster.Items
     // struct로 하지 않는 이유는 차피 effect의 내부 변수를 수정함으로서 원본을 수정할 수 있으므로.
     public class ItemStaticData
     {
-        [SerializeReference][SerializeReferenceButton] private ItemEffect usageEffect;
+        [SerializeField] private string itemName;
+        [SerializeField] private bool isConsumable;
+        [SerializeReference][SerializeReferenceButton] private ItemEffect consumptionEffect;
         [SerializeField] private int maxStack;
         [SerializeField] private Sprite itemImage;
-        [SerializeReference][SerializeReferenceButton] private EquipmentStatsRef defaultEquipmentStats;
+        [SerializeField] private bool isEquipable;
+        [SerializeReference][SerializeReferenceButton] private EquipmentStatsRef defaultEquipmentStatsRef;
         
-        public ItemEffect UsageEffect => usageEffect;
+        public ItemEffect ConsumptionEffect => consumptionEffect;
         public int MaxStack => maxStack;
         public Sprite ItemImage => itemImage;
+        public string ItemName => itemName;
+        public bool IsConsumable => isConsumable;
+
+        public bool IsEquipable => isEquipable;
+        public EquipmentStats DefaultEquipmentStats => defaultEquipmentStatsRef.EquipmentStats;
     }
 }
