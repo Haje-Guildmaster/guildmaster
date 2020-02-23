@@ -16,7 +16,7 @@ namespace GuildMaster.Items
         
         public enum ItemCode
         {
-            TestItem1, TestItem2, TestItem3
+            RedPotion, YellowAxe, SnailShell
         }
 
         private bool Equals(Item other)

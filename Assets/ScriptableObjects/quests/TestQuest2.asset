@@ -35,6 +35,8 @@ MonoBehaviour:
   rewards:
   - id: 4
   - id: 5
+  - id: 6
+  - id: 7
   references:
     version: 1
     00000000:
@@ -67,3 +69,24 @@ MonoBehaviour:
       data:
         targetNpc: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
         amount: 60
+    00000006:
+      type: {class: Reward/ItemReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
+      data:
+        item:
+          equipmentStatsRef:
+            id: 8
+          code: 1
+        number: 1
+    00000007:
+      type: {class: Reward/ItemReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
+      data:
+        item:
+          equipmentStatsRef:
+            id: 0
+          code: 2
+        number: 3212
+    00000008:
+      type: {class: EquipmentStatsRef, ns: GuildMaster.Items, asm: Assembly-CSharp}
+      data:
+        equipmentStats:
+          atk: 123

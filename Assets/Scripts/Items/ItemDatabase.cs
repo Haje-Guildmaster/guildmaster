@@ -12,17 +12,19 @@ namespace GuildMaster.Items
     {
         public static ItemDatabase Instance { get; private set;}
 
-        private void Awake()
-        {
-            if (Instance!=null) throw new Exception();
-            Instance = this;
-        }
+
         
         public ItemStaticData GetItemStaticData(Item.ItemCode itemCode)
         {
             return itemStaticDataMap[(int) itemCode];
         }
 
+        public void SetAsSingleton()
+        {
+            if (Instance != null) throw new Exception();
+            Instance = this;
+        }
+        
         [SerializeField] private List<ItemStaticData> itemStaticDataMap = new List<ItemStaticData>();
     }
 }
