@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.InGameEvents;
+using GuildMaster.Items;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using GuildMaster.Rewards;
@@ -25,6 +26,7 @@ namespace GuildMaster.Data
         public readonly QuestManager QuestManager;
         public readonly InGameEventManager InGameEventManager;
         private readonly Dictionary<NpcData, NpcStatus> _npcStatusMap = new Dictionary<NpcData, NpcStatus>();
+        private readonly Dictionary<Item, int> _inventoryMap = new Dictionary<Item, int>();
         private int _level = 1;
         
         [NotNull] public NpcStatus GetNpcStatus(NpcData npc)
@@ -39,12 +41,32 @@ namespace GuildMaster.Data
                 case Reward.AffinityReward affinityReward:
                     GetNpcStatus(affinityReward.targetNpc).Affinity += affinityReward.amount;
                     break;
+                case Reward.ItemReward itemReward:
+                    TryAddItem(itemReward.item, itemReward.number);
+                    break;
                 default:
                     throw new Exception($"Unexpected Reward: {reward}");
             }
         }
-        
-        
+
+        public bool TryAddItem(Item item, int number)
+        {
+            _inventoryMap.TryGetValue(item, out var prevItemNum);
+            var itemData = ItemDatabase.Instance.GetItemStaticData(item.Code);
+            var updatedNumber = prevItemNum + number;
+            if (updatedNumber <= itemData.MaxStack)
+                _inventoryMap[item] = updatedNumber;
+            else
+            {
+                //미정.
+                _inventoryMap[item] = itemData.MaxStack;
+            }
+            
+            if (prevItemNum != _inventoryMap[item])
+                Changed?.Invoke();
+
+            return true;
+        }
         
         public bool CheckCondition(Condition condition)
         {

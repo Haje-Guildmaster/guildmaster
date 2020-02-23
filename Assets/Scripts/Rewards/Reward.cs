@@ -1,4 +1,5 @@
 ﻿using System;
+using GuildMaster.Items;
 using GuildMaster.Npcs;
 
 namespace GuildMaster.Rewards
@@ -13,6 +14,13 @@ namespace GuildMaster.Rewards
         {
             public NpcData targetNpc;
             public int amount;
+        }
+
+        [Serializable]
+        public class ItemReward : Reward
+        {
+            public Item item;
+            public int number;
         }
     }
 }
