@@ -61,6 +61,7 @@ public static class SerializedReferenceInspectorUI
                 return;
             }
 
+            AddContextMenu(realPropertyType);
             var types = TypeCache.GetTypesDerivedFrom(realPropertyType);
             foreach (var currentType in types)
             {
