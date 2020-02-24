@@ -11,7 +11,6 @@ namespace GuildMaster.UI
     public abstract class Window: MonoBehaviour, IPointerDownHandler
     {
         public event Action Closed;
-        [FormerlySerializedAs("enableToggle")] public bool allowToggle;
         
         public void Open()
         {
@@ -22,7 +21,6 @@ namespace GuildMaster.UI
 
         public void Toggle()
         {
-            if (!allowToggle) return;
             if (gameObject.activeSelf)
                 Close();
             else

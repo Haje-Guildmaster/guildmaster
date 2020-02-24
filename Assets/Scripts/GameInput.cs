@@ -12,6 +12,8 @@ namespace GuildMaster
         {
             if (Input.GetKeyDown(KeyCode.O))
                 UiWindowsManager.Instance.ToggleQuestListWindow();
+            if (Input.GetKeyDown(KeyCode.I))
+                UiWindowsManager.Instance.ToggleInventoryWindow();
 
             //For Test InGameEvents
             if (Input.GetKeyDown(KeyCode.T))

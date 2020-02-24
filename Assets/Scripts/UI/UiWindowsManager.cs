@@ -2,6 +2,7 @@
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using GuildMaster.TownRoam.Towns;
+using GuildMaster.UI.Inventory;
 using UnityEngine;
 
 namespace GuildMaster.UI
@@ -13,6 +14,7 @@ namespace GuildMaster.UI
         [SerializeField] private QuestListWindow questListWindow;
         [SerializeField] private QuestInspectWindow questInspectWindow;
         [SerializeField] private InGameEventWindow inGameEventWindow;
+        [SerializeField] private InventoryWindow inventoryWindow;
         
         public void OpenNpcInteractWindow(NpcData npcData)
         {
@@ -53,6 +55,11 @@ namespace GuildMaster.UI
             inGameEventWindow.Close();
         }
 
+        public void ToggleInventoryWindow()
+        {
+            inventoryWindow.Toggle();
+        }
+            
         private static UiWindowsManager _instance;
         public static UiWindowsManager Instance 
         {
