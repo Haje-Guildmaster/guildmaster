@@ -27,6 +27,8 @@ namespace GuildMaster.Data
         public readonly InGameEventManager InGameEventManager;
         private readonly Dictionary<NpcData, NpcStatus> _npcStatusMap = new Dictionary<NpcData, NpcStatus>();
         private readonly Dictionary<Item, int> _inventoryMap = new Dictionary<Item, int>();
+
+        public IEnumerable<(Item item, int number)> GetInventory() => _inventoryMap.Select(a=>(a.Key, a.Value));
         private int _level = 1;
         
         [NotNull] public NpcStatus GetNpcStatus(NpcData npc)

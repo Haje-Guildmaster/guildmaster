@@ -44,6 +44,7 @@ namespace GuildMaster.Items
             var itemImage = itemStaticData.FindPropertyRelative("itemImage");
             var isEquipable = itemStaticData.FindPropertyRelative("isEquipable");
             var defaultEquipmentStatsRef = itemStaticData.FindPropertyRelative("defaultEquipmentStatsRef");
+            var isImportant = itemStaticData.FindPropertyRelative("isImportant");
 
             EditorGUILayout.PropertyField(itemName);
             EditorGUILayout.PropertyField(itemImage);
@@ -72,6 +73,8 @@ namespace GuildMaster.Items
             {
                 defaultEquipmentStatsRef.managedReferenceValue = null;
             }
+            
+            EditorGUILayout.PropertyField(isImportant);
         }
     }
 }

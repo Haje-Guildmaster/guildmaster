@@ -14,12 +14,14 @@ namespace GuildMaster.Items
         [SerializeField] private Sprite itemImage;
         [SerializeField] private bool isEquipable;
         [SerializeReference][SerializeReferenceButton] private EquipmentStatsRef defaultEquipmentStatsRef;
+        [SerializeField] private bool isImportant;
         
         public ItemEffect ConsumptionEffect => consumptionEffect;
         public int MaxStack => maxStack;
         public Sprite ItemImage => itemImage;
         public string ItemName => itemName;
         public bool IsConsumable => isConsumable;
+        public bool IsImportant => isImportant;
 
         public bool IsEquipable => isEquipable;
         public EquipmentStats DefaultEquipmentStats => defaultEquipmentStatsRef.EquipmentStats;

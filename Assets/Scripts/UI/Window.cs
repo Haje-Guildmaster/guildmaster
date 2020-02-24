@@ -3,6 +3,7 @@ using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GuildMaster.UI
@@ -10,7 +11,7 @@ namespace GuildMaster.UI
     public abstract class Window: MonoBehaviour, IPointerDownHandler
     {
         public event Action Closed;
-        public bool enableToggle;
+        [FormerlySerializedAs("enableToggle")] public bool allowToggle;
         
         public void Open()
         {
@@ -21,7 +22,7 @@ namespace GuildMaster.UI
 
         public void Toggle()
         {
-            if (!enableToggle) return;
+            if (!allowToggle) return;
             if (gameObject.activeSelf)
                 Close();
             else
