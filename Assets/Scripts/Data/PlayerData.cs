@@ -23,6 +23,7 @@ namespace GuildMaster.Data
         }
 
         public event Action Changed;
+        public event Action InventoryChanged;
         public readonly QuestManager QuestManager;
         public readonly InGameEventManager InGameEventManager;
         private readonly Dictionary<NpcData, NpcStatus> _npcStatusMap = new Dictionary<NpcData, NpcStatus>();
@@ -65,7 +66,7 @@ namespace GuildMaster.Data
             }
             
             if (prevItemNum != _inventoryMap[item])
-                Changed?.Invoke();
+                InventoryChanged?.Invoke();
 
             return true;
         }
@@ -108,6 +109,7 @@ namespace GuildMaster.Data
             QuestManager = new QuestManager(this);
             InGameEventManager = new InGameEventManager(this);
             QuestManager.Changed += Changed;
+            InventoryChanged += Changed;
         }
     }
 }

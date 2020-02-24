@@ -26,6 +26,16 @@ namespace GuildMaster.UI.Inventory
         {
             ChangeCategory(ItemCategory.Equipable);
         }
+        
+        private void OnEnable()
+        {
+            PlayerData.Instance.InventoryChanged += Refresh;
+        }
+
+        private void OnDisable()
+        {
+            PlayerData.Instance.InventoryChanged -= Refresh;
+        }
 
         public void Refresh()
         {
