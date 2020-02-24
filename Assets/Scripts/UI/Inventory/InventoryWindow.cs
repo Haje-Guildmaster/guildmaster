@@ -12,6 +12,9 @@ namespace GuildMaster.UI.Inventory
         private void Awake()
         {
             _itemIcons = GetComponentsInChildren<ItemIcon>().ToList();
+        }
+        private void Start()
+        {
             foreach (var ict in GetComponentsInChildren<ItemCategoryToggle>())
             {
                 var cat = ict.category;
@@ -20,10 +23,6 @@ namespace GuildMaster.UI.Inventory
                     if (b) ChangeCategory(cat);
                 });
             }
-        }
-
-        private void Start()
-        {
             ChangeCategory(ItemCategory.Equipable);
         }
         
@@ -37,7 +36,12 @@ namespace GuildMaster.UI.Inventory
             PlayerData.Instance.InventoryChanged -= Refresh;
         }
 
-        public void Refresh()
+        protected override void OnOpen()
+        {
+            Refresh();
+        }
+
+        private void Refresh()
         {
             var itemList = PlayerData.Instance.GetInventory()
                 .Where(tup => _IsItemInCategory(tup.item, _currentCategory));
