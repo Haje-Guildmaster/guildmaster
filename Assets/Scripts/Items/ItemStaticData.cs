@@ -8,6 +8,7 @@ namespace GuildMaster.Items
     public class ItemStaticData
     {
         [SerializeField] private string itemName;
+        [SerializeField][TextArea] private string itemDescription;
         [SerializeField] private bool isConsumable;
         [SerializeReference][SerializeReferenceButton] private ItemEffect consumptionEffect;
         [SerializeField] private int maxStack;
@@ -20,6 +21,7 @@ namespace GuildMaster.Items
         public int MaxStack => maxStack;
         public Sprite ItemImage => itemImage;
         public string ItemName => itemName;
+        public string ItemDescription => itemDescription;
         public bool IsConsumable => isConsumable;
         public bool IsImportant => isImportant;
 

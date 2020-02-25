@@ -38,6 +38,7 @@ namespace GuildMaster.Items
         private void DrawItemStaticDataInspector(SerializedProperty itemStaticData)
         {
             var itemName = itemStaticData.FindPropertyRelative("itemName");
+            var itemDescription = itemStaticData.FindPropertyRelative("itemDescription");
             var isConsumable = itemStaticData.FindPropertyRelative("isConsumable");
             var consumptionEffect = itemStaticData.FindPropertyRelative("consumptionEffect");
             var maxStack = itemStaticData.FindPropertyRelative("maxStack");
@@ -47,6 +48,7 @@ namespace GuildMaster.Items
             var isImportant = itemStaticData.FindPropertyRelative("isImportant");
 
             EditorGUILayout.PropertyField(itemName);
+            EditorGUILayout.PropertyField(itemDescription);
             EditorGUILayout.PropertyField(itemImage);
             EditorGUILayout.PropertyField(maxStack);
 
