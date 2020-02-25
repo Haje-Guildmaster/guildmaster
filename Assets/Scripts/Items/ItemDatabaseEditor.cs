@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Xml.Schema;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -16,7 +18,7 @@ namespace GuildMaster.Items
         void OnEnable()
         {
             _itemStaticDataMap = serializedObject.FindProperty("itemStaticDataMap");
-            // _serializedItemCode = new UnityEditor.SerializedObject(_itemCode);
+            _itemStaticDataMap.arraySize = Enum.GetValues(typeof(Item.ItemCode)).Cast<int>().Max();
         }
 
         public override void OnInspectorGUI()
@@ -24,7 +26,7 @@ namespace GuildMaster.Items
             serializedObject.Update();
             EditorGUILayout.LabelField("Item Database");
             _itemCode = (Item.ItemCode) EditorGUILayout.EnumPopup(_itemCode);
-            
+
             var itemStaticData = _itemStaticDataMap.GetArrayElementAtIndex((int) _itemCode);
 
             EditorGUI.indentLevel++;
