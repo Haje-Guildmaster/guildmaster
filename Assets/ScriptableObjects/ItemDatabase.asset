@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemStaticDataMap:
   - itemName: "\uBE68\uAC15\uD3EC\uC158"
-    itemDescription: 
+    itemDescription: "\uBE68\uAC04\uC0C9 \uD3EC\uC158\uC774\uB2E4. \uBA39\uC73C\uBA74
+      \uCCB4\uB825\uC774 \uCC30 \uAC83\uCC98\uB7FC \uC0DD\uACBC\uB2E4. "
     isConsumable: 1
     consumptionEffect:
       id: 0
@@ -25,7 +26,7 @@ MonoBehaviour:
       id: 0
     isImportant: 0
   - itemName: "\uB178\uB780\uB3C4\uB07C"
-    itemDescription: 
+    itemDescription: "\uB178\uB780\uC0C9 \uB3C4\uB07C\uC774\uB2E4."
     isConsumable: 0
     consumptionEffect:
       id: 0
@@ -36,7 +37,8 @@ MonoBehaviour:
       id: 1
     isImportant: 0
   - itemName: "\uB2EC\uD33D\uC774 \uAECD\uC9C8"
-    itemDescription: 
+    itemDescription: "\uB2EC\uD33D\uC774 \uAECD\uC9C8\uC774\uB2E4. \uB9DE\uC73C\uBA74
+      \uC544\uD504\uB2E4."
     isConsumable: 0
     consumptionEffect:
       id: 0

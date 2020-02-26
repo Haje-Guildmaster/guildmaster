@@ -15,6 +15,8 @@ namespace GuildMaster.UI
         [SerializeField] private QuestInspectWindow questInspectWindow;
         [SerializeField] private InGameEventWindow inGameEventWindow;
         [SerializeField] private InventoryWindow inventoryWindow;
+
+        public ItemInfoPanel itemInfoPanel;
         
         public void OpenNpcInteractWindow(NpcData npcData)
         {
