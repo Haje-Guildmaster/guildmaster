@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 namespace GuildMaster.Tools
 {
     [RequireComponent(typeof(Collider2D))]
-    public abstract class GenericButton<T>: MonoBehaviour, IPointerClickHandler
+    public abstract class GenericButton<T>: MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
     {
         public delegate void ClickedHandler(T param);
 
@@ -21,6 +21,14 @@ namespace GuildMaster.Tools
             Clicked?.Invoke(EventArgument);
         }
 
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            // parent 오브젝트에 IpointerDownHandler가 있으면 OnPointerClick이 불리지 않는 문제를 해결하기 위해.
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+        }
 
         protected abstract T EventArgument { get; }
 

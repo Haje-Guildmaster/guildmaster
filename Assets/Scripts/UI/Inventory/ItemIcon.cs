@@ -1,11 +1,12 @@
 using GuildMaster.Items;
+using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace GuildMaster.UI.Inventory
 {
-    public class ItemIcon: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class ItemIcon: GenericButton<Item>, IPointerEnterHandler, IPointerExitHandler
     {
         public Image itemImage;
         public Text itemNumberLabel;
@@ -30,11 +31,14 @@ namespace GuildMaster.UI.Inventory
             _panelRequestId = 0;
         }
 
+        protected override Item EventArgument => _item;
+
         public void Clear()
         {
             itemImage.sprite = null;
             itemNumberLabel.text = "";
         }
+
 
         private Item _item;
         private int _panelRequestId;

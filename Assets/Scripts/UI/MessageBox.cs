@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GuildMaster.UI
 {
-    public class MessageBox: Window
+    public class MessageBox: DraggableWindow
     {
         public Text titleLabel;
         public Text contentsLabel;
@@ -31,6 +31,7 @@ namespace GuildMaster.UI
             foreach (var btn in buttons)
             {
                 var made = Instantiate(buttonPrefab, buttonsParent);
+                made.onClick.AddListener(Close);
                 made.onClick.AddListener(()=>btn.onClicked());
                 made.GetComponentInChildren<Text>().text = btn.buttonText;
             }
