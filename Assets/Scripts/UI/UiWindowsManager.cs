@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using GuildMaster.TownRoam.Towns;
@@ -15,8 +16,10 @@ namespace GuildMaster.UI
         [SerializeField] private QuestInspectWindow questInspectWindow;
         [SerializeField] private InGameEventWindow inGameEventWindow;
         [SerializeField] private InventoryWindow inventoryWindow;
-
-        public ItemInfoPanel itemInfoPanel;
+        [SerializeField] private MessageBox messageBoxPrefab;
+        [SerializeField] private Transform messageBoxesParent;
+        
+        public ItemInfoPanel itemInfoPanel;    // 임시.
         
         public void OpenNpcInteractWindow(NpcData npcData)
         {
@@ -60,6 +63,13 @@ namespace GuildMaster.UI
         public void ToggleInventoryWindow()
         {
             inventoryWindow.Toggle();
+        }
+
+        public void ShowMessageBox(string title, string content, IEnumerable<(string buttonText, Action onClicked)> buttons)
+        {
+            var made = Instantiate(messageBoxPrefab, messageBoxesParent);
+            made.Set(title, content, buttons);
+            made.Open();
         }
             
         private static UiWindowsManager _instance;

@@ -956,6 +956,7 @@ RectTransform:
   m_Children:
   - {fileID: 1554044406}
   - {fileID: 1217819513}
+  - {fileID: 1097055039}
   m_Father: {fileID: 844993238}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1507,6 +1508,9 @@ MonoBehaviour:
   questInspectWindow: {fileID: 1378438458}
   inGameEventWindow: {fileID: 0}
   inventoryWindow: {fileID: 299836908}
+  messageBoxPrefab: {fileID: 762391174187492823, guid: 71654dc408a2289408b131b297ffaf15,
+    type: 3}
+  messageBoxesParent: {fileID: 1097055039}
   itemInfoPanel: {fileID: 1217819516}
 --- !u!1 &469793570
 GameObject:
@@ -4257,6 +4261,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1092501627}
   m_CullTransparentMesh: 0
+--- !u!1 &1097055038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1097055039}
+  m_Layer: 5
+  m_Name: MessageBoxParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1097055039
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097055038}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 245613369}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1111018035
 GameObject:
   m_ObjectHideFlags: 0
