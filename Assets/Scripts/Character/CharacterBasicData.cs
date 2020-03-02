@@ -18,20 +18,30 @@ namespace GuildMaster.Characters
         public bool KnowUseRealName => usingNameIndex == nameList.Count;    //현재 실제 이름을 사용중인지
 
         [SerializeField] private int hp;
+        private int reducedmaxhp;           //부상으로 줄어든 최대체력
         [SerializeField] private int maxhp;
-        [SerializeField] private int mp;
-        [SerializeField] private int maxmp;
-        [SerializeField] private int dp;
-        [SerializeField] private int maxdp;
+        [SerializeField] private bool spIsMp;
+        [SerializeField] private int sp;
+        [SerializeField] private int maxsp;
 
         public int HP
         {
             get { return hp; }
             set
             {
-                if (maxhp < value) { hp = maxhp; }
+                if (reducedmaxhp < value) { hp = reducedmaxhp; }
                 else if (value < 0) { hp = 0; }
                 else { hp = value; }
+            }
+        }
+        public int ReducedMaxHP
+        {
+            get { return reducedmaxhp; }
+            set
+            {
+                if (maxhp < value) { reducedmaxhp = maxhp; }
+                else if (value < 0) { reducedmaxhp = 0; }
+                else { reducedmaxhp = value; }
             }
         }
         public int MaxHP
@@ -39,36 +49,22 @@ namespace GuildMaster.Characters
             get { return maxhp; }
             set { maxhp = value; }
         }
-        public int MP
+        public int SP
         {
-            get { return mp; }
+            get { return sp; }
             set
             {
-                if (maxmp < value) { mp = maxmp; }
-                else if (value < 0) { mp = 0; }
-                else { mp = value; }
+                if (maxsp < value) { sp = maxsp; }
+                else if (value < 0) { sp = 0; }
+                else { sp = value; }
             }
         }
-        public int MaxMP
+        public int MaxSP
         {
-            get { return maxmp; }
-            set { maxmp = value; }
+            get { return maxsp; }
+            set { maxsp = value; }
         }
-        public int DP
-        {
-            get { return dp; }
-            set
-            {
-                if (maxdp < value) { dp = maxdp; }
-                else if (value < 0) { dp = 0; }
-                else { dp = value; }
-            }
-        }
-        public int MaxDP
-        {
-            get { return maxdp; }
-            set { maxdp = value; }
-        }
+        public bool SpIsMp => spIsMp;
 
         [SerializeField] private int loyalty;
         [SerializeField] private const int maxLoyalty = 100;
