@@ -15,7 +15,7 @@ namespace GuildMaster.Quests
         public class TalkMission : StepMission
         {
             public override int MaxProgress => 1;
-            public NpcData talkTo;
+            public NpcStaticData talkTo;
             public Script script;
         }
     }

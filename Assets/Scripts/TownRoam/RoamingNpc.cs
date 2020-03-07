@@ -5,14 +5,14 @@ using UnityEngine.Events;
 
 namespace GuildMaster.TownRoam
 {
-    public class RoamingNpc: GenericButton<NpcData>
+    public class RoamingNpc: GenericButton<NpcStaticData>
     {
-        [SerializeField] private NpcData npcData;
-        protected override NpcData EventArgument => npcData;
+        [SerializeField] private NpcStaticData npcData;
+        protected override NpcStaticData EventArgument => npcData;
 
         public RoamingNpc(){}
 
-        public RoamingNpc(NpcData npcData)
+        public RoamingNpc(NpcStaticData npcData)
         {
             this.npcData = npcData;
         }

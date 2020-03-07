@@ -18,10 +18,10 @@ namespace GuildMaster.UI
         [SerializeField] private Text questDescriptionText;
         [SerializeField] private Text clientNameText;
 
-        private QuestData _questData;
-        private NpcData _npcData;
+        private QuestStaticData _questData;
+        private NpcStaticData _npcData;
 
-        public void Set(QuestData questData, NpcData npcData)
+        public void Set(QuestStaticData questData, NpcStaticData npcData)
         {
             _questData = questData;
             _npcData = npcData;

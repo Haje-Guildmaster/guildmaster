@@ -23,7 +23,7 @@ namespace GuildMaster.Quests
         }
         
 
-        public bool ReceiveQuest(QuestData questData, NpcData client)
+        public bool ReceiveQuest(QuestStaticData questData, NpcStaticData client)
         {
             if (!CanReceiveQuest(questData)) return false;
             _quests.Add(new Quest(questData, client));
@@ -43,12 +43,12 @@ namespace GuildMaster.Quests
             return ret;
         }
 
-        public bool CompletedQuest(QuestData questData) => _completedQuests.Contains(questData);
-        public bool DoingQuest(QuestData questData) => _quests.Count(q => q.QuestData == questData) > 0;
+        public bool CompletedQuest(QuestStaticData questData) => _completedQuests.Contains(questData);
+        public bool DoingQuest(QuestStaticData questData) => _quests.Count(q => q.QuestData == questData) > 0;
         public List<ReadOnlyQuest> CurrentQuests() 
             => _quests.Select(q => new ReadOnlyQuest(q)).ToList();
 
-        public List<StepMission.TalkMission> GetCompletableTalkMissions(NpcData npcData)
+        public List<StepMission.TalkMission> GetCompletableTalkMissions(NpcStaticData npcData)
         {
             return _quests
                 .Where(q => _playerData.CheckCondition(q.CurrentStep.StepCondition))
@@ -59,7 +59,7 @@ namespace GuildMaster.Quests
                 .Where(tm=> tm.talkTo == npcData)
                 .ToList();
         }
-        public List<QuestData> GetAvailableQuestsFrom(IEnumerable<QuestData> quests) => quests.Where(CanReceiveQuest).ToList();
+        public List<QuestStaticData> GetAvailableQuestsFrom(IEnumerable<QuestStaticData> quests) => quests.Where(CanReceiveQuest).ToList();
 
         // Event Listeners
         private void OnQuestScriptPlayEnd(StepMission.TalkMission mission)
@@ -68,12 +68,12 @@ namespace GuildMaster.Quests
         }
 
 
-        private bool CanReceiveQuest(QuestData q) 
+        private bool CanReceiveQuest(QuestStaticData q) 
             =>_playerData.CheckCondition(q.ActivationCondition) && !CompletedQuest(q) && !DoingQuest(q);
 
 
         private readonly List<Quest> _quests = new List<Quest>();
-        private readonly HashSet<QuestData> _completedQuests = new HashSet<QuestData>();
+        private readonly HashSet<QuestStaticData> _completedQuests = new HashSet<QuestStaticData>();
 
         private void UpdateQuests()
         {

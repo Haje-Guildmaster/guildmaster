@@ -21,13 +21,13 @@ namespace GuildMaster.UI
         
         public ItemInfoPanel itemInfoPanel;    // 임시.
         
-        public void OpenNpcInteractWindow(NpcData npcData)
+        public void OpenNpcInteractWindow(NpcStaticData npcData)
         {
             npcInteractWindow.SetNpc(npcData);
             npcInteractWindow.Open();
         }
 
-        public void OpenQuestSuggestWindow(QuestData questData, NpcData npcData)
+        public void OpenQuestSuggestWindow(QuestStaticData questData, NpcStaticData npcData)
         {
             questSuggestWindow.Set(questData, npcData);
             questSuggestWindow.Open();

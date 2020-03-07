@@ -26,13 +26,13 @@ namespace GuildMaster.Data
         public event Action InventoryChanged;
         public readonly QuestManager QuestManager;
         public readonly InGameEventManager InGameEventManager;
-        private readonly Dictionary<NpcData, NpcStatus> _npcStatusMap = new Dictionary<NpcData, NpcStatus>();
+        private readonly Dictionary<NpcStaticData, NpcStatus> _npcStatusMap = new Dictionary<NpcStaticData, NpcStatus>();
         private readonly Dictionary<Item, int> _inventoryMap = new Dictionary<Item, int>();
 
         public IEnumerable<(Item item, int number)> GetInventory() => _inventoryMap.Select(a=>(a.Key, a.Value));
         private int _level = 1;
         
-        [NotNull] public NpcStatus GetNpcStatus(NpcData npc)
+        [NotNull] public NpcStatus GetNpcStatus(NpcStaticData npc)
         {
             return _npcStatusMap.TryGetValue(npc, out var ret) ? ret: _AddNpcStatus(npc);
         }
@@ -93,7 +93,7 @@ namespace GuildMaster.Data
         }
 
 
-        [NotNull] private NpcStatus _AddNpcStatus(NpcData npc)
+        [NotNull] private NpcStatus _AddNpcStatus(NpcStaticData npc)
         {
             var made = new NpcStatus();
             _npcStatusMap.Add(npc, made);

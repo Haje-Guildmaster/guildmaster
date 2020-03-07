@@ -38,11 +38,11 @@ namespace GuildMaster.Data
         [Serializable]
         public class CompletedQuest : Condition
         {
-            public QuestData quest;
+            public QuestStaticData quest;
 
             public CompletedQuest() {}
 
-            public CompletedQuest(QuestData quest)
+            public CompletedQuest(QuestStaticData quest)
             {
                 this.quest = quest;
             }

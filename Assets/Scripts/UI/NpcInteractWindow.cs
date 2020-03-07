@@ -44,9 +44,9 @@ namespace GuildMaster.UI
                 PlayTalkMissionScript(questTalks[0]);
         }
 
-        public void SetNpc(NpcData npcData) => _npcData = npcData;
+        public void SetNpc(NpcStaticData npcData) => _npcData = npcData;
         
-        private NpcData _npcData;
+        private NpcStaticData _npcData;
         private float _interactionListBottom;
         private const float InteractionButtonYDiff = 43f;
         private void InitialScreen()
