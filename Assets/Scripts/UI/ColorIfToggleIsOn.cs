@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace GuildMaster.UI
 {
     [RequireComponent(typeof(Toggle))]
-    public class ToggleOnColor: MonoBehaviour
+    public class ColorIfToggleIsOn: MonoBehaviour
     {
         private ColorBlock _originalColor;
         public ColorBlock onColor;

@@ -18,7 +18,9 @@ namespace GuildMaster.UI
         [SerializeField] private InventoryWindow inventoryWindow;
         [SerializeField] private MessageBox messageBoxPrefab;
         [SerializeField] private Transform messageBoxesParent;
+        [SerializeField] private CharacterInspectWindow characterInspectWindow;
         
+            
         public ItemInfoPanel itemInfoPanel;    // 임시.
         
         public void OpenNpcInteractWindow(NpcStaticData npcData)
@@ -70,6 +72,11 @@ namespace GuildMaster.UI
             var made = Instantiate(messageBoxPrefab, messageBoxesParent);
             made.Set(title, content, buttons);
             made.Open();
+        }
+
+        public void ToggleCharacterInspectWindow()
+        {
+            characterInspectWindow.Toggle();
         }
             
         private static UiWindowsManager _instance;

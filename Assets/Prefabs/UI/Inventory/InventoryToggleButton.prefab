@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 6908942162379992128}
   - component: {fileID: 328869920443843000}
   - component: {fileID: 1556825963713333480}
-  - component: {fileID: 4217025005617212310}
+  - component: {fileID: 7690847017020996907}
   m_Layer: 5
   m_Name: InventoryToggleButton
   m_TagString: Untagged
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4217025005617212310
+--- !u!114 &7690847017020996907
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -300,12 +300,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c27afe4f5494459b00a90e4cf965027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  category: 0
-  selectedColor:
-    m_NormalColor: {r: 0, g: 1, b: 0.9696944, a: 1}
-    m_HighlightedColor: {r: 0.030526895, g: 0.9245283, b: 0.8964812, a: 1}
-    m_PressedColor: {r: 0.03644534, g: 0.8584906, b: 0.83325225, a: 1}
-    m_SelectedColor: {r: 0, g: 1, b: 0.9686275, a: 1}
-    m_DisabledColor: {r: 0, g: 0, b: 0, a: 1}
+  onColor:
+    m_NormalColor: {r: 0, g: 1, b: 0.9725491, a: 1}
+    m_HighlightedColor: {r: 0.019607844, g: 0.8980393, b: 0.8705883, a: 1}
+    m_PressedColor: {r: 0.019607844, g: 0.83921576, b: 0.81568635, a: 1}
+    m_SelectedColor: {r: 0, g: 1, b: 0.9725491, a: 1}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0}
     m_ColorMultiplier: 1
-    m_FadeDuration: 0
+    m_FadeDuration: 0.1
+  category: 0
