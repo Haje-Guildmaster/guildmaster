@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace GuildMaster.UI.Inventory
 {
-    public class ItemCategoryColorIfToggleIsOn: ColorIfToggleIsOn
+    public class ItemCategoryToggle: ColorIfToggleIsOn
     {
         public InventoryWindow.ItemCategory category;
     }

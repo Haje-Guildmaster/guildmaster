@@ -16,7 +16,7 @@ namespace GuildMaster.UI.Inventory
         }
         private void Start()
         {
-            foreach (var ict in GetComponentsInChildren<ItemCategoryColorIfToggleIsOn>())
+            foreach (var ict in GetComponentsInChildren<ItemCategoryToggle>())
             {
                 var cat = ict.category;
                 ict.Toggle.onValueChanged.AddListener(b =>
@@ -79,7 +79,7 @@ namespace GuildMaster.UI.Inventory
         public void ChangeCategory(ItemCategory category)
         {
             _currentCategory = category;
-            foreach (var ict in GetComponentsInChildren<ItemCategoryColorIfToggleIsOn>())
+            foreach (var ict in GetComponentsInChildren<ItemCategoryToggle>())
             {
                 ict.Toggle.isOn = ict.category == category;
             }
