@@ -1614,6 +1614,15 @@ PrefabInstance:
       propertyPath: category
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: category
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4463690195950024233, guid: 88bc50dbb9ff4c845abfc97964bf0070,
+        type: 3}
+      propertyPath: category
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5962914912843368115, guid: 88bc50dbb9ff4c845abfc97964bf0070,
         type: 3}
       propertyPath: m_Text
@@ -1734,11 +1743,6 @@ PrefabInstance:
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 2084961735}
-    - target: {fileID: 7690847017020996907, guid: 88bc50dbb9ff4c845abfc97964bf0070,
-        type: 3}
-      propertyPath: category
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88bc50dbb9ff4c845abfc97964bf0070, type: 3}
 --- !u!224 &267483018 stripped
@@ -2254,6 +2258,15 @@ PrefabInstance:
       propertyPath: category
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: category
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4463690195950024233, guid: 88bc50dbb9ff4c845abfc97964bf0070,
+        type: 3}
+      propertyPath: category
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5962914912843368115, guid: 88bc50dbb9ff4c845abfc97964bf0070,
         type: 3}
       propertyPath: m_Text
@@ -2374,11 +2387,6 @@ PrefabInstance:
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 2084961735}
-    - target: {fileID: 7690847017020996907, guid: 88bc50dbb9ff4c845abfc97964bf0070,
-        type: 3}
-      propertyPath: category
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88bc50dbb9ff4c845abfc97964bf0070, type: 3}
 --- !u!224 &441162068 stripped
@@ -2722,6 +2730,15 @@ PrefabInstance:
       propertyPath: category
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: category
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4463690195950024233, guid: 88bc50dbb9ff4c845abfc97964bf0070,
+        type: 3}
+      propertyPath: category
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5962914912843368115, guid: 88bc50dbb9ff4c845abfc97964bf0070,
         type: 3}
       propertyPath: m_Text
@@ -2847,11 +2864,6 @@ PrefabInstance:
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 2084961735}
-    - target: {fileID: 7690847017020996907, guid: 88bc50dbb9ff4c845abfc97964bf0070,
-        type: 3}
-      propertyPath: category
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88bc50dbb9ff4c845abfc97964bf0070, type: 3}
 --- !u!224 &533803051 stripped
@@ -14592,6 +14604,22 @@ PrefabInstance:
       propertyPath: onHighlightedColor.r
       value: 0.037646834
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: onColor.m_NormalColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: onColor.m_NormalColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: onColor.m_NormalColor.b
+      value: 0.95156765
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: onColor.m_NormalColor.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5962914913663172792, guid: 88bc50dbb9ff4c845abfc97964bf0070,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14705,11 +14733,6 @@ PrefabInstance:
     - target: {fileID: 5962914913663172799, guid: 88bc50dbb9ff4c845abfc97964bf0070,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5962914913663172799, guid: 88bc50dbb9ff4c845abfc97964bf0070,
-        type: 3}
-      propertyPath: m_IsOn
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5962914913663172799, guid: 88bc50dbb9ff4c845abfc97964bf0070,
