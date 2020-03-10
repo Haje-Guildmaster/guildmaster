@@ -11,11 +11,11 @@ namespace GuildMaster
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.O))
-                UiWindowsManager.Instance.ToggleQuestListWindow();
+                UiWindowsManager.Instance.questListWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.I))
-                UiWindowsManager.Instance.ToggleInventoryWindow();
+                UiWindowsManager.Instance.inventoryWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.P))
-                UiWindowsManager.Instance.ToggleCharacterInspectWindow();
+                UiWindowsManager.Instance.characterInspectWindow.Toggle();
 
             //For Test InGameEvents
             if (Input.GetKeyDown(KeyCode.T))

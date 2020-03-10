@@ -21,14 +21,11 @@ namespace GuildMaster.UI
         private QuestStaticData _questData;
         private NpcStaticData _npcData;
 
-        public void Set(QuestStaticData questData, NpcStaticData npcData)
+        public void Open(QuestStaticData questData, NpcStaticData npcData)
         {
+            base.OpenWindow();
             _questData = questData;
             _npcData = npcData;
-        }
-        
-        protected override void OnOpen()
-        {
             Refresh();
         }
 

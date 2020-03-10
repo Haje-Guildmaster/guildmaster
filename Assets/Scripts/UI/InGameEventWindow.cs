@@ -17,13 +17,9 @@ namespace GuildMaster.UI
         public Transform listChoicesParent;
         private float buttonListBottom = 0f;
         private const float buttonHeight = 40f;
-        
-        private void Start()
-        {
-            
-        }
 
-        protected override void OnOpen()
+
+        public void Open()
         {
             eventNameText.text = PlayerData.Instance.InGameEventManager.currentInGameEvent.InGameEventData.EventName;
             Debug.Log("open event window");

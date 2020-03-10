@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GuildMaster.UI
 {
-    public class QuestListWindow: DraggableWindow
+    public class QuestListWindow: DraggableWindow, IToggleableWindow
     {
         public QuestListItem questListItemPrefab;
         public Transform listItemsParent;
@@ -22,8 +22,9 @@ namespace GuildMaster.UI
             PlayerData.Instance.QuestManager.Changed -= Refresh;
         }
 
-        protected override void OnOpen()
+        public void Open()
         {
+            base.OpenWindow();
             Refresh();
         }
 
@@ -42,7 +43,7 @@ namespace GuildMaster.UI
         private void AddItem(ReadOnlyQuest quest)
         {
             var item = Instantiate(questListItemPrefab, listItemsParent);
-            item.clickChecker.onClick.AddListener(()=>UiWindowsManager.Instance.OpenQuestInspectWindow(quest));
+            item.clickChecker.onClick.AddListener(()=>UiWindowsManager.Instance.questInspectWindow.Open(quest));
             item.questNameText.text = quest.QuestData.QuestName;
             item.questClientText.text = quest.Client.basicData.npcName;
             

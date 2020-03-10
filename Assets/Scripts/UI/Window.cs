@@ -12,20 +12,12 @@ namespace GuildMaster.UI
     {
         public event Action Closed;
         
-        public void Open()
+        protected void OpenWindow()
         {
             gameObject.SetActive(true);
             transform.SetAsLastSibling();
-            OnOpen();
         }
 
-        public void Toggle()
-        {
-            if (gameObject.activeSelf)
-                Close();
-            else
-                Open();
-        }
         public void Close()
         {
             OnClose();
@@ -38,8 +30,8 @@ namespace GuildMaster.UI
             transform.SetAsLastSibling();
         }
 
-        protected virtual void OnOpen(){}
-
+        public bool IsOpen => gameObject.activeSelf;
+        
         protected virtual void OnClose(){}
     }
 }

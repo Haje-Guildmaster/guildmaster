@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace GuildMaster.UI
 {
-    public class CharacterInspectWindow: DraggableWindow
+    public class CharacterInspectWindow: DraggableWindow, IToggleableWindow
     {
         [SerializeField] private Transform characterListParent;
         [SerializeField] private Toggle characterSelectTogglePrefab;
@@ -26,8 +26,10 @@ namespace GuildMaster.UI
         // for debugging
         [SerializeField] private List<CharacterData> data;
 
-        protected override void OnOpen()
+        public void Open()
         {
+            base.OpenWindow();
+            
             SetCharacter(null);
             foreach (Transform t in characterListParent)
                 Destroy(t.gameObject);

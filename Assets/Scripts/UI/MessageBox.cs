@@ -18,7 +18,7 @@ namespace GuildMaster.UI
             Destroy(gameObject);
         }
 
-        public void Set(string title, string content, IEnumerable<(string buttonText, Action onClicked)> buttons)
+        public void Open(string title, string content, IEnumerable<(string buttonText, Action onClicked)> buttons)
         {
             titleLabel.text = title;
             contentsLabel.text = content;

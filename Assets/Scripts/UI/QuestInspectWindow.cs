@@ -20,11 +20,7 @@ namespace GuildMaster.UI
         public Transform missionProgressListParent;
 
         private ReadOnlyQuest _quest;
-
-        public void Set(ReadOnlyQuest quest)
-        {
-            _quest = quest;
-        }
+        
 
         public void AbandonCurrentQuest()
         {
@@ -32,9 +28,10 @@ namespace GuildMaster.UI
             Close();
         }
 
-        protected override void OnOpen()
+        public void Open(ReadOnlyQuest quest)
         {
-            if (_quest == null) return;
+            base.OpenWindow();
+            _quest = quest;
             questNameText.text = _quest.QuestData.QuestName;
             questDescriptionText.text = _quest.QuestData.QuestDescription;
             clientNameText.text = _quest.Client.basicData.npcName;

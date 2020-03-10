@@ -32,7 +32,7 @@ namespace GuildMaster.InGameEvents
                 PlayerData.Instance.InGameEventManager.End();
                 return;
             }
-            UiWindowsManager.Instance.RefreshInGameEventWindow();
+            UiWindowsManager.Instance.inGameEventWindow.Refresh();
         }
 
         public void End()

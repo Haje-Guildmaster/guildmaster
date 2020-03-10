@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace GuildMaster.UI.Inventory
 {
-    public class InventoryWindow: DraggableWindow
+    public class InventoryWindow: DraggableWindow, IToggleableWindow
     {
         private void Awake()
         {
@@ -55,8 +55,9 @@ namespace GuildMaster.UI.Inventory
             }
         }
         
-        protected override void OnOpen()
+        public void Open()
         {
+            base.OpenWindow();
             Refresh();
         }
 
@@ -75,15 +76,20 @@ namespace GuildMaster.UI.Inventory
             }
         }
 
-        
+
+        private bool _changeCategoryBlock = false;    //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
+                                                      // (isOn을 수정하며 이벤트 리스너에 의해 ChangeCategory가 다시 불림)
         public void ChangeCategory(ItemCategory category)
         {
+            if (_changeCategoryBlock) return;
+            _changeCategoryBlock = true;
             _currentCategory = category;
             foreach (var ict in GetComponentsInChildren<ItemCategoryToggle>())
             {
                 ict.Toggle.isOn = ict.category == category;
             }
             Refresh();
+            _changeCategoryBlock = false;
         }
 
         public enum ItemCategory

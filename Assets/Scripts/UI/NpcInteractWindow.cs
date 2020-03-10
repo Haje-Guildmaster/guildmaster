@@ -34,9 +34,12 @@ namespace GuildMaster.UI
         }
         
         
-        
-        protected override void OnOpen()
+        public void Open(NpcStaticData npcData)
         {
+            base.OpenWindow();
+            _npcData = npcData;
+            
+            
             InitialScreen();
 
             var questTalks = PlayerData.Instance.QuestManager.GetCompletableTalkMissions(_npcData);
@@ -44,7 +47,6 @@ namespace GuildMaster.UI
                 PlayTalkMissionScript(questTalks[0]);
         }
 
-        public void SetNpc(NpcStaticData npcData) => _npcData = npcData;
         
         private NpcStaticData _npcData;
         private float _interactionListBottom;
@@ -72,7 +74,7 @@ namespace GuildMaster.UI
                 {
                     var quest = availableQuests[0];
                     PlayScript(quest.QuestSuggestScript);
-                    UiWindowsManager.Instance.OpenQuestSuggestWindow(quest, _npcData);
+                    UiWindowsManager.Instance.questSuggestWindow.Open(quest, _npcData);
                 }
                 else
                     dialogTextBox.text = "가능한 퀘스트가 없습니다.";

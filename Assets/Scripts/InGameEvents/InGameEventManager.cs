@@ -20,7 +20,7 @@ namespace GuildMaster.InGameEvents
             if (this.currentInGameEvent != null)
                 throw new System.Exception("now doing another event");
             currentInGameEvent = new InGameEvent(inGameEventData);
-            UiWindowsManager.Instance.OpenInGameEventWindow();
+            UiWindowsManager.Instance.inGameEventWindow.Open();
         }
 
         public void Choose(int choice)
@@ -35,7 +35,7 @@ namespace GuildMaster.InGameEvents
             if (this.currentInGameEvent == null)
                 throw new System.Exception("there is no current event");
             currentInGameEvent.End();
-            UiWindowsManager.Instance.CloseInGameEventWindow();
+            UiWindowsManager.Instance.inGameEventWindow.Close();
             currentInGameEvent = null;
         }
     }

@@ -107,7 +107,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000009536743}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5962914912843368114
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 6908942162379992128}
   - component: {fileID: 328869920443843000}
   - component: {fileID: 1556825963713333480}
-  - component: {fileID: 7690847017020996907}
+  - component: {fileID: -4463690195950024233}
   m_Layer: 5
   m_Name: InventoryToggleButton
   m_TagString: Untagged
@@ -190,7 +190,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 49.03, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5962914913663172799
 MonoBehaviour:
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7690847017020996907
+--- !u!114 &-4463690195950024233
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,14 +297,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5962914913663172793}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c27afe4f5494459b00a90e4cf965027, type: 3}
+  m_Script: {fileID: 11500000, guid: 961f81fe0348bc64fac40cac2b08be99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onColor:
-    m_NormalColor: {r: 0, g: 1, b: 0.9725491, a: 1}
-    m_HighlightedColor: {r: 0.019607844, g: 0.8980393, b: 0.8705883, a: 1}
-    m_PressedColor: {r: 0.019607844, g: 0.83921576, b: 0.81568635, a: 1}
-    m_SelectedColor: {r: 0, g: 1, b: 0.9725491, a: 1}
+    m_NormalColor: {r: 0, g: 1, b: 0.99010324, a: 1}
+    m_HighlightedColor: {r: 0, g: 0.9245283, b: 0.91365147, a: 1}
+    m_PressedColor: {r: 0, g: 0.8018868, b: 0.79362, a: 1}
+    m_SelectedColor: {r: 0, g: 1, b: 0.99010324, a: 1}
     m_DisabledColor: {r: 0, g: 0, b: 0, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
