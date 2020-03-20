@@ -4,11 +4,12 @@ namespace GuildMaster.Items
 {
     public class ItemDatabaseLoader: MonoBehaviour
     {
-        public ItemDatabase itemDatabase;
-        private void Awake()
+        public static ItemDatabase Loaded;
+
+        [SerializeField] private ItemDatabase itemDatabase;
+        private void Start()
         {
-            itemDatabase.SetAsSingleton();
-            Destroy(this);
+            Loaded = itemDatabase;
         }
     }
 }

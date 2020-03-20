@@ -1,5 +1,6 @@
 using System;
 using GuildMaster.Items;
+using GuildMaster.Tools;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,7 +22,7 @@ namespace GuildMaster.UI.Inventory
         {
             gameObject.SetActive(true);
             JumpToMouse();
-            var itemData = ItemDatabase.Instance.GetItemStaticData(itemCode);
+            var itemData = ItemDatabaseLoader.Loaded.GetElement(itemCode);
             itemImage.sprite = itemData.ItemImage;
             nameLabel.text = itemData.ItemName;
             descriptionLabel.text = itemData.ItemDescription;

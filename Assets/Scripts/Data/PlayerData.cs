@@ -7,6 +7,7 @@ using GuildMaster.Items;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using GuildMaster.Rewards;
+using GuildMaster.Tools;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -55,7 +56,7 @@ namespace GuildMaster.Data
         public bool TryAddItem(Item item, int number)
         {
             _inventoryMap.TryGetValue(item, out var prevItemNum);
-            var itemData = ItemDatabase.Instance.GetItemStaticData(item.Code);
+            var itemData = ItemDatabaseLoader.Loaded.GetElement(item.Code);
             var updatedNumber = prevItemNum + number;
             if (updatedNumber <= itemData.MaxStack)
                 _inventoryMap[item] = updatedNumber;

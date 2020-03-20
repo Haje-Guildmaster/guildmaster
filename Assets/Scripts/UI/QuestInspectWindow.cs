@@ -4,6 +4,7 @@ using GuildMaster.Data;
 using GuildMaster.Items;
 using GuildMaster.Quests;
 using GuildMaster.Rewards;
+using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,7 +61,7 @@ namespace GuildMaster.UI
                 case Reward.AffinityReward affinityReward:
                     return $"{affinityReward.targetNpc.basicData.npcName}의 호감도 {affinityReward.amount}";
                 case Reward.ItemReward itemReward:
-                    var itemData = ItemDatabase.Instance.GetItemStaticData(itemReward.item.Code);
+                    var itemData = ItemDatabaseLoader.Loaded.GetElement(itemReward.item.Code);
                     return $"{itemData.ItemName} x {itemReward.number}";
                 default:
                     return "알 수 없는 보상";

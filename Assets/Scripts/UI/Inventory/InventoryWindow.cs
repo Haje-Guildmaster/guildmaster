@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Items;
+using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -109,7 +110,7 @@ namespace GuildMaster.UI.Inventory
         private static bool _IsItemInCategory(Item item, ItemCategory category)
         {
             if (item == null) return false;
-            var itemData = ItemDatabase.Instance.GetItemStaticData(item.Code);
+            var itemData = ItemDatabaseLoader.Loaded.GetElement(item.Code);
             switch (category)
             {
                 case ItemCategory.Equipable:

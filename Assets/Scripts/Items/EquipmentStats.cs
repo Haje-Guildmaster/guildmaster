@@ -4,16 +4,25 @@ using UnityEngine;
 namespace GuildMaster.Items
 {
     [Serializable]
-    public struct EquipmentStats
+    public sealed class EquipmentStats
     {
-        public int atk;
-    }
-    
-    [Serializable]
-    public class EquipmentStatsRef
-    {
-        [SerializeField] private EquipmentStats equipmentStats;
+        [SerializeField] private int atk;
+        public int ATK => atk;
+        
+        
+        private bool Equals(EquipmentStats other)
+        {
+            return atk == other.atk;
+        }
 
-        public EquipmentStats EquipmentStats => equipmentStats;
+        public override bool Equals(object obj)
+        {
+            return ReferenceEquals(this, obj) || obj is EquipmentStats other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return atk;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Xml.Schema;
+using GuildMaster.Tools;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -9,35 +10,9 @@ using UnityEngine.UIElements;
 namespace GuildMaster.Items
 {
     [CustomEditor(typeof(ItemDatabase))]
-    public class ItemDatabaseEditor: Editor
+    public class ItemDatabaseEditor: DatabaseEditor<ItemDatabase, Item.ItemCode, ItemStaticData>
     {
-        private SerializedProperty _itemStaticDataMap;
-        private Item.ItemCode _itemCode;
-        // private SerializedObject _serializedItemCode;
-
-        void OnEnable()
-        {
-            _itemStaticDataMap = serializedObject.FindProperty("itemStaticDataMap");
-            _itemStaticDataMap.arraySize = Enum.GetValues(typeof(Item.ItemCode)).Cast<int>().Max();
-        }
-
-        public override void OnInspectorGUI()
-        {
-            serializedObject.Update();
-            EditorGUILayout.LabelField("Item Database");
-            _itemCode = (Item.ItemCode) EditorGUILayout.EnumPopup(_itemCode);
-
-            var itemStaticData = _itemStaticDataMap.GetArrayElementAtIndex((int) _itemCode);
-
-            EditorGUI.indentLevel++;
-            DrawItemStaticDataInspector(itemStaticData);
-            EditorGUI.indentLevel--;
-            
-            serializedObject.ApplyModifiedPropertiesWithoutUndo();
-        }
-
-        private bool _isConsumable;
-        private void DrawItemStaticDataInspector(SerializedProperty itemStaticData)
+        protected override void CurrentItemField(SerializedProperty itemStaticData)
         {
             var itemName = itemStaticData.FindPropertyRelative("itemName");
             var itemDescription = itemStaticData.FindPropertyRelative("itemDescription");
@@ -46,7 +21,7 @@ namespace GuildMaster.Items
             var maxStack = itemStaticData.FindPropertyRelative("maxStack");
             var itemImage = itemStaticData.FindPropertyRelative("itemImage");
             var isEquipable = itemStaticData.FindPropertyRelative("isEquipable");
-            var defaultEquipmentStatsRef = itemStaticData.FindPropertyRelative("defaultEquipmentStatsRef");
+            var defaultEquipmentStats = itemStaticData.FindPropertyRelative("defaultEquipmentStats");
             var isImportant = itemStaticData.FindPropertyRelative("isImportant");
 
             EditorGUILayout.PropertyField(itemName);
@@ -70,12 +45,12 @@ namespace GuildMaster.Items
             if (isEquipable.boolValue)
             {
                 EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(defaultEquipmentStatsRef);
+                EditorGUILayout.PropertyField(defaultEquipmentStats);
                 EditorGUI.indentLevel--;
             }
             else
             {
-                defaultEquipmentStatsRef.managedReferenceValue = null;
+                defaultEquipmentStats.managedReferenceValue = null;
             }
             
             EditorGUILayout.PropertyField(isImportant);

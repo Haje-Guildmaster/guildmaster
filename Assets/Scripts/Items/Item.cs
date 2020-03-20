@@ -4,14 +4,15 @@ using UnityEngine;
 namespace GuildMaster.Items
 {
     [Serializable]
+    // Immutable...이길 바랍니다. (readonly를 못쓰다보니..)
     public sealed class Item
     {
-        [SerializeReference][SerializeReferenceButton] private EquipmentStatsRef equipmentStatsRef;
+        [SerializeReference][SerializeReferenceButton] private EquipmentStats equipmentStats;
         [SerializeField] private ItemCode code;
         
         
-        public bool EquipAble => equipmentStatsRef != null;
-        public EquipmentStats EquipmentStats => equipmentStatsRef.EquipmentStats;
+        public bool EquipAble => equipmentStats != null;
+        public EquipmentStats EquipmentStats => equipmentStats;
         public ItemCode Code => code;
         
         public enum ItemCode
@@ -22,9 +23,9 @@ namespace GuildMaster.Items
         private bool Equals(Item other)
         {
             if (code != other.code) return false;
-            if (equipmentStatsRef == null)
-                return other.equipmentStatsRef == null;
-            return (other.equipmentStatsRef != null) && EquipmentStats.Equals(other.EquipmentStats);
+            if (equipmentStats == null)
+                return other.equipmentStats == null;
+            return (other.equipmentStats != null) && EquipmentStats.Equals(other.EquipmentStats);
         }
 
         public override bool Equals(object obj)
@@ -36,7 +37,7 @@ namespace GuildMaster.Items
         {
             unchecked
             {
-                return ((equipmentStatsRef != null ? equipmentStatsRef.EquipmentStats.GetHashCode() : 0) * 397) ^ (int) code;
+                return ((equipmentStats != null ? equipmentStats.GetHashCode() : 0) * 397) ^ (int) code;
             }
         }
     }

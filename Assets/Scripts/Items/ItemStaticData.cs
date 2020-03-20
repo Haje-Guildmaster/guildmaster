@@ -4,7 +4,6 @@ using UnityEngine;
 namespace GuildMaster.Items
 {
     [Serializable]
-    // struct로 하지 않는 이유는 차피 effect의 내부 변수를 수정함으로서 원본을 수정할 수 있으므로.
     public class ItemStaticData
     {
         [SerializeField] private string itemName;
@@ -14,7 +13,7 @@ namespace GuildMaster.Items
         [SerializeField] private int maxStack;
         [SerializeField] private Sprite itemImage;
         [SerializeField] private bool isEquipable;
-        [SerializeReference][SerializeReferenceButton] private EquipmentStatsRef defaultEquipmentStatsRef;
+        [SerializeReference][SerializeReferenceButton] private EquipmentStats defaultEquipmentStats;
         [SerializeField] private bool isImportant;
         
         public ItemEffect ConsumptionEffect => consumptionEffect;
@@ -26,6 +25,6 @@ namespace GuildMaster.Items
         public bool IsImportant => isImportant;
 
         public bool IsEquipable => isEquipable;
-        public EquipmentStats DefaultEquipmentStats => defaultEquipmentStatsRef.EquipmentStats;
+        public EquipmentStats DefaultEquipmentStats => defaultEquipmentStats;
     }
 }
