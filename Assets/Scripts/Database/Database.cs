@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GuildMaster.Tools
+namespace GuildMaster.Database
 {
     public interface IDatabase<in TEnum, out TElement> where TEnum : Enum
     {

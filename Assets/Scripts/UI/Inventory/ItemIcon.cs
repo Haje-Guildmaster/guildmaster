@@ -14,7 +14,7 @@ namespace GuildMaster.UI.Inventory
         public void UpdateAppearance(Item item, int number)
         {
             this._item = item;
-            itemImage.sprite = ItemDatabaseLoader.Loaded.GetElement(item.Code).ItemImage;
+            itemImage.sprite = ItemDatabase.Instance.GetElement(item.Code).ItemImage;
             itemNumberLabel.text = number.ToString();
         }
 

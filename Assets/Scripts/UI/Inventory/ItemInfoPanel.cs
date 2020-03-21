@@ -22,7 +22,7 @@ namespace GuildMaster.UI.Inventory
         {
             gameObject.SetActive(true);
             JumpToMouse();
-            var itemData = ItemDatabaseLoader.Loaded.GetElement(itemCode);
+            var itemData = ItemDatabase.Instance.GetElement(itemCode);
             itemImage.sprite = itemData.ItemImage;
             nameLabel.text = itemData.ItemName;
             descriptionLabel.text = itemData.ItemDescription;

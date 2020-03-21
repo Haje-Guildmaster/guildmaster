@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.WSA;
 
-namespace GuildMaster.Tools
+namespace GuildMaster.Database
 {
     public abstract class DatabaseEditor<TDb, TEnum, TElement>: Editor where TDb: Database<TEnum, TElement> where TEnum: Enum
     {

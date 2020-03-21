@@ -56,7 +56,7 @@ namespace GuildMaster.Data
         public bool TryAddItem(Item item, int number)
         {
             _inventoryMap.TryGetValue(item, out var prevItemNum);
-            var itemData = ItemDatabaseLoader.Loaded.GetElement(item.Code);
+            var itemData = ItemDatabase.Instance.GetElement(item.Code);
             var updatedNumber = prevItemNum + number;
             if (updatedNumber <= itemData.MaxStack)
                 _inventoryMap[item] = updatedNumber;

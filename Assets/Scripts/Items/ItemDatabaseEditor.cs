@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Xml.Schema;
+using GuildMaster.Database;
 using GuildMaster.Tools;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -52,7 +53,7 @@ namespace GuildMaster.Items
             {
                 defaultEquipmentStats.managedReferenceValue = null;
             }
-            
+
             EditorGUILayout.PropertyField(isImportant);
         }
     }
