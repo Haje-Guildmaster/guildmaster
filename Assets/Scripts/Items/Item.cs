@@ -8,17 +8,12 @@ namespace GuildMaster.Items
     public sealed class Item
     {
         [SerializeReference][SerializeReferenceButton] private EquipmentStats equipmentStats;
-        [SerializeField] private ItemCode code;
+        [SerializeField] private ItemDatabaseIndex code;
         
         
         public bool EquipAble => equipmentStats != null;
         public EquipmentStats EquipmentStats => equipmentStats;
-        public ItemCode Code => code;
-        
-        public enum ItemCode
-        {
-            RedPotion, YellowAxe, SnailShell
-        }
+        public ItemDatabaseIndex Code => code;
 
         private bool Equals(Item other)
         {
@@ -37,7 +32,7 @@ namespace GuildMaster.Items
         {
             unchecked
             {
-                return ((equipmentStats != null ? equipmentStats.GetHashCode() : 0) * 397) ^ (int) code;
+                return ((equipmentStats != null ? equipmentStats.GetHashCode() : 0) * 397) ^ code.Value;
             }
         }
     }

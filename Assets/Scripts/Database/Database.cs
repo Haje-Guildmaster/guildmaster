@@ -4,19 +4,27 @@ using UnityEngine;
 
 namespace GuildMaster.Database
 {
-    public interface IDatabase<in TEnum, out TElement> where TEnum : Enum
+    public interface IDatabase<in TIndex, out TElement> where TIndex: DatabaseIndex
     {
-        TElement GetElement(TEnum code);
+        TElement GetElement(TIndex index);
     }
     
     [Serializable]
-    public abstract class Database<TEnum, TElement>: ScriptableObject, IDatabase<TEnum, TElement> where TEnum: Enum
+    public abstract class Database<TIndex, TElement>: ScriptableObject, IDatabase<TIndex, TElement> where TIndex: DatabaseIndex
     {
-        public TElement GetElement(TEnum code)
+        public TElement GetElement(TIndex index)
         {
-            return dataList[Convert.ToInt32(code)];
+            return dataList[index.Value];
         }
 
         public List<TElement> dataList;
+    }
+
+    [Serializable]
+    public abstract class EditableDatabase<TIndex, TElement> : Database<TIndex, TElement>
+        where TIndex : DatabaseIndex, new()
+    {
+    // DatabaseEditor을 위한 약간의 편법.
+    public TIndex currentEditingIndex = new TIndex();
     }
 }

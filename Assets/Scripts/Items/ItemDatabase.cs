@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using GuildMaster.Database;
 using UnityEngine;
@@ -5,10 +6,10 @@ using UnityEngine;
 namespace GuildMaster.Items
 {
     [CreateAssetMenu(fileName = "ItemDatabase", menuName = "ScriptableObjects/ItemDatabase", order = 0)]
-    public class ItemDatabase : Database<Item.ItemCode, ItemStaticData>
+    public class ItemDatabase : EditableDatabase<ItemDatabaseIndex, ItemStaticData>
     {
         private static ItemDatabase _instance = null;
-        public static IDatabase<Item.ItemCode, ItemStaticData> Instance
+        public static IDatabase<ItemDatabaseIndex, ItemStaticData> Instance
         {
             get
             {
@@ -18,4 +19,7 @@ namespace GuildMaster.Items
             }
         }
     }
+
+    [Serializable]
+    public class ItemDatabaseIndex : DatabaseIndex {}
 }

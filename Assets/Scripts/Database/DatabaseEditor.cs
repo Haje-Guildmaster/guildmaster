@@ -7,22 +7,30 @@ using UnityEngine.WSA;
 
 namespace GuildMaster.Database
 {
-    public abstract class DatabaseEditor<TDb, TEnum, TElement>: Editor where TDb: Database<TEnum, TElement> where TEnum: Enum
+    public abstract class DatabaseEditor<TDb, TIndex, TElement>: Editor where TDb: EditableDatabase<TIndex, TElement> where TIndex: DatabaseIndex, new()
     {
         private SerializedProperty _dataList;
-        private TEnum _editingIndex; 
+        private SerializedProperty _serializedIndex;
+
         
         private void OnEnable()
         {
             _dataList = serializedObject.FindProperty("dataList");
-            _dataList.arraySize = Enum.GetValues(typeof(TEnum)).Cast<int>().Max()+1;
-            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            _serializedIndex = serializedObject.FindProperty("currentEditingIndex");
+            // int i = 1;
         }
 
         public override void OnInspectorGUI()
         {
-            serializedObject.Update();
             GUILayout.Label(GetType().Name, EditorStyles.boldLabel);
+
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Label("list size:");
+                _dataList.arraySize = EditorGUILayout.IntField(_dataList.arraySize);
+            }
+            GUILayout.EndHorizontal();
+            
             
             GUILayout.BeginHorizontal();
             {
@@ -41,14 +49,24 @@ namespace GuildMaster.Database
             }
             GUILayout.EndHorizontal();
 
-            _editingIndex = (TEnum) EditorGUILayout.EnumPopup(_editingIndex);
-            var currentItem = _dataList.GetArrayElementAtIndex(Convert.ToInt32(_editingIndex));
+            // _serializedIndex.FindPropertyRelative("Value").intValue = 1;
+            EditorGUILayout.PropertyField(_serializedIndex);
+            var currentItem = _dataList.GetArrayElementAtIndex(_serializedIndex.FindPropertyRelative("Value").intValue);
+            // var currentItem = _dataList.GetArrayElementAtIndex(0);
+            
             // if (currentItem == null) return;
             
+            GUILayout.Space(20);
+            GUILayout.Label("Current Item: ");
             EditorGUI.indentLevel++;
-            CurrentItemField(currentItem);
+            if (currentItem!=null)
+               CurrentItemField(currentItem);
+            else
+            {
+                GUILayout.Label("Null");
+            }
             EditorGUI.indentLevel--;
-            
+
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
 
