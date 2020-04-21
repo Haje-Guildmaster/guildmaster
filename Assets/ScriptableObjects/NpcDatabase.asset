@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75e8f37b2e39438e9084919ebb609665, type: 3}
+  m_Name: NpcDatabase
+  m_EditorClassIdentifier: 
+  dataList:
+  - basicData:
+      npcName: Deligo
+      illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}
+      greeting: "\u3141\u3134\u3147\u3139"
+    questData:
+      questList:
+      - {fileID: 11400000, guid: daa6bc9096189c34aa370b17e9a63d3b, type: 2}
+  - basicData:
+      npcName: HWANG
+      illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
+      greeting: "\uBC18\uAC00\uC6CC\uC6A9"
+    questData:
+      questList: []
+  currentEditingIndex:
+    Value: 1

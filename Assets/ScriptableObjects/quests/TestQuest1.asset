@@ -42,36 +42,42 @@ MonoBehaviour:
     00000001:
       type: {class: StepMission/TalkMission, ns: GuildMaster.Quests, asm: Assembly-CSharp}
       data:
-        talkTo: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
+        talkTo:
+          Value: 1
         script:
           str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 1 => Deligo"
     00000002:
       type: {class: StepMission/TalkMission, ns: GuildMaster.Quests, asm: Assembly-CSharp}
       data:
-        talkTo: {fileID: 11400000, guid: fe98045256db20c43b43d0c978485e3e, type: 2}
+        talkTo:
+          Value: 0
         script:
           str: "\uD018\uC2A4\uD2B8 \uC2A4\uD06C\uB9BD\uD2B8 2 => Hwang"
     00000003:
       type: {class: StepMission/TalkMission, ns: GuildMaster.Quests, asm: Assembly-CSharp}
       data:
-        talkTo: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
+        talkTo:
+          Value: 1
         script:
           str: "\uD018\uC2A4\uD2B8 \uB05D."
     00000004:
       type: {class: Reward/AffinityReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
       data:
-        targetNpc: {fileID: 11400000, guid: fe98045256db20c43b43d0c978485e3e, type: 2}
+        targetNpc:
+          Value: 0
         amount: 20
     00000005:
       type: {class: Reward/AffinityReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
       data:
-        targetNpc: {fileID: 11400000, guid: bfa142f2442638c47946855ec846e854, type: 2}
+        targetNpc:
+          Value: 0
         amount: 40
     00000006:
       type: {class: Reward/ItemReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
       data:
         item:
-          equipmentStatsRef:
+          equipmentStats:
             id: 0
-          code: 0
+          code:
+            Value: 0
         number: 50

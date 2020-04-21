@@ -2,6 +2,7 @@
 using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Items;
+using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using GuildMaster.Rewards;
 using GuildMaster.Tools;
@@ -12,6 +13,7 @@ namespace GuildMaster.UI
 {
     public class QuestInspectWindow: DraggableWindow
     {
+        // Todo: 완료시 포기버튼 숨기기.
         public Text questNameText;
         public Text questDescriptionText;
         public Text clientNameText;
@@ -35,7 +37,7 @@ namespace GuildMaster.UI
             _quest = quest;
             questNameText.text = _quest.QuestData.QuestName;
             questDescriptionText.text = _quest.QuestData.QuestDescription;
-            clientNameText.text = _quest.Client.basicData.npcName;
+            clientNameText.text = NpcDatabase.Instance.GetElement(_quest.Client).basicData.npcName;
             
             foreach (Transform child in rewardTextListParent)
                 Destroy(child.gameObject);
@@ -59,7 +61,7 @@ namespace GuildMaster.UI
             switch (reward)
             {
                 case Reward.AffinityReward affinityReward:
-                    return $"{affinityReward.targetNpc.basicData.npcName}의 호감도 {affinityReward.amount}";
+                    return $"{NpcDatabase.Instance.GetElement(affinityReward.targetNpc).basicData.npcName}의 호감도 {affinityReward.amount}";
                 case Reward.ItemReward itemReward:
                     var itemData = ItemDatabase.Instance.GetElement(itemReward.item.Code);
                     return $"{itemData.ItemName} x {itemReward.number}";

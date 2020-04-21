@@ -13,7 +13,7 @@ namespace GuildMaster.Quests
 
         public int QuestId => _quest.QuestId;
         public QuestStaticData QuestData => _quest.QuestData;
-        public NpcStaticData Client => _quest.Client;
+        public NpcCode Client => _quest.Client;
         public int StepIndex => _quest.StepIndex;
         public QuestStep CurrentStep => _quest.CurrentStep;
         public bool CanCompleteQuest => _quest.CanCompleteQuest;

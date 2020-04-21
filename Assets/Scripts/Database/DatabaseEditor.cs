@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.WSA;
 
@@ -18,7 +19,7 @@ namespace GuildMaster.Database
         {
             _dataList = serializedObject.FindProperty("dataList");
             _serializedIndex = serializedObject.FindProperty("currentEditingIndex");
-            var i = 1;
+            // var i = 1;
         }
 
         public override void OnInspectorGUI()
@@ -51,6 +52,7 @@ namespace GuildMaster.Database
             GUILayout.EndHorizontal();
 
             // _serializedIndex.FindPropertyRelative("Value").intValue = 1;
+            _serializedIndex.isExpanded = true;
             EditorGUILayout.PropertyField(_serializedIndex);
 
             var index = _serializedIndex.FindPropertyRelative("Value").intValue;
@@ -75,7 +77,8 @@ namespace GuildMaster.Database
 
         protected virtual void CurrentItemField(SerializedProperty currentItem)
         {
-            EditorGUILayout.PropertyField(currentItem);
+            currentItem.isExpanded = true;
+            EditorGUILayout.PropertyField(currentItem, new GUIContent());
         }
 
         private void SaveToJson(string filepath)

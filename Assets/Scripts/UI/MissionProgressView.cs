@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GuildMaster.Data;
+using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,7 +53,7 @@ namespace GuildMaster.UI
             switch (mission)
             {
                 case StepMission.TalkMission talkMission:
-                    ret =  $"{talkMission.talkTo.basicData.npcName}와 대화.";
+                    ret =  $"{NpcDatabase.Instance.GetElement(talkMission.talkTo).basicData.npcName}와 대화.";
                     break;
                 default:
                     ret = "알 수 없는 미션.";

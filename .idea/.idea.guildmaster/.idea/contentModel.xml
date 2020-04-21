@@ -39,6 +39,7 @@
             <e p="Database.cs" t="Include" />
             <e p="DatabaseEditor.cs" t="Include" />
             <e p="DatabaseIndexDrawer.cs" t="Include" />
+            <e p="DatabaseLoader.cs" t="Include" />
           </e>
           <e p="Dialog" t="Include">
             <e p="FadeIn.cs" t="Include" />
@@ -66,6 +67,7 @@
           </e>
           <e p="Npcs" t="Include">
             <e p="NpcBasicData.cs" t="Include" />
+            <e p="NpcDatabase.cs" t="Include" />
             <e p="NpcQuestData.cs" t="Include" />
             <e p="NpcRoamData.cs" t="Include" />
             <e p="NpcStaticData.cs" t="Include" />

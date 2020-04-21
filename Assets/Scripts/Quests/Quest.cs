@@ -10,7 +10,7 @@ namespace GuildMaster.Quests
     // QuestData의 iterator.
     public class Quest
     {
-        public Quest(QuestStaticData questData, NpcStaticData client)
+        public Quest(QuestStaticData questData, NpcCode client)
         {
             QuestId = _idCnt++;
             QuestData = questData;
@@ -21,7 +21,7 @@ namespace GuildMaster.Quests
         
         public readonly int QuestId;
         public readonly QuestStaticData QuestData;
-        public readonly NpcStaticData Client;
+        public readonly NpcCode Client;
 
         public int StepIndex { get; private set; }
         public QuestStep CurrentStep => QuestData.Steps.ElementAtOrDefault(StepIndex);

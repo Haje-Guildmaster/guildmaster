@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GuildMaster.Npcs
 {
-    [CreateAssetMenu(fileName = "Npc", menuName = "ScriptableObjects/NpcStaticData", order = 0)]
-    public class NpcStaticData : ScriptableObject
+    [Serializable]
+    public class NpcStaticData
     {
         public NpcBasicData basicData;
         public NpcRoamData roamData;

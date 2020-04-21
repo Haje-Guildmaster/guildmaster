@@ -34,26 +34,28 @@ namespace GuildMaster.UI
         }
         
         
-        public void Open(NpcStaticData npcData)
+        public void Open(NpcCode npc)
         {
             base.OpenWindow();
-            _npcData = npcData;
+            _npcCode = npc;
+            _npcDataCache = NpcDatabase.Instance.GetElement(npc);
             
             
             InitialScreen();
 
-            var questTalks = PlayerData.Instance.QuestManager.GetCompletableTalkMissions(_npcData);
+            var questTalks = PlayerData.Instance.QuestManager.GetCompletableTalkMissions(_npcCode);
             if (questTalks.Any())
                 PlayTalkMissionScript(questTalks[0]);
         }
 
-        
-        private NpcStaticData _npcData;
+
+        private NpcCode _npcCode;
+        private NpcStaticData _npcDataCache;
         private float _interactionListBottom;
         private const float InteractionButtonYDiff = 43f;
         private void InitialScreen()
         {
-            var basicData = _npcData.basicData;
+            var basicData = _npcDataCache.basicData;
             illustration.sprite = basicData.illustration;
             dialogTextBox.text = $"[{basicData.npcName}]\n{basicData.greeting}";
             InitializeInteractionButtonList();
@@ -69,12 +71,12 @@ namespace GuildMaster.UI
             AddInteractionButtonToList("퀘스트 받기", ()=>
             {
                 var questManager = PlayerData.Instance.QuestManager;
-                var availableQuests = questManager.GetAvailableQuestsFrom(_npcData.questData.QuestList);
+                var availableQuests = questManager.GetAvailableQuestsFrom(_npcDataCache.questData.QuestList);
                 if (availableQuests.Any())
                 {
                     var quest = availableQuests[0];
                     PlayScript(quest.QuestSuggestScript);
-                    UiWindowsManager.Instance.questSuggestWindow.Open(quest, _npcData);
+                    UiWindowsManager.Instance.questSuggestWindow.Open(quest, _npcCode);
                 }
                 else
                     dialogTextBox.text = "가능한 퀘스트가 없습니다.";
@@ -102,7 +104,7 @@ namespace GuildMaster.UI
 
         private void UpdateAffinityBar()
         {
-            affinityBar.SetProgress((float) PlayerData.Instance.GetNpcStatus(_npcData).Affinity / 100);
+            affinityBar.SetProgress((float) PlayerData.Instance.GetNpcStatus(_npcCode).Affinity / 100);
         }
     }
 }

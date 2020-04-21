@@ -27,15 +27,15 @@ namespace GuildMaster.Data
         public event Action InventoryChanged;
         public readonly QuestManager QuestManager;
         public readonly InGameEventManager InGameEventManager;
-        private readonly Dictionary<NpcStaticData, NpcStatus> _npcStatusMap = new Dictionary<NpcStaticData, NpcStatus>();
+        private readonly Dictionary<int, NpcStatus> _npcStatusMap = new Dictionary<int, NpcStatus>();        // array로 바꿀수도.
         private readonly Dictionary<Item, int> _inventoryMap = new Dictionary<Item, int>();
 
         public IEnumerable<(Item item, int number)> GetInventory() => _inventoryMap.Select(a=>(a.Key, a.Value));
         private int _level = 1;
         
-        [NotNull] public NpcStatus GetNpcStatus(NpcStaticData npc)
+        [NotNull] public NpcStatus GetNpcStatus(NpcCode npc)
         {
-            return _npcStatusMap.TryGetValue(npc, out var ret) ? ret: _AddNpcStatus(npc);
+            return _npcStatusMap.TryGetValue(npc.Value, out var ret)? ret : _AddNpcStatus(npc);
         }
 
         public void ApplyReward(Reward reward)
@@ -94,10 +94,10 @@ namespace GuildMaster.Data
         }
 
 
-        [NotNull] private NpcStatus _AddNpcStatus(NpcStaticData npc)
+        [NotNull] private NpcStatus _AddNpcStatus(NpcCode npc)
         {
             var made = new NpcStatus();
-            _npcStatusMap.Add(npc, made);
+            _npcStatusMap.Add(npc.Value, made);
             made.Changed += Changed;
             Changed?.Invoke();
             return made;

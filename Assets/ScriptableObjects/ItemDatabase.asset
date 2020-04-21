@@ -48,7 +48,7 @@ MonoBehaviour:
       id: 0
     isImportant: 0
   currentEditingIndex:
-    Value: 1
+    Value: 0
   references:
     version: 1
     00000000:

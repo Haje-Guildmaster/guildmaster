@@ -23,7 +23,7 @@ namespace GuildMaster.Quests
         }
         
 
-        public bool ReceiveQuest(QuestStaticData questData, NpcStaticData client)
+        public bool ReceiveQuest(QuestStaticData questData, NpcCode client)
         {
             if (!CanReceiveQuest(questData)) return false;
             _quests.Add(new Quest(questData, client));
@@ -48,7 +48,7 @@ namespace GuildMaster.Quests
         public List<ReadOnlyQuest> CurrentQuests() 
             => _quests.Select(q => new ReadOnlyQuest(q)).ToList();
 
-        public List<StepMission.TalkMission> GetCompletableTalkMissions(NpcStaticData npcData)
+        public List<StepMission.TalkMission> GetCompletableTalkMissions(NpcCode npc)
         {
             return _quests
                 .Where(q => _playerData.CheckCondition(q.CurrentStep.StepCondition))
@@ -56,7 +56,7 @@ namespace GuildMaster.Quests
                 .Where(mp => (mp.progress<mp.mission.MaxProgress))
                 .Select(mp => mp.mission)
                 .OfType<StepMission.TalkMission>()
-                .Where(tm=> tm.talkTo == npcData)
+                .Where(tm=> tm.talkTo == npc)
                 .ToList();
         }
         public List<QuestStaticData> GetAvailableQuestsFrom(IEnumerable<QuestStaticData> quests) => quests.Where(CanReceiveQuest).ToList();

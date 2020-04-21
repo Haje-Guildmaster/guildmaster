@@ -8,12 +8,12 @@ namespace GuildMaster.Items
     public sealed class Item
     {
         [SerializeReference][SerializeReferenceButton] private EquipmentStats equipmentStats;
-        [SerializeField] private ItemDatabase.Index code;
+        [SerializeField] private ItemCode code;
         
         
         public bool EquipAble => equipmentStats != null;
         public EquipmentStats EquipmentStats => equipmentStats;
-        public ItemDatabase.Index Code => code;
+        public ItemCode Code => code;
 
         private bool Equals(Item other)
         {

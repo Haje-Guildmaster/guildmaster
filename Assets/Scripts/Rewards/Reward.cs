@@ -12,7 +12,7 @@ namespace GuildMaster.Rewards
         [Serializable]
         public class AffinityReward : Reward
         {
-            public NpcStaticData targetNpc;
+            public NpcCode targetNpc;
             public int amount;
         }
 

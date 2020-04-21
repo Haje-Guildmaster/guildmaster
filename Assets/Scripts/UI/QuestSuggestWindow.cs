@@ -19,13 +19,15 @@ namespace GuildMaster.UI
         [SerializeField] private Text clientNameText;
 
         private QuestStaticData _questData;
-        private NpcStaticData _npcData;
+        private NpcCode _npc;
+        private NpcStaticData _npcStaticDataCache;
 
-        public void Open(QuestStaticData questData, NpcStaticData npcData)
+        public void Open(QuestStaticData questData, NpcCode npc)
         {
             base.OpenWindow();
             _questData = questData;
-            _npcData = npcData;
+            _npc = npc;
+            _npcStaticDataCache = NpcDatabase.Instance.GetElement(npc);
             Refresh();
         }
 
@@ -33,12 +35,12 @@ namespace GuildMaster.UI
         {
             questNameText.text = _questData.QuestName;
             questDescriptionText.text = _questData.QuestDescription;
-            clientNameText.text = _npcData.basicData.npcName;
+            clientNameText.text = _npcStaticDataCache.basicData.npcName;
         }
 
         public void AcceptQuest()
         {
-            PlayerData.Instance.QuestManager.ReceiveQuest(_questData, _npcData);
+            PlayerData.Instance.QuestManager.ReceiveQuest(_questData, _npc);
             Accepted?.Invoke();
             Close();
         }

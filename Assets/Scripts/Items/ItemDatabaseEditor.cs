@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 namespace GuildMaster.Items
 {
     [CustomEditor(typeof(ItemDatabase))]
-    public class ItemDatabaseEditor: DatabaseEditor<ItemDatabase, ItemStaticData, _ItemDatabaseIndex>
+    public class ItemDatabaseEditor: DatabaseEditor<ItemDatabase, ItemStaticData, ItemCode>
     {
         protected override void CurrentItemField(SerializedProperty itemStaticData)
         {

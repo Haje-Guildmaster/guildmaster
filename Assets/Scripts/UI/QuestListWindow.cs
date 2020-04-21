@@ -1,5 +1,6 @@
 ﻿using System;
 using GuildMaster.Data;
+using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using UnityEngine;
 
@@ -45,7 +46,7 @@ namespace GuildMaster.UI
             var item = Instantiate(questListItemPrefab, listItemsParent);
             item.clickChecker.onClick.AddListener(()=>UiWindowsManager.Instance.questInspectWindow.Open(quest));
             item.questNameText.text = quest.QuestData.QuestName;
-            item.questClientText.text = quest.Client.basicData.npcName;
+            item.questClientText.text = NpcDatabase.Instance.GetElement(quest.Client).basicData.npcName;
             
             
             item.transform.localPosition += new Vector3(0, _listBottom, 0);

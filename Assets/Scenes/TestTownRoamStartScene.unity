@@ -4013,10 +4013,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 731110492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80c169280f6044f59e0f8501053935ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 5185de2cf29145b09f814a1239cc230b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemDatabase: {fileID: 11400000, guid: 51c68d944a5e3324fb5ed84beca52d49, type: 2}
+  npcDatabase: {fileID: 11400000, guid: 24262711775cdba489a3899c94aae0c4, type: 2}
 --- !u!1001 &742437429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10397,10 +10398,11 @@ MonoBehaviour:
       type: {class: Reward/ItemReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
       data:
         item:
-          equipmentStatsRef:
+          equipmentStats:
             id: 1
-          code: 0
-        number: 11
+          code:
+            Value: 0
+        number: 123
     00000001:
       type: {class: , ns: , asm: }
 --- !u!4 &1645112780

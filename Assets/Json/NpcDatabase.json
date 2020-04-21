@@ -1,0 +1,37 @@
+{
+  "dataList": [
+    {
+      "basicData": {
+        "npcName": "Deligo",
+        "illustration": {
+          "instanceID": 15380
+        },
+        "greeting": "ㅁㄴㅇㄹ"
+      },
+      "roamData": {},
+      "questData": {
+        "questList": [
+          {
+            "instanceID": 13968
+          }
+        ]
+      }
+    },
+    {
+      "basicData": {
+        "npcName": "HWANG",
+        "illustration": {
+          "instanceID": 14280
+        },
+        "greeting": "반가워용"
+      },
+      "roamData": {},
+      "questData": {
+        "questList": []
+      }
+    }
+  ],
+  "currentEditingIndex": {
+    "Value": 1
+  }
+}
