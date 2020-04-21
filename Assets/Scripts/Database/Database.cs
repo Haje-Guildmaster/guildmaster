@@ -1,18 +1,28 @@
 using System;
 using System.Collections.Generic;
+using GuildMaster.Items;
 using UnityEngine;
 
 namespace GuildMaster.Database
 {
-    public interface IDatabase<in TIndex, out TElement> where TIndex: DatabaseIndex
-    {
-        TElement GetElement(TIndex index);
-    }
-    
     [Serializable]
-    public abstract class Database<TIndex, TElement>: ScriptableObject, IDatabase<TIndex, TElement> where TIndex: DatabaseIndex
+    public abstract class Database<TSelf, TElement> : ScriptableObject
     {
-        public TElement GetElement(TIndex index)
+        [Serializable]
+        public class Index
+        {
+            public int Value;
+        }
+
+        public static TSelf Instance { get; private set; }
+
+        public static void LoadSingleton(TSelf database)
+        {
+            Instance = database;
+        }
+
+
+        public TElement GetElement(Index index)
         {
             return dataList[index.Value];
         }
@@ -21,10 +31,10 @@ namespace GuildMaster.Database
     }
 
     [Serializable]
-    public abstract class EditableDatabase<TIndex, TElement> : Database<TIndex, TElement>
-        where TIndex : DatabaseIndex, new()
+    public abstract class UnityEditableDatabase<TSelf, TElement, TIndex> : Database<TSelf, TElement>
+        where TIndex : Database<TSelf, TElement>.Index, new()
     {
-    // DatabaseEditor을 위한 약간의 편법.
-    public TIndex currentEditingIndex = new TIndex();
+        // DatabaseEditor을 위한 약간의 편법.
+        public TIndex currentEditingIndex = new TIndex();
     }
 }

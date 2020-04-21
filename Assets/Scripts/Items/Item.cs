@@ -4,16 +4,16 @@ using UnityEngine;
 namespace GuildMaster.Items
 {
     [Serializable]
-    // Immutable...이길 바랍니다. (readonly를 못쓰다보니..)
+    // Immutable(이길 바랍니다..)
     public sealed class Item
     {
         [SerializeReference][SerializeReferenceButton] private EquipmentStats equipmentStats;
-        [SerializeField] private ItemDatabaseIndex code;
+        [SerializeField] private ItemDatabase.Index code;
         
         
         public bool EquipAble => equipmentStats != null;
         public EquipmentStats EquipmentStats => equipmentStats;
-        public ItemDatabaseIndex Code => code;
+        public ItemDatabase.Index Code => code;
 
         private bool Equals(Item other)
         {

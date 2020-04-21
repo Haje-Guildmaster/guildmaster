@@ -9,7 +9,7 @@
       },
       "maxStack": 123,
       "itemImage": {
-        "instanceID": 14246
+        "instanceID": 14274
       },
       "isEquipable": false,
       "defaultEquipmentStats": {
@@ -26,7 +26,7 @@
       },
       "maxStack": 1,
       "itemImage": {
-        "instanceID": 15234
+        "instanceID": 15260
       },
       "isEquipable": true,
       "defaultEquipmentStats": {
@@ -43,7 +43,7 @@
       },
       "maxStack": 999,
       "itemImage": {
-        "instanceID": 14256
+        "instanceID": 14284
       },
       "isEquipable": false,
       "defaultEquipmentStats": {
@@ -52,6 +52,9 @@
       "isImportant": false
     }
   ],
+  "currentEditingIndex": {
+    "Value": 2
+  },
   "references": {
     "version": 1,
     "00000000": {

@@ -18,7 +18,7 @@ namespace GuildMaster.UI.Inventory
             JumpToMouse();
         }
         
-        public int Open(ItemDatabaseIndex itemCode)
+        public int Open(ItemDatabase.Index itemCode)
         {
             gameObject.SetActive(true);
             JumpToMouse();

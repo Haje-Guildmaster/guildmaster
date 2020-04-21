@@ -7,17 +7,18 @@ using UnityEngine.WSA;
 
 namespace GuildMaster.Database
 {
-    public abstract class DatabaseEditor<TDb, TIndex, TElement>: Editor where TDb: EditableDatabase<TIndex, TElement> where TIndex: DatabaseIndex, new()
+    public abstract class DatabaseEditor<TDb, TElement, TIndex> : 
+        Editor where TDb : UnityEditableDatabase<TDb, TElement, TIndex> where TIndex: Database<TDb, TElement>.Index, new()
     {
         private SerializedProperty _dataList;
         private SerializedProperty _serializedIndex;
 
-        
+
         private void OnEnable()
         {
             _dataList = serializedObject.FindProperty("dataList");
             _serializedIndex = serializedObject.FindProperty("currentEditingIndex");
-            // int i = 1;
+            var i = 1;
         }
 
         public override void OnInspectorGUI()
@@ -30,8 +31,8 @@ namespace GuildMaster.Database
                 _dataList.arraySize = EditorGUILayout.IntField(_dataList.arraySize);
             }
             GUILayout.EndHorizontal();
-            
-            
+
+
             GUILayout.BeginHorizontal();
             {
                 GUILayout.Label("Json: ");
@@ -51,20 +52,22 @@ namespace GuildMaster.Database
 
             // _serializedIndex.FindPropertyRelative("Value").intValue = 1;
             EditorGUILayout.PropertyField(_serializedIndex);
-            var currentItem = _dataList.GetArrayElementAtIndex(_serializedIndex.FindPropertyRelative("Value").intValue);
-            // var currentItem = _dataList.GetArrayElementAtIndex(0);
-            
-            // if (currentItem == null) return;
+
+            var index = _serializedIndex.FindPropertyRelative("Value").intValue;
+            var validIndex = 0 <= index && index < _dataList.arraySize;
+            var currentItem = (validIndex)
+                    ? _dataList.GetArrayElementAtIndex(index) : null;
             
             GUILayout.Space(20);
             GUILayout.Label("Current Item: ");
             EditorGUI.indentLevel++;
-            if (currentItem!=null)
-               CurrentItemField(currentItem);
+            if (currentItem != null)
+                CurrentItemField(currentItem);
             else
             {
                 GUILayout.Label("Null");
             }
+
             EditorGUI.indentLevel--;
 
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
@@ -80,10 +83,11 @@ namespace GuildMaster.Database
             var str = JsonUtility.ToJson(serializedObject.targetObject);
             File.WriteAllText(filepath, str);
         }
+
         private void LoadFromJson(string filepath)
         {
-             JsonUtility.FromJsonOverwrite(File.ReadAllText(filepath), serializedObject.targetObject);
-             serializedObject.Update();
+            JsonUtility.FromJsonOverwrite(File.ReadAllText(filepath), serializedObject.targetObject);
+            serializedObject.Update();
         }
     }
 }
