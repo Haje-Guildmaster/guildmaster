@@ -10,7 +10,6 @@ namespace GuildMaster.Npcs
     public class NpcDatabase : UnityEditableDatabase<NpcDatabase, NpcStaticData, NpcCode>
     {}
 
-    // 유니티 serialization을 위해.
     [Serializable]
     public class NpcCode : NpcDatabase.Index {}
 

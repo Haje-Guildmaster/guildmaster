@@ -10,21 +10,21 @@ namespace GuildMaster.Quests
     // QuestData의 iterator.
     public class Quest
     {
-        public Quest(QuestStaticData questData, NpcCode client)
+        public Quest(QuestCode questCode, NpcCode client)
         {
             QuestId = _idCnt++;
-            QuestData = questData;
+            QuestCode = questCode;
             Client = client;
             StepIndex = -1;
             NextStep();
         }
         
         public readonly int QuestId;
-        public readonly QuestStaticData QuestData;
+        public readonly QuestCode QuestCode;
         public readonly NpcCode Client;
 
         public int StepIndex { get; private set; }
-        public QuestStep CurrentStep => QuestData.Steps.ElementAtOrDefault(StepIndex);
+        public QuestStep CurrentStep => QuestDatabase.Instance.GetElement(QuestCode).Steps.ElementAtOrDefault(StepIndex);
         public bool CanCompleteQuest => CurrentStep == null;
         public bool CanCompleteStep => DoingMissions.Aggregate(true, 
             (prev,m)=> prev && (m.progress >= m.mission.MaxProgress));

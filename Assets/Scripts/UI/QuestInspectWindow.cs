@@ -35,13 +35,14 @@ namespace GuildMaster.UI
         {
             base.OpenWindow();
             _quest = quest;
-            questNameText.text = _quest.QuestData.QuestName;
-            questDescriptionText.text = _quest.QuestData.QuestDescription;
+            var questStaticData = QuestDatabase.Instance.GetElement(_quest.QuestCode);
+            questNameText.text = questStaticData.QuestName;
+            questDescriptionText.text = questStaticData.QuestDescription;
             clientNameText.text = NpcDatabase.Instance.GetElement(_quest.Client).basicData.npcName;
             
             foreach (Transform child in rewardTextListParent)
                 Destroy(child.gameObject);
-            foreach (var reward in _quest.QuestData.Rewards)
+            foreach (var reward in questStaticData.Rewards)
             {
                 var made = Instantiate(rewardTextPrefab, rewardTextListParent);
                 made.text = "* " + GetRewardText(reward);
@@ -49,7 +50,7 @@ namespace GuildMaster.UI
             
             foreach (Transform child in missionProgressListParent)
                 Destroy(child.gameObject);
-            for (var i=0; i < _quest.QuestData.Steps.Count; i++)
+            for (var i=0; i < questStaticData.Steps.Count; i++)
             {
                 var made = Instantiate(missionProgressViewPrefab, missionProgressListParent);
                 made.SetQuestStep(_quest, i);

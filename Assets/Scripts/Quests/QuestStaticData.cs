@@ -9,8 +9,8 @@ using UnityEngine;
 
 namespace GuildMaster.Quests
 {
-    [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/QuestStaticData", order = 0)]
-    public class QuestStaticData: ScriptableObject
+    [Serializable]
+    public class QuestStaticData
     {
         [SerializeField] private string questName;
         [SerializeField] [TextArea] private string questDescription;

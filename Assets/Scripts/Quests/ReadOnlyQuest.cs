@@ -12,7 +12,7 @@ namespace GuildMaster.Quests
         }
 
         public int QuestId => _quest.QuestId;
-        public QuestStaticData QuestData => _quest.QuestData;
+        public QuestCode QuestCode => _quest.QuestCode;
         public NpcCode Client => _quest.Client;
         public int StepIndex => _quest.StepIndex;
         public QuestStep CurrentStep => _quest.CurrentStep;

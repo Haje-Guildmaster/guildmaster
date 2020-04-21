@@ -9,32 +9,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 276ece82c7e44d24c9bf1e91f82ff816, type: 3}
-  m_Name: TestQuest1
+  m_Script: {fileID: 11500000, guid: 10d9e9b26d5648f4b377e11dd81ef35c, type: 3}
+  m_Name: QuestDatabase
   m_EditorClassIdentifier: 
-  questName: "\uD669\uC528\uB791 \uB300\uD654\uD558\uB77C!"
-  questDescription: "\uD669\uC528\uC640 \uB300\uD654\uD558\uB294 \uD018\uC2A4\uD2B8\uC774\uB2E4."
-  activationCondition:
-    id: 0
-  questSuggestScript:
-    str: "\uC800\uAE30 \uAC00\uC11C \uD669\uC528\uB791 \uB300\uD654\uD558\uACE0 \uC640\uB77C"
-  steps:
-  - stepCondition:
+  dataList:
+  - questName: "\uD669\uC528\uC640 \uB300\uD654\uD558\uB77C!"
+    questDescription: "\uD669\uC528\uC640 \uB300\uD654\uD558\uB294 \uD018\uC2A4\uD2B8\uC774\uB2E4."
+    activationCondition:
       id: 0
-    _stepMissions:
-    - id: 1
-  - stepCondition:
-      id: 0
-    _stepMissions:
-    - id: 2
-  - stepCondition:
-      id: 0
-    _stepMissions:
-    - id: 3
-  rewards:
-  - id: 4
-  - id: 5
-  - id: 6
+    questSuggestScript:
+      str: "\uC800\uAE30 \uAC00\uC11C \uD669\uC528\uC640 \uB300\uD654\uD558\uACE0
+        \uC624\uB834."
+    steps:
+    - stepCondition:
+        id: 0
+      _stepMissions:
+      - id: 1
+    - stepCondition:
+        id: 0
+      _stepMissions:
+      - id: 2
+    - stepCondition:
+        id: 0
+      _stepMissions:
+      - id: 3
+    rewards:
+    - id: 4
+    - id: 5
+    - id: 6
+  currentEditingIndex:
+    Value: 0
   references:
     version: 1
     00000000:
@@ -70,7 +74,7 @@ MonoBehaviour:
       type: {class: Reward/AffinityReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}
       data:
         targetNpc:
-          Value: 0
+          Value: 1
         amount: 40
     00000006:
       type: {class: Reward/ItemReward, ns: GuildMaster.Rewards, asm: Assembly-CSharp}

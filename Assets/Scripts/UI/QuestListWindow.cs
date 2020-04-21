@@ -43,9 +43,10 @@ namespace GuildMaster.UI
         private float _listBottom = 0f;
         private void AddItem(ReadOnlyQuest quest)
         {
+            var questStaticData = QuestDatabase.Instance.GetElement(quest.QuestCode);
             var item = Instantiate(questListItemPrefab, listItemsParent);
             item.clickChecker.onClick.AddListener(()=>UiWindowsManager.Instance.questInspectWindow.Open(quest));
-            item.questNameText.text = quest.QuestData.QuestName;
+            item.questNameText.text = questStaticData.QuestName;
             item.questClientText.text = NpcDatabase.Instance.GetElement(quest.Client).basicData.npcName;
             
             

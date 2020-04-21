@@ -85,7 +85,7 @@ namespace GuildMaster.Data
                 case Condition.Or or:
                     return or.conditions.Aggregate(false, (calc, cond) => calc || CheckCondition(cond));
                 case Condition.CompletedQuest hasCompletedQuest:
-                    return QuestManager.CompletedQuest(hasCompletedQuest.quest);
+                    return QuestManager.CompletedQuest(hasCompletedQuest.questCode);
                 case Condition.LevelOver levelOver:
                     return levelOver.level > _level;
                 default:

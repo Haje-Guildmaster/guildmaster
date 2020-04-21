@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GuildMaster.Database
 {
     [Serializable]
-    public abstract class Database<TSelf, TElement> : ScriptableObject
+    public abstract class Database<TSelf, TElement> : ScriptableObject where TSelf: Database<TSelf, TElement>
     {
         [Serializable]
         public class Index
@@ -55,7 +55,7 @@ namespace GuildMaster.Database
 
     [Serializable]
     public abstract class UnityEditableDatabase<TSelf, TElement, TIndex> : Database<TSelf, TElement>
-        where TIndex : Database<TSelf, TElement>.Index, new()
+        where TIndex : Database<TSelf, TElement>.Index, new() where TSelf: Database<TSelf, TElement>
     {
         // DatabaseEditor을 위한 약간의 편법.
         public TIndex currentEditingIndex = new TIndex();

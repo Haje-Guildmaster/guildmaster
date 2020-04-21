@@ -34,8 +34,9 @@ namespace GuildMaster.UI
         private void Refresh()
         {
             if (_data.quest == null) return;
-            var questData = _data.quest.QuestData;
-            var step = questData.Steps[_data.stepIndex];
+            var questCode = _data.quest.QuestCode;
+            var questStaticData = QuestDatabase.Instance.GetElement(questCode);
+            var step = questStaticData.Steps[_data.stepIndex];
             var completed = _data.quest.StepIndex > _data.stepIndex;
             var isCurrent = _data.quest.StepIndex == _data.stepIndex;
 
@@ -49,7 +50,7 @@ namespace GuildMaster.UI
         
         private static string GetMissionDescription(StepMission mission, int progress)
         {
-            var ret = "";
+            string ret;
             switch (mission)
             {
                 case StepMission.TalkMission talkMission:

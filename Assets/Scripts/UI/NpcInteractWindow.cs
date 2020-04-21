@@ -74,9 +74,10 @@ namespace GuildMaster.UI
                 var availableQuests = questManager.GetAvailableQuestsFrom(_npcDataCache.questData.QuestList);
                 if (availableQuests.Any())
                 {
-                    var quest = availableQuests[0];
-                    PlayScript(quest.QuestSuggestScript);
-                    UiWindowsManager.Instance.questSuggestWindow.Open(quest, _npcCode);
+                    var questCode = availableQuests[0];
+                    var questStaticData = QuestDatabase.Instance.GetElement(questCode);
+                    PlayScript(questStaticData.QuestSuggestScript);
+                    UiWindowsManager.Instance.questSuggestWindow.Open(questCode, _npcCode);
                 }
                 else
                     dialogTextBox.text = "가능한 퀘스트가 없습니다.";

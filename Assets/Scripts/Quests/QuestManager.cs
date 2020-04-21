@@ -23,10 +23,10 @@ namespace GuildMaster.Quests
         }
         
 
-        public bool ReceiveQuest(QuestStaticData questData, NpcCode client)
+        public bool ReceiveQuest(QuestCode questCode, NpcCode client)
         {
-            if (!CanReceiveQuest(questData)) return false;
-            _quests.Add(new Quest(questData, client));
+            if (!CanReceiveQuest(questCode)) return false;
+            _quests.Add(new Quest(questCode, client));
             Changed?.Invoke();
             return true;
         }
@@ -43,8 +43,8 @@ namespace GuildMaster.Quests
             return ret;
         }
 
-        public bool CompletedQuest(QuestStaticData questData) => _completedQuests.Contains(questData);
-        public bool DoingQuest(QuestStaticData questData) => _quests.Count(q => q.QuestData == questData) > 0;
+        public bool CompletedQuest(QuestCode questData) => _completedQuests.Contains(questData);
+        public bool DoingQuest(QuestCode questData) => _quests.Count(q => q.QuestCode == questData) > 0;
         public List<ReadOnlyQuest> CurrentQuests() 
             => _quests.Select(q => new ReadOnlyQuest(q)).ToList();
 
@@ -59,7 +59,7 @@ namespace GuildMaster.Quests
                 .Where(tm=> tm.talkTo == npc)
                 .ToList();
         }
-        public List<QuestStaticData> GetAvailableQuestsFrom(IEnumerable<QuestStaticData> quests) => quests.Where(CanReceiveQuest).ToList();
+        public List<QuestCode> GetAvailableQuestsFrom(IEnumerable<QuestCode> quests) => quests.Where(CanReceiveQuest).ToList();
 
         // Event Listeners
         private void OnQuestScriptPlayEnd(StepMission.TalkMission mission)
@@ -68,12 +68,12 @@ namespace GuildMaster.Quests
         }
 
 
-        private bool CanReceiveQuest(QuestStaticData q) 
-            =>_playerData.CheckCondition(q.ActivationCondition) && !CompletedQuest(q) && !DoingQuest(q);
+        private bool CanReceiveQuest(QuestCode q) 
+            =>_playerData.CheckCondition(QuestDatabase.Instance.GetElement(q).ActivationCondition) && !CompletedQuest(q) && !DoingQuest(q);
 
 
         private readonly List<Quest> _quests = new List<Quest>();
-        private readonly HashSet<QuestStaticData> _completedQuests = new HashSet<QuestStaticData>();
+        private readonly HashSet<QuestCode> _completedQuests = new HashSet<QuestCode>();
 
         private void UpdateQuests()
         {
@@ -118,12 +118,13 @@ namespace GuildMaster.Quests
 
         private void _CompleteQuest(Quest quest)
         {
+            var questStaticData = QuestDatabase.Instance.GetElement(quest.QuestCode);
             // 보상주기
-            foreach (var reward in quest.QuestData.Rewards)
+            foreach (var reward in questStaticData.Rewards)
                 _playerData.ApplyReward(reward);
 
-            Debug.Log($"Completed a quest: {quest.QuestData.QuestName}");
-            _completedQuests.Add(quest.QuestData);
+            Debug.Log($"Completed a quest: {questStaticData.QuestName}");
+            _completedQuests.Add(quest.QuestCode);
             AbandonQuest(quest);
             Changed?.Invoke();
         }

@@ -78,6 +78,7 @@
           </e>
           <e p="Quests" t="Include">
             <e p="Quest.cs" t="Include" />
+            <e p="QuestDatabase.cs" t="Include" />
             <e p="QuestManager.cs" t="Include" />
             <e p="QuestStaticData.cs" t="Include" />
             <e p="QuestStep.cs" t="Include" />

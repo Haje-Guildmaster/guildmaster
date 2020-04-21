@@ -18,8 +18,7 @@ MonoBehaviour:
       illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}
       greeting: "\u3141\u3134\u3147\u3139"
     questData:
-      questList:
-      - {fileID: 11400000, guid: daa6bc9096189c34aa370b17e9a63d3b, type: 2}
+      questList: []
   - basicData:
       npcName: HWANG
       illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
@@ -27,4 +26,4 @@ MonoBehaviour:
     questData:
       questList: []
   currentEditingIndex:
-    Value: 1
+    Value: 0
