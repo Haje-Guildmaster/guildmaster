@@ -27,9 +27,9 @@ namespace GuildMaster.UI
         {
             base.OpenWindow();
             _questCode = questCode;
-            _questStaticDataCache = QuestDatabase.Instance.GetElement(questCode);
+            _questStaticDataCache = QuestDatabase.Get(questCode);
             _npc = npc;
-            _npcStaticDataCache = NpcDatabase.Instance.GetElement(npc);
+            _npcStaticDataCache = NpcDatabase.Get(npc);
             Refresh();
         }
 

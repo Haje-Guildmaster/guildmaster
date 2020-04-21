@@ -110,7 +110,7 @@ namespace GuildMaster.UI.Inventory
         private static bool _IsItemInCategory(Item item, ItemCategory category)
         {
             if (item == null) return false;
-            var itemData = ItemDatabase.Instance.GetElement(item.Code);
+            var itemData = ItemDatabase.Get(item.Code);
             switch (category)
             {
                 case ItemCategory.Equipable:

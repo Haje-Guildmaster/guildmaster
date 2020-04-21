@@ -4018,6 +4018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDatabase: {fileID: 11400000, guid: 51c68d944a5e3324fb5ed84beca52d49, type: 2}
   npcDatabase: {fileID: 11400000, guid: 24262711775cdba489a3899c94aae0c4, type: 2}
+  questDatabase: {fileID: 11400000, guid: 77c7fdd39e26e7c4bb8945c83f9058da, type: 2}
 --- !u!1001 &742437429
 PrefabInstance:
   m_ObjectHideFlags: 0

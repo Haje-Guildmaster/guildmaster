@@ -35,10 +35,10 @@ namespace GuildMaster.UI
         {
             base.OpenWindow();
             _quest = quest;
-            var questStaticData = QuestDatabase.Instance.GetElement(_quest.QuestCode);
+            var questStaticData = QuestDatabase.Get(_quest.QuestCode);
             questNameText.text = questStaticData.QuestName;
             questDescriptionText.text = questStaticData.QuestDescription;
-            clientNameText.text = NpcDatabase.Instance.GetElement(_quest.Client).basicData.npcName;
+            clientNameText.text = NpcDatabase.Get(_quest.Client).basicData.npcName;
             
             foreach (Transform child in rewardTextListParent)
                 Destroy(child.gameObject);
@@ -62,9 +62,9 @@ namespace GuildMaster.UI
             switch (reward)
             {
                 case Reward.AffinityReward affinityReward:
-                    return $"{NpcDatabase.Instance.GetElement(affinityReward.targetNpc).basicData.npcName}의 호감도 {affinityReward.amount}";
+                    return $"{NpcDatabase.Get(affinityReward.targetNpc).basicData.npcName}의 호감도 {affinityReward.amount}";
                 case Reward.ItemReward itemReward:
-                    var itemData = ItemDatabase.Instance.GetElement(itemReward.item.Code);
+                    var itemData = ItemDatabase.Get(itemReward.item.Code);
                     return $"{itemData.ItemName} x {itemReward.number}";
                 default:
                     return "알 수 없는 보상";

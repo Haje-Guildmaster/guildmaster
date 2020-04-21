@@ -83,5 +83,5 @@ MonoBehaviour:
           equipmentStats:
             id: 0
           code:
-            Value: 0
+            Value: 2
         number: 50

@@ -35,20 +35,28 @@ namespace GuildMaster.Database
                 if (obj.GetType() != this.GetType()) return false;
                 return Equals((Index) obj);
             }
+
+            public override int GetHashCode()
+            {
+                return Value;
+            }
         }
 
-        public static TSelf Instance { get; private set; }
+        private static TSelf _instance;
 
         public static void LoadSingleton(TSelf database)
         {
-            Instance = database;
+            _instance = database;
         }
 
+        public static TElement Get(Index index) => _instance.GetElement(index);
 
-        public TElement GetElement(Index index)
+        private TElement GetElement(Index index)
         {
             return dataList[index.Value];
         }
+        
+        
 
         public List<TElement> dataList;
     }

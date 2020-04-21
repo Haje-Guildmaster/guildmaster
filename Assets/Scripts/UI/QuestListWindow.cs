@@ -43,11 +43,11 @@ namespace GuildMaster.UI
         private float _listBottom = 0f;
         private void AddItem(ReadOnlyQuest quest)
         {
-            var questStaticData = QuestDatabase.Instance.GetElement(quest.QuestCode);
+            var questStaticData = QuestDatabase.Get(quest.QuestCode);
             var item = Instantiate(questListItemPrefab, listItemsParent);
             item.clickChecker.onClick.AddListener(()=>UiWindowsManager.Instance.questInspectWindow.Open(quest));
             item.questNameText.text = questStaticData.QuestName;
-            item.questClientText.text = NpcDatabase.Instance.GetElement(quest.Client).basicData.npcName;
+            item.questClientText.text = NpcDatabase.Get(quest.Client).basicData.npcName;
             
             
             item.transform.localPosition += new Vector3(0, _listBottom, 0);

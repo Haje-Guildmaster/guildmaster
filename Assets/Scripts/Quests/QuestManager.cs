@@ -69,7 +69,7 @@ namespace GuildMaster.Quests
 
 
         private bool CanReceiveQuest(QuestCode q) 
-            =>_playerData.CheckCondition(QuestDatabase.Instance.GetElement(q).ActivationCondition) && !CompletedQuest(q) && !DoingQuest(q);
+            =>_playerData.CheckCondition(QuestDatabase.Get(q).ActivationCondition) && !CompletedQuest(q) && !DoingQuest(q);
 
 
         private readonly List<Quest> _quests = new List<Quest>();
@@ -118,7 +118,7 @@ namespace GuildMaster.Quests
 
         private void _CompleteQuest(Quest quest)
         {
-            var questStaticData = QuestDatabase.Instance.GetElement(quest.QuestCode);
+            var questStaticData = QuestDatabase.Get(quest.QuestCode);
             // 보상주기
             foreach (var reward in questStaticData.Rewards)
                 _playerData.ApplyReward(reward);

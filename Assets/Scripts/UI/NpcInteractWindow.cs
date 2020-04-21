@@ -38,7 +38,7 @@ namespace GuildMaster.UI
         {
             base.OpenWindow();
             _npcCode = npc;
-            _npcDataCache = NpcDatabase.Instance.GetElement(npc);
+            _npcDataCache = NpcDatabase.Get(npc);
             
             
             InitialScreen();
@@ -75,7 +75,7 @@ namespace GuildMaster.UI
                 if (availableQuests.Any())
                 {
                     var questCode = availableQuests[0];
-                    var questStaticData = QuestDatabase.Instance.GetElement(questCode);
+                    var questStaticData = QuestDatabase.Get(questCode);
                     PlayScript(questStaticData.QuestSuggestScript);
                     UiWindowsManager.Instance.questSuggestWindow.Open(questCode, _npcCode);
                 }

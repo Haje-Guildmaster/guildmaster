@@ -24,7 +24,7 @@ namespace GuildMaster.Quests
         public readonly NpcCode Client;
 
         public int StepIndex { get; private set; }
-        public QuestStep CurrentStep => QuestDatabase.Instance.GetElement(QuestCode).Steps.ElementAtOrDefault(StepIndex);
+        public QuestStep CurrentStep => QuestDatabase.Get(QuestCode).Steps.ElementAtOrDefault(StepIndex);
         public bool CanCompleteQuest => CurrentStep == null;
         public bool CanCompleteStep => DoingMissions.Aggregate(true, 
             (prev,m)=> prev && (m.progress >= m.mission.MaxProgress));
