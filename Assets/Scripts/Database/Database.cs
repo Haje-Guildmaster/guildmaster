@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using GuildMaster.Items;
 using UnityEngine;
 
@@ -11,8 +12,15 @@ namespace GuildMaster.Database
         [Serializable]
         public class Index
         {
-            public int Value;
+            public Index() : this(0) {}
 
+            public Index(int ind)
+            {
+                Value = ind;
+            }
+
+            public int Value;
+            
             public static bool operator ==(Index i1, Index i2)
             {
                 return i1?.Equals(i2) ?? ReferenceEquals(i2, null);
@@ -49,16 +57,21 @@ namespace GuildMaster.Database
             _instance = database;
         }
 
-        public static TElement Get(Index index) => _instance.GetElement(index);
+        public static TElement Get(Index index) => _instance._GetElement(index);     // 디비 접근시마다 Instance쓰는 게 싫어서 추가.
 
-        private TElement GetElement(Index index)
+        public IEnumerable<(int, TElement)> GetAllElements()
         {
-            return dataList[index.Value];
+            return dataList.Select((el,i)=>(i, el));
         }
         
         
-
-        public List<TElement> dataList;
+        public TElement _GetElement(Index index)
+        {
+            return dataList.ElementAtOrDefault(index.Value);
+        }
+        
+        
+        [SerializeField] private List<TElement> dataList;
     }
 
     [Serializable]

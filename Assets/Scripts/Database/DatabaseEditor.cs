@@ -51,7 +51,9 @@ namespace GuildMaster.Database
             }
             GUILayout.EndHorizontal();
 
-            // _serializedIndex.FindPropertyRelative("Value").intValue = 1;
+            
+            GUILayout.Space(40);
+            
             _serializedIndex.isExpanded = true;
             EditorGUILayout.PropertyField(_serializedIndex);
 
@@ -60,8 +62,6 @@ namespace GuildMaster.Database
             var currentItem = (validIndex)
                     ? _dataList.GetArrayElementAtIndex(index) : null;
             
-            GUILayout.Space(20);
-            GUILayout.Label("Current Item: ");
             EditorGUI.indentLevel++;
             if (currentItem != null)
                 CurrentItemField(currentItem);

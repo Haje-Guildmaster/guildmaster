@@ -1,24 +1,85 @@
+using System.Diagnostics.Contracts;
 using GuildMaster.Items;
+using GuildMaster.Npcs;
+using GuildMaster.Quests;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GuildMaster.Database
 {
-    // [CustomPropertyDrawer(typeof(DatabaseIndex<ItemDatabase, ItemStaticData>))]
-    public class DatabaseIndexDrawer: PropertyDrawer
+    public abstract class DatabaseIndexDrawer<TDb, TElement> : PropertyDrawer where TDb : Database<TDb, TElement>
     {
-        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        [Pure]
+        protected abstract string GetElementDescriptionWithIndex(int i, TElement element);
+        
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            // Create property container element.
-            var container = new VisualElement();
+            EditorGUI.BeginProperty(position, label, property);
+            EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            DrawButton(property, position);
+            EditorGUI.EndProperty();
+        }
 
-            // Create property fields.
-            var valueField = new PropertyField(property.FindPropertyRelative("Value"));
 
-            // Add fields to the container.
-            container.Add(valueField);
-            return container;
+        private void DrawButton(SerializedProperty property, Rect position)
+        {
+            var backgroundColor = new Color(0.85f, 0.184f, 0.97f, 0.67f);
+
+            var buttonPosition = position;
+            buttonPosition.x += EditorGUIUtility.labelWidth + 1 * EditorGUIUtility.standardVerticalSpacing;
+            buttonPosition.width = position.width - EditorGUIUtility.labelWidth -
+                                   1 * EditorGUIUtility.standardVerticalSpacing;
+            buttonPosition.height = EditorGUIUtility.singleLineHeight;
+
+            var storedIndent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
+            var storedColor = GUI.backgroundColor;
+            GUI.backgroundColor = backgroundColor;
+
+            var intIndexProperty = property.FindPropertyRelative("Value");
+            var currentIntValue = intIndexProperty.intValue;
+            var currentElement = GetDatabase()._GetElement(new Database<TDb, TElement>.Index(currentIntValue));
+            if (GUI.Button(buttonPosition,
+                new GUIContent(currentElement != null
+                    ? GetElementDescriptionWithIndex(currentIntValue, currentElement)
+                    : "Null")))
+            {
+                OpenSelection(intIndexProperty);
+            }
+
+            GUI.backgroundColor = storedColor;
+            EditorGUI.indentLevel = storedIndent;
+        }
+
+        private void OpenSelection(SerializedProperty intIndexProperty)
+        {
+            var context = new GenericMenu();
+            FillContextMenu();
+            context.ShowAsContext();
+
+            void FillContextMenu()
+            {
+                var db = GetDatabase();
+                foreach (var (i, elem) in db.GetAllElements())
+                {
+                    context.AddItem(new GUIContent(GetElementDescriptionWithIndex(i, elem)), false, SetIndex, i);
+                }
+
+                void SetIndex(object indexNumberObject)
+                {
+                    var ind = (int) indexNumberObject;
+                    intIndexProperty.serializedObject.Update();
+                    intIndexProperty.intValue = ind;
+                    intIndexProperty.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+                }
+            }
+        }
+
+        private TDb GetDatabase()
+        {
+            return Resources.FindObjectsOfTypeAll<TDb>()[0];
         }
     }
 }

@@ -27,4 +27,4 @@ MonoBehaviour:
     questData:
       questList: []
   currentEditingIndex:
-    Value: 0
+    Value: 1
