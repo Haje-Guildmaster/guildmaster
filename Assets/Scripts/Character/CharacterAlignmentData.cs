@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using System;
+using UnityEngine;
 
 namespace GuildMaster.Characters
 {
+    [Serializable]
     public class CharacterAlignmentData
     {
         [SerializeField] private int lawOrChaos;

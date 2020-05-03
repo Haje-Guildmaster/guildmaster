@@ -4,7 +4,6 @@ using GuildMaster.Database;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GuildMaster.UI

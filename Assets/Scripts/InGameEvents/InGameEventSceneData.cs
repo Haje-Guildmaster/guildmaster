@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GuildMaster.Dialog;
 using UnityEngine;
-using UnityEditor;
 
 namespace GuildMaster.InGameEvents
 {

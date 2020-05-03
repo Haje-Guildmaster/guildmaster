@@ -91,6 +91,7 @@
           <e p="Tools" t="Include">
             <e p="GenericButton.cs" t="Include" />
             <e p="GiveRewards.cs" t="Include" />
+            <e p="PathSerializedAsset.cs" t="Include" />
             <e p="Persistent.cs" t="Include" />
             <e p="YouSpinMeRound.cs" t="Include" />
           </e>

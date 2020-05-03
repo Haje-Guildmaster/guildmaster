@@ -2,7 +2,6 @@
 using GuildMaster.Data;
 using GuildMaster.UI;
 using UnityEngine;
-using UnityEditor;
 
 namespace GuildMaster.InGameEvents
 {
