@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using GuildMaster.Database;
 using GuildMaster.Npcs;
 
 namespace GuildMaster.Quests

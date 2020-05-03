@@ -1,10 +1,9 @@
 using System;
-using GuildMaster.Database;
-using GuildMaster.Items;
+using GuildMaster.Npcs;
 using UnityEditor;
 using UnityEngine;
 
-namespace GuildMaster.Npcs
+namespace GuildMaster.Database
 {
     [CreateAssetMenu(fileName = "NpcDatabase", menuName = "ScriptableObjects/NpcDatabase", order = 0)]
     public class NpcDatabase : UnityEditableDatabase<NpcDatabase, NpcStaticData, NpcCode>

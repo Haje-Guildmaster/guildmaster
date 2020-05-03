@@ -2,13 +2,14 @@ using System;
 using System.Linq;
 using System.Xml.Schema;
 using GuildMaster.Database;
+using GuildMaster.Items;
 using GuildMaster.Tools;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GuildMaster.Items
+namespace GuildMaster.Database
 {
     [CustomEditor(typeof(ItemDatabase))]
     public class ItemDatabaseEditor: DatabaseEditor<ItemDatabase, ItemStaticData, ItemCode>

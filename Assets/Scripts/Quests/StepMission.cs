@@ -1,4 +1,5 @@
 ﻿using System;
+using GuildMaster.Database;
 using GuildMaster.Dialog;
 using GuildMaster.Npcs;
 

@@ -1,4 +1,5 @@
-﻿using GuildMaster.Npcs;
+﻿using GuildMaster.Database;
+using GuildMaster.Npcs;
 using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.Events;

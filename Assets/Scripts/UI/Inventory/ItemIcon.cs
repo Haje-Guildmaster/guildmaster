@@ -1,3 +1,4 @@
+using GuildMaster.Database;
 using GuildMaster.Items;
 using GuildMaster.Tools;
 using UnityEngine;

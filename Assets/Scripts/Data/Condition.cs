@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using GuildMaster.Database;
 using GuildMaster.Quests;
 using UnityEngine;
 

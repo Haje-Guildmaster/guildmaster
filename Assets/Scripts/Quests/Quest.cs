@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GuildMaster.Data;
+using GuildMaster.Database;
 using GuildMaster.Npcs;
 using UnityEditorInternal;
 

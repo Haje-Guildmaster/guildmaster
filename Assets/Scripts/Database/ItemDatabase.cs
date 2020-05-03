@@ -1,11 +1,9 @@
 using System;
-using System.Linq;
-using GuildMaster.Database;
-using GuildMaster.Npcs;
+using GuildMaster.Items;
 using UnityEditor;
 using UnityEngine;
 
-namespace GuildMaster.Items
+namespace GuildMaster.Database
 {
     [CreateAssetMenu(fileName = "ItemDatabase", menuName = "ScriptableObjects/ItemDatabase", order = 0)]
     public class ItemDatabase : UnityEditableDatabase<ItemDatabase, ItemStaticData, ItemCode>

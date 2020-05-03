@@ -40,6 +40,10 @@
             <e p="DatabaseEditor.cs" t="Include" />
             <e p="DatabaseIndexDrawer.cs" t="Include" />
             <e p="DatabaseLoader.cs" t="Include" />
+            <e p="ItemDatabase.cs" t="Include" />
+            <e p="ItemDatabaseEditor.cs" t="Include" />
+            <e p="NpcDatabase.cs" t="Include" />
+            <e p="QuestDatabase.cs" t="Include" />
           </e>
           <e p="Dialog" t="Include">
             <e p="FadeIn.cs" t="Include" />
@@ -60,14 +64,11 @@
           <e p="Items" t="Include">
             <e p="EquipmentStats.cs" t="Include" />
             <e p="Item.cs" t="Include" />
-            <e p="ItemDatabase.cs" t="Include" />
-            <e p="ItemDatabaseEditor.cs" t="Include" />
             <e p="ItemEffect.cs" t="Include" />
             <e p="ItemStaticData.cs" t="Include" />
           </e>
           <e p="Npcs" t="Include">
             <e p="NpcBasicData.cs" t="Include" />
-            <e p="NpcDatabase.cs" t="Include" />
             <e p="NpcQuestData.cs" t="Include" />
             <e p="NpcRoamData.cs" t="Include" />
             <e p="NpcStaticData.cs" t="Include" />
@@ -78,7 +79,6 @@
           </e>
           <e p="Quests" t="Include">
             <e p="Quest.cs" t="Include" />
-            <e p="QuestDatabase.cs" t="Include" />
             <e p="QuestManager.cs" t="Include" />
             <e p="QuestStaticData.cs" t="Include" />
             <e p="QuestStep.cs" t="Include" />

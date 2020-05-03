@@ -1,10 +1,11 @@
 using System;
 using GuildMaster.Database;
 using GuildMaster.Npcs;
+using GuildMaster.Quests;
 using UnityEditor;
 using UnityEngine;
 
-namespace GuildMaster.Quests
+namespace GuildMaster.Database
 {
     [CreateAssetMenu(fileName = "QuestDatabase", menuName = "ScriptableObjects/QuestDatabase", order = 0)]
     public class QuestDatabase : UnityEditableDatabase<QuestDatabase, QuestStaticData, QuestCode> {}

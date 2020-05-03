@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Data;
+using GuildMaster.Database;
 using GuildMaster.InGameEvents;
 using GuildMaster.Items;
 using GuildMaster.Npcs;
