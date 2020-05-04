@@ -33,6 +33,7 @@
           </e>
           <e p="Data" t="Include">
             <e p="Condition.cs" t="Include" />
+            <e p="Inventory.cs" t="Include" />
             <e p="PlayerData.cs" t="Include" />
           </e>
           <e p="Database" t="Include">
@@ -52,6 +53,7 @@
           </e>
           <e p="GameInput.cs" t="Include" />
           <e p="Guild" t="Include">
+            <e p="Guild.cs" t="Include" />
             <e p="GuildMembers.cs" t="Include" />
           </e>
           <e p="InGameEvents" t="Include">
@@ -91,7 +93,6 @@
           <e p="Tools" t="Include">
             <e p="GenericButton.cs" t="Include" />
             <e p="GiveRewards.cs" t="Include" />
-            <e p="PathSerializedAsset.cs" t="Include" />
             <e p="Persistent.cs" t="Include" />
             <e p="YouSpinMeRound.cs" t="Include" />
           </e>

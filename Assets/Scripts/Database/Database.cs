@@ -71,7 +71,7 @@ namespace GuildMaster.Database
         }
         
         
-        [SerializeField] private List<TElement> dataList;
+        [SerializeField] private List<TElement> dataList = new List<TElement>();
     }
 
     [Serializable]

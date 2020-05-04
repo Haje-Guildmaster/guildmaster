@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GuildMaster.Data;
 using GuildMaster.Database;
+using GuildMaster.GuildManagement;
 using GuildMaster.InGameEvents;
-using GuildMaster.Items;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using GuildMaster.Rewards;
-using GuildMaster.Tools;
 using JetBrains.Annotations;
-using UnityEngine;
 
 namespace GuildMaster.Data
 {
@@ -25,14 +22,17 @@ namespace GuildMaster.Data
         }
 
         public event Action Changed;
-        public event Action InventoryChanged;
+        
+        // 속한 데이터
         public readonly QuestManager QuestManager;
+        public readonly Inventory Inventory;
         public readonly InGameEventManager InGameEventManager;
+        public readonly Guild PlayerGuild;
         private readonly Dictionary<int, NpcStatus> _npcStatusMap = new Dictionary<int, NpcStatus>();        // array로 바꿀수도.
-        private readonly Dictionary<Item, int> _inventoryMap = new Dictionary<Item, int>();
-
-        public IEnumerable<(Item item, int number)> GetInventory() => _inventoryMap.Select(a=>(a.Key, a.Value));
         private int _level = 1;
+
+        
+        // 
         
         [NotNull] public NpcStatus GetNpcStatus(NpcCode npc)
         {
@@ -47,32 +47,13 @@ namespace GuildMaster.Data
                     GetNpcStatus(affinityReward.targetNpc).Affinity += affinityReward.amount;
                     break;
                 case Reward.ItemReward itemReward:
-                    TryAddItem(itemReward.item, itemReward.number);
+                    Inventory.TryAddItem(itemReward.item, itemReward.number);
                     break;
                 default:
                     throw new Exception($"Unexpected Reward: {reward}");
             }
         }
 
-        public bool TryAddItem(Item item, int number)
-        {
-            _inventoryMap.TryGetValue(item, out var prevItemNum);
-            var itemData = ItemDatabase.Get(item.Code);
-            var updatedNumber = prevItemNum + number;
-            if (updatedNumber <= itemData.MaxStack)
-                _inventoryMap[item] = updatedNumber;
-            else
-            {
-                //미정.
-                _inventoryMap[item] = itemData.MaxStack;
-            }
-            
-            if (prevItemNum != _inventoryMap[item])
-                InventoryChanged?.Invoke();
-
-            return true;
-        }
-        
         public bool CheckCondition(Condition condition)
         {
             switch (condition)
@@ -110,8 +91,10 @@ namespace GuildMaster.Data
         {
             QuestManager = new QuestManager(this);
             InGameEventManager = new InGameEventManager(this);
+            Inventory = new Inventory();
+            
             QuestManager.Changed += Changed;
-            InventoryChanged += Changed;
+            Inventory.Changed += Changed;
         }
     }
 }
