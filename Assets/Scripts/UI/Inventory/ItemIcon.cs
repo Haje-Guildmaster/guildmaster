@@ -36,6 +36,7 @@ namespace GuildMaster.UI.Inventory
 
         public void Clear()
         {
+            this._item = null;
             itemImage.sprite = null;
             itemNumberLabel.text = "";
         }
