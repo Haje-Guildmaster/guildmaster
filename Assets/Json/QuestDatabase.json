@@ -1,0 +1,168 @@
+{
+  "dataList": [
+    {
+      "questName": "황씨와 대화하라!",
+      "questDescription": "황씨와 대화하는 퀘스트이다.",
+      "activationCondition": {
+        "id": 0
+      },
+      "questSuggestScript": {
+        "str": "저기 가서 황씨와 대화하고 오렴."
+      },
+      "steps": [
+        {
+          "stepCondition": {
+            "id": 0
+          },
+          "_stepMissions": [
+            {
+              "id": 1
+            }
+          ]
+        },
+        {
+          "stepCondition": {
+            "id": 0
+          },
+          "_stepMissions": [
+            {
+              "id": 2
+            }
+          ]
+        },
+        {
+          "stepCondition": {
+            "id": 0
+          },
+          "_stepMissions": [
+            {
+              "id": 3
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "id": 4
+        },
+        {
+          "id": 5
+        },
+        {
+          "id": 6
+        }
+      ]
+    }
+  ],
+  "currentEditingIndex": {
+    "Value": 0
+  },
+  "references": {
+    "version": 1,
+    "00000000": {
+      "type": {
+        "class": "",
+        "ns": "",
+        "asm": ""
+      },
+      "data": {}
+    },
+    "00000001": {
+      "type": {
+        "class": "StepMission/TalkMission",
+        "ns": "GuildMaster.Quests",
+        "asm": "Assembly-CSharp"
+      },
+      "data": {
+        "talkTo": {
+          "Value": 1
+        },
+        "script": {
+          "str": "퀘스트 스크립트 1 => Deligo"
+        }
+      }
+    },
+    "00000002": {
+      "type": {
+        "class": "StepMission/TalkMission",
+        "ns": "GuildMaster.Quests",
+        "asm": "Assembly-CSharp"
+      },
+      "data": {
+        "talkTo": {
+          "Value": 0
+        },
+        "script": {
+          "str": "퀘스트 스크립트 2 => Hwang"
+        }
+      }
+    },
+    "00000003": {
+      "type": {
+        "class": "StepMission/TalkMission",
+        "ns": "GuildMaster.Quests",
+        "asm": "Assembly-CSharp"
+      },
+      "data": {
+        "talkTo": {
+          "Value": 1
+        },
+        "script": {
+          "str": "퀘스트 끝."
+        }
+      }
+    },
+    "00000004": {
+      "type": {
+        "class": "Reward/AffinityReward",
+        "ns": "GuildMaster.Rewards",
+        "asm": "Assembly-CSharp"
+      },
+      "data": {
+        "targetNpc": {
+          "Value": 0
+        },
+        "amount": 20
+      }
+    },
+    "00000005": {
+      "type": {
+        "class": "Reward/AffinityReward",
+        "ns": "GuildMaster.Rewards",
+        "asm": "Assembly-CSharp"
+      },
+      "data": {
+        "targetNpc": {
+          "Value": 1
+        },
+        "amount": 40
+      }
+    },
+    "00000006": {
+      "type": {
+        "class": "Reward/ItemReward",
+        "ns": "GuildMaster.Rewards",
+        "asm": "Assembly-CSharp"
+      },
+      "data": {
+        "item": {
+          "equipmentStats": {
+            "id": 0
+          },
+          "code": {
+            "Value": 2
+          }
+        },
+        "number": 50
+      }
+    },
+    "00000007": {
+      "type": {
+        "class": "Terminus",
+        "ns": "UnityEngine.DMAT",
+        "asm": "FAKE_ASM"
+      },
+      "data": {}
+    }
+  }
+}

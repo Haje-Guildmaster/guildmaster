@@ -8,6 +8,6 @@ namespace GuildMaster.Npcs
     {
         public string npcName;
         public Sprite illustration;
-        public string greeting;
+        [TextArea] public string greeting;
     }
 }
