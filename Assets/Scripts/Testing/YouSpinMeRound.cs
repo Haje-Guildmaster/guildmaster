@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GuildMaster.Tools
+namespace GuildMaster.Testing
 {
     // 빙글빙글 돌아요
     public class YouSpinMeRound : MonoBehaviour

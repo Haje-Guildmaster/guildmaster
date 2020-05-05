@@ -16,6 +16,6 @@ namespace GuildMaster.GuildManagement
         public int Balance { get; private set; } = 4231;
         public int Reputation { get; private set; } = 0;
 
-        /*private*/ public GuildMembers _guildMembers;
+        /*private*/ public GuildMembers _guildMembers = new GuildMembers();
     }
 }

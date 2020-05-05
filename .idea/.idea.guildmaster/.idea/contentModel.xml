@@ -90,11 +90,14 @@
           <e p="Rewards" t="Include">
             <e p="Reward.cs" t="Include" />
           </e>
+          <e p="Testing" t="Include">
+            <e p="GiveGuildMembers.cs" t="Include" />
+            <e p="GiveRewards.cs" t="Include" />
+            <e p="YouSpinMeRound.cs" t="Include" />
+          </e>
           <e p="Tools" t="Include">
             <e p="GenericButton.cs" t="Include" />
-            <e p="GiveRewards.cs" t="Include" />
             <e p="Persistent.cs" t="Include" />
-            <e p="YouSpinMeRound.cs" t="Include" />
           </e>
           <e p="TownRoam" t="Include">
             <e p="Place.cs" t="Include" />
@@ -121,6 +124,7 @@
             <e p="CharacterInspectWindow.cs" t="Include" />
             <e p="ColorIfToggleIsOn.cs" t="Include" />
             <e p="DraggableWindow.cs" t="Include" />
+            <e p="GuildInspectWindow.cs" t="Include" />
             <e p="InGameEventChoiceItem.cs" t="Include" />
             <e p="InGameEventWindow.cs" t="Include" />
             <e p="Inventory" t="Include">

@@ -5,7 +5,7 @@ namespace GuildMaster.GuildManagement
 {
     public class GuildMembers
     {
-        public List<CharacterData> guildMemberList;
+        public List<CharacterData> guildMemberList = new List<CharacterData>();
 
     }
 

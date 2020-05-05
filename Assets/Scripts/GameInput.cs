@@ -16,6 +16,8 @@ namespace GuildMaster
                 UiWindowsManager.Instance.inventoryWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.P))
                 UiWindowsManager.Instance.characterInspectWindow.Toggle();
+            if (Input.GetKeyDown(KeyCode.G))
+                UiWindowsManager.Instance.guildInspectWindow.Toggle();
 
             //For Test InGameEvents
             if (Input.GetKeyDown(KeyCode.T))

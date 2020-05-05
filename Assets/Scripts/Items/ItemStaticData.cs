@@ -11,7 +11,7 @@ namespace GuildMaster.Items
         [SerializeField] private bool isConsumable;
         [SerializeReference][SerializeReferenceButton] private ItemEffect consumptionEffect;
         [SerializeField] private int maxStack;
-        [SerializeField] private Sprite itemImage;
+        [SerializeField] private Sprite itemImage;            //Todo: Assetbundle(또는 Resource) path로 대체.
         [SerializeField] private bool isEquipable;
         [SerializeReference][SerializeReferenceButton] private EquipmentStats defaultEquipmentStats;
         [SerializeField] private bool isImportant;

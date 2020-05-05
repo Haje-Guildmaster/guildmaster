@@ -19,7 +19,7 @@ namespace GuildMaster.UI
         public MessageBox messageBoxPrefab;
         public Transform messageBoxesParent;
         public CharacterInspectWindow characterInspectWindow;
-        
+        public GuildInspectWindow guildInspectWindow;
             
         public ItemInfoPanel itemInfoPanel;    // 임시.
         

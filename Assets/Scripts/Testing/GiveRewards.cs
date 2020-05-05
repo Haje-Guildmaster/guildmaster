@@ -4,7 +4,7 @@ using GuildMaster.Data;
 using GuildMaster.Rewards;
 using UnityEngine;
 
-namespace GuildMaster.Tools
+namespace GuildMaster.Testing
 {
     // 디버깅용. 게임 시작 시 reward 들을 적용.
     public class GiveRewards: MonoBehaviour

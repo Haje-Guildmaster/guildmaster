@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Characters;
+using GuildMaster.Data;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GuildMaster.UI
 {
-    public class CharacterInspectWindow: DraggableWindow, IToggleableWindow
+    public class CharacterInspectWindow : DraggableWindow, IToggleableWindow
     {
         [SerializeField] private Transform characterListParent;
         [SerializeField] private Toggle characterSelectTogglePrefab;
@@ -22,26 +23,28 @@ namespace GuildMaster.UI
         [SerializeField] private Text defLabel;
         [SerializeField] private Text agiLabel;
         [SerializeField] private Text intLabel;
-        
-        // for debugging
-        [SerializeField] private List<CharacterData> data;
+
 
         public void Open()
         {
             base.OpenWindow();
-            
+
             SetCharacter(null);
             foreach (Transform t in characterListParent)
                 Destroy(t.gameObject);
-            foreach (var (cd,i) in data.Select((i,j)=>(i,j)))
+            foreach (var (cd, i) in PlayerData.Instance.PlayerGuild._guildMembers.guildMemberList.Select((i, j) =>
+                (i, j)))
             {
                 var made = Instantiate(characterSelectTogglePrefab, characterListParent);
                 made.group = characterSelectToggleGroup;
                 made.GetComponentInChildren<Text>().text = cd.basicData.UsingName;
                 var capture = cd;
-                made.onValueChanged.AddListener(b => {if (b) SetCharacter(capture); });
+                made.onValueChanged.AddListener(b =>
+                {
+                    if (b) SetCharacter(capture);
+                });
                 if (i == 0)
-                    made.isOn = true;    //위의 AddListener와 순서 주의.
+                    made.isOn = true; //위의 AddListener와 순서 주의.
             }
         }
 
@@ -59,6 +62,7 @@ namespace GuildMaster.UI
                 nameLabel.text = "선택된 캐릭터 없음.";
                 return;
             }
+
             // characterIllustration.sprite = ???
             var bd = _currentCharacter.basicData;
             nameLabel.text = bd.UsingName;
