@@ -29,9 +29,8 @@ namespace GuildMaster.Data
         public readonly InGameEventManager InGameEventManager;
         public readonly Guild PlayerGuild;
         private readonly Dictionary<int, NpcStatus> _npcStatusMap = new Dictionary<int, NpcStatus>();        // array로 바꿀수도.
-        private int _level = 1;
 
-        
+
         // 
         
         [NotNull] public NpcStatus GetNpcStatus(NpcCode npc)
@@ -68,8 +67,8 @@ namespace GuildMaster.Data
                     return or.conditions.Aggregate(false, (calc, cond) => calc || CheckCondition(cond));
                 case Condition.CompletedQuest hasCompletedQuest:
                     return QuestManager.CompletedQuest(hasCompletedQuest.questCode);
-                case Condition.LevelOver levelOver:
-                    return levelOver.level > _level;
+                case Condition.GuildRankEqualOrOver rankOver:
+                    return rankOver.rank >= PlayerGuild.Rank;
                 default:
                     throw new Exception($"Unexpected Condition: {condition}");
             }
@@ -92,9 +91,11 @@ namespace GuildMaster.Data
             QuestManager = new QuestManager(this);
             InGameEventManager = new InGameEventManager(this);
             Inventory = new Inventory();
-            
+            PlayerGuild = new Guild();
+
             QuestManager.Changed += Changed;
             Inventory.Changed += Changed;
+            PlayerGuild.Changed += Changed;
         }
     }
 }

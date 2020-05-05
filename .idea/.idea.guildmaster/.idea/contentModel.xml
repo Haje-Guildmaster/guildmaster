@@ -52,7 +52,7 @@
             <e p="Script.cs" t="Include" />
           </e>
           <e p="GameInput.cs" t="Include" />
-          <e p="Guild" t="Include">
+          <e p="GuildManagement" t="Include">
             <e p="Guild.cs" t="Include" />
             <e p="GuildMembers.cs" t="Include" />
           </e>

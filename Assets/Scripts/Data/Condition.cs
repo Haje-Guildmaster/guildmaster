@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using GuildMaster.Database;
+using GuildMaster.GuildManagement;
 using GuildMaster.Quests;
 using UnityEngine;
 
@@ -24,15 +25,15 @@ namespace GuildMaster.Data
             }
         }
         [Serializable]
-        public class LevelOver : Condition
+        public class GuildRankEqualOrOver : Condition
         {
-            public int level;
+            public Guild.GuildRank rank;
 
-            public LevelOver() {}
+            public GuildRankEqualOrOver() {}
 
-            public LevelOver(int level)
+            public GuildRankEqualOrOver(Guild.GuildRank rank)
             {
-                this.level = level;
+                this.rank = rank;
             }
         }
 
