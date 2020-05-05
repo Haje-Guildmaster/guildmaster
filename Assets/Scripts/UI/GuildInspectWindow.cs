@@ -15,11 +15,11 @@ namespace GuildMaster.UI
 
         public void OnEnable()
         {
-            PlayerData.Instance.PlayerGuild.Changed += Refresh;
+            Player.Instance.PlayerGuild.Changed += Refresh;
         }
         public void OnDisable()
         {
-            PlayerData.Instance.PlayerGuild.Changed -= Refresh;
+            Player.Instance.PlayerGuild.Changed -= Refresh;
         }
 
         public void Open()
@@ -30,7 +30,7 @@ namespace GuildMaster.UI
 
         private void Refresh()
         {
-            var guild = PlayerData.Instance.PlayerGuild;
+            var guild = Player.Instance.PlayerGuild;
             rankLabel.text = guild.Rank.ToString();
             membersNumberLabel.text = $"{guild._guildMembers.guildMemberList.Count()}/{guild.MemberNumberLimit}";
             balanceLabel.text = guild.Balance.ToString();

@@ -32,7 +32,7 @@ namespace GuildMaster.UI
             SetCharacter(null);
             foreach (Transform t in characterListParent)
                 Destroy(t.gameObject);
-            foreach (var (cd, i) in PlayerData.Instance.PlayerGuild._guildMembers.guildMemberList.Select((i, j) =>
+            foreach (var (cd, i) in Player.Instance.PlayerGuild._guildMembers.guildMemberList.Select((i, j) =>
                 (i, j)))
             {
                 var made = Instantiate(characterSelectTogglePrefab, characterListParent);

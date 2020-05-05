@@ -34,7 +34,7 @@
           <e p="Data" t="Include">
             <e p="Condition.cs" t="Include" />
             <e p="Inventory.cs" t="Include" />
-            <e p="PlayerData.cs" t="Include" />
+            <e p="Player.cs" t="Include" />
           </e>
           <e p="Database" t="Include">
             <e p="Database.cs" t="Include" />

@@ -31,12 +31,12 @@ namespace GuildMaster.UI.Inventory
         
         private void OnEnable()
         {
-            PlayerData.Instance.Inventory.Changed += Refresh;
+            Player.Instance.Inventory.Changed += Refresh;
         }
 
         private void OnDisable()
         {
-            PlayerData.Instance.Inventory.Changed -= Refresh;
+            Player.Instance.Inventory.Changed -= Refresh;
         }
 
 
@@ -65,7 +65,7 @@ namespace GuildMaster.UI.Inventory
 
         private void Refresh()
         {
-            var itemList = PlayerData.Instance.Inventory.GetItemList()
+            var itemList = Player.Instance.Inventory.GetItemList()
                 .Where(tup => _IsItemInCategory(tup.item, _currentCategory));
 
             foreach (var ii in _itemIcons)

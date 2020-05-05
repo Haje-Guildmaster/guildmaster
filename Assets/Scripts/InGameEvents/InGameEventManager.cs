@@ -5,12 +5,12 @@ namespace GuildMaster.InGameEvents
 {
     public class InGameEventManager
     {
-        public InGameEventManager(PlayerData playerData)
+        public InGameEventManager(Player player)
         {
-            this.playerData = playerData;
+            this._player = player;
         }
 
-        private readonly PlayerData playerData;
+        private readonly Player _player;
         public InGameEvent currentInGameEvent;
 
         public void Occur(InGameEventData inGameEventData)

@@ -24,12 +24,12 @@ namespace GuildMaster.UI
 
         private void OnEnable()
         {
-            PlayerData.Instance.QuestManager.Changed += Refresh;
+            Player.Instance.QuestManager.Changed += Refresh;
         }
 
         private void OnDisable()
         {
-            PlayerData.Instance.QuestManager.Changed -= Refresh;
+            Player.Instance.QuestManager.Changed -= Refresh;
         }
 
         private void Refresh()

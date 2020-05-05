@@ -28,7 +28,7 @@ namespace GuildMaster.InGameEvents
             }
             else
             {
-                PlayerData.Instance.InGameEventManager.End();
+                Player.Instance.InGameEventManager.End();
                 return;
             }
             UiWindowsManager.Instance.inGameEventWindow.Refresh();

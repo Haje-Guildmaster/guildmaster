@@ -31,7 +31,7 @@ namespace GuildMaster.UI
         {
             questSuggestWindow.Accepted += ()=>PlayScript(new Script{str="(퀘스트를 수락하셨습니다)"});
             questSuggestWindow.Declined += ()=>PlayScript(new Script{str="(퀘스트를 거부하셨습니다)"});;
-            PlayerData.Instance.QuestManager.Changed += UpdateAffinityBar;
+            Player.Instance.QuestManager.Changed += UpdateAffinityBar;
         }
         
         
@@ -44,7 +44,7 @@ namespace GuildMaster.UI
             
             InitialScreen();
 
-            var questTalks = PlayerData.Instance.QuestManager.GetCompletableTalkMissions(_npcCode);
+            var questTalks = Player.Instance.QuestManager.GetCompletableTalkMissions(_npcCode);
             if (questTalks.Any())
                 PlayTalkMissionScript(questTalks[0]);
         }
@@ -71,7 +71,7 @@ namespace GuildMaster.UI
             _interactionListBottom = 0f;
             AddInteractionButtonToList("퀘스트 받기", ()=>
             {
-                var questManager = PlayerData.Instance.QuestManager;
+                var questManager = Player.Instance.QuestManager;
                 var availableQuests = questManager.GetAvailableQuestsFrom(_npcDataCache.questData.QuestList);
                 if (availableQuests.Any())
                 {
@@ -106,7 +106,7 @@ namespace GuildMaster.UI
 
         private void UpdateAffinityBar()
         {
-            affinityBar.SetProgress((float) PlayerData.Instance.GetNpcStatus(_npcCode).Affinity / 100);
+            affinityBar.SetProgress((float) Player.Instance.GetNpcStatus(_npcCode).Affinity / 100);
         }
     }
 }

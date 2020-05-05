@@ -42,7 +42,7 @@ namespace GuildMaster.UI
 
         public void AcceptQuest()
         {
-            PlayerData.Instance.QuestManager.ReceiveQuest(_questCode, _npc);
+            Player.Instance.QuestManager.ReceiveQuest(_questCode, _npc);
             Accepted?.Invoke();
             Close();
         }

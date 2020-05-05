@@ -14,7 +14,7 @@ namespace GuildMaster.Testing
         private void Start()
         {
             foreach (var reward in rewards)
-                PlayerData.Instance.ApplyReward(reward);
+                Player.Instance.ApplyReward(reward);
             Destroy(this);
         }
     }

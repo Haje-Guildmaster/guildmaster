@@ -14,7 +14,7 @@ namespace GuildMaster.Testing
         private void Start()
         {
             foreach (var ch in characters)
-                PlayerData.Instance.PlayerGuild._guildMembers.guildMemberList.Add(ch);
+                Player.Instance.PlayerGuild._guildMembers.guildMemberList.Add(ch);
             Destroy(this);
         }
     }

@@ -28,7 +28,7 @@ namespace GuildMaster.UI
 
         public void AbandonCurrentQuest()
         {
-            PlayerData.Instance.QuestManager.AbandonQuest(_quest);
+            Player.Instance.QuestManager.AbandonQuest(_quest);
             Close();
         }
 

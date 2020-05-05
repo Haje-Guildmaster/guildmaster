@@ -14,11 +14,11 @@ namespace GuildMaster.Data
     // 게임을 플레이하는 사람의 모든 정보, 즉 세이브를 했을 때 저장되는 모든 데이터를 담습니다.
     // 퀘스트 클리어 정보, 길드원들, 레벨, 장비, etc...
 
-    public class PlayerData
+    public class Player
     {
-        public static PlayerData Instance
+        public static Player Instance
         {
-            get { return _instance = _instance ?? new PlayerData(); }
+            get { return _instance = _instance ?? new Player(); }
         }
 
         public event Action Changed;
@@ -84,9 +84,9 @@ namespace GuildMaster.Data
             return made;
         }
 
-        private static PlayerData _instance;
+        private static Player _instance;
 
-        private PlayerData()
+        private Player()
         {
             QuestManager = new QuestManager(this);
             InGameEventManager = new InGameEventManager(this);

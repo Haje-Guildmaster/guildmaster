@@ -16,12 +16,12 @@ namespace GuildMaster.UI
 
         private void OnEnable()
         {
-            PlayerData.Instance.QuestManager.Changed += Refresh;
+            Player.Instance.QuestManager.Changed += Refresh;
         }
 
         private void OnDisable()
         {
-            PlayerData.Instance.QuestManager.Changed -= Refresh;
+            Player.Instance.QuestManager.Changed -= Refresh;
         }
 
         public void Open()
@@ -37,7 +37,7 @@ namespace GuildMaster.UI
 
             _listBottom = 0;
 
-            foreach (var quest in PlayerData.Instance.QuestManager.CurrentQuests())
+            foreach (var quest in Player.Instance.QuestManager.CurrentQuests())
                 AddItem(quest);
         }
 

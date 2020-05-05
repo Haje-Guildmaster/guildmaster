@@ -15,11 +15,11 @@ namespace GuildMaster.Quests
     {
         public event Action Changed;
         
-        private readonly PlayerData _playerData;
+        private readonly Player _player;
         
-        public QuestManager(PlayerData playerData)
+        public QuestManager(Player player)
         {
-            _playerData = playerData;
+            _player = player;
             NpcInteractWindow.QuestScriptPlayEnd += OnQuestScriptPlayEnd;
         }
         
@@ -52,7 +52,7 @@ namespace GuildMaster.Quests
         public List<StepMission.TalkMission> GetCompletableTalkMissions(NpcCode npc)
         {
             return _quests
-                .Where(q => _playerData.CheckCondition(q.CurrentStep.StepCondition))
+                .Where(q => _player.CheckCondition(q.CurrentStep.StepCondition))
                 .SelectMany(q => q.DoingMissions)
                 .Where(mp => (mp.progress<mp.mission.MaxProgress))
                 .Select(mp => mp.mission)
@@ -70,7 +70,7 @@ namespace GuildMaster.Quests
 
 
         private bool CanReceiveQuest(QuestCode q) 
-            =>_playerData.CheckCondition(QuestDatabase.Get(q).ActivationCondition) && !CompletedQuest(q) && !DoingQuest(q);
+            =>_player.CheckCondition(QuestDatabase.Get(q).ActivationCondition) && !CompletedQuest(q) && !DoingQuest(q);
 
 
         private readonly List<Quest> _quests = new List<Quest>();
@@ -101,7 +101,7 @@ namespace GuildMaster.Quests
         {
             var cnt = 0;
 
-            foreach (var quest in _quests.Where(quest=>_playerData.CheckCondition(quest.CurrentStep.StepCondition)))
+            foreach (var quest in _quests.Where(quest=>_player.CheckCondition(quest.CurrentStep.StepCondition)))
             {
                 var mps = quest.DoingMissions;
                 for (var i = 0; i < mps.Length; i++)
@@ -122,7 +122,7 @@ namespace GuildMaster.Quests
             var questStaticData = QuestDatabase.Get(quest.QuestCode);
             // 보상주기
             foreach (var reward in questStaticData.Rewards)
-                _playerData.ApplyReward(reward);
+                _player.ApplyReward(reward);
 
             Debug.Log($"Completed a quest: {questStaticData.QuestName}");
             _completedQuests.Add(quest.QuestCode);
