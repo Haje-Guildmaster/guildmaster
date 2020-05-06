@@ -5,8 +5,6 @@ namespace GuildMaster.GuildManagement
 {
     public class GuildMembers
     {
-        public List<CharacterData> guildMemberList = new List<CharacterData>();
-
+        public readonly List<Character> GuildMemberList = new List<Character>();
     }
-
 }

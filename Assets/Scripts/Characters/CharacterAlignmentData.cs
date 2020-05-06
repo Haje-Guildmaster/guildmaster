@@ -4,49 +4,49 @@ using UnityEngine;
 namespace GuildMaster.Characters
 {
     [Serializable]
-    public class CharacterAlignmentData
+    public struct CharacterAlignmentData
     {
-        [SerializeField] private int lawOrChaos;
-        [SerializeField] private int goodOrEvil;
-        [SerializeField] private int smartOrStupid;
+        public int lawOrChaos;
+        public int goodOrEvil;
+        public int smartOrStupid;
 
-        private const int low = 0;
-        private const int high = 7;
+        private const int Low = 0;
+        private const int High = 7;
         
         public void GoLaw(int num)
         {
             int temp = lawOrChaos - num;
-            if (temp < low) lawOrChaos = low;
+            if (temp < Low) lawOrChaos = Low;
             else lawOrChaos = temp;
         }
         public void GoChaos(int num)
         {
             int temp = lawOrChaos + num;
-            if (temp > high) lawOrChaos = high;
+            if (temp > High) lawOrChaos = High;
             else lawOrChaos = temp;
         }
         public void GoGood(int num)
         {
             int temp = goodOrEvil - num;
-            if (temp < low) goodOrEvil = low;
+            if (temp < Low) goodOrEvil = Low;
             else goodOrEvil = temp;
         }
         public void GoEvil(int num)
         {
             int temp = goodOrEvil + num;
-            if (temp > high) goodOrEvil = high;
+            if (temp > High) goodOrEvil = High;
             else goodOrEvil = temp;
         }
         public void GoSmart(int num)
         {
             int temp = smartOrStupid - num;
-            if (temp < low) smartOrStupid = low;
+            if (temp < Low) smartOrStupid = Low;
             else smartOrStupid = temp;
         }
         public void GoStupid(int num)
         {
             int temp = smartOrStupid + num;
-            if (temp > high) smartOrStupid = high;
+            if (temp > High) smartOrStupid = High;
             else smartOrStupid = temp;
         }
     }

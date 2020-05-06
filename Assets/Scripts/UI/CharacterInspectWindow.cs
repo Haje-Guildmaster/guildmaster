@@ -32,13 +32,13 @@ namespace GuildMaster.UI
             SetCharacter(null);
             foreach (Transform t in characterListParent)
                 Destroy(t.gameObject);
-            foreach (var (cd, i) in Player.Instance.PlayerGuild._guildMembers.guildMemberList.Select((i, j) =>
+            foreach (var (ch, i) in Player.Instance.PlayerGuild._guildMembers.GuildMemberList.Select((i, j) =>
                 (i, j)))
             {
                 var made = Instantiate(characterSelectTogglePrefab, characterListParent);
                 made.group = characterSelectToggleGroup;
-                made.GetComponentInChildren<Text>().text = cd.basicData.UsingName;
-                var capture = cd;
+                made.GetComponentInChildren<Text>().text = ch.UsingName;
+                var capture = ch;
                 made.onValueChanged.AddListener(b =>
                 {
                     if (b) SetCharacter(capture);
@@ -48,7 +48,7 @@ namespace GuildMaster.UI
             }
         }
 
-        private void SetCharacter(CharacterData character)
+        private void SetCharacter(Character character)
         {
             _currentCharacter = character;
             Refresh();
@@ -64,15 +64,17 @@ namespace GuildMaster.UI
             }
 
             // characterIllustration.sprite = ???
-            var bd = _currentCharacter.basicData;
-            nameLabel.text = bd.UsingName;
-            loyaltyLabel.text = bd.Loyalty.ToString();
-            maxHpLabel.text = $"{bd.HP}/{bd.MaxHP}";
-            maxSpLeftLabel.text = (bd.SpIsMp ? "MP" : "DP") + ":";
-            maxSpValueLabel.text = $"{bd.SP}/{bd.MaxSP}";
-            // atkLabel.text = _currentCharacter.battleStatData.ATK private이네요?
+            nameLabel.text = _currentCharacter.UsingName;
+            loyaltyLabel.text = _currentCharacter.Loyalty.ToString();
+            maxHpLabel.text = $"{_currentCharacter.Hp}/{_currentCharacter.MaxHp}";
+            maxSpLeftLabel.text = (_currentCharacter.SpIsMp ? "MP" : "DP") + ":";
+            maxSpValueLabel.text = $"{_currentCharacter.Sp}/{_currentCharacter.MaxSp}";
+            atkLabel.text = _currentCharacter.Atk.ToString();
+            defLabel.text = _currentCharacter.Def.ToString();
+            agiLabel.text = _currentCharacter.Agi.ToString();
+            intLabel.text = _currentCharacter.Int.ToString();
         }
 
-        private CharacterData _currentCharacter;
+        private Character _currentCharacter;
     }
 }

@@ -32,7 +32,7 @@ namespace GuildMaster.UI
         {
             var guild = Player.Instance.PlayerGuild;
             rankLabel.text = guild.Rank.ToString();
-            membersNumberLabel.text = $"{guild._guildMembers.guildMemberList.Count()}/{guild.MemberNumberLimit}";
+            membersNumberLabel.text = $"{guild._guildMembers.GuildMemberList.Count()}/{guild.MemberNumberLimit}";
             balanceLabel.text = guild.Balance.ToString();
             reputationLabel.text = guild.Reputation.ToString();
         }

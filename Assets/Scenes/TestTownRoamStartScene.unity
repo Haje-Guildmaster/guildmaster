@@ -4446,6 +4446,7 @@ MonoBehaviour:
   itemDatabase: {fileID: 11400000, guid: 51c68d944a5e3324fb5ed84beca52d49, type: 2}
   npcDatabase: {fileID: 11400000, guid: 24262711775cdba489a3899c94aae0c4, type: 2}
   questDatabase: {fileID: 11400000, guid: 77c7fdd39e26e7c4bb8945c83f9058da, type: 2}
+  characterDatabase: {fileID: 11400000, guid: 4ed3405fba6f02f4192fa132271cf315, type: 2}
 --- !u!1001 &742437429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11575,7 +11576,7 @@ GameObject:
   - component: {fileID: 1645112779}
   - component: {fileID: 1645112781}
   m_Layer: 0
-  m_Name: Debug
+  m_Name: Testing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11635,8 +11636,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characters:
-  - {fileID: 11400000, guid: 8b8d7d47f47082b439fbbc7a65d2dd20, type: 2}
-  - {fileID: 11400000, guid: b1300b17ef996d74c82d804355703211, type: 2}
+  - Value: 0
+  - Value: 1
 --- !u!1 &1669546731
 GameObject:
   m_ObjectHideFlags: 0

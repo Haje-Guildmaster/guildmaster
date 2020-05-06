@@ -4,7 +4,7 @@ namespace GuildMaster.GuildManagement
 {
     public class Guild
     {
-        public event Action Changed;
+        public event Action Changed;    // 미완.
 
         public enum GuildRank
         {

@@ -7,7 +7,7 @@ namespace GuildMaster.Party
 {
     public class PartyMembers
     {
-        public List<CharacterData> partyMembers;
+        public List<CharacterStaticData> partyMembers;
         
     }
 }

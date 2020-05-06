@@ -1,7 +1,3 @@
-using System;
-using GuildMaster.Items;
-using GuildMaster.Npcs;
-using GuildMaster.Quests;
 using UnityEngine;
 
 namespace GuildMaster.Database
@@ -11,12 +7,14 @@ namespace GuildMaster.Database
         public ItemDatabase itemDatabase;
         public NpcDatabase npcDatabase;
         public QuestDatabase questDatabase;
+        public CharacterDatabase characterDatabase;
     
         private void Awake()
         {
             ItemDatabase.LoadSingleton(itemDatabase);
             NpcDatabase.LoadSingleton(npcDatabase);
             QuestDatabase.LoadSingleton(questDatabase);
+            CharacterDatabase.LoadSingleton(characterDatabase);
         }
     }
 }

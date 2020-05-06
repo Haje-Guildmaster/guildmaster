@@ -25,11 +25,12 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
-          <e p="Character" t="Include">
+          <e p="Characters" t="Include">
+            <e p="Character.cs" t="Include" />
             <e p="CharacterAlignmentData.cs" t="Include" />
             <e p="CharacterBasicData.cs" t="Include" />
             <e p="CharacterBattleStatData.cs" t="Include" />
-            <e p="CharacterData.cs" t="Include" />
+            <e p="CharacterStaticData.cs" t="Include" />
           </e>
           <e p="Data" t="Include">
             <e p="Condition.cs" t="Include" />
@@ -37,6 +38,7 @@
             <e p="Player.cs" t="Include" />
           </e>
           <e p="Database" t="Include">
+            <e p="CharacterDatabase.cs" t="Include" />
             <e p="Database.cs" t="Include" />
             <e p="DatabaseEditor.cs" t="Include" />
             <e p="DatabaseIndexDrawer.cs" t="Include" />
