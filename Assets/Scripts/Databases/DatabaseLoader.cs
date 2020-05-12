@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GuildMaster.Database
+namespace GuildMaster.Databases
 {
     public class DatabaseLoader: MonoBehaviour
     {

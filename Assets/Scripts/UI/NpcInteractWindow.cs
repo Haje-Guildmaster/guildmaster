@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GuildMaster.Data;
-using GuildMaster.Database;
+using GuildMaster.Databases;
 using GuildMaster.Dialog;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;

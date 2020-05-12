@@ -39,7 +39,7 @@ namespace GuildMaster.UI
                     return _instance;
                 _instance = FindObjectOfType<UiWindowsManager>();  
                 if (!_instance)
-                    throw new Exception("There needs to be an active WindowManager component in the scene");
+                    throw new Exception("There needs to be an active UiWindowManager component in the scene");
                 return _instance;
             } 
         }

@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 using GuildMaster.Characters;
-using GuildMaster.Database;
+using GuildMaster.Databases;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using UnityEditor;
 using UnityEngine;
 
-namespace GuildMaster.Database
+namespace GuildMaster.Databases
 {
     [CreateAssetMenu(fileName = "CharacterDatabase", menuName = "ScriptableObjects/CharacterDatabase", order = 0)]
     public class CharacterDatabase : UnityEditableDatabase<CharacterDatabase, CharacterStaticData, CharacterCode>

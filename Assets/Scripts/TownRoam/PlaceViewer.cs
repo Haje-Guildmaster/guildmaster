@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GuildMaster.Database;
+using GuildMaster.Databases;
 using GuildMaster.Npcs;
 using GuildMaster.Tools;
 using GuildMaster.UI;

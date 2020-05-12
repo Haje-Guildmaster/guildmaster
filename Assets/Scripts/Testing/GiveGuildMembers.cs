@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using GuildMaster.Characters;
 using GuildMaster.Data;
-using GuildMaster.Database;
+using GuildMaster.Databases;
 using GuildMaster.Rewards;
 using UnityEngine;
 

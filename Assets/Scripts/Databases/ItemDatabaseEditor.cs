@@ -1,7 +1,7 @@
 using GuildMaster.Items;
 using UnityEditor;
 
-namespace GuildMaster.Database
+namespace GuildMaster.Databases
 {
     [CustomEditor(typeof(ItemDatabase))]
     public class ItemDatabaseEditor: DatabaseEditor<ItemDatabase, ItemStaticData, ItemCode>

@@ -1,6 +1,6 @@
 ﻿using System;
 using GuildMaster.Data;
-using GuildMaster.Database;
+using GuildMaster.Databases;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using UnityEngine;

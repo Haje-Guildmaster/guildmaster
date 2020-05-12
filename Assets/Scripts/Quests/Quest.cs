@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using GuildMaster.Database;
+using GuildMaster.Databases;
 
 namespace GuildMaster.Quests
 {

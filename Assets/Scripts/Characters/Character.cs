@@ -1,6 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
-using GuildMaster.Database;
+using GuildMaster.Databases;
 using UnityEngine;
 
 namespace GuildMaster.Characters

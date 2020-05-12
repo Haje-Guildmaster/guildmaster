@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using GuildMaster.Database;
+using GuildMaster.Databases;
 using GuildMaster.Quests;
 using UnityEngine;
 

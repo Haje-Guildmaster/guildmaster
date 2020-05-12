@@ -4,7 +4,7 @@ using System.Linq;
 using GuildMaster.Items;
 using UnityEngine;
 
-namespace GuildMaster.Database
+namespace GuildMaster.Databases
 {
     [Serializable]
     public abstract class Database<TSelf, TElement> : ScriptableObject where TSelf: Database<TSelf, TElement>

@@ -2,7 +2,7 @@ using System.Diagnostics.Contracts;
 using UnityEditor;
 using UnityEngine;
 
-namespace GuildMaster.Database
+namespace GuildMaster.Databases
 {
     public abstract class DatabaseIndexDrawer<TDb, TElement> : PropertyDrawer where TDb : Database<TDb, TElement>
     {

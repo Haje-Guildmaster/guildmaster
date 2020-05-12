@@ -1,5 +1,5 @@
 using System;
-using GuildMaster.Database;
+using GuildMaster.Databases;
 using UnityEngine;
 
 namespace GuildMaster.Items

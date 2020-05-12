@@ -1,4 +1,4 @@
-﻿using GuildMaster.Database;
+﻿using GuildMaster.Databases;
 using GuildMaster.Npcs;
 using GuildMaster.Tools;
 using UnityEngine;

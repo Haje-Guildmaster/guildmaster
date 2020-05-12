@@ -3,7 +3,7 @@ using GuildMaster.Items;
 using UnityEditor;
 using UnityEngine;
 
-namespace GuildMaster.Database
+namespace GuildMaster.Databases
 {
     [CreateAssetMenu(fileName = "ItemDatabase", menuName = "ScriptableObjects/ItemDatabase", order = 0)]
     public class ItemDatabase : UnityEditableDatabase<ItemDatabase, ItemStaticData, ItemCode>

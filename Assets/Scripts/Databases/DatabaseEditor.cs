@@ -2,7 +2,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace GuildMaster.Database
+namespace GuildMaster.Databases
 {
     public abstract class DatabaseEditor<TDb, TElement, TIndex> : 
         Editor where TDb : UnityEditableDatabase<TDb, TElement, TIndex> where TIndex: Database<TDb, TElement>.Index, new()

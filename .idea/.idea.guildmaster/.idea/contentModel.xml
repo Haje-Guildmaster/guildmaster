@@ -37,7 +37,7 @@
             <e p="Inventory.cs" t="Include" />
             <e p="Player.cs" t="Include" />
           </e>
-          <e p="Database" t="Include">
+          <e p="Databases" t="Include">
             <e p="CharacterDatabase.cs" t="Include" />
             <e p="Database.cs" t="Include" />
             <e p="DatabaseEditor.cs" t="Include" />
