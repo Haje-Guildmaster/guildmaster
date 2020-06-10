@@ -19,11 +19,16 @@ namespace GuildMaster.TownRoam
         {
             _camera = GetComponent<Camera>();
         }
-        
+
+        private void OnDisable()
+        {
+            Goto(null);
+        }
+
         private void Update()
         {
-            if (_currentPlace == null) return;
-            // if (ReferenceEquals(_currentPlace, null)) return;
+            // if (_currentPlace == null) return;
+            if (ReferenceEquals(_currentPlace, null)) return;
             
             // 화면 비율이 바뀌는 것을 걱정해 Update에 넣습니다. 화면 비율이 바뀌지 않는 게 확실하면 Goto에 넣어주세요.
             _camera.orthographicSize = Math.Max(_currentPlace.Size.y/2, _currentPlace.Size.x/2/_camera.aspect);
@@ -31,19 +36,28 @@ namespace GuildMaster.TownRoam
         }
         public void Goto(Place p)
         {
+            Debug.Log(p);
             // 현재는 카메라를 이동시키며 그 Place를 활성화시키는 방법을 사용하고 있으나,
             // 그 장소를 복제하여 그곳을 비추는 것도 괜찮아 보입니다.    
-            if (p == null) throw new Exception("PlaceViewer cannot Goto null");
             
             // 전에 있던 장소 비활성화&현재 장소 활성화.
             if (_currentPlace != null)
-                SetLayersOfChildren(_currentPlace.gameObject, _originalLayer);         
+            {
+                SetLayersOfChildren(_currentPlace.gameObject, _originalLayer);
+                _currentPlace.NotifyView(false);
+            }
+
             _currentPlace = p;
+
+            if (p == null) return;
+            
+            // 새로 이동하는 장소 활성화.
+            p.NotifyView(true);
 
             var gObj = p.gameObject;
             _originalLayer = gObj.layer;
             SetLayersOfChildren(gObj, PlaceBeingViewedLayer);
-            
+
             UpdateSubscribedButtons<PlaceMoveButton, PlaceMoveButton>
                 (_subscribedMoveButtons, gObj, btn => Goto(btn.connectedPlace));
             UpdateSubscribedButtons<RoamingNpc, NpcCode>

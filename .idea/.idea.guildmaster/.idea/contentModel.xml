@@ -102,6 +102,7 @@
             <e p="Persistent.cs" t="Include" />
           </e>
           <e p="TownRoam" t="Include">
+            <e p="ActivateOnPlaceViewed.cs" t="Include" />
             <e p="Place.cs" t="Include" />
             <e p="PlaceMoveButton.cs" t="Include" />
             <e p="PlaceViewer.cs" t="Include" />
