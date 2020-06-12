@@ -54,6 +54,8 @@ namespace GuildMaster.Databases
 
         public static void LoadSingleton(TSelf database)
         {
+            if (_instance != null)
+                throw new Exception("This function should be called only one time");
             _instance = database;
         }
 

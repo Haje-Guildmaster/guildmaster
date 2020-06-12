@@ -27,7 +27,7 @@ namespace GuildMaster.UI
 
         public void Refresh()
         {
-            eventDescriptionText.text = Player.Instance.InGameEventManager.currentInGameEvent.currentSceneData.InGameEventDescription;
+            eventDescriptionText.text = Player.Instance.InGameEventManager.currentInGameEvent.currentSceneData.SceneDescription;
 
             foreach (Transform child in listChoicesParent)
                 Destroy(child.gameObject);
@@ -42,7 +42,7 @@ namespace GuildMaster.UI
             }
         }
 
-        private void AddChoice(InGameEventChoiceData choiceData, int choiceNum)
+        private void AddChoice(InGameEventStaticData.InGameEventSceneData.InGameEventChoiceData choiceData, int choiceNum)
         {
             var choice = Instantiate(InGameEventChoiceItemPrefab, listChoicesParent);
             choice.clickChecker.onClick.AddListener(() => Player.Instance.InGameEventManager.Choose(choiceNum));

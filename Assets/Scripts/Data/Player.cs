@@ -11,7 +11,7 @@ using JetBrains.Annotations;
 
 namespace GuildMaster.Data
 {
-    // 게임을 플레이하는 사람의 모든 정보, 즉 세이브를 했을 때 저장되는 모든 데이터를 담습니다.
+    // 플레이어의 플레이 정보를 담습니다.
     // 퀘스트 클리어 정보, 길드원들, 레벨, 장비, etc...
 
     public class Player
@@ -29,7 +29,6 @@ namespace GuildMaster.Data
         public readonly InGameEventManager InGameEventManager;
         public readonly Guild PlayerGuild;
         private readonly Dictionary<int, NpcStatus> _npcStatusMap = new Dictionary<int, NpcStatus>();        // array로 바꿀수도.
-
 
         // 
         

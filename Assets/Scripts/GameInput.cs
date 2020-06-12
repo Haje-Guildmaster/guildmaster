@@ -22,9 +22,7 @@ namespace GuildMaster
             //For Test InGameEvents
             if (Input.GetKeyDown(KeyCode.T))
             {
-                InGameEventData inGameEventData = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/ScriptableObjects/InGameEvent/CursedOldBook.asset") as InGameEventData;
-                Player.Instance.InGameEventManager.Occur(inGameEventData);
-                
+                // Player.Instance.InGameEventManager.Occur(inGameEventData);
             }
         }
     }

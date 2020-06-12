@@ -7,24 +7,24 @@ namespace GuildMaster.InGameEvents
 {
     public class InGameEvent
     {
-        public InGameEvent(InGameEventData inGameEventData)
+        public InGameEvent(InGameEventStaticData inGameEventData)
         {
             this.InGameEventData = inGameEventData;
             this.currentSceneNum = 0;
         }
 
-        public readonly InGameEventData InGameEventData;
+        public readonly InGameEventStaticData InGameEventData;
         public int currentSceneNum;
-        public InGameEventSceneData currentSceneData => InGameEventData.Scenes[currentSceneNum];
+        public InGameEventStaticData.InGameEventSceneData currentSceneData => InGameEventData.Scenes[currentSceneNum];
 
         public void Choose(int choice)
         {
             if (InGameEventData.Scenes.Count <= choice || choice < 0)
                 throw new Exception("There is wrong choice");
-            InGameEventChoiceData currentChoice = currentSceneData.Choices[choice];
-            if (currentChoice.HasNextStep)
+            var currentChoice = currentSceneData.Choices[choice];
+            if (currentChoice.NextStep is int ns)
             {
-                currentSceneNum = currentChoice.NextStep;
+                currentSceneNum = ns;
             }
             else
             {

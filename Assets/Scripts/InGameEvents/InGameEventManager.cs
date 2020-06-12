@@ -13,7 +13,7 @@ namespace GuildMaster.InGameEvents
         private readonly Player _player;
         public InGameEvent currentInGameEvent;
 
-        public void Occur(InGameEventData inGameEventData)
+        public void Occur(InGameEventStaticData inGameEventData)
         {
             if (this.currentInGameEvent != null)
                 throw new System.Exception("now doing another event");
