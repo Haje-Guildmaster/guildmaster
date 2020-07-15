@@ -36,7 +36,7 @@ namespace GuildMaster.TownRoam
         }
         public void Goto(Place p)
         {
-            Debug.Log(p);
+            // Debug.Log(p);
             // 현재는 카메라를 이동시키며 그 Place를 활성화시키는 방법을 사용하고 있으나,
             // 그 장소를 복제하여 그곳을 비추는 것도 괜찮아 보입니다.    
             
