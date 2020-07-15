@@ -12,6 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c995babcddd24c60beeabb58a2a71d74, type: 3}
   m_Name: InGameEventDatabase
   m_EditorClassIdentifier: 
-  dataList: []
+  dataList:
+  - EventName: Test Event 0
+    Scenes:
+    - SceneSprite: {fileID: 0}
+      SceneDescription: 
+      Choices: []
+    - SceneSprite: {fileID: 0}
+      SceneDescription: 
+      Choices: []
+    - SceneSprite: {fileID: 0}
+      SceneDescription: 
+      Choices: []
+  - EventName: 
+    Scenes: []
+  - EventName: 
+    Scenes: []
   currentEditingIndex:
     Value: 0
