@@ -9,20 +9,22 @@ namespace GuildMaster.Exploration
      */
     public class SlideBackgroundView: MonoBehaviour
     {
-        public Vector2 CurrentViewLocation { get; private set;}
+        public Vector2 CurrentViewLocation
+        {
+            get => _currentViewLocation;
+            set
+            {
+                _currentViewLocation = value;
+                UpdateChildElements();
+            }
+        }
         
+
         public void Move(Vector2 distance)
         {
-            SetViewLocation(CurrentViewLocation + distance);
+            CurrentViewLocation += distance;
         }
         
-        public void SetViewLocation(Vector2 location)
-        {
-            CurrentViewLocation = location;
-            UpdateChildElements();
-        }
-        
-      
 
         private void UpdateChildElements()
         {
@@ -36,8 +38,8 @@ namespace GuildMaster.Exploration
         {
             _elements = GetComponentsInChildren<SlideBackgroundElement>().ToList();
         }
-        
-        
+
+        private Vector2 _currentViewLocation;
         private List<SlideBackgroundElement> _elements;
     }
 }

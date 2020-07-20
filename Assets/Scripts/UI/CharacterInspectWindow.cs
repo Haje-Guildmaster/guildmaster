@@ -63,11 +63,12 @@ namespace GuildMaster.UI
                 return;
             }
 
-            // characterIllustration.sprite = ???
+            var sd = _currentCharacter.StaticData;
+            characterIllustration.sprite = sd.basicData.illustration;
             nameLabel.text = _currentCharacter.UsingName;
             loyaltyLabel.text = _currentCharacter.Loyalty.ToString();
             maxHpLabel.text = $"{_currentCharacter.Hp}/{_currentCharacter.MaxHp}";
-            maxSpLeftLabel.text = (_currentCharacter.SpIsMp ? "MP" : "DP") + ":";
+            maxSpLeftLabel.text = (sd.battleStatData.spIsMp ? "MP" : "DP") + ":";
             maxSpValueLabel.text = $"{_currentCharacter.Sp}/{_currentCharacter.MaxSp}";
             atkLabel.text = _currentCharacter.Atk.ToString();
             defLabel.text = _currentCharacter.Def.ToString();

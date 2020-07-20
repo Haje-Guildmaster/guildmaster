@@ -1,5 +1,4 @@
 ﻿using System;
-using GuildMaster.TownRoam.Towns;
 using UnityEngine;
 
 namespace GuildMaster.TownRoam.Towns
