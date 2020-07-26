@@ -1,4 +1,5 @@
 ﻿using System;
+using GuildMaster.Tools;
 
 namespace GuildMaster.Npcs
 {
@@ -6,16 +7,11 @@ namespace GuildMaster.Npcs
     {
         public event Action Changed;
 
-        public int Affinity
+        public NpcStatus()
         {
-            get => _affinity;
-            set
-            {
-                _affinity = value;
-                Changed?.Invoke();
-            }
+            Affinity.Changed += Changed;
         }
-
-        private int _affinity;
+        
+        public readonly ChangeTrackedValue<int> Affinity = new ChangeTrackedValue<int>(0);
     }
 }

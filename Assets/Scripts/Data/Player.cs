@@ -11,9 +11,8 @@ using JetBrains.Annotations;
 
 namespace GuildMaster.Data
 {
-    // 플레이어의 플레이 정보를 담습니다.
-    // 퀘스트 클리어 정보, 길드원들, 레벨, 장비, etc...
-
+    /// 플레이어의 플레이 정보를 담습니다.
+    /// 퀘스트 클리어 정보, 길드원들, npc상태, 레벨, 장비, etc...
     public class Player
     {
         public static Player Instance
@@ -22,19 +21,20 @@ namespace GuildMaster.Data
         }
 
         public event Action Changed;
-        
+
         // 속한 데이터
         public readonly QuestManager QuestManager;
         public readonly Inventory Inventory;
         public readonly InGameEventManager InGameEventManager;
         public readonly Guild PlayerGuild;
-        private readonly Dictionary<int, NpcStatus> _npcStatusMap = new Dictionary<int, NpcStatus>();        // array로 바꿀수도.
+        private readonly Dictionary<int, NpcStatus> _npcStatusMap = new Dictionary<int, NpcStatus>(); // array로 바꿀수도.
 
         // 
-        
-        [NotNull] public NpcStatus GetNpcStatus(NpcCode npc)
+
+        [NotNull]
+        public NpcStatus GetNpcStatus(NpcCode npc)
         {
-            return _npcStatusMap.TryGetValue(npc.Value, out var ret)? ret : _AddNpcStatus(npc);
+            return _npcStatusMap.TryGetValue(npc.Value, out var ret) ? ret : _AddNpcStatus(npc);
         }
 
         public void ApplyReward(Reward reward)
@@ -42,7 +42,7 @@ namespace GuildMaster.Data
             switch (reward)
             {
                 case Reward.AffinityReward affinityReward:
-                    GetNpcStatus(affinityReward.targetNpc).Affinity += affinityReward.amount;
+                    GetNpcStatus(affinityReward.targetNpc).Affinity.Value += affinityReward.amount;
                     break;
                 case Reward.ItemReward itemReward:
                     Inventory.TryAddItem(itemReward.item, itemReward.number);
@@ -74,7 +74,8 @@ namespace GuildMaster.Data
         }
 
 
-        [NotNull] private NpcStatus _AddNpcStatus(NpcCode npc)
+        [NotNull]
+        private NpcStatus _AddNpcStatus(NpcCode npc)
         {
             var made = new NpcStatus();
             _npcStatusMap.Add(npc.Value, made);
