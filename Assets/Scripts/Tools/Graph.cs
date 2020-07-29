@@ -10,8 +10,10 @@ namespace GuildMaster.Tools
     ///  여러 그래프를 나타내기 위한 제너릭 클래스입니다.
     /// </summary>
     /// <typeparam name="TNodeContent"> 노드가 소유할 내용의 타입</typeparam>
+    [Serializable]
     public class Graph<TNodeContent>
     {
+        [Serializable]
         public class Node
         {
             public Node(int nodeIndex, TNodeContent content)
@@ -44,6 +46,6 @@ namespace GuildMaster.Tools
         public int NodeCount => _nodes.Count;
         public IEnumerable<Node> Nodes => _nodes;
 
-        private readonly List<Node> _nodes = new List<Node>();
+        [SerializeField] private List<Node> _nodes = new List<Node>();
     }
 }

@@ -12,7 +12,7 @@ namespace GuildMaster.Exploration
     [Serializable]
     public class ExplorationMap
     {
-        [SerializeField] private MapGraph _graph = new MapGraph();
+        [SerializeField] private Graph<NodeContent> _graph;
 
         [Serializable]
         public class NodeContent
@@ -23,9 +23,6 @@ namespace GuildMaster.Exploration
         }
         
         public Sprite Background;
-        public Graph<NodeContent> Graph => _graph; 
-
-        [Serializable]
-        private class MapGraph : Graph<NodeContent> {}
+        public Graph<NodeContent> Graph => _graph;
     }
 }

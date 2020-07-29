@@ -30,8 +30,13 @@ namespace GuildMaster.Tools
             }
         }
 
-        private T _value;
 
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+
+        private T _value;
         public static implicit operator T(ChangeTrackedValue<T> ctv) => ctv.Value;
     }
 }
