@@ -8,7 +8,7 @@ namespace GuildMaster.Exploration
     public class ExplorationRoadView : MonoBehaviour
     {
         [SerializeField] private SlideBackgroundView slideBackgroundView;
-        [SerializeField] private List<ExplorationCharacterSprite> characterSprites;
+        [SerializeField] private List<CharacterSprite> characterSprites;
         [SerializeField] private SlideBackgroundElement characterSlide;        // Todo: 임시.
 
         private const float NormalMoveSpeed = 0.012f;

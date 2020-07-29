@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace GuildMaster.Tools
@@ -12,20 +13,21 @@ namespace GuildMaster.Tools
     {
         public class Node
         {
-            public Node(int nodeIndex)
+            public Node(int nodeIndex, TNodeContent content)
             {
                 NodeIndex = nodeIndex;
+                Content = content;
             }
 
             public readonly int NodeIndex;
             public TNodeContent Content { get; private set; }
-            public List<Node> Connected = new List<Node>();
+            public List<int> Connected = new List<int>();
         }
 
         public Node AddNode(TNodeContent content)
         {
             var index = _nodes.Count;
-            var newNode = new Node(index);
+            var newNode = new Node(index, content);
             _nodes.Add(newNode);
             return newNode;
         }
@@ -39,6 +41,7 @@ namespace GuildMaster.Tools
         }
 
         public int NodeCount => _nodes.Count;
+        public IEnumerable<Node> Nodes => _nodes;
 
         private readonly List<Node> _nodes = new List<Node>();
     }

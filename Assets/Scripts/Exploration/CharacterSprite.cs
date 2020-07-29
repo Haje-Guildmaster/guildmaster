@@ -9,9 +9,9 @@ namespace GuildMaster.Exploration
      * 탐색 씬에서 이동하고 있는 캐릭터 한 명의 모습을 나타냅니다.
      */
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ExplorationCharacterSprite : GenericButton<ExplorationCharacterSprite>
+    public class CharacterSprite : GenericButton<CharacterSprite>
     {
-        protected override ExplorationCharacterSprite EventArgument => this;
+        protected override CharacterSprite EventArgument => this;
         public Character Character { get; private set; }
 
         public void SetCharacter(Character character)
