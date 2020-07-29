@@ -10,11 +10,14 @@ namespace GuildMaster.Exploration
      */
     public class ExplorationDebugger: MonoBehaviour
     {
+        [SerializeField] private ExplorationMap _map;
         private void Start()
         {
             _explorationView = FindObjectOfType<ExplorationView>();
-            _explorationView.Setup(null);
+            _explorationView.Setup(null, _map);
+            _explorationView.StartExploration();
         }
+        
         private void OnGUI()
         {
             GUILayout.BeginHorizontal();

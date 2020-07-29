@@ -12,7 +12,6 @@ namespace GuildMaster.Exploration
         [SerializeField] private SlideBackgroundElement characterSlide;        // Todo: 임시.
 
         private const float NormalMoveSpeed = 0.012f;
-        private float MoveSpeed = NormalMoveSpeed;
 
         public void Setup(List<Character> characters)
         {
@@ -29,7 +28,7 @@ namespace GuildMaster.Exploration
         private void Update()
         {
             if (!_going) return;
-            _currentPosition += MoveSpeed;
+            _currentPosition += _moveSpeed;
             foreach (var chtr in characterSprites)
             {
                 chtr.Goto(_currentPosition*characterSlide.MoveRatio);
@@ -38,6 +37,7 @@ namespace GuildMaster.Exploration
             slideBackgroundView.CurrentViewLocation = new Vector2(_currentPosition, 0);
         }
 
+        private float _moveSpeed = NormalMoveSpeed;
         private float _currentPosition = 0f;
         private bool _going;
     }

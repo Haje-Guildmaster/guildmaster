@@ -12,18 +12,20 @@ namespace GuildMaster.Exploration
     [Serializable]
     public class ExplorationMap
     {
-        [SerializeField] private NodeContentGraph _graph = new NodeContentGraph();
+        [SerializeField] private MapGraph _graph = new MapGraph();
 
         [Serializable]
         public class NodeContent
         {
             public LocationCode LocationCode;
             public Vector2 Position;
+            public Location Location => ExplorationLocationDatabase.Get(LocationCode);
         }
         
         public Sprite Background;
         public Graph<NodeContent> Graph => _graph; 
 
-        private class NodeContentGraph : Graph<NodeContent> {}
+        [Serializable]
+        private class MapGraph : Graph<NodeContent> {}
     }
 }

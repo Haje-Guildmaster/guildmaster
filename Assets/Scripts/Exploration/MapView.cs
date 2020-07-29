@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using GuildMaster.Databases;
 using GuildMaster.Tools;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GuildMaster.Exploration
 {
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
     public class MapView : MonoBehaviour
     {
-        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private SpriteRenderer _backgroundRenderer;
         [SerializeField] private LocationButton _locationButtonPrefab;
 
         public void LoadMap(ExplorationMap map)
@@ -17,11 +18,11 @@ namespace GuildMaster.Exploration
             Cleanup();
 
             _map = map;
-            _spriteRenderer.sprite = _map.Background;
+            _backgroundRenderer.sprite = _map.Background;
 
             foreach (var node in map.Graph.Nodes)
             {
-                var newButton = Instantiate(_locationButtonPrefab, _spriteRenderer.transform);
+                var newButton = Instantiate(_locationButtonPrefab, _backgroundRenderer.transform);
                 newButton.transform.localPosition = node.Content.Position * 1f;
                 newButton.SetNode(node);
                 newButton.Clicked += ProcessLocationButtonClick;
@@ -50,12 +51,12 @@ namespace GuildMaster.Exploration
         }
 
 
-        public delegate Color LocationButtonColorFunc(MapNode node);
+        public delegate Color LocationButtonColorFunc(LocationButton node);
         public void SetHighlightFunc(LocationButtonColorFunc colorFunc)
         {
             foreach (var lb in _locationButtons)
             {
-                lb.Highlight(colorFunc(lb.Node));
+                lb.Highlight(colorFunc(lb));
             }
         }
 
