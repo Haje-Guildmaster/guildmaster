@@ -1,5 +1,6 @@
 using System;
 using UnityEditorInternal;
+using UnityEngine;
 
 namespace GuildMaster.Tools
 {
@@ -7,6 +8,7 @@ namespace GuildMaster.Tools
     /// <c>T</c>타입 변수 하나를 저장하며, 그 변수의 변화를 탐지합니다.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [Serializable]
     public class ChangeTrackedValue<T>
     {
         public event Action Changed;
@@ -36,7 +38,7 @@ namespace GuildMaster.Tools
             return Value.ToString();
         }
 
-        private T _value;
+        [SerializeField] private T _value;
         public static implicit operator T(ChangeTrackedValue<T> ctv) => ctv.Value;
     }
 }

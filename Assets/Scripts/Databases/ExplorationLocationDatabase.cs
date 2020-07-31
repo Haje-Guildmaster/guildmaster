@@ -5,21 +5,20 @@ using UnityEngine;
 
 namespace GuildMaster.Databases
 {
-    [CreateAssetMenu(fileName = "nameof(ExplorationLocationDatabase)",
-        menuName = "ScriptableObjects/ExplorationLocationDatabase", order = 0)]
+    [CreateAssetMenu(fileName = nameof(ExplorationLocationDatabase),
+        menuName = "ScriptableObjects/" + nameof(ExplorationLocationDatabase), order = 0)]
     public class
         ExplorationLocationDatabase : UnityEditableDatabase<ExplorationLocationDatabase, Exploration.Location,
             LocationCode>
     {
     }
 
-    [CustomEditor(typeof(Databases.InGameEventDatabase))]
+    [CustomEditor(typeof(ExplorationLocationDatabase))]
     public class ExplorationLocationDatabaseEditor : DatabaseEditor<ExplorationLocationDatabase, Exploration.Location,
         LocationCode>
     {
     }
 
-    // 유니티 serialization을 위해.
     [Serializable]
     public class LocationCode : ExplorationLocationDatabase.Index
     {

@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3507800562024551457}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -48,6 +48,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -121,6 +122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f007924194864e5cb7d0243a77c12d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetSprite: {fileID: 7832156492534197246}
+  _normalColor: {r: 0, g: 0, b: 0, a: 0}
+  _mouseOnColor: {r: 0, g: 0, b: 0, a: 0}
+  _pressedColor: {r: 0, g: 0, b: 0, a: 0}
   _baseLocationSprite: {fileID: 21300000, guid: 6be65981966382043a5f524fcca9a8e4,
     type: 3}
   _normalLocationSprite: {fileID: 21300000, guid: 0975a1b59754d834099e48348c0b2cf8,

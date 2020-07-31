@@ -1,12 +1,12 @@
-using System;
 using System.Collections.Generic;
 using GuildMaster.Characters;
 using GuildMaster.Tools;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Assertions;
 
 namespace GuildMaster.Exploration
 {
+    using MapNode = Graph<ExplorationMap.NodeContent>.Node;
     /// <summary>
     /// ExplorationManager로부터 명령 받아 탐색 과정을 실제로 유저에게 보여주는 역할입니다.
     /// </summary>
@@ -14,6 +14,7 @@ namespace GuildMaster.Exploration
     {
         [SerializeField] private ExplorationRoadView _roadView;
         [SerializeField] private MapView _mapView;
+        [SerializeField] private MapBaseSelector _baseSelector;
         
         public void Setup(List<Character> characters, ExplorationMap map)
         {
@@ -28,15 +29,8 @@ namespace GuildMaster.Exploration
         public void StartExploration()
         {
             CurrentState = State.LocationSelecting;
-            
             _mapView.gameObject.SetActive(true);
-            _mapView.SetHighlightFunc(lb =>
-            {
-                if (lb.Node.Content.Location.LocationType == Location.Type.Base)
-                    return lb.IsUnderPointer ? Color.blue : Color.cyan;
-                return Color.white;
-            });
-            _mapView.Select(node => node.Content.Location.LocationType == Location.Type.Base, StartRoadView);
+            _baseSelector.Select(_mapView, StartRoadView);
         }
 
         public void Pause()
@@ -46,8 +40,11 @@ namespace GuildMaster.Exploration
             // Todo:
         }
 
-        private void StartRoadView(Graph<ExplorationMap.NodeContent>.Node node)
+        private void StartRoadView(MapNode startingBaseNode/*, MapNode headingNode*/)
         {
+            Assert.IsTrue(startingBaseNode.Content.Location.LocationType == Location.Type.Base);
+            // Assert.IsTrue(startingBaseNode.Connected.Contains(headingNode.NodeIndex));
+            
             CurrentState = State.OnMove;
             
             _roadView.SetGoing(true);

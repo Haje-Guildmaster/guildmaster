@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using GuildMaster.Databases;
+using System.Diagnostics.Contracts;
 using GuildMaster.Tools;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace GuildMaster.Exploration
 {
@@ -29,7 +28,7 @@ namespace GuildMaster.Exploration
                 _locationButtons.Add(newButton);
             }
             
-            SetHighlightFunc(_ => Color.white);
+            ColorLocationButtons(_ => (Color.white, Color.white, Color.white));
         }
 
         private void ProcessLocationButtonClick(LocationButton locationButton)
@@ -51,12 +50,12 @@ namespace GuildMaster.Exploration
         }
 
 
-        public delegate Color LocationButtonColorFunc(LocationButton node);
-        public void SetHighlightFunc(LocationButtonColorFunc colorFunc)
+        [Pure] public delegate (Color normalColor, Color mouseOnColor, Color pressedColor) LocationButtonColorFunc(MapNode node);
+        public void ColorLocationButtons(LocationButtonColorFunc colorFunc)
         {
             foreach (var lb in _locationButtons)
             {
-                lb.Highlight(colorFunc(lb));
+               lb.SetColor(colorFunc(lb.Node));
             }
         }
 

@@ -19,11 +19,13 @@ namespace GuildMaster.Tools
             public Node(int nodeIndex, TNodeContent content)
             {
                 NodeIndex = nodeIndex;
-                Content = content;
+                _content = content;
             }
 
             public readonly int NodeIndex;
-            public TNodeContent Content { get; private set; }
+            public TNodeContent Content => _content;
+
+            [SerializeField] private TNodeContent _content;
             public List<int> Connected = new List<int>();
         }
 

@@ -2,6 +2,7 @@ using System;
 using GuildMaster.Databases;
 using GuildMaster.Tools;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 
 
@@ -11,27 +12,16 @@ namespace GuildMaster.Exploration
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
     
     [RequireComponent(typeof(SpriteRenderer))]
-    public class LocationButton: GenericButton<LocationButton>, IPointerEnterHandler, IPointerExitHandler
+    public class LocationButton: ColorTintButton<LocationButton>
     {
         [SerializeField] private Sprite _baseLocationSprite;
         [SerializeField] private Sprite _normalLocationSprite;
         protected override LocationButton EventArgument => this;
-        public ChangeTrackedValue<bool> IsUnderPointer { get; private set; } = new ChangeTrackedValue<bool>(false);
         
         
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            IsUnderPointer.Value = true;
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            IsUnderPointer.Value = false;
-        }
-
-
         public void SetNode( MapNode node)
         {
+            Assert.IsNull(Node);
             Node = node;
             _here = ExplorationLocationDatabase.Get(Node.Content.LocationCode);
             
@@ -48,19 +38,7 @@ namespace GuildMaster.Exploration
             }
         }
 
-        
-        public void DefaultState()
-        {
-            _spriteRenderer.color = Color.white;
-        }
-
-        public void Highlight(Color color)
-        {
-            _spriteRenderer.color = color;
-        }
-        
-
-        private void Start()
+        private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
