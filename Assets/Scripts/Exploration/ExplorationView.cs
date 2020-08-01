@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using GuildMaster.Characters;
 using GuildMaster.Tools;
@@ -27,11 +29,11 @@ namespace GuildMaster.Exploration
             // Todo: 캐릭터 생성.
         }
 
-        public void StartExploration()
+        public void SelectStartingBase(Action<MapNode> callback)
         {
             CurrentState = State.LocationSelecting;
             _mapView.gameObject.SetActive(true);
-            _baseSelector.Select(_mapView, SelectNextDestination);
+            _baseSelector.Select(_mapView, callback);
         }
 
         public void Pause()
@@ -43,25 +45,33 @@ namespace GuildMaster.Exploration
 
         /// <summary>
         /// 탐색 중, 처음 시작하고 시작 거점을 정한 후나 어떤 장소에 도착한 후에 불러짐. <br/>
-        /// 다음 목적지를 고르고 탐색시작.
+        /// 다음 목적지를 고르고 callback으로 반환.
         /// </summary>
         /// <param name="startingNode"> 시작 노드 </param>
-        private void SelectNextDestination(MapNode startingNode)
+        /// <param name="callback"> callback </param>
+        public void SelectNextDestination(MapNode startingNode, Action<MapNode> callback)
         {
-            _adjacentSelector.Select(_mapView, startingNode, node=>StartRoadView(startingNode, node));
+            _mapView.gameObject.SetActive(true);
+            _adjacentSelector.Select(_mapView, startingNode, callback);
         }
 
-        private void StartRoadView(MapNode startingBaseNode, MapNode headingNode)
+        public void StartRoadView(List<Character> characters, MapNode startingBaseNode, MapNode headingNode, Action callback)
         {
-            Assert.IsTrue(startingBaseNode.Content.Location.LocationType == Location.Type.Base);
-            // Assert.IsTrue(startingBaseNode.Connected.Contains(headingNode.NodeIndex));
-            
             CurrentState = State.OnMove;
-            
-            _roadView.SetGoing(true);
+
             _mapView.gameObject.SetActive(false);
-            // Todo:
+            _roadView.Setup(characters);
+            _roadView.SetGoing(true);
+            StartCoroutine(ProcessRoadView());
+
+            IEnumerator ProcessRoadView()
+            {
+                yield return new WaitForSeconds(2);
+                _roadView.SetGoing(false);
+                callback();
+            }   
         }
+
         
         private void Cleanup()
         {

@@ -15,9 +15,12 @@ namespace GuildMaster.Exploration
 
         public void Setup(List<Character> characters)
         {
-            // Todo: 
+            Cleanup();
+            _going = false;
+            _currentPosition = 0f;
+            _moveSpeed = NormalMoveSpeed;
         }
-        
+
         public void SetGoing(bool going)
         {
             _going = going;
@@ -37,8 +40,13 @@ namespace GuildMaster.Exploration
             slideBackgroundView.CurrentViewLocation = new Vector2(_currentPosition, 0);
         }
 
-        private float _moveSpeed = NormalMoveSpeed;
-        private float _currentPosition = 0f;
+        private void Cleanup()
+        {
+            
+        }
+
+        private float _moveSpeed;
+        private float _currentPosition;
         private bool _going;
     }
 }

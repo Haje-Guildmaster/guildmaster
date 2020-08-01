@@ -11,11 +11,13 @@ namespace GuildMaster.Exploration
     public class ExplorationDebugger: MonoBehaviour
     {
         [SerializeField] private ExplorationMap _map;
+        
         private void Start()
         {
             _explorationView = FindObjectOfType<ExplorationView>();
-            _explorationView.Setup(null, _map);
-            _explorationView.StartExploration();
+            _explorationManager = FindObjectOfType<ExplorationManager>();
+            
+            _explorationManager.StartExploration(-1, new List<Character>(), _map);
         }
         
         private void OnGUI()
@@ -31,19 +33,20 @@ namespace GuildMaster.Exploration
             }
             GUILayout.EndHorizontal();
 
-            if (_explorationView.CurrentState == ExplorationView.State.OnMove)
-            {
-                if (GUILayout.Button("ㅁ"))
-                {
-                    _explorationView.Pause();
-                }
-            }
-            else if (GUILayout.Button(">"))
-            {
-                _explorationView.StartExploration();
-            }
+            // if (_explorationView.CurrentState == ExplorationView.State.OnMove)
+            // {
+            //     if (GUILayout.Button("ㅁ"))
+            //     {
+            //         _explorationView.Pause();
+            //     }
+            // }
+            // else if (GUILayout.Button(">"))
+            // {
+            //     _explorationManager.StartExploration(-1, new List<Character>(), _map);
+            // }
         }
 
         private ExplorationView _explorationView;
+        private ExplorationManager _explorationManager;
     }
 }
