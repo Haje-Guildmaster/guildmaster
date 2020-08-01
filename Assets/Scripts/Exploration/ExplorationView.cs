@@ -15,6 +15,7 @@ namespace GuildMaster.Exploration
         [SerializeField] private ExplorationRoadView _roadView;
         [SerializeField] private MapView _mapView;
         [SerializeField] private MapBaseSelector _baseSelector;
+        [SerializeField] private MapAdjacentSelector _adjacentSelector;
         
         public void Setup(List<Character> characters, ExplorationMap map)
         {
@@ -30,7 +31,7 @@ namespace GuildMaster.Exploration
         {
             CurrentState = State.LocationSelecting;
             _mapView.gameObject.SetActive(true);
-            _baseSelector.Select(_mapView, StartRoadView);
+            _baseSelector.Select(_mapView, SelectNextDestination);
         }
 
         public void Pause()
@@ -40,7 +41,17 @@ namespace GuildMaster.Exploration
             // Todo:
         }
 
-        private void StartRoadView(MapNode startingBaseNode/*, MapNode headingNode*/)
+        /// <summary>
+        /// 탐색 중, 처음 시작하고 시작 거점을 정한 후나 어떤 장소에 도착한 후에 불러짐. <br/>
+        /// 다음 목적지를 고르고 탐색시작.
+        /// </summary>
+        /// <param name="startingNode"> 시작 노드 </param>
+        private void SelectNextDestination(MapNode startingNode)
+        {
+            _adjacentSelector.Select(_mapView, startingNode, node=>StartRoadView(startingNode, node));
+        }
+
+        private void StartRoadView(MapNode startingBaseNode, MapNode headingNode)
         {
             Assert.IsTrue(startingBaseNode.Content.Location.LocationType == Location.Type.Base);
             // Assert.IsTrue(startingBaseNode.Connected.Contains(headingNode.NodeIndex));

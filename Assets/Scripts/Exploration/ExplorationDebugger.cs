@@ -33,7 +33,7 @@ namespace GuildMaster.Exploration
 
             if (_explorationView.CurrentState == ExplorationView.State.OnMove)
             {
-                if (GUILayout.Button("||"))
+                if (GUILayout.Button("ㅁ"))
                 {
                     _explorationView.Pause();
                 }

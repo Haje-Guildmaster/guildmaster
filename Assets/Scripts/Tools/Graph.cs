@@ -14,18 +14,18 @@ namespace GuildMaster.Tools
     public class Graph<TNodeContent>
     {
         [Serializable]
-        public class Node: InnerNode
-        {
-        }
-
-        [Serializable]
-        public class InnerNode
+        public class Node
         {
             public TNodeContent Content => _content;
 
             [SerializeField] private TNodeContent _content;
+            /// <summary>
+            /// 연결된 노드들의 인덱스.<br/>
+            /// (<c>List&lt;Node&gt;</c> 로 쓰고 싶으나 일단은 데이터 넣는 편의를 위해 index로 둡니다)
+            /// </summary>
             public List<int> Connected = new List<int>();
         }
+
 
         public Node GetNode(int nodeIndex)
         {

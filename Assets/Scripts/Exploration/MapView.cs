@@ -8,11 +8,16 @@ using UnityEngine.XR;
 namespace GuildMaster.Exploration
 {
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
+    /// <summary>
+    /// 지도를 보여주고 위치를 선택할 수 있는 함수를 제공하는 오브젝트.
+    /// </summary>
     public class MapView : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer _backgroundRenderer;
         [SerializeField] private LocationButton _locationButtonPrefab;
         [SerializeField] private LineRenderer _edgeRendererPrefab;
+
+        public Graph<ExplorationMap.NodeContent> Graph => _map.Graph;
         
         public void LoadMap(ExplorationMap map)
         {
