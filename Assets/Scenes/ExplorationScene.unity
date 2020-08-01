@@ -219,10 +219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6366b740561445029d6ef6a7554b7ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  etcColor: {r: 1, g: 1, b: 1, a: 1}
-  BaseNormalColor: {r: 0.98779875, g: 1, b: 0.5424528, a: 1}
-  BaseMouseOnColor: {r: 1, g: 0.85326475, b: 0.3066038, a: 1}
-  BasePressedColor: {r: 0.8773585, g: 0.7163191, b: 0.120016046, a: 0}
+  _etcColor: {r: 1, g: 1, b: 1, a: 1}
+  _baseNormalColor: {r: 1, g: 0.8775067, b: 0.15566039, a: 1}
+  _baseMouseOnColor: {r: 0.9339623, g: 0.79159975, b: 0.19824673, a: 1}
+  _basePressedColor: {r: 0.8679245, g: 0.75310034, b: 0.25792095, a: 1}
 --- !u!4 &54022509
 Transform:
   m_ObjectHideFlags: 0
@@ -1167,13 +1167,33 @@ MonoBehaviour:
       - _content:
           LocationCode:
             Value: 0
-          Position: {x: 1, y: 1}
-        Connected: 
+          Position: {x: -2.5, y: -1}
+        Connected: 0100000005000000
       - _content:
           LocationCode:
             Value: 1
-          Position: {x: 2, y: 1}
-        Connected: 
+          Position: {x: -2, y: 2.3}
+        Connected: 0000000002000000
+      - _content:
+          LocationCode:
+            Value: 2
+          Position: {x: 0.6, y: 2.3}
+        Connected: 010000000300000004000000
+      - _content:
+          LocationCode:
+            Value: 3
+          Position: {x: 3.2, y: 2.6}
+        Connected: 0200000004000000
+      - _content:
+          LocationCode:
+            Value: 4
+          Position: {x: 2.5, y: 0.5}
+        Connected: 020000000300000005000000
+      - _content:
+          LocationCode:
+            Value: 5
+          Position: {x: -0.3, y: -1.8}
+        Connected: 0400000000000000
     Background: {fileID: 21300000, guid: 20a854d7f88d75644a72c4d0aaf4717c, type: 3}
 --- !u!4 &1229755652
 Transform:
@@ -1426,6 +1446,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _backgroundRenderer: {fileID: 71990029}
   _locationButtonPrefab: {fileID: 8431257244408518734, guid: 494d84d45921ae44da0eaa9cef7b0558,
+    type: 3}
+  _edgeRendererPrefab: {fileID: 1160639688489912797, guid: 8bfbc0c9c7202a3408756c78d00706ff,
     type: 3}
 --- !u!4 &1807949234
 Transform:

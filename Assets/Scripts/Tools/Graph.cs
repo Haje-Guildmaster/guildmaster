@@ -14,34 +14,22 @@ namespace GuildMaster.Tools
     public class Graph<TNodeContent>
     {
         [Serializable]
-        public class Node
+        public class Node: InnerNode
         {
-            public Node(int nodeIndex, TNodeContent content)
-            {
-                NodeIndex = nodeIndex;
-                _content = content;
-            }
+        }
 
-            public readonly int NodeIndex;
+        [Serializable]
+        public class InnerNode
+        {
             public TNodeContent Content => _content;
 
             [SerializeField] private TNodeContent _content;
             public List<int> Connected = new List<int>();
         }
 
-        public Node AddNode(TNodeContent content)
-        {
-            var index = _nodes.Count;
-            var newNode = new Node(index, content);
-            _nodes.Add(newNode);
-            return newNode;
-        }
-
         public Node GetNode(int nodeIndex)
         {
             var got = _nodes.ElementAtOrDefault(nodeIndex);
-            if (got == null) return null;
-            Assert.IsTrue(got.NodeIndex == nodeIndex);
             return got;
         }
 

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using GuildMaster.Databases;
-using GuildMaster.Npcs;
 using GuildMaster.Tools;
 using GuildMaster.UI;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace GuildMaster.TownRoam
 {

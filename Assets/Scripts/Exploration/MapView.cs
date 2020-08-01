@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using GuildMaster.Tools;
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace GuildMaster.Exploration
 {
@@ -11,7 +12,8 @@ namespace GuildMaster.Exploration
     {
         [SerializeField] private SpriteRenderer _backgroundRenderer;
         [SerializeField] private LocationButton _locationButtonPrefab;
-
+        [SerializeField] private LineRenderer _edgeRendererPrefab;
+        
         public void LoadMap(ExplorationMap map)
         {
             Cleanup();
@@ -25,6 +27,14 @@ namespace GuildMaster.Exploration
                 newButton.transform.localPosition = node.Content.Position * 1f;
                 newButton.SetNode(node);
                 newButton.Clicked += ProcessLocationButtonClick;
+                foreach (var lb in _locationButtons)
+                {
+                    if (!node.Connected.Exists(ind => map.Graph.GetNode(ind) == lb.Node)) continue;
+                    
+                    var edge = Instantiate(_edgeRendererPrefab, newButton.transform);
+                    edge.SetPositions(new []{newButton.transform.position, lb.transform.position});
+                }
+
                 _locationButtons.Add(newButton);
             }
             
