@@ -1,7 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
 using GuildMaster.Databases;
-using UnityEngine;
 
 namespace GuildMaster.Characters
 {
@@ -21,11 +20,10 @@ namespace GuildMaster.Characters
         public string UsingName => NameList[_usingNameIndex];                //현재 이름
         public string RealName => StaticData.basicData.RealName;             //실제 이름
         public bool KnowUseRealName => _usingNameIndex == NameList.Count;    //현재 실제 이름을 사용중인지
-        public int MaxSp => StaticData.basicData.maxSp;
-        public int MaxHp => StaticData.basicData.maxHp;
-        public bool SpIsMp => StaticData.basicData.spIsMp;
-        
-        
+        public int MaxSp => StaticData.battleStatData.maxSp;
+        public int MaxHp => StaticData.battleStatData.maxHp;     // MaxSp, MaxSp, Hp 등은 후에 캐릭터 종류에 종속된 값이 아니게 될 것이라 판단하여 Character에 넣습니다.
+
+
         public float Injury                        // 현재 부상 정도(0~1). 퍼센트로 최대 체력이 깎인다.
         {
             get => _injury;
@@ -67,6 +65,6 @@ namespace GuildMaster.Characters
         private int _hp;
         private int _sp;
         private ReadOnlyCollection<string> NameList => StaticData.basicData.nameList.AsReadOnly(); 
-        private CharacterStaticData StaticData => CharacterDatabase.Get(_code);
+        public CharacterStaticData StaticData => CharacterDatabase.Get(_code);
     }
 }

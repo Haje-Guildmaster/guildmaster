@@ -10,12 +10,13 @@ using UnityEngine.UI;
 
 namespace GuildMaster.UI.Inventory
 {
-    public class InventoryWindow: DraggableWindow, IToggleableWindow
+    public class InventoryWindow : DraggableWindow, IToggleableWindow
     {
         private void Awake()
         {
             UpdateChildrenItemIcons();
         }
+
         private void Start()
         {
             foreach (var ict in GetComponentsInChildren<ItemCategoryToggle>())
@@ -26,9 +27,10 @@ namespace GuildMaster.UI.Inventory
                     if (b) ChangeCategory(cat);
                 });
             }
+
             ChangeCategory(ItemCategory.Equipable);
         }
-        
+
         private void OnEnable()
         {
             Player.Instance.Inventory.Changed += Refresh;
@@ -45,18 +47,18 @@ namespace GuildMaster.UI.Inventory
             if (item == null) return;
             if (_IsItemInCategory(item, ItemCategory.Equipable))
             {
-                UiWindowsManager.Instance.ShowMessageBox("확인", "증여하시겠습니까?", 
+                UiWindowsManager.Instance.ShowMessageBox("확인", "증여하시겠습니까?",
                     new (string buttonText, Action onClicked)[]
-                        {("확인", ()=>Debug.Log("확인")), ("취소", () => Debug.Log("취소"))});
+                        {("확인", () => Debug.Log("확인")), ("취소", () => Debug.Log("취소"))});
             }
             else if (_IsItemInCategory(item, ItemCategory.Consumable))
             {
-                UiWindowsManager.Instance.ShowMessageBox("확인", "짐칸으로 옮기시겠습니까?", 
+                UiWindowsManager.Instance.ShowMessageBox("확인", "짐칸으로 옮기시겠습니까?",
                     new (string buttonText, Action onClicked)[]
-                        {("확인", ()=>Debug.Log("확인")), ("취소", () => Debug.Log("취소"))});
+                        {("확인", () => Debug.Log("확인")), ("취소", () => Debug.Log("취소"))});
             }
         }
-        
+
         public void Open()
         {
             base.OpenWindow();
@@ -72,15 +74,17 @@ namespace GuildMaster.UI.Inventory
             {
                 ii.Clear();
             }
-            foreach (var ((item, number), i) in itemList.Select((tup,i)=>(tup,i)))
+
+            foreach (var ((item, number), i) in itemList.Select((tup, i) => (tup, i)))
             {
                 _itemIcons[i].UpdateAppearance(item, number);
             }
         }
 
 
-        private bool _changeCategoryBlock = false;    //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
-                                                      // (isOn을 수정하며 이벤트 리스너에 의해 ChangeCategory가 다시 불림)
+        private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
+
+        // (isOn을 수정하며 이벤트 리스너에 의해 ChangeCategory가 다시 불림)
         public void ChangeCategory(ItemCategory category)
         {
             if (_changeCategoryBlock) return;
@@ -90,13 +94,17 @@ namespace GuildMaster.UI.Inventory
             {
                 ict.Toggle.isOn = ict.category == category;
             }
+
             Refresh();
             _changeCategoryBlock = false;
         }
 
         public enum ItemCategory
         {
-            Equipable, Consumable, Etc, Important
+            Equipable,
+            Consumable,
+            Etc,
+            Important
         }
 
 
@@ -108,6 +116,7 @@ namespace GuildMaster.UI.Inventory
                 icon.Clicked += OnItemIconClick;
             }
         }
+
         private static bool _IsItemInCategory(Item item, ItemCategory category)
         {
             if (item == null) return false;
@@ -127,7 +136,7 @@ namespace GuildMaster.UI.Inventory
             }
         }
 
-        private ItemCategory _currentCategory; 
+        private ItemCategory _currentCategory;
         private List<ItemIcon> _itemIcons;
     }
 }

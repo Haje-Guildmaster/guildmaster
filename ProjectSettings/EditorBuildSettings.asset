@@ -8,6 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TownRoamScene.unity
     guid: 6fde1846c2a4ea047bf28d48b40cd920
+  - enabled: 1
+    path: Assets/Scenes/TestTownRoamStartScene.unity
+    guid: 71d995b8304b3884b8647c355198d343
+  - enabled: 1
+    path: Assets/Scenes/ExplorationScene.unity
+    guid: 4f2bf24e2129b7c4ea7f3b226adbd3c6
+  - enabled: 1
+    path: Assets/Scenes/HoneyTestStart.unity
+    guid: b766d7aa20abdfb4eaa000a9d2a34a56
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 4ae267633de3e2a48b6baac44711f8cd,
       type: 2}

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using GuildMaster.Databases;
-using GuildMaster.Npcs;
 using GuildMaster.Tools;
 using GuildMaster.UI;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace GuildMaster.TownRoam
 {
@@ -30,7 +28,7 @@ namespace GuildMaster.TownRoam
             // if (_currentPlace == null) return;
             if (ReferenceEquals(_currentPlace, null)) return;
             
-            // 화면 비율이 바뀌는 것을 걱정해 Update에 넣습니다. 화면 비율이 바뀌지 않는 게 확실하면 Goto에 넣어주세요.
+            // Todo: 화면 비율이 바뀌는 것을 걱정해 Update에 넣습니다. 화면 비율이 바뀌지 않는 게 확실하면 Goto에 넣어주세요.
             _camera.orthographicSize = Math.Max(_currentPlace.Size.y/2, _currentPlace.Size.x/2/_camera.aspect);
             transform.position = _currentPlace.Center;
         }

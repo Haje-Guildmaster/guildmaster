@@ -1,21 +1,19 @@
 ﻿using System;
+using GuildMaster.Tools;
 
 namespace GuildMaster.Npcs
 {
     public class NpcStatus
     {
+        // Todo: Character와 일관성 있게 수정.
+        
         public event Action Changed;
 
-        public int Affinity
+        public NpcStatus()
         {
-            get => _affinity;
-            set
-            {
-                _affinity = value;
-                Changed?.Invoke();
-            }
+            Affinity.Changed += Changed;
         }
-
-        private int _affinity;
+        
+        public readonly ChangeTrackedValue<int> Affinity = new ChangeTrackedValue<int>(0);
     }
 }
