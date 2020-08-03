@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using GuildMaster.Characters;
 using GuildMaster.Tools;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -18,12 +19,14 @@ namespace GuildMaster.Exploration
         [SerializeField] private MapView _mapView;
         [SerializeField] private MapBaseSelector _baseSelector;
         [SerializeField] private MapAdjacentSelector _adjacentSelector;
+        [SerializeField] private MinimapView _minimapView;
         
         public void Setup(List<Character> characters, ExplorationMap map)
         {
             Cleanup();
             _roadView.Setup(characters);
             _mapView.LoadMap(map);
+            _minimapView.LoadMap(map);
             
             // Todo: 맵 종류 받아서 slideBackgroundView 초기화
             // Todo: 캐릭터 생성.
@@ -31,14 +34,17 @@ namespace GuildMaster.Exploration
 
         public void SelectStartingBase(Action<MapNode> callback)
         {
-            CurrentState = State.LocationSelecting;
+            SetState(State.LocationSelecting);
+            
+            _minimapView.gameObject.SetActive(false);
             _mapView.gameObject.SetActive(true);
             _baseSelector.Select(_mapView, callback);
         }
 
+        [Obsolete]
         public void Pause()
         {
-            CurrentState = State.Paused;
+            SetState(State.Paused);
             _roadView.SetGoing(false);
             // Todo:
         }
@@ -51,27 +57,66 @@ namespace GuildMaster.Exploration
         /// <param name="callback"> callback </param>
         public void SelectNextDestination(MapNode startingNode, Action<MapNode> callback)
         {
-            _mapView.gameObject.SetActive(true);
+            SetState(State.LocationSelecting);
+            
             _adjacentSelector.Select(_mapView, startingNode, callback);
         }
 
         public void StartRoadView(List<Character> characters, MapNode startingBaseNode, MapNode headingNode, Action callback)
         {
-            CurrentState = State.OnMove;
-
-            _mapView.gameObject.SetActive(false);
+            SetState(State.OnMove);
+            
             _roadView.Setup(characters);
             _roadView.SetGoing(true);
+
+            _minimapView.SetPlayerIndicatorPath(startingBaseNode, headingNode);
             StartCoroutine(ProcessRoadView());
 
             IEnumerator ProcessRoadView()
             {
-                yield return new WaitForSeconds(2);
+                const float moveTime = 4f;
+                const float stepTime = 0.05f;
+                var progress = 0f;
+
+                
+                var flag = false;
+                while (true)
+                {
+                    _minimapView.SetProgress(progress);
+                    if (flag) break;
+                    yield return new WaitForSeconds(stepTime);
+
+                    progress += stepTime / moveTime;
+                    if (progress >= 1 - 0.00001)
+                    {
+                        progress = 1;
+                        flag = true;
+                    }
+                }
+                
                 _roadView.SetGoing(false);
+                yield return new WaitForSeconds(0.5f);
+                
                 callback();
             }   
         }
 
+        private void SetState(State state)
+        {
+            switch (state)
+            {
+                case State.OnMove:
+                    _minimapView.gameObject.SetActive(true);
+                    _mapView.gameObject.SetActive(false);
+                    break;
+                case State.LocationSelecting:
+                    _minimapView.gameObject.SetActive(false);
+                    _mapView.gameObject.SetActive(true);
+                    break;
+            }
+            CurrentState = State.OnMove;
+        }
+        
         
         private void Cleanup()
         {

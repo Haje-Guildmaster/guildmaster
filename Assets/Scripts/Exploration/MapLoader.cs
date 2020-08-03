@@ -16,7 +16,10 @@ namespace GuildMaster.Exploration
         public TNodeSprite NodeSpritePrefab;
         public bool DrawEdge;
         public LineRenderer EdgeRendererPrefab;
-        public float MapScale = 1f;
+        /// <summary>
+        /// 축척. 그래프에서의 좌표 * MapScale = 실제 생성되는 오브젝트 좌표.
+        /// </summary>
+        public float MapScale = 1f;        
         
         public List<TNodeSprite> LoadMap(ExplorationMap map)
         {
@@ -35,7 +38,8 @@ namespace GuildMaster.Exploration
                     if (DrawEdge && node.Connected.Exists(ind => map.Graph.GetNode(ind) == ns.Node))
                     {
                         var edge = Object.Instantiate(EdgeRendererPrefab, newButton.transform);
-                        edge.SetPositions(new[] {newButton.transform.position, ns.transform.position});
+                        edge.transform.localPosition = Vector3.zero;
+                        edge.SetPositions(new[] {Vector3.zero, ns.transform.position - newButton.transform.position});
                     }
                 }
 

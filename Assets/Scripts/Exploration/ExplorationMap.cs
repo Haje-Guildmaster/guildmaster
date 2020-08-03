@@ -13,7 +13,7 @@ namespace GuildMaster.Exploration
     public class ExplorationMap
     {
         [SerializeField] private Graph<NodeContent> _graph;
-
+        
         [Serializable]
         public class NodeContent
         {
