@@ -8,6 +8,7 @@ using UnityEngine.XR;
 namespace GuildMaster.Exploration
 {
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
+
     /// <summary>
     /// 지도를 보여주고 위치를 선택할 수 있는 함수를 제공하는 오브젝트.
     /// </summary>
@@ -15,34 +16,32 @@ namespace GuildMaster.Exploration
     {
         [SerializeField] private SpriteRenderer _backgroundRenderer;
         [SerializeField] private LocationButton _locationButtonPrefab;
+        [SerializeField] private bool _drawEdge;
         [SerializeField] private LineRenderer _edgeRendererPrefab;
 
         public Graph<ExplorationMap.NodeContent> Graph => _map.Graph;
-        
+
+        private void Awake()
+        {
+            _mapLoader = new MapLoader<LocationButton>
+            {
+                BackgroundRenderer = _backgroundRenderer, DrawEdge = _drawEdge,
+                EdgeRendererPrefab = _edgeRendererPrefab, NodeSpritePrefab = _locationButtonPrefab, MapScale = 1f
+            };
+        }
+
         public void LoadMap(ExplorationMap map)
         {
             Cleanup();
 
             _map = map;
-            _backgroundRenderer.sprite = _map.Background;
 
-            foreach (var node in map.Graph.Nodes)
+            _locationButtons = _mapLoader.LoadMap(_map);
+            foreach (var lb in _locationButtons)
             {
-                var newButton = Instantiate(_locationButtonPrefab, _backgroundRenderer.transform);
-                newButton.transform.localPosition = node.Content.Position * 1f;
-                newButton.SetNode(node);
-                newButton.Clicked += ProcessLocationButtonClick;
-                foreach (var lb in _locationButtons)
-                {
-                    if (!node.Connected.Exists(ind => map.Graph.GetNode(ind) == lb.Node)) continue;
-                    
-                    var edge = Instantiate(_edgeRendererPrefab, newButton.transform);
-                    edge.SetPositions(new []{newButton.transform.position, lb.transform.position});
-                }
-
-                _locationButtons.Add(newButton);
+                lb.Clicked += ProcessLocationButtonClick;
             }
-            
+
             ColorLocationButtons(_ => (Color.white, Color.white, Color.white));
         }
 
@@ -51,7 +50,7 @@ namespace GuildMaster.Exploration
             TrySelect(locationButton.Node);
         }
 
-        
+
         private void TrySelect(MapNode node)
         {
             if (!_requestedSelect.HasValue) return;
@@ -59,18 +58,21 @@ namespace GuildMaster.Exploration
 
             if (filter(node))
             {
-                _requestedSelect = null;  // 순서주의
-                callback(node);           // 순서주의
+                _requestedSelect = null; // 순서주의
+                callback(node); // 순서주의
             }
         }
 
 
-        [Pure] public delegate (Color normalColor, Color mouseOnColor, Color pressedColor) LocationButtonColorFunc(MapNode node);
+        [Pure]
+        public delegate (Color normalColor, Color mouseOnColor, Color pressedColor) LocationButtonColorFunc(
+            MapNode node);
+
         public void ColorLocationButtons(LocationButtonColorFunc colorFunc)
         {
             foreach (var lb in _locationButtons)
             {
-               lb.SetColor(colorFunc(lb.Node));
+                lb.SetColor(colorFunc(lb.Node));
             }
         }
 
@@ -78,7 +80,7 @@ namespace GuildMaster.Exploration
 
         public void Select(LocationFilter filter, Action<MapNode> callback)
         {
-            _requestedSelect?.callback.Invoke(null);     // 이미 선택 중이었다면 원래 선택은 실패.
+            _requestedSelect?.callback.Invoke(null); // 이미 선택 중이었다면 원래 선택은 실패.
 
             _requestedSelect = (filter, callback);
         }
@@ -86,18 +88,22 @@ namespace GuildMaster.Exploration
         private void Cleanup()
         {
             _map = null;
-            foreach (var lb in _locationButtons)
+            if (_locationButtons != null)
             {
-                // lb.Clicked -= ProcessLocationButtonClick;
-                Destroy(lb.gameObject);
-            }
+                foreach (var lb in _locationButtons)
+                {
+                    // lb.Clicked -= ProcessLocationButtonClick;
+                    Destroy(lb.gameObject);
+                }
 
-            _locationButtons.Clear();
+                _locationButtons = null;
+            }
         }
-        
+
+        private MapLoader<LocationButton> _mapLoader;
         private (LocationFilter filter, Action<MapNode> callback)? _requestedSelect;
 
         private ExplorationMap _map;
-        private readonly List<LocationButton> _locationButtons = new List<LocationButton>();
+        private List<LocationButton> _locationButtons;
     }
 }

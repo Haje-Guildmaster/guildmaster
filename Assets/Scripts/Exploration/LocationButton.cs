@@ -12,7 +12,7 @@ namespace GuildMaster.Exploration
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
     
     [RequireComponent(typeof(SpriteRenderer))]
-    public class LocationButton: ColorTintButton<LocationButton>
+    public class LocationButton: ColorTintButton<LocationButton>, INodeRepresentative<MapNode>
     {
         [SerializeField] private Sprite _baseLocationSprite;
         [SerializeField] private Sprite _normalLocationSprite;

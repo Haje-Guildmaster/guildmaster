@@ -1497,6 +1497,7 @@ MonoBehaviour:
   _backgroundRenderer: {fileID: 71990029}
   _locationButtonPrefab: {fileID: 8431257244408518734, guid: 494d84d45921ae44da0eaa9cef7b0558,
     type: 3}
+  _drawEdge: 1
   _edgeRendererPrefab: {fileID: 1160639688489912797, guid: 8bfbc0c9c7202a3408756c78d00706ff,
     type: 3}
 --- !u!4 &1807949234
