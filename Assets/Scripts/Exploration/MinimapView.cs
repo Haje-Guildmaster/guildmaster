@@ -11,8 +11,7 @@ namespace GuildMaster.Exploration
     {
         [SerializeField] private SpriteRenderer _backgroundRenderer;
         [SerializeField] private MinimapLocationSprite _locationSpritePrefab;
-        [SerializeField] private bool _drawEdge;
-        [SerializeField] private LineRenderer _edgeRendererPrefab;
+        [SerializeField] private SpriteRenderer _edgeSpritePrefab;
         [SerializeField] private Transform _playerLocationIndicatorObject;
         [SerializeField] private Transform _maskTransform;
         
@@ -20,8 +19,8 @@ namespace GuildMaster.Exploration
         {
             _mapLoader = new MapLoader<MinimapLocationSprite>
             {
-                BackgroundRenderer = _backgroundRenderer, DrawEdge = _drawEdge,
-                EdgeRendererPrefab = _edgeRendererPrefab, NodeSpritePrefab = _locationSpritePrefab, MapScale = 1f
+                BackgroundRenderer = _backgroundRenderer, DrawEdgeUsingSprite = true,
+                EdgeSpritePrefab = _edgeSpritePrefab, NodeSpritePrefab = _locationSpritePrefab, MapScale = 1f
             };
         }
 

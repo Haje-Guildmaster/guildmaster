@@ -25,7 +25,7 @@ namespace GuildMaster.Exploration
         {
             _mapLoader = new MapLoader<LocationButton>
             {
-                BackgroundRenderer = _backgroundRenderer, DrawEdge = _drawEdge,
+                BackgroundRenderer = _backgroundRenderer, DrawEdgeUsingEdgeRenderer = _drawEdge,
                 EdgeRendererPrefab = _edgeRendererPrefab, NodeSpritePrefab = _locationButtonPrefab, MapScale = 1f
             };
         }

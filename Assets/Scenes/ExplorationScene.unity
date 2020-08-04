@@ -2113,8 +2113,7 @@ MonoBehaviour:
   _backgroundRenderer: {fileID: 2120680743}
   _locationSpritePrefab: {fileID: 7623722234966962773, guid: fcc64b0860cd63540b4075f89b4e3783,
     type: 3}
-  _drawEdge: 1
-  _edgeRendererPrefab: {fileID: 1160639688489912797, guid: d6ebf333d46de01448de961bf12ffe4c,
+  _edgeSpritePrefab: {fileID: 3906231642831769464, guid: ba90bc9c107802d46ad4d38ca82a2852,
     type: 3}
   _playerLocationIndicatorObject: {fileID: 164287226}
   _maskTransform: {fileID: 2031668887}
@@ -2144,7 +2143,7 @@ Transform:
   m_GameObject: {fileID: 2120680741}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_Children:
   - {fileID: 164287226}
   m_Father: {fileID: 2031668887}
