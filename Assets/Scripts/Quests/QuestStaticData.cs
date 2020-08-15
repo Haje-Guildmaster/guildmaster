@@ -14,7 +14,7 @@ namespace GuildMaster.Quests
     {
         [SerializeField] private string questName;
         [SerializeField] [TextArea] private string questDescription;
-        [SerializeReference] [SerializeReferenceButton] private Condition activationCondition;
+        [SerializeReference] [SerializeReferenceButton] private Player.Condition activationCondition;
         [SerializeField] private Script questSuggestScript;
         
         [SerializeField] private List<QuestStep> steps;
@@ -26,7 +26,7 @@ namespace GuildMaster.Quests
 
         public string QuestDescription => questDescription;
 
-        public Condition ActivationCondition => activationCondition;
+        public Player.Condition ActivationCondition => activationCondition;
         public Script QuestSuggestScript => questSuggestScript;
         public ReadOnlyCollection<QuestStep> Steps => steps.AsReadOnly();
         public IEnumerable<Reward> Rewards => rewards;

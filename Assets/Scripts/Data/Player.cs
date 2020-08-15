@@ -13,7 +13,7 @@ namespace GuildMaster.Data
 {
     /// 플레이어의 플레이 정보를 담습니다.
     /// 퀘스트 클리어 정보, 길드원들, npc상태, 레벨, 장비, etc...
-    public class Player
+    public partial class Player
     {
         public static Player Instance
         {

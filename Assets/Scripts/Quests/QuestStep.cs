@@ -10,8 +10,8 @@ namespace GuildMaster.Quests
     [Serializable]
     public class QuestStep
     {
-        [SerializeReference][SerializeReferenceButton] private Condition stepCondition;
-        public Condition StepCondition => stepCondition;
+        [SerializeReference][SerializeReferenceButton] private Player.Condition stepCondition;
+        public Player.Condition StepCondition => stepCondition;
         [SerializeReference] [SerializeReferenceButton] private List<StepMission> _stepMissions;
         public List<StepMission> StepMissions => _stepMissions;
     }
