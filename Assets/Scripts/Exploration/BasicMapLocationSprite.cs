@@ -2,19 +2,22 @@ using System;
 using GuildMaster.Databases;
 using GuildMaster.Tools;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace GuildMaster.Exploration
 {
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
     
-    [RequireComponent(typeof(SpriteRenderer))]
-    public class MinimapLocationSprite: MonoBehaviour, INodeRepresentative<MapNode>
+    [RequireComponent(typeof(Image))]
+    public class BasicMapLocationSprite: MonoBehaviour, INodeRepresentative<MapNode>
     {
         [SerializeField] private Sprite _baseLocationSprite;
         [SerializeField] private Sprite _normalLocationSprite;
         
         public void SetNode(MapNode node)
         {
+            Assert.IsTrue(Node == null);
             Node = node;
             
             var here = ExplorationLocationDatabase.Get(Node.Content.LocationCode);
@@ -22,10 +25,10 @@ namespace GuildMaster.Exploration
             switch (here.LocationType)
             {
                 case Location.Type.Base:
-                    _spriteRenderer.sprite = _baseLocationSprite;
+                    _selfImage.sprite = _baseLocationSprite;
                     break;
                 case Location.Type.Normal:
-                    _spriteRenderer.sprite = _normalLocationSprite;
+                    _selfImage.sprite = _normalLocationSprite;
                     break;
                 default:
                     throw new Exception($"Couldn't process the Location type {here.LocationType}");
@@ -33,10 +36,10 @@ namespace GuildMaster.Exploration
         }
         private void Awake()
         {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _selfImage = GetComponent<Image>();
         }
 
-        private SpriteRenderer _spriteRenderer;
+        private Image _selfImage;
         public MapNode Node { get; private set; }
     }
 }

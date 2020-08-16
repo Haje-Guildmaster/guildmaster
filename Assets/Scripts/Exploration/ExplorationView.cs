@@ -6,6 +6,7 @@ using GuildMaster.Tools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace GuildMaster.Exploration
 {
@@ -16,7 +17,7 @@ namespace GuildMaster.Exploration
     public class ExplorationView: MonoBehaviour
     {
         [SerializeField] private ExplorationRoadView _roadView;
-        [SerializeField] private MapView _mapView;
+        [FormerlySerializedAs("mapSelectView")] [SerializeField] private MapSelectView _mapSelectView;
         [SerializeField] private MapBaseSelector _baseSelector;
         [SerializeField] private MapAdjacentSelector _adjacentSelector;
         [SerializeField] private MinimapView _minimapView;
@@ -25,7 +26,7 @@ namespace GuildMaster.Exploration
         {
             Cleanup();
             _roadView.Setup(characters);
-            _mapView.LoadMap(map);
+            _mapSelectView.LoadMap(map);
             _minimapView.LoadMap(map);
             
             // Todo: 맵 종류 받아서 slideBackgroundView 초기화
@@ -37,8 +38,8 @@ namespace GuildMaster.Exploration
             SetState(State.LocationSelecting);
             
             _minimapView.gameObject.SetActive(false);
-            _mapView.gameObject.SetActive(true);
-            _baseSelector.Select(_mapView, callback);
+            _mapSelectView.gameObject.SetActive(true);
+            _baseSelector.Select(_mapSelectView, callback);
         }
 
         [Obsolete]
@@ -59,7 +60,7 @@ namespace GuildMaster.Exploration
         {
             SetState(State.LocationSelecting);
             
-            _adjacentSelector.Select(_mapView, startingNode, callback);
+            _adjacentSelector.Select(_mapSelectView, startingNode, callback);
         }
 
         public void StartRoadView(List<Character> characters, MapNode startingBaseNode, MapNode headingNode, Action callback)
@@ -107,11 +108,11 @@ namespace GuildMaster.Exploration
             {
                 case State.OnMove:
                     _minimapView.gameObject.SetActive(true);
-                    _mapView.gameObject.SetActive(false);
+                    _mapSelectView.gameObject.SetActive(false);
                     break;
                 case State.LocationSelecting:
                     _minimapView.gameObject.SetActive(false);
-                    _mapView.gameObject.SetActive(true);
+                    _mapSelectView.gameObject.SetActive(true);
                     break;
             }
             CurrentState = State.OnMove;

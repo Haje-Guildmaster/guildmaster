@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using GuildMaster.Tools;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR;
 
 namespace GuildMaster.Exploration
@@ -12,32 +13,23 @@ namespace GuildMaster.Exploration
     /// <summary>
     /// 지도를 보여주고 위치를 선택할 수 있는 함수를 제공하는 오브젝트.
     /// </summary>
-    public class MapView : MonoBehaviour
-    {
-        [SerializeField] private SpriteRenderer _backgroundRenderer;
-        [SerializeField] private LocationButton _locationButtonPrefab;
-        [SerializeField] private bool _drawEdge;
-        [SerializeField] private LineRenderer _edgeRendererPrefab;
 
+    [RequireComponent(typeof(BasicMapView<LocationButton, Image>))]
+    public class MapSelectView : MonoBehaviour
+    {
         public Graph<ExplorationMap.NodeContent> Graph => _map.Graph;
 
         private void Awake()
         {
-            _mapLoader = new MapLoader<LocationButton>
-            {
-                BackgroundRenderer = _backgroundRenderer, DrawEdgeUsingEdgeRenderer = _drawEdge,
-                EdgeRendererPrefab = _edgeRendererPrefab, NodeSpritePrefab = _locationButtonPrefab, MapScale = 1f
-            };
+            _basicMapView = GetComponent<BasicMapView<LocationButton, Image>>();
         }
 
         public void LoadMap(ExplorationMap map)
         {
-            Cleanup();
-
             _map = map;
+            _basicMapView.LoadMap(map);
 
-            _locationButtons = _mapLoader.LoadMap(_map);
-            foreach (var lb in _locationButtons)
+            foreach (var lb in _basicMapView.Nodes)
             {
                 lb.Clicked += ProcessLocationButtonClick;
             }
@@ -70,7 +62,7 @@ namespace GuildMaster.Exploration
 
         public void ColorLocationButtons(LocationButtonColorFunc colorFunc)
         {
-            foreach (var lb in _locationButtons)
+            foreach (var lb in _basicMapView.Nodes)
             {
                 lb.SetColor(colorFunc(lb.Node));
             }
@@ -85,25 +77,9 @@ namespace GuildMaster.Exploration
             _requestedSelect = (filter, callback);
         }
 
-        private void Cleanup()
-        {
-            _map = null;
-            if (_locationButtons != null)
-            {
-                foreach (var lb in _locationButtons)
-                {
-                    // lb.Clicked -= ProcessLocationButtonClick;
-                    Destroy(lb.gameObject);
-                }
-
-                _locationButtons = null;
-            }
-        }
-
-        private MapLoader<LocationButton> _mapLoader;
+        
         private (LocationFilter filter, Action<MapNode> callback)? _requestedSelect;
-
+        private BasicMapView<LocationButton, Image> _basicMapView;
         private ExplorationMap _map;
-        private List<LocationButton> _locationButtons;
     }
 }

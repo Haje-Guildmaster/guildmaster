@@ -12,24 +12,24 @@ namespace GuildMaster.Exploration
         [SerializeField] private Color _baseMouseOnColor;
         [SerializeField] private Color _basePressedColor;
 
-        public void Select(MapView mapView, Action<Graph<ExplorationMap.NodeContent>.Node> callBack)
+        public void Select(MapSelectView mapSelectView, Action<Graph<ExplorationMap.NodeContent>.Node> callBack)
         {
-            mapView.ColorLocationButtons(node =>
+            mapSelectView.ColorLocationButtons(node =>
                 node.Content.Location.LocationType == Location.Type.Base
                     ? (_baseNormalColor, _baseMouseOnColor, _basePressedColor)
                     : (_etcColor, _etcColor, _etcColor)
             );
-            mapView.Select(node => node.Content.Location.LocationType == Location.Type.Base,
+            mapSelectView.Select(node => node.Content.Location.LocationType == Location.Type.Base,
                 ret =>
                 {
-                    ResetColors(mapView);
+                    ResetColors(mapSelectView);
                     callBack(ret);
                 });
         }
 
-        private static void ResetColors(MapView mapView)
+        private static void ResetColors(MapSelectView mapSelectView)
         {
-            mapView.ColorLocationButtons(_=>(Color.white, Color.white, Color.white));
+            mapSelectView.ColorLocationButtons(_=>(Color.white, Color.white, Color.white));
         }
     }
 }

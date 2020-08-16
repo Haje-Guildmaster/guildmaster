@@ -16,30 +16,30 @@ namespace GuildMaster.Exploration
         [SerializeField] private Color _targetPressedColor;
 
 
-        public void Select(MapView mapView, Graph<ExplorationMap.NodeContent>.Node startingNode,
+        public void Select(MapSelectView mapSelectView, Graph<ExplorationMap.NodeContent>.Node startingNode,
             Action<Graph<ExplorationMap.NodeContent>.Node> callBack)
         {
-            var graph = mapView.Graph;
+            var graph = mapSelectView.Graph;
             Assert.IsTrue(graph.Nodes.Contains(startingNode));
 
-            mapView.ColorLocationButtons(node =>
+            mapSelectView.ColorLocationButtons(node =>
                 node == startingNode
                     ? (_startLocationColor, _startLocationColor, _startLocationColor)
                     : startingNode.Connected.Exists(ind => graph.GetNode(ind) == node)
                         ? (_targetNormalColor, _targetMouseOnColor, _targetPressedColor)
                         : (_etcColor, _etcColor, _etcColor)
             );
-            mapView.Select(node => startingNode.Connected.Exists(ind => graph.GetNode(ind) == node),
+            mapSelectView.Select(node => startingNode.Connected.Exists(ind => graph.GetNode(ind) == node),
                 ret =>
                 {
-                    ResetColors(mapView);
+                    ResetColors(mapSelectView);
                     callBack(ret);
                 });
         }
 
-        private static void ResetColors(MapView mapView)
+        private static void ResetColors(MapSelectView mapSelectView)
         {
-            mapView.ColorLocationButtons(_ => (Color.white, Color.white, Color.white));
+            mapSelectView.ColorLocationButtons(_ => (Color.white, Color.white, Color.white));
         }
     }
 }

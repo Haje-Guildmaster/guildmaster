@@ -57,7 +57,8 @@ namespace GuildMaster.UI
         private NpcStatus _npcStatus;
         private NpcStaticData _npcDataCache;
         private float _interactionListBottom;
-        private const float InteractionButtonYDiff = 43f;
+        private const float InteractionButtonYDiff = 43f;    // 아직 Layout을 모르던 때라 버튼을 밑에 추가하는 걸 단순히 y값을 빼는 것으로 처리
+                                                             // 이후 비슷한 걸 만든다면 대신 VerticalLayout을 사용해 주세요.
 
         private void InitialScreen()
         {
