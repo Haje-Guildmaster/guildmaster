@@ -4,7 +4,7 @@ using GuildMaster.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public class GuildInspectWindow: DraggableWindow, IToggleableWindow
     {

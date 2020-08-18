@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public class CharacterInspectWindow : DraggableWindow, IToggleableWindow
     {

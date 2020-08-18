@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI.Inventory
+namespace GuildMaster.Windows.Inventory
 {
     public class ItemCategoryToggle: ColorIfToggleIsOn
     {

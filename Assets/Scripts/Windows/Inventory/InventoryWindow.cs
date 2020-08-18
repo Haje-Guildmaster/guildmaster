@@ -8,7 +8,7 @@ using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI.Inventory
+namespace GuildMaster.Windows.Inventory
 {
     public class InventoryWindow : DraggableWindow, IToggleableWindow
     {

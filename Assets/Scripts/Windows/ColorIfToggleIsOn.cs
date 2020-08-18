@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     [RequireComponent(typeof(Toggle))]
     public class ColorIfToggleIsOn: MonoBehaviour

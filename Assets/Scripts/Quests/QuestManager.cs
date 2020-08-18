@@ -4,7 +4,7 @@ using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Databases;
 using GuildMaster.Npcs;
-using GuildMaster.UI;
+using GuildMaster.Windows;
 using UnityEngine;
 
 namespace GuildMaster.Quests

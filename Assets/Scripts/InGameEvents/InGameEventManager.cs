@@ -1,5 +1,5 @@
 ﻿using GuildMaster.Data;
-using GuildMaster.UI;
+using GuildMaster.Windows;
 
 namespace GuildMaster.InGameEvents
 {

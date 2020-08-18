@@ -1,4 +1,4 @@
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public interface IToggleableWindow
     {

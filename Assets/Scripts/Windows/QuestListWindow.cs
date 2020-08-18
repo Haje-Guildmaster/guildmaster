@@ -6,7 +6,7 @@ using GuildMaster.Quests;
 using UnityEngine;
 
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public class QuestListWindow: DraggableWindow, IToggleableWindow
     {

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public abstract class Window: MonoBehaviour, IPointerDownHandler
     {

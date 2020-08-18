@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI.Inventory
+namespace GuildMaster.Windows.Inventory
 {
     public class ItemIcon: GenericButton<Item>, IPointerEnterHandler, IPointerExitHandler
     {

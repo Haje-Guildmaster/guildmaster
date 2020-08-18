@@ -9,7 +9,7 @@ using GuildMaster.Quests;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public class MissionProgressView : MonoBehaviour
     {

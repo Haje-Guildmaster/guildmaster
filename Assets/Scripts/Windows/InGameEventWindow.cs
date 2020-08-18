@@ -5,7 +5,7 @@ using GuildMaster.InGameEvents;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public class InGameEventWindow : DraggableWindow
     {

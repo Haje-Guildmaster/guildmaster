@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public abstract class DraggableWindow : Window, IDragHandler, IBeginDragHandler
     {

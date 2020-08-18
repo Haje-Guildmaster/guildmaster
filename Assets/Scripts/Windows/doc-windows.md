@@ -1,6 +1,6 @@
-﻿# UI
+﻿# Windows
 (last edited: 2020-05-12)\
-게임의 UI를 처리하는 코드들을 넣습니다. 현재는 다수의 Window들만을 이용해 UI가 구성됩니다.
+TownRoamScene에서 사용되는 윈도우들을 처리하는 코드를 넣습니다.
 
 class hierachy
 ```

@@ -10,7 +10,7 @@ using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public class QuestInspectWindow: DraggableWindow
     {

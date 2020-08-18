@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public class MessageBox: DraggableWindow
     {

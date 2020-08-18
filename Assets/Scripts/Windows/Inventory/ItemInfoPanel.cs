@@ -2,7 +2,7 @@ using GuildMaster.Databases;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.UI.Inventory
+namespace GuildMaster.Windows.Inventory
 {
     public class ItemInfoPanel: MonoBehaviour
     {

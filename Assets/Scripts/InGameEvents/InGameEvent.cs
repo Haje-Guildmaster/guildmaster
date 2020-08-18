@@ -1,6 +1,6 @@
 ﻿using System;
 using GuildMaster.Data;
-using GuildMaster.UI;
+using GuildMaster.Windows;
 using UnityEngine;
 
 namespace GuildMaster.InGameEvents

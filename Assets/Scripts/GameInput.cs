@@ -1,6 +1,6 @@
 ﻿using GuildMaster.Data; //for test
 using GuildMaster.InGameEvents; //for test
-using GuildMaster.UI;
+using GuildMaster.Windows;
 using UnityEditor; //for test
 using UnityEngine;
 

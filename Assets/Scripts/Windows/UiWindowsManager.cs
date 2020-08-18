@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GuildMaster.Npcs;
-using GuildMaster.Quests;
-using GuildMaster.TownRoam.Towns;
-using GuildMaster.UI.Inventory;
+using GuildMaster.Windows.Inventory;
 using UnityEngine;
 
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public class UiWindowsManager: MonoBehaviour
     {
