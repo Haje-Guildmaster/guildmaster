@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GuildMaster.Items;
 using UnityEngine;
 
 namespace GuildMaster.Databases

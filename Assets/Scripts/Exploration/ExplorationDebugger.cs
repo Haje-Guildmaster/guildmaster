@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using GuildMaster.Characters;
+using GuildMaster.Databases;
 using UnityEngine;
 
 namespace GuildMaster.Exploration
@@ -11,13 +12,14 @@ namespace GuildMaster.Exploration
     public class ExplorationDebugger: MonoBehaviour
     {
         [SerializeField] private ExplorationMap _map;
-        
+        [SerializeField] private List<CharacterCode> _characters;
+
         private void Start()
         {
             _explorationView = FindObjectOfType<ExplorationView>();
             _explorationManager = FindObjectOfType<ExplorationManager>();
             
-            _explorationManager.StartExploration(-1, new List<Character>(), _map);
+            _explorationManager.StartExploration(-1, _characters.Select(cc=>new Character(cc)).ToList(), _map);
         }
         
         private void OnGUI()

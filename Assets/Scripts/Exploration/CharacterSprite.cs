@@ -17,7 +17,7 @@ namespace GuildMaster.Exploration
         public void SetCharacter(Character character)
         {
             Character = character;
-            _renderer.sprite = Character.StaticData.basicData.illustration;
+            _renderer.sprite = Character.StaticData.BasicData.Illustration;
         }
 
         public void Goto(float xPosition)

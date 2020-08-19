@@ -21,6 +21,7 @@ namespace GuildMaster.Exploration
         [SerializeField] private MapBaseSelector _baseSelector;
         [SerializeField] private MapAdjacentSelector _adjacentSelector;
         [SerializeField] private MinimapView _minimapView;
+        [SerializeField] private Footer _footer;
         
         public void Setup(List<Character> characters, ExplorationMap map)
         {
@@ -28,7 +29,8 @@ namespace GuildMaster.Exploration
             _roadView.Setup(characters);
             _mapSelectView.LoadMap(map);
             _minimapView.LoadMap(map);
-            
+            _footer.Setup(characters);
+
             // Todo: 맵 종류 받아서 slideBackgroundView 초기화
             // Todo: 캐릭터 생성.
         }
