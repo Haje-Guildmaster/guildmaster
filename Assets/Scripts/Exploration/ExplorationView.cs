@@ -22,6 +22,15 @@ namespace GuildMaster.Exploration
         [SerializeField] private MapAdjacentSelector _adjacentSelector;
         [SerializeField] private MinimapView _minimapView;
         [SerializeField] private Footer _footer;
+        [SerializeField] private ScrollPicker _decisionSelector;
+        [SerializeField] private GameObject _tempCharacterSelectHelperParent;
+        [SerializeField] private GameObject _tempEventDescriptionLabel;
+        
+        public State CurrentState { get; private set; } = State.Stopped;
+        public enum State
+        {
+            Stopped, OnMove, Paused, EventProcessing, LocationSelecting,
+        }
         
         public void Setup(List<Character> characters, ExplorationMap map)
         {
@@ -81,14 +90,23 @@ namespace GuildMaster.Exploration
                 const float stepTime = 0.05f;
                 var progress = 0f;
 
+                var beforeEvent = true;
                 
                 var flag = false;
                 while (true)
                 {
                     _minimapView.SetProgress(progress);
+                    if (beforeEvent && progress > 0.5f)
+                    {
+                        beforeEvent = false;
+                        TempProcessEvent();
+                        while (CurrentState != State.OnMove)
+                            yield return new WaitForSeconds(0.1f);
+                    }
+                    
                     if (flag) break;
                     yield return new WaitForSeconds(stepTime);
-
+                    
                     progress += stepTime / moveTime;
                     if (progress >= 1 - 0.00001)
                     {
@@ -104,20 +122,50 @@ namespace GuildMaster.Exploration
             }   
         }
 
+        private void TempProcessEvent()
+        {
+            SetState(State.EventProcessing);
+            _decisionSelector.Picked += TempEndEvent;
+            _decisionSelector.SetSelectedIndex(0, false);
+        }
+
+        private void TempEndEvent(int i)
+        {
+            _decisionSelector.Picked -= TempEndEvent;
+            Debug.Log($"선택지 {i+1} 선택됨");
+            SetState(State.OnMove);
+        }
+        
         private void SetState(State state)
         {
             switch (state)
             {
                 case State.OnMove:
+                    _roadView.SetGoing(true);
                     _minimapView.gameObject.SetActive(true);
                     _mapSelectView.gameObject.SetActive(false);
+                    _tempEventDescriptionLabel.SetActive(false);
+                    _tempCharacterSelectHelperParent.SetActive(false);
+                    _decisionSelector.gameObject.SetActive(false);
                     break;
                 case State.LocationSelecting:
+                    _roadView.SetGoing(false);
                     _minimapView.gameObject.SetActive(false);
                     _mapSelectView.gameObject.SetActive(true);
+                    _tempEventDescriptionLabel.SetActive(false);
+                    _tempCharacterSelectHelperParent.SetActive(false);
+                    _decisionSelector.gameObject.SetActive(false);
+                    break;
+                case State.EventProcessing:
+                    _roadView.SetGoing(false);
+                    _minimapView.gameObject.SetActive(true);
+                    _mapSelectView.gameObject.SetActive(false);
+                    _tempEventDescriptionLabel.SetActive(true);
+                    _tempCharacterSelectHelperParent.SetActive(true);
+                    _decisionSelector.gameObject.SetActive(true);
                     break;
             }
-            CurrentState = State.OnMove;
+            CurrentState = state;
         }
         
         
@@ -125,12 +173,6 @@ namespace GuildMaster.Exploration
         {
             CurrentState = State.Stopped;
             // Todo:
-        }
-
-        public State CurrentState { get; private set; } = State.Stopped;
-        public enum State
-        {
-            Stopped, OnMove, Paused, EventProcessing, LocationSelecting,
         }
     }
 }

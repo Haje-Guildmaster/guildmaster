@@ -22,7 +22,9 @@ namespace GuildMaster.Exploration
 
         public void Goto(float xPosition)
         {
-            transform.localPosition = _initialLocalPosition + new Vector3(xPosition, 0, 0);
+            var lp = transform.localPosition;
+            lp.x = _initialLocalPosition.x + xPosition;
+            transform.localPosition = lp;
         }
 
         public void SetMoveAnimation(bool value)
@@ -38,7 +40,7 @@ namespace GuildMaster.Exploration
             }
         }
 
-        private void Start()
+        private void Awake()
         {
             _renderer = GetComponent<SpriteRenderer>();
             _initialLocalPosition = transform.localPosition;
@@ -52,7 +54,7 @@ namespace GuildMaster.Exploration
             var locPos = transform.localPosition;
 
             locPos.y += _ySpeed;
-            _ySpeed -= 0.0006f;
+            _ySpeed -= 0.01f;
 
             if (locPos.y < _initialLocalPosition.y)
             {

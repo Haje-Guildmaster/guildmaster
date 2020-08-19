@@ -10,8 +10,8 @@ using UnityEngine.UI;
 namespace GuildMaster.Tools
 {
     /// <summary>
-    /// 직접 만든 간단한 선택기. child는 모두 <c>Button</c>을 지녀야 함.
-    /// 자식의 localPosition을 직접적으로 조작하므로 기존 위치는 무시됩니다.
+    /// 직접 만든 간단한 선택기. child는 모두 <c>Button</c>과 <c>Canvas Group</c>을 지녀야 함.
+    /// 자식의 <c>localPosition</c>을 직접적으로 조작하므로 기존 위치는 무시됩니다.
     /// </summary>
     public class ScrollPicker : MonoBehaviour
     {
@@ -49,9 +49,12 @@ namespace GuildMaster.Tools
             UpdateChildPosition();
         }
 
-        public void SetSelectedIndex(int index)
+        public void SetSelectedIndex(int index, bool anim=true)
         {
             _selectedIndex = index;
+            if (!anim)
+                _currentCenterIndex = index;
+            UpdateChildPosition();
         }
 
         private void UpdateChildPosition()
@@ -61,9 +64,8 @@ namespace GuildMaster.Tools
                 var btnTrans = btn.transform;
                 Assert.IsTrue(i == btnTrans.GetSiblingIndex());
                 btnTrans.localPosition = new Vector3(0f, (_currentCenterIndex - i) * _yDiff);
-                var col = btn.targetGraphic.color;
-                col.a = Math.Max(0f, 1 - Math.Abs(i - _currentCenterIndex) * _alphaPerIndexDiff);
-                btn.targetGraphic.color = col;
+                
+                btn.GetComponent<CanvasGroup>().alpha = Math.Max(0f, 1 - Math.Abs(i - _currentCenterIndex) * _alphaPerIndexDiff); // Todo: GetComponent 대체.
             }
         }
 
@@ -91,7 +93,7 @@ namespace GuildMaster.Tools
 
                 void OnClick()
                 {
-                    if (btn.targetGraphic.color.a < 0.1f) return;     // 안보이는 건 클릭 안됨.
+                    if (btn.GetComponent<CanvasGroup>().alpha < 0.1f) return;     // 안보이는 건 클릭 안됨. Todo: GetComponent 대체.
                         if (ind == _selectedIndex && (ind - _currentCenterIndex) < 0.5f)
                         Picked?.Invoke(ind);
                     SetSelectedIndex(ind);
@@ -101,7 +103,7 @@ namespace GuildMaster.Tools
                 _buttonsList.Add((btn, OnClick));
             }
 
-            SetSelectedIndex(0);
+            SetSelectedIndex(0, false);
             UpdateChildPosition();
         }
 
