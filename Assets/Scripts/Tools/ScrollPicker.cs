@@ -13,6 +13,7 @@ namespace GuildMaster.Tools
     /// 직접 만든 간단한 선택기. child는 모두 <c>Button</c>과 <c>Canvas Group</c>을 지녀야 함.
     /// 자식의 <c>localPosition</c>을 직접적으로 조작하므로 기존 위치는 무시됩니다.
     /// </summary>
+    // Todo: Picked 이벤트 대신 callback으로 수정.
     public class ScrollPicker : MonoBehaviour
     {
         [SerializeField] private float _yDiff;
@@ -20,7 +21,8 @@ namespace GuildMaster.Tools
         [SerializeField] private float _moveSpeedCoefficient = 5;
         [SerializeField] private float _moveSpeedConstant = 3;
 
-        public event Action<int> Picked;
+        public event Action<int> Picked;            // 선택된 항목을 다시 한번 클릭했을 때.
+        public event Action SelectingChange;        // 선택된 항목이 바뀌었을 때.
 
         private void Start()
         {
@@ -55,6 +57,7 @@ namespace GuildMaster.Tools
             if (!anim)
                 _currentCenterIndex = index;
             UpdateChildPosition();
+            SelectingChange?.Invoke();
         }
 
         private void UpdateChildPosition()

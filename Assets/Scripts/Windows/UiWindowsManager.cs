@@ -28,17 +28,7 @@ namespace GuildMaster.Windows
         }
 
         private static UiWindowsManager _instance;
-        public static UiWindowsManager Instance 
-        {
-            get
-            {
-                if (_instance != null)
-                    return _instance;
-                _instance = FindObjectOfType<UiWindowsManager>();  
-                if (!_instance)
-                    throw new Exception("There needs to be an active UiWindowManager component in the scene");
-                return _instance;
-            } 
-        }
+        public static UiWindowsManager Instance =>
+            _instance != null ? _instance : (_instance = FindObjectOfType<UiWindowsManager>());
     }
 }

@@ -3,21 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using GuildMaster.Characters;
 using GuildMaster.Tools;
-using TMPro;
+using GuildMaster.Windows;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace GuildMaster.Exploration
 {
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
+
     /// <summary>
     /// ExplorationManager로부터 명령 받아 탐색 과정을 실제로 유저에게 보여주는 역할입니다.
     /// </summary>
-    public class ExplorationView: MonoBehaviour
+    public class ExplorationView : MonoBehaviour
     {
         [SerializeField] private ExplorationRoadView _roadView;
-        [FormerlySerializedAs("mapSelectView")] [SerializeField] private MapSelectView _mapSelectView;
+
+        [FormerlySerializedAs("mapSelectView")] [SerializeField]
+        private MapSelectView _mapSelectView;
+
         [SerializeField] private MapBaseSelector _baseSelector;
         [SerializeField] private MapAdjacentSelector _adjacentSelector;
         [SerializeField] private MinimapView _minimapView;
@@ -25,13 +29,27 @@ namespace GuildMaster.Exploration
         [SerializeField] private ScrollPicker _decisionSelector;
         [SerializeField] private GameObject _tempCharacterSelectHelperParent;
         [SerializeField] private GameObject _tempEventDescriptionLabel;
-        
+
+        private void Awake()
+        {
+            // Todo: 수정.
+            foreach (var cshb in _tempCharacterSelectHelperParent.GetComponentsInChildren<Button>())
+            {
+                cshb.onClick.AddListener(TempEndEvent);
+            }
+        }
+
         public State CurrentState { get; private set; } = State.Stopped;
+
         public enum State
         {
-            Stopped, OnMove, Paused, EventProcessing, LocationSelecting,
+            Stopped,
+            OnMove,
+            Paused,
+            EventProcessing,
+            LocationSelecting,
         }
-        
+
         public void Setup(List<Character> characters, ExplorationMap map)
         {
             Cleanup();
@@ -47,7 +65,7 @@ namespace GuildMaster.Exploration
         public void SelectStartingBase(Action<MapNode> callback)
         {
             SetState(State.LocationSelecting);
-            
+
             _minimapView.gameObject.SetActive(false);
             _mapSelectView.gameObject.SetActive(true);
             _baseSelector.Select(_mapSelectView, callback);
@@ -70,14 +88,15 @@ namespace GuildMaster.Exploration
         public void SelectNextDestination(MapNode startingNode, Action<MapNode> callback)
         {
             SetState(State.LocationSelecting);
-            
+
             _adjacentSelector.Select(_mapSelectView, startingNode, callback);
         }
 
-        public void StartRoadView(List<Character> characters, MapNode startingBaseNode, MapNode headingNode, Action callback)
+        public void StartRoadView(List<Character> characters, MapNode startingBaseNode, MapNode headingNode,
+            Action callback)
         {
             SetState(State.OnMove);
-            
+
             _roadView.Setup(characters);
             _roadView.SetGoing(true);
 
@@ -91,7 +110,7 @@ namespace GuildMaster.Exploration
                 var progress = 0f;
 
                 var beforeEvent = true;
-                
+
                 var flag = false;
                 while (true)
                 {
@@ -103,10 +122,10 @@ namespace GuildMaster.Exploration
                         while (CurrentState != State.OnMove)
                             yield return new WaitForSeconds(0.1f);
                     }
-                    
+
                     if (flag) break;
                     yield return new WaitForSeconds(stepTime);
-                    
+
                     progress += stepTime / moveTime;
                     if (progress >= 1 - 0.00001)
                     {
@@ -114,28 +133,27 @@ namespace GuildMaster.Exploration
                         flag = true;
                     }
                 }
-                
+
                 _roadView.SetGoing(false);
                 yield return new WaitForSeconds(0.5f);
-                
+
                 callback();
-            }   
+            }
         }
 
         private void TempProcessEvent()
         {
             SetState(State.EventProcessing);
-            _decisionSelector.Picked += TempEndEvent;
             _decisionSelector.SetSelectedIndex(0, false);
         }
 
-        private void TempEndEvent(int i)
+
+        private void TempEndEvent()
         {
-            _decisionSelector.Picked -= TempEndEvent;
-            Debug.Log($"선택지 {i+1} 선택됨");
-            SetState(State.OnMove);
+            UiWindowsManager.Instance.ShowMessageBox("결과", "뭐가 어떻게 됐고 뭘 얻었고 어쩌고 저쩌고",
+                new (string, Action)[] {("확인", () => SetState(State.OnMove))});
         }
-        
+
         private void SetState(State state)
         {
             switch (state)
@@ -165,10 +183,11 @@ namespace GuildMaster.Exploration
                     _decisionSelector.gameObject.SetActive(true);
                     break;
             }
+
             CurrentState = state;
         }
-        
-        
+
+
         private void Cleanup()
         {
             CurrentState = State.Stopped;
