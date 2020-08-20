@@ -27,6 +27,7 @@ namespace GuildMaster.Data
         public readonly Inventory Inventory;
         public readonly InGameEventManager InGameEventManager;
         public readonly Guild PlayerGuild;
+        public readonly Timemanagement TimeManager;
         private readonly Dictionary<int, NpcStatus> _npcStatusMap = new Dictionary<int, NpcStatus>(); // array로 바꿀수도.
 
         // 
@@ -92,6 +93,7 @@ namespace GuildMaster.Data
             InGameEventManager = new InGameEventManager(this);
             Inventory = new Inventory();
             PlayerGuild = new Guild();
+            TimeManager = new Timemanagement(new Timeblock(), new Timeblock(), new Timeblock(), new Timeblock()) ;
 
             QuestManager.Changed += Changed;
             Inventory.Changed += Changed;
