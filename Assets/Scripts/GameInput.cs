@@ -19,7 +19,7 @@ namespace GuildMaster
             if (Input.GetKeyDown(KeyCode.G))
                 UiWindowsManager.Instance.guildInspectWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.Escape))
-                UiWindowsManager.Instance.audioWindow.Toggle();
+                UiWindowsManager.Instance.settingWindow.Toggle();
 
             //For Test InGameEvents
             if (Input.GetKeyDown(KeyCode.T))

@@ -20,7 +20,8 @@ namespace GuildMaster.UI
         public Transform messageBoxesParent;
         public CharacterInspectWindow characterInspectWindow;
         public GuildInspectWindow guildInspectWindow;
-
+        
+        public SettingWindow settingWindow;
         public AudioWindow audioWindow;
             
         public ItemInfoPanel itemInfoPanel;    // 임시.
