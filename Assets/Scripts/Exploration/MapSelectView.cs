@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,12 +47,12 @@ namespace GuildMaster.Exploration
         private void TrySelect(MapNode node)
         {
             if (!_requestedSelect.HasValue) return;
-            var (filter, callback) = _requestedSelect.Value;
+            var (filter, tcs) = _requestedSelect.Value;
 
             if (filter(node))
             {
                 _requestedSelect = null; // 순서주의
-                callback(node); // 순서주의
+                tcs.SetResult(node);
             }
         }
 
@@ -70,15 +71,18 @@ namespace GuildMaster.Exploration
 
         public delegate bool LocationFilter(MapNode node);
 
-        public void Select(LocationFilter filter, Action<MapNode> callback)
+        public async Task<MapNode> Select(LocationFilter filter)
         {
-            _requestedSelect?.callback.Invoke(null); // 이미 선택 중이었다면 원래 선택은 실패.
+            _requestedSelect?.taskCompletionSource.SetResult(null);; // 이미 선택 중이었다면 원래 선택은 실패.
 
-            _requestedSelect = (filter, callback);
+            var selectedNode = new TaskCompletionSource<MapNode>();
+            _requestedSelect = (filter, selectedNode);
+
+            return await selectedNode.Task;
         }
 
-        
-        private (LocationFilter filter, Action<MapNode> callback)? _requestedSelect;
+
+        private (LocationFilter filter, TaskCompletionSource<MapNode> taskCompletionSource)? _requestedSelect;
         private BasicMapView<LocationButton, Image> _basicMapView;
         private ExplorationMap _map;
     }

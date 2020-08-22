@@ -13,7 +13,7 @@ namespace GuildMaster.Tools
     /// 직접 만든 간단한 선택기. child는 모두 <c>Button</c>과 <c>Canvas Group</c>을 지녀야 함.
     /// 자식의 <c>localPosition</c>을 직접적으로 조작하므로 기존 위치는 무시됩니다.
     /// </summary>
-    // Todo: Picked 이벤트 대신 callback으로 수정.
+    // Todo: Picked 이벤트 대신 async로 수정.
     public class ScrollPicker : MonoBehaviour
     {
         [SerializeField] private float _yDiff;

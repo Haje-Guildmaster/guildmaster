@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,19 +13,16 @@ namespace GuildMaster.Exploration
         [SerializeField] private Color _baseMouseOnColor;
         [SerializeField] private Color _basePressedColor;
 
-        public void Select(MapSelectView mapSelectView, Action<Graph<ExplorationMap.NodeContent>.Node> callBack)
+        public async Task<Graph<ExplorationMap.NodeContent>.Node> Select(MapSelectView mapSelectView)
         {
             mapSelectView.ColorLocationButtons(node =>
                 node.Content.Location.LocationType == Location.Type.Base
                     ? (_baseNormalColor, _baseMouseOnColor, _basePressedColor)
                     : (_etcColor, _etcColor, _etcColor)
             );
-            mapSelectView.Select(node => node.Content.Location.LocationType == Location.Type.Base,
-                ret =>
-                {
-                    ResetColors(mapSelectView);
-                    callBack(ret);
-                });
+            var ret = await mapSelectView.Select(node => node.Content.Location.LocationType == Location.Type.Base);
+            ResetColors(mapSelectView);
+            return ret;
         }
 
         private static void ResetColors(MapSelectView mapSelectView)

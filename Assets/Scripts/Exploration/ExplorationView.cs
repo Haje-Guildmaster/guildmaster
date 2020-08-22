@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Tools;
 using GuildMaster.Windows;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -35,7 +37,7 @@ namespace GuildMaster.Exploration
             // Todo: 수정.
             foreach (var cshb in _tempCharacterSelectHelperParent.GetComponentsInChildren<Button>())
             {
-                cshb.onClick.AddListener(TempEndEvent);
+                cshb.onClick.AddListener(()=>CharacterSelected?.Invoke());
             }
         }
 
@@ -62,13 +64,11 @@ namespace GuildMaster.Exploration
             // Todo: 캐릭터 생성.
         }
 
-        public void SelectStartingBase(Action<MapNode> callback)
+        public async Task<MapNode> SelectStartingBase()
         {
             SetState(State.LocationSelecting);
 
-            _minimapView.gameObject.SetActive(false);
-            _mapSelectView.gameObject.SetActive(true);
-            _baseSelector.Select(_mapSelectView, callback);
+            return await _baseSelector.Select(_mapSelectView);
         }
 
         [Obsolete]
@@ -81,19 +81,18 @@ namespace GuildMaster.Exploration
 
         /// <summary>
         /// 탐색 중, 처음 시작하고 시작 거점을 정한 후나 어떤 장소에 도착한 후에 불러짐. <br/>
-        /// 다음 목적지를 고르고 callback으로 반환.
+        /// 다음 목적지를 고르고 반환.
         /// </summary>
         /// <param name="startingNode"> 시작 노드 </param>
-        /// <param name="callback"> callback </param>
-        public void SelectNextDestination(MapNode startingNode, Action<MapNode> callback)
+        /// <return> 골라진 다음 목적지 </return>
+        public async Task<MapNode> SelectNextDestination(MapNode startingNode)
         {
             SetState(State.LocationSelecting);
 
-            _adjacentSelector.Select(_mapSelectView, startingNode, callback);
+            return await _adjacentSelector.Select(_mapSelectView, startingNode);
         }
 
-        public void StartRoadView(List<Character> characters, MapNode startingBaseNode, MapNode headingNode,
-            Action callback)
+        public async Task PlayRoadView(List<Character> characters, MapNode startingBaseNode, MapNode headingNode)
         {
             SetState(State.OnMove);
 
@@ -101,9 +100,10 @@ namespace GuildMaster.Exploration
             _roadView.SetGoing(true);
 
             _minimapView.SetPlayerIndicatorPath(startingBaseNode, headingNode);
-            StartCoroutine(ProcessRoadView());
 
-            IEnumerator ProcessRoadView()
+            await ProcessRoadView();
+
+            async Task ProcessRoadView()
             {
                 const float moveTime = 4f;
                 const float stepTime = 0.05f;
@@ -118,13 +118,13 @@ namespace GuildMaster.Exploration
                     if (beforeEvent && progress > 0.5f)
                     {
                         beforeEvent = false;
-                        TempProcessEvent();
-                        while (CurrentState != State.OnMove)
-                            yield return new WaitForSeconds(0.1f);
+                        await TempProcessEvent();
+                        
+                        SetState(State.OnMove);
                     }
 
                     if (flag) break;
-                    yield return new WaitForSeconds(stepTime);
+                    await Task.Delay(TimeSpan.FromSeconds(stepTime));
 
                     progress += stepTime / moveTime;
                     if (progress >= 1 - 0.00001)
@@ -135,24 +135,31 @@ namespace GuildMaster.Exploration
                 }
 
                 _roadView.SetGoing(false);
-                yield return new WaitForSeconds(0.5f);
-
-                callback();
+                await Task.Delay(TimeSpan.FromSeconds(0.5f));
             }
         }
-
-        private void TempProcessEvent()
+        
+        private async Task TempProcessEvent()
         {
             SetState(State.EventProcessing);
             _decisionSelector.SetSelectedIndex(0, false);
-        }
 
+            var tcs = new TaskCompletionSource<object>();
 
-        private void TempEndEvent()
-        {
-            UiWindowsManager.Instance.ShowMessageBox("결과", "뭐가 어떻게 됐고 뭘 얻었고 어쩌고 저쩌고",
-                new (string, Action)[] {("확인", () => SetState(State.OnMove))});
+            CharacterSelected += EventEnd;
+            void EventEnd()
+            {
+                CharacterSelected -= EventEnd;
+                tcs.SetResult(null);
+            }
+
+            await tcs.Task;
+
+            await UiWindowsManager.Instance.AsyncShowMessageBox("결과", "뭐가 어떻게 됐고 뭘 얻었고 어쩌고 저쩌고", new[] {"확인"});
         }
+        
+        
+        private event Action CharacterSelected;
 
         private void SetState(State state)
         {
