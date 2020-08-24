@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿                using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,21 +52,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     public Sound[] sounds;
     // Start is called before the first frame update
-
-    static public AudioManager instance;
-
-    private void Awake()
-    {
-        if (instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(this.gameObject);
-            instance = this;
-        }
-    }
 
     void Start()
     {

@@ -22,7 +22,12 @@ namespace GuildMaster.UI
         public GuildInspectWindow guildInspectWindow;
         
         public SettingWindow settingWindow;
-        public AudioWindow audioWindow;
+        public TextureWindow TextureWindow;
+        public MVWindow MvWindow;
+        public ResolutionWindow ResolutionWindow;
+        public SEWindow SeWindow;
+        public TextspeedWindow TextspeedWindow;
+        public BGMWindow BGMWindow;
             
         public ItemInfoPanel itemInfoPanel;    // 임시.
         

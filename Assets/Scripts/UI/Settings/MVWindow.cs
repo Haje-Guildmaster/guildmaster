@@ -3,7 +3,7 @@ using GuildMaster.UI;
 
 namespace GuildMaster.UI
 {
-    public class AudioWindow : DraggableWindow, IToggleableWindow
+    public class MVWindow : DraggableWindow, IToggleableWindow
     {
         public void Open()
         {
@@ -14,7 +14,7 @@ namespace GuildMaster.UI
         // Update is called once per frame
         void Refresh()
         {
-
+            
         }
     }
 }
