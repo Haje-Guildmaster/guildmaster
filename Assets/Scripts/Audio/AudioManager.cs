@@ -1,24 +1,24 @@
-﻿                using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable] //인스펙터 창에 커스텀 클래스를 강제로 띄워준다. (직렬화?)
-public class Sound
+public class BGM
 {
     public string name; //사운드 이름
 
     public AudioClip clip; //사운드 파일
     private AudioSource source; //사운드 플레이어
-
     public float Volumn;
     public bool loop;
+    public bool OnOff = true;
 
-    public void SetSource(AudioSource _source) //소스를 넘겨주는 함수
+    public void SetSource(AudioSource _source, float _Volumn) //소스를 넘겨주는 함수
     {
         source = _source;
         source.clip = clip;
         source.loop = loop;
-        source.volume = Volumn;
+        source.volume = _Volumn;
     }
 
     public void SetVolumn()
@@ -36,6 +36,16 @@ public class Sound
         source.Stop();
     }
 
+    public void On()
+    {
+        OnOff = true;
+    }
+    
+    public void Off()
+    {
+        OnOff = false;
+    }
+
     public void SetLoop()
     {
         source.loop = true;
@@ -46,31 +56,96 @@ public class Sound
         source.loop = false;
     }
 }
+[System.Serializable]
+public class SoundEffects
+{
+    public string name; //사운드 이름
+
+    public AudioClip clip; //사운드 파일
+    private AudioSource source; //사운드 플레이어
+    public float Volumn;
+    public bool OnOff = true;
+
+    public void SetSource(AudioSource _source, float _Volumn) //소스를 넘겨주는 함수
+    {
+        source = _source;
+        source.clip = clip;
+        source.volume = _Volumn;
+    }
+
+    public void SetVolumn()
+    {
+        source.volume = Volumn;
+    }
+
+    public void On()
+    {
+        OnOff = true;
+    }
+
+    public void Off()
+    {
+        OnOff = false;
+    }
+
+    public void Play()
+    {
+        source.Play();
+    }
+
+    public void Stop()
+    {
+        source.Stop();
+    }
+}
+
 
 public class AudioManager : MonoBehaviour
 {
     [SerializeField]
-    public Sound[] sounds;
-    // Start is called before the first frame update
+    public float MasterVolume = 1;
+    public float BGMVolume = 1;
+    public float SoundEffectVolume = 1;
+    
+    public BGM[] bgms;
+    public SoundEffects[] SoundEffects;
 
-    void Start()
+    private void Start()
     {
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < bgms.Length; i++)
         {
-            GameObject soundObject = new GameObject("사운드 파일 이름 : " + i + " = " + sounds[i].name);
-            sounds[i].SetSource(soundObject.AddComponent<AudioSource>());
-            soundObject.transform.SetParent(this.transform);
+            GameObject BGMObjects = new GameObject("BGM: " + i + " = " + bgms[i].name);
+            bgms[i].SetSource(BGMObjects.AddComponent<AudioSource>(),1);
+            BGMObjects.transform.SetParent(this.transform);
         }
-        Play(sounds[0].name);
+        for (int i = 0; i < bgms.Length; i++)
+        {
+            GameObject SEObjects = new GameObject("효과음: " + i + " = " + SoundEffects[i].name);
+            SoundEffects[i].SetSource(SEObjects.AddComponent<AudioSource>(),1);
+            SEObjects.transform.SetParent(this.transform);
+        }
+        PlayBGM(bgms[0].name);
     }
 
-    public void Play(string _name)
+    public void PlayBGM(string _name)
     {
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < bgms.Length; i++)
         {
-            if (_name == sounds[i].name)
+            if (_name == bgms[i].name && bgms[i].OnOff)
             {
-                sounds[i].Play();
+                bgms[i].Play();
+                return;
+            }
+        }
+    }
+
+    public void PlaySoundEffect(string _name)
+    {
+        for (int i = 0; i < SoundEffects.Length; i++)
+        {
+            if (_name == SoundEffects[i].name && SoundEffects[i].OnOff)
+            {
+                SoundEffects[i].Play();
                 return;
             }
         }
@@ -78,74 +153,154 @@ public class AudioManager : MonoBehaviour
 
     public void StopAll()
     {
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < bgms.Length; i++)
         {
-            sounds[i].Stop();
+            bgms[i].Stop();
             return;
         }
     }
 
-    public void Stop(string _name)
+    public void StopBGM(string _name)
     {
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < bgms.Length; i++)
         {
-            if (_name == sounds[i].name)
+            if (_name == bgms[i].name)
             {
-                sounds[i].Stop();
+                bgms[i].Stop();
                 return;
             }
         }
     }
 
-    public void SetLoop(string _name)
+    public void StopSoundEffect(string _name)
     {
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < SoundEffects.Length; i++)
         {
-            if (_name == sounds[i].name)
+            if (_name == SoundEffects[i].name)
             {
-                sounds[i].SetLoop();
+                SoundEffects[i].Stop();
                 return;
             }
         }
     }
 
-    public void SetLoopCancel(string _name)
+    public void SetBGMLoop(string _name)
     {
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < bgms.Length; i++)
         {
-            if (_name == sounds[i].name)
+            if (_name == bgms[i].name)
             {
-                sounds[i].SetLoopCancel();
+                bgms[i].SetLoop();
                 return;
             }
         }
     }
 
-    public void SetVolumn(float _Volumn)
+    public void SetBGMLoopCancel(string _name)
     {
-        for (int i = 0; i < sounds.Length; i++)
+        for (int i = 0; i < bgms.Length; i++)
         {
-            sounds[i].Volumn = _Volumn;
-            sounds[i].SetVolumn();
-            return;
+            if (_name == bgms[i].name)
+            {
+                bgms[i].SetLoopCancel();
+                return;
+            }
         }
     }
 
-    public void SetMusicOnOff(bool _OnOff)
+    public void SetMasterVolume(float _Volumn)
+    {
+        MasterVolume = _Volumn;
+        for(int i = 0; i< bgms.Length; i++)
+        {
+            bgms[i].Volumn = BGMVolume * MasterVolume;
+            bgms[i].SetVolumn();
+        }
+        for(int i = 0; i<SoundEffects.Length; i++)
+        {
+            bgms[i].Volumn = BGMVolume * MasterVolume;
+            bgms[i].SetVolumn();
+        }
+        return;
+    }
+
+    public void SetBGMVolumn(float _Volumn)
+    {
+        BGMVolume = _Volumn;
+        for (int i = 0; i < bgms.Length; i++)
+        {
+            bgms[i].Volumn = BGMVolume * MasterVolume;
+            bgms[i].SetVolumn();
+        }
+        return;
+    }
+
+    public void SetBGMOnOff(bool _OnOff)
     {
         if (_OnOff)
         {
-            for (int i = 0; i < sounds.Length; i++)
+            for (int i = 0; i < bgms.Length; i++)
             {
-                sounds[i].Stop();
-                return;
+                bgms[i].Stop();
+                bgms[i].Off();
             }
         }
         else
         {
-            Play("TestTownBGM");
+            for (int i = 0; i < bgms.Length; i++)
+            {
+                bgms[i].On();
+            }
+            PlayBGM(bgms[0].name);
         }
+        return;
+    }
 
+    public void SetSoundEffectOnOff(bool _OnOff)
+    {
+        if (_OnOff)
+        {
+            for (int i = 0; i < SoundEffects.Length; i++)
+            {
+                SoundEffects[i].Stop();
+                SoundEffects[i].Off();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < SoundEffects.Length; i++)
+            {
+                SoundEffects[i].On();
+            }
+        }
+        return;
+    }
+
+    public void SetMasterVolumeOnOff(bool _OnOff)
+    {
+        if (_OnOff)
+        {
+            for(int i = 0; i < bgms.Length; i++)
+            {
+                bgms[i].Off();
+            }
+            for (int i = 0; i < SoundEffects.Length; i++)
+            {
+                SoundEffects[i].Off();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < bgms.Length; i++)
+            {
+                bgms[i].On();
+            }
+            for (int i = 0; i < SoundEffects.Length; i++)
+            {
+                SoundEffects[i].On();
+            }
+        }
+        return;
     }
 
 }
