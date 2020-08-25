@@ -40,7 +40,7 @@ public class BGM
     {
         OnOff = true;
     }
-    
+
     public void Off()
     {
         OnOff = false;
@@ -88,6 +88,7 @@ public class SoundEffects
         OnOff = false;
     }
 
+
     public void Play()
     {
         source.Play();
@@ -106,7 +107,9 @@ public class AudioManager : MonoBehaviour
     public float MasterVolume = 1;
     public float BGMVolume = 1;
     public float SoundEffectVolume = 1;
-    
+    public bool MasterOnOff = true;
+    public int PlayingBGMindex = -1;
+
     public BGM[] bgms;
     public SoundEffects[] SoundEffects;
 
@@ -115,72 +118,40 @@ public class AudioManager : MonoBehaviour
         for (int i = 0; i < bgms.Length; i++)
         {
             GameObject BGMObjects = new GameObject("BGM: " + i + " = " + bgms[i].name);
-            bgms[i].SetSource(BGMObjects.AddComponent<AudioSource>(),1);
+            bgms[i].SetSource(BGMObjects.AddComponent<AudioSource>(), 1);
             BGMObjects.transform.SetParent(this.transform);
         }
         for (int i = 0; i < bgms.Length; i++)
         {
             GameObject SEObjects = new GameObject("효과음: " + i + " = " + SoundEffects[i].name);
-            SoundEffects[i].SetSource(SEObjects.AddComponent<AudioSource>(),1);
+            SoundEffects[i].SetSource(SEObjects.AddComponent<AudioSource>(), 1);
             SEObjects.transform.SetParent(this.transform);
         }
-        PlayBGM(bgms[0].name);
+        PlayBGM(0);
     }
 
-    public void PlayBGM(string _name)
+    public void PlayBGMwasPlaying()
     {
-        for (int i = 0; i < bgms.Length; i++)
-        {
-            if (_name == bgms[i].name && bgms[i].OnOff)
-            {
-                bgms[i].Play();
-                return;
-            }
-        }
+        PlayBGM(PlayingBGMindex);
     }
 
-    public void PlaySoundEffect(string _name)
+    public void PlayBGM(int _BGMindex)
     {
-        for (int i = 0; i < SoundEffects.Length; i++)
+        if (bgms[_BGMindex].OnOff && MasterOnOff && bgms[_BGMindex].Volumn > 0)
         {
-            if (_name == SoundEffects[i].name && SoundEffects[i].OnOff)
-            {
-                SoundEffects[i].Play();
-                return;
-            }
-        }
-    }
-
-    public void StopAll()
-    {
-        for (int i = 0; i < bgms.Length; i++)
-        {
-            bgms[i].Stop();
+            bgms[_BGMindex].Play();
+            PlayingBGMindex = _BGMindex;
             return;
         }
     }
 
-    public void StopBGM(string _name)
+    public void PlaySoundEffect(int _SoundEffectindex)
     {
-        for (int i = 0; i < bgms.Length; i++)
-        {
-            if (_name == bgms[i].name)
-            {
-                bgms[i].Stop();
-                return;
-            }
-        }
-    }
 
-    public void StopSoundEffect(string _name)
-    {
-        for (int i = 0; i < SoundEffects.Length; i++)
+        if (SoundEffects[_SoundEffectindex].OnOff && MasterOnOff && SoundEffects[_SoundEffectindex].Volumn > 0)
         {
-            if (_name == SoundEffects[i].name)
-            {
-                SoundEffects[i].Stop();
-                return;
-            }
+            SoundEffects[_SoundEffectindex].Play();
+            return;
         }
     }
 
@@ -211,12 +182,12 @@ public class AudioManager : MonoBehaviour
     public void SetMasterVolume(float _Volumn)
     {
         MasterVolume = _Volumn;
-        for(int i = 0; i< bgms.Length; i++)
+        for (int i = 0; i < bgms.Length; i++)
         {
             bgms[i].Volumn = BGMVolume * MasterVolume;
             bgms[i].SetVolumn();
         }
-        for(int i = 0; i<SoundEffects.Length; i++)
+        for (int i = 0; i < SoundEffects.Length; i++)
         {
             bgms[i].Volumn = BGMVolume * MasterVolume;
             bgms[i].SetVolumn();
@@ -230,6 +201,17 @@ public class AudioManager : MonoBehaviour
         for (int i = 0; i < bgms.Length; i++)
         {
             bgms[i].Volumn = BGMVolume * MasterVolume;
+            bgms[i].SetVolumn();
+        }
+        return;
+    }
+
+    public void SetSEVolumn(float _Volumn)
+    {
+        SoundEffectVolume = _Volumn;
+        for (int i = 0; i < SoundEffects.Length; i++)
+        {
+            bgms[i].Volumn = SoundEffectVolume * MasterVolume;
             bgms[i].SetVolumn();
         }
         return;
@@ -251,7 +233,7 @@ public class AudioManager : MonoBehaviour
             {
                 bgms[i].On();
             }
-            PlayBGM(bgms[0].name);
+            PlayBGMwasPlaying();
         }
         return;
     }
@@ -280,26 +262,17 @@ public class AudioManager : MonoBehaviour
     {
         if (_OnOff)
         {
-            for(int i = 0; i < bgms.Length; i++)
+            MasterOnOff = false;
+            for (int i = 0; i < bgms.Length; i++)
             {
-                bgms[i].Off();
-            }
-            for (int i = 0; i < SoundEffects.Length; i++)
-            {
-                SoundEffects[i].Off();
+                bgms[i].Stop();
             }
         }
         else
         {
-            for (int i = 0; i < bgms.Length; i++)
-            {
-                bgms[i].On();
-            }
-            for (int i = 0; i < SoundEffects.Length; i++)
-            {
-                SoundEffects[i].On();
-            }
+            MasterOnOff = true;
         }
+        PlayBGMwasPlaying();
         return;
     }
 
