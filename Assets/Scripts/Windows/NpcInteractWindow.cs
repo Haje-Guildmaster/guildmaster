@@ -19,14 +19,14 @@ namespace GuildMaster.Windows
 
 
         [SerializeField] private Image illustration;
-        [SerializeField] private Text dialogTextBox;
+        [SerializeField] private TextEffect dialogTextBox;
         [SerializeField] private RectTransform interactionButtonsParent;
         [SerializeField] private NpcInteractionButton interactionButtonPrefab;
         [SerializeField] private QuestSuggestWindow questSuggestWindow;
         [SerializeField] private ProgressBar affinityBar;
 
         public Image Illustration => illustration;
-        public Text DialogTextBox => dialogTextBox;
+        //public TextEffect DialogTextBox => dialogTextBox;
 
 
         private void Start()
@@ -60,7 +60,7 @@ namespace GuildMaster.Windows
         {
             var basicData = _npc.StaticData.basicData;
             illustration.sprite = basicData.illustration;
-            dialogTextBox.text = $"[{basicData.npcName}]\n{basicData.greeting}";
+            dialogTextBox.SetMsg($"[{basicData.npcName}]\n{basicData.greeting}");
             InitializeInteractionButtonList();
             UpdateAffinityBar();
         }
@@ -83,7 +83,7 @@ namespace GuildMaster.Windows
                     UiWindowsManager.Instance.questSuggestWindow.Open(questCode, _npc);
                 }
                 else
-                    dialogTextBox.text = "가능한 퀘스트가 없습니다.";
+                    dialogTextBox.SetMsg("가능한 퀘스트가 없습니다.");
             });
         }
 
@@ -96,9 +96,9 @@ namespace GuildMaster.Windows
             _interactionListBottom -= InteractionButtonYDiff;
         }
 
-        private void PlayScript(Script script)
+        private void PlayScript(Script script) // function for displacing text - Bang
         {
-            dialogTextBox.text = script.str;
+            dialogTextBox.SetMsg(script.str);
         }
 
         private void PlayTalkMissionScript(StepMission.TalkMission talkMission)

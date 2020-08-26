@@ -20,8 +20,8 @@ namespace GuildMaster.Quests
         [SerializeField] private List<QuestStep> steps;
 
         [SerializeReference] [SerializeReferenceButton] private List<Reward> rewards;
-        
 
+        public bool IsAbleToGet = false;
         public string QuestName => questName;
 
         public string QuestDescription => questDescription;

@@ -27,7 +27,11 @@ namespace GuildMaster.Data
         public readonly Inventory Inventory;
         public readonly InGameEventManager InGameEventManager;
         public readonly Guild PlayerGuild;
+
         private readonly Dictionary<NpcCode, Npc> _npcDataMap = new Dictionary<NpcCode, Npc>(); // Todo: NpcCode 이중저장. Set이나 리스트 사용 고려.
+
+        public readonly Timemanagement TimeManager;
+
 
 
         /// <summary>
@@ -99,6 +103,7 @@ namespace GuildMaster.Data
             InGameEventManager = new InGameEventManager(this);
             Inventory = new Inventory();
             PlayerGuild = new Guild();
+            TimeManager = new Timemanagement(new Timeblock(), new Timeblock(), new Timeblock(), new Timeblock()) ;
 
             QuestManager.Changed += Changed;
             Inventory.Changed += Changed;
