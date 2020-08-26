@@ -17,6 +17,14 @@ namespace GuildMaster.Windows
         public Transform messageBoxesParent;
         public CharacterInspectWindow characterInspectWindow;
         public GuildInspectWindow guildInspectWindow;
+        
+        public SettingWindow settingWindow;
+        public TextureWindow TextureWindow;
+        public MVWindow MvWindow;
+        public ResolutionWindow ResolutionWindow;
+        public SEWindow SeWindow;
+        public TextspeedWindow TextspeedWindow;
+        public BGMWindow BGMWindow;
             
         public ItemInfoPanel itemInfoPanel;    // 임시.
         
