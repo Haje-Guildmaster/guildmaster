@@ -93,7 +93,7 @@ namespace GuildMaster.Data
             InGameEventManager = new InGameEventManager(this);
             Inventory = new Inventory();
             PlayerGuild = new Guild();
-            TimeManager = new Timemanagement(new Timeblock(), new Timeblock(), new Timeblock(), new Timeblock()) ;
+            TimeManager = new Timemanagement();
 
             QuestManager.Changed += Changed;
             Inventory.Changed += Changed;
