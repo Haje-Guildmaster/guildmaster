@@ -1,9 +1,5 @@
 using System;
-using System.Linq;
 using GuildMaster.Characters;
-using GuildMaster.Databases;
-using GuildMaster.Npcs;
-using GuildMaster.Quests;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,6 +24,6 @@ namespace GuildMaster.Databases
     public class CharacterCodeDrawer : DatabaseIndexDrawer<CharacterDatabase, CharacterStaticData>
     {
         protected override string GetElementDescriptionWithIndex(int i, CharacterStaticData element)
-            => $"Character {i}: {element.basicData.RealName ?? "null"}";
+            => $"Character {i}: {element.BasicData.RealName ?? "null"}";
     }
 }

@@ -13,7 +13,7 @@ namespace GuildMaster.Data
 {
     /// 플레이어의 플레이 정보를 담습니다.
     /// 퀘스트 클리어 정보, 길드원들, npc상태, 레벨, 장비, etc...
-    public class Player
+    public partial class Player
     {
         public static Player Instance
         {
@@ -27,23 +27,33 @@ namespace GuildMaster.Data
         public readonly Inventory Inventory;
         public readonly InGameEventManager InGameEventManager;
         public readonly Guild PlayerGuild;
+
+        private readonly Dictionary<NpcCode, Npc> _npcDataMap = new Dictionary<NpcCode, Npc>(); // Todo: NpcCode 이중저장. Set이나 리스트 사용 고려.
+
         public readonly Timemanagement TimeManager;
-        private readonly Dictionary<int, NpcStatus> _npcStatusMap = new Dictionary<int, NpcStatus>(); // array로 바꿀수도.
 
-        // 
 
+
+        /// <summary>
+        /// Deprecated. Use GetNpc instead.
+        /// </summary>
+        /// <param name="npcCode"></param>
+        /// <returns></returns>
+        [Obsolete]
         [NotNull]
-        public NpcStatus GetNpcStatus(NpcCode npc)
-        {
-            return _npcStatusMap.TryGetValue(npc.Value, out var ret) ? ret : _AddNpcStatus(npc);
-        }
+        public NpcStatus GetNpcStatus(NpcCode npcCode) => GetNpc(npcCode).Status;
 
+        public Npc GetNpc(NpcCode npcCode)
+        {
+            return _npcDataMap.TryGetValue(npcCode, out var ret) ? ret : _AddNewNpc(npcCode);
+        }
+        
         public void ApplyReward(Reward reward)
         {
             switch (reward)
             {
                 case Reward.AffinityReward affinityReward:
-                    GetNpcStatus(affinityReward.targetNpc).Affinity.Value += affinityReward.amount;
+                    GetNpc(affinityReward.targetNpc).Status.Affinity.Value += affinityReward.amount;
                     break;
                 case Reward.ItemReward itemReward:
                     Inventory.TryAddItem(itemReward.item, itemReward.number);
@@ -76,11 +86,11 @@ namespace GuildMaster.Data
 
 
         [NotNull]
-        private NpcStatus _AddNpcStatus(NpcCode npc)
+        private Npc _AddNewNpc(NpcCode npcCode)
         {
-            var made = new NpcStatus();
-            _npcStatusMap.Add(npc.Value, made);
-            made.Changed += Changed;
+            var made = new Npc(npcCode);
+            _npcDataMap.Add(npcCode, made);
+            made.Status.Changed += Changed;
             Changed?.Invoke();
             return made;
         }
