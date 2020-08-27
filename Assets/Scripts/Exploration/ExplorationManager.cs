@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GuildMaster.Characters;
+using GuildMaster.Exploration.Events;
 using GuildMaster.Tools;
 using UnityEditor;
 using UnityEngine;
@@ -59,7 +60,7 @@ namespace GuildMaster.Exploration
             Assert.IsTrue(_currentNode.Connected.Exists(ind => _map.Graph.GetNode(ind) == ret));
             return ret;
         }
-        
+
         private static ExplorationManager _instance;
 
         private List<Character> _characters;
