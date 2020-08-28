@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GuildMaster.Windows;
 
 [System.Serializable] //인스펙터 창에 커스텀 클래스를 강제로 띄워준다. (직렬화?)
 public class BGM
@@ -103,12 +104,8 @@ public class SoundEffects
 
 public class AudioManager : MonoBehaviour
 {
+
     [SerializeField]
-    public float MasterVolume = 1;
-    public float BGMVolume = 1;
-    public float SoundEffectVolume = 1;
-    public bool MasterOnOff = true;
-    public int PlayingBGMindex = -1;
 
     public BGM[] bgms;
     public SoundEffects[] SoundEffects;
@@ -132,15 +129,15 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBGMwasPlaying()
     {
-        PlayBGM(PlayingBGMindex);
+        PlayBGM(SettingVariables.PlayingBGMindex);
     }
 
     public void PlayBGM(int _BGMindex)
     {
-        if (bgms[_BGMindex].OnOff && MasterOnOff && bgms[_BGMindex].Volumn > 0)
+        if (bgms[_BGMindex].OnOff && SettingVariables.MasterOnOff && bgms[_BGMindex].Volumn > 0)
         {
             bgms[_BGMindex].Play();
-            PlayingBGMindex = _BGMindex;
+            SettingVariables.PlayingBGMindex = _BGMindex;
             return;
         }
     }
@@ -148,7 +145,7 @@ public class AudioManager : MonoBehaviour
     public void PlaySoundEffect(int _SoundEffectindex)
     {
 
-        if (SoundEffects[_SoundEffectindex].OnOff && MasterOnOff && SoundEffects[_SoundEffectindex].Volumn > 0)
+        if (SoundEffects[_SoundEffectindex].OnOff && SettingVariables.MasterOnOff && SoundEffects[_SoundEffectindex].Volumn > 0)
         {
             SoundEffects[_SoundEffectindex].Play();
             return;
@@ -181,15 +178,15 @@ public class AudioManager : MonoBehaviour
 
     public void SetMasterVolume(float _Volumn)
     {
-        MasterVolume = _Volumn;
+        SettingVariables.MasterVolume = _Volumn;
         for (int i = 0; i < bgms.Length; i++)
         {
-            bgms[i].Volumn = BGMVolume * MasterVolume;
+            bgms[i].Volumn = SettingVariables.BGMVolume * SettingVariables.MasterVolume;
             bgms[i].SetVolumn();
         }
         for (int i = 0; i < SoundEffects.Length; i++)
         {
-            bgms[i].Volumn = BGMVolume * MasterVolume;
+            bgms[i].Volumn = SettingVariables.BGMVolume * SettingVariables.MasterVolume;
             bgms[i].SetVolumn();
         }
         return;
@@ -197,10 +194,10 @@ public class AudioManager : MonoBehaviour
 
     public void SetBGMVolumn(float _Volumn)
     {
-        BGMVolume = _Volumn;
+        SettingVariables.BGMVolume = _Volumn;
         for (int i = 0; i < bgms.Length; i++)
         {
-            bgms[i].Volumn = BGMVolume * MasterVolume;
+            bgms[i].Volumn = SettingVariables.BGMVolume * SettingVariables.MasterVolume;
             bgms[i].SetVolumn();
         }
         return;
@@ -208,10 +205,10 @@ public class AudioManager : MonoBehaviour
 
     public void SetSEVolumn(float _Volumn)
     {
-        SoundEffectVolume = _Volumn;
+        SettingVariables.SoundEffectVolume = _Volumn;
         for (int i = 0; i < SoundEffects.Length; i++)
         {
-            bgms[i].Volumn = SoundEffectVolume * MasterVolume;
+            bgms[i].Volumn = SettingVariables.SoundEffectVolume * SettingVariables.MasterVolume;
             bgms[i].SetVolumn();
         }
         return;
@@ -262,7 +259,7 @@ public class AudioManager : MonoBehaviour
     {
         if (_OnOff)
         {
-            MasterOnOff = false;
+            SettingVariables.MasterOnOff = false;
             for (int i = 0; i < bgms.Length; i++)
             {
                 bgms[i].Stop();
@@ -270,7 +267,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            MasterOnOff = true;
+            SettingVariables.MasterOnOff = true;
         }
         PlayBGMwasPlaying();
         return;

@@ -17,6 +17,15 @@ MonoBehaviour:
       Illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
       NameList:
       - "\uD669"
+      openedCharacteristic: 0
+      CharacteristicName:
+      - "\uBD88\uAD74"
+      - "\uD22C\uC9C0"
+      CharacteristicContents:
+      - "\uC774 \uCE90\uB9AD\uD130\uB294 \uC8FD\uC74C\uC5D0 \uC774\uB974\uB294 \uACF5\uACA9\uC744
+        \uBC1B\uC558\uC744 \uB54C \uB531 \uD55C\uBC88 HP 1\uB85C \uC0DD\uC874\uD55C\uB2E4\t"
+      - "\uC774 \uCE90\uB9AD\uD130\uB294 HP\uAC00 20% \uC544\uB798\uBA74 \uACF5\uACA9\uB825\uC774
+        20% \uC0C1\uC2B9\uD55C\uB2E4"
     BattleStatData:
       MaxHp: 123
       SpIsMp: 0
@@ -34,6 +43,15 @@ MonoBehaviour:
       Illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}
       NameList:
       - "\uB378\uB9AC\uACE0"
+      openedCharacteristic: 0
+      CharacteristicName:
+      - "\uC878\uB9BC"
+      - "\uBC24\uC0D8"
+      CharacteristicContents:
+      - "\uC774 \uCE90\uB9AD\uD130\uB294 \uC77C\uC815 \uD655\uB960\uB85C \uD134\uC744
+        \uC218\uD589\uD558\uC9C0 \uBABB\uD558\uACE0 \uC7A0\uB4E4\uC5B4\uBC84\uB9B0\uB2E4"
+      - "\uC774 \uCE90\uB9AD\uD130\uB294 \uC804\uD22C \uC2DC \uCCAB \uD134\uC5D0
+        \uB450 \uAC00\uC9C0 \uD589\uB3D9\uC744 \uD560 \uC218 \uC788\uB2E4"
     BattleStatData:
       MaxHp: 20
       SpIsMp: 0
@@ -48,4 +66,4 @@ MonoBehaviour:
       GoodOrEvil: 3
       SmartOrStupid: 3
   currentEditingIndex:
-    Value: 0
+    Value: 1

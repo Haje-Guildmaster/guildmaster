@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GuildMaster.Windows;
 [RequireComponent(typeof(Text))]
 public class TextEffect : MonoBehaviour
 {
     string targetMsg;
-    public int CharPerSeconds;
     Text msgText;
     private int index;
     private float interval;
-    public bool isAnim;
     private void Awake()
     {
         msgText = GetComponent<Text>();
     }
     public void SetMsg(string msg)
     {
-        if (isAnim)
+        if (SettingVariables.isAnim)
         {
             msgText.text = targetMsg;
             CancelInvoke();
@@ -29,12 +28,17 @@ public class TextEffect : MonoBehaviour
             EffectStart();
         }
     }
+    public void SetCharPerSeconds(float _index)
+    {
+        int[] _speeds = new int[4] {10, 25, 50, 1000};
+        SettingVariables.CharPerSeconds = _speeds[(int)_index];
+    }
     void EffectStart()
     {
         msgText.text = "";
         index = 0;
-        interval = 1.0f / CharPerSeconds;
-        isAnim = true;
+        interval = 1.0f / SettingVariables.CharPerSeconds;
+        SettingVariables.isAnim = true;
         Invoke("EffectOn", interval);
     }
     void EffectOn()
@@ -51,7 +55,7 @@ public class TextEffect : MonoBehaviour
     }
     void EffectEnd()
     {
-        isAnim = false;
+        SettingVariables.isAnim = false;
         return;
     }
 }

@@ -1,7 +1,7 @@
 ﻿
-using GuildMaster.Windows;
+using GuildMaster.UI;
 
-namespace GuildMaster.Windows
+namespace GuildMaster.UI
 {
     public class MVWindow : DraggableWindow, IToggleableWindow
     {
