@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using GuildMaster.Items;
+using UnityEngine;
 
 namespace GuildMaster.Exploration.Events
 {
+    [Serializable]
     public abstract class Instruction
     {
-        public class PreModifiableInstruction<TSelf> : Instruction
+        [Serializable]
+        public abstract class PreModifiableInstruction<TSelf> : Instruction
         {
             public abstract class Modifier
             {
@@ -18,18 +21,21 @@ namespace GuildMaster.Exploration.Events
             public List<Modifier> Modifiers;
         }
 
+        [Serializable]
         public class PerChance : Instruction
         {
             public float Chance;
-            public Instruction Success;
-            public Instruction Failure;
+            [SerializeReference][SerializeReferenceButton] public Instruction Success;
+            [SerializeReference][SerializeReferenceButton] public Instruction Failure;
         }
+        [Serializable]
         public class GetItem: Instruction
         {
             public Item Item;
             public int Number;
         }
 
+        [Serializable]
         public class ChangeEnergy: PreModifiableInstruction<ChangeEnergy>
         {
             public enum EnergyType
@@ -40,6 +46,7 @@ namespace GuildMaster.Exploration.Events
             public EnergyType TargetType;
             public int Amount;
         }
+        [Serializable]
         public class EndEvent : Instruction
         {}
     }
