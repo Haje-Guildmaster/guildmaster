@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.WSA;
 using Object = System.Object;
 
 namespace GuildMaster.Exploration.Events
@@ -23,15 +24,12 @@ namespace GuildMaster.Exploration.Events
                     break;
                 case Instruction.ChangeEnergy changeEnergy:
                     ApplyModifier(changeEnergy);
-
                     break;
                 case Instruction.EndEvent endEvent:
                     ApplyModifier(endEvent);
-
                     break;
                 case Instruction.GetItem getItem:
                     ApplyModifier(getItem);
-
                     break;
                 default:
                     throw new Exception($"Couldn't follow {nameof(Instruction)} {instruction}");
@@ -49,7 +47,13 @@ namespace GuildMaster.Exploration.Events
         
         private bool CheckCondition(Condition condition)
         {
-            return true;
+            switch (condition)
+            {
+                case Condition.Always always:
+                    return always.IsTrue;
+                default:
+                    throw new Exception($"{nameof(CheckCondition)}: Couldn't check condition {condition}");
+            }
         }
     }
 }
