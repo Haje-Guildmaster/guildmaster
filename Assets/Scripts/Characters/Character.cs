@@ -18,6 +18,7 @@ namespace GuildMaster.Characters
             _sp.Changed += Changed;
             _stamina.Changed += Changed;
             _usingNameIndex.Changed += Changed;
+            _characteristicIndex.Changed += Changed;
             
             _code = code;
             _hp.Value = MaxHp;
@@ -31,6 +32,8 @@ namespace GuildMaster.Characters
         public string UsingName => NameList[_usingNameIndex];                //현재 이름
         public string RealName => StaticData.BasicData.RealName;             //실제 이름
         public bool KnowUseRealName => _usingNameIndex == NameList.Count;    //현재 실제 이름을 사용중인지
+        public string CharacteristicName => CharacteristicNameList[_characteristicIndex];
+        public string CharacteristicContents => CharacteristicContentsList[_characteristicIndex];
         public int MaxSp => StaticData.BattleStatData.MaxSp;
         public int MaxHp => StaticData.BattleStatData.MaxHp;     // MaxSp, MaxSp, Hp 등은 후에 캐릭터 종류에 종속된 값이 아니게 될 것이라 판단하여 Character에 넣습니다.
         public int MaxStamina => StaticData.BattleStatData.MaxStamina;
@@ -67,6 +70,7 @@ namespace GuildMaster.Characters
             get => _loyalty;
             set => _loyalty.Value = Math.Min(MaxLoyalty, Math.Max(value, 0));
         }
+
         public int CurrentMaxHp => (int)(MaxHp*(1-Injury));
 
         public int Agi => StaticData.BattleStatData.BaseAgi;
@@ -83,7 +87,10 @@ namespace GuildMaster.Characters
         private readonly ChangeTrackedValue<int> _hp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _sp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _stamina = new ChangeTrackedValue<int>();
-        private ReadOnlyCollection<string> NameList => StaticData.BasicData.NameList.AsReadOnly(); 
+        private readonly ChangeTrackedValue<int> _characteristicIndex = new ChangeTrackedValue<int>(0);                      // 현재 나타날 이름의 index
+        private ReadOnlyCollection<string> NameList => StaticData.BasicData.NameList.AsReadOnly();
+        private ReadOnlyCollection<string> CharacteristicNameList => StaticData.BasicData.CharacteristicName.AsReadOnly();
+        private ReadOnlyCollection<string> CharacteristicContentsList => StaticData.BasicData.CharacteristicContents.AsReadOnly();
         public CharacterStaticData StaticData => CharacterDatabase.Get(_code);
     }
 }

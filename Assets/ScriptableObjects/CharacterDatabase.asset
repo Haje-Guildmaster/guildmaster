@@ -17,7 +17,7 @@ MonoBehaviour:
       Illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
       NameList:
       - "\uD669"
-      openedCharacteristic: 0
+      ActivatiedCharacteristicIndex: 1
       CharacteristicName:
       - "\uBD88\uAD74"
       - "\uD22C\uC9C0"
@@ -43,7 +43,7 @@ MonoBehaviour:
       Illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}
       NameList:
       - "\uB378\uB9AC\uACE0"
-      openedCharacteristic: 0
+      ActivatiedCharacteristicIndex: 0
       CharacteristicName:
       - "\uC878\uB9BC"
       - "\uBC24\uC0D8"
@@ -66,4 +66,4 @@ MonoBehaviour:
       GoodOrEvil: 3
       SmartOrStupid: 3
   currentEditingIndex:
-    Value: 1
+    Value: 0

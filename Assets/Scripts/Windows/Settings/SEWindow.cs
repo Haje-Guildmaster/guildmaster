@@ -1,7 +1,5 @@
 ﻿
-using GuildMaster.UI;
-
-namespace GuildMaster.UI
+namespace GuildMaster.Windows
 {
     public class SEWindow : DraggableWindow, IToggleableWindow
     {

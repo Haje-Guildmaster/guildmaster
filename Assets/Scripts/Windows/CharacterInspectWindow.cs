@@ -68,6 +68,7 @@ namespace GuildMaster.Windows
             characterIllustration.sprite = sd.BasicData.Illustration;
             nameLabel.text = _currentCharacter.UsingName;
             loyaltyLabel.text = _currentCharacter.Loyalty.ToString();
+            CharacteristicLabel.text = $"[{_currentCharacter.CharacteristicName}]\n{ _currentCharacter.CharacteristicContents}";
             maxHpLabel.text = $"{_currentCharacter.Hp}/{_currentCharacter.MaxHp}";
             maxSpLeftLabel.text = (sd.BattleStatData.SpIsMp ? "MP" : "DP") + ":";
             maxSpValueLabel.text = $"{_currentCharacter.Sp}/{_currentCharacter.MaxSp}";
