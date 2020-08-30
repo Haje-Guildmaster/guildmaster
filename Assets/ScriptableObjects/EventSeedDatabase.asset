@@ -12,8 +12,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8155d9052a8d43328e1ad4cc9602a3f4, type: 3}
   m_Name: EventSeedDatabase
   m_EditorClassIdentifier: 
-  dataList: []
+  dataList:
+  - Name: "\uBCF4\uBB3C\uC0C1\uC790"
+    EventSeed:
+      id: 0
+  - Name: 
+    EventSeed:
+      id: 1
+  - Name: 
+    EventSeed:
+      id: 1
+  - Name: 
+    EventSeed:
+      id: 1
   currentEditingIndex:
     Value: 0
   references:
     version: 1
+    00000000:
+      type: {class: AsIsEventSeed, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        _event:
+          ShortDescription: "\uC744 \uAC00\uB2E4\uAC00 \uC790\uBB3C\uC1E0\uAC00 \uC7A0\uACA8\uC788\uB294
+            \uC0C1\uC790\uB97C \uBC1C\uACAC\uD588\uB2E4. \uC5B4\uB5BB\uAC8C \uD560\uAE4C"
+          FullDescription: "\uC790\uBB3C\uC1E0\uB97C \uC5F4\uBA74 \uC0C1\uC790\uC548\uC758
+            \uBB34\uC5B8\uAC00\uB97C \uC5BB\uC744 \uC218 \uC788\uC744 \uAC83\uC774\uB2E4.
+            \uBBFC\uCCA9\uC774 \uB192\uC740 \uCE90\uB9AD\uD130\uB77C\uBA74 \uC880\uB354
+            \uC27D\uAC8C \uC790\uBB3C\uC1E0\uB97C \uB538 \uC218 \uC788\uC744 \uAC83\uC774\uB2E4!
+            (\uBBFC\uCCA9 * 5%\uC758 \uD655\uB960!)"
+          Choices:
+          - Description: "\uB0B4 \uC601\uC6C5\uC73C\uB85C \uB300\uCC98\uD55C\uB2E4.
+              \r"
+            Instruction:
+              id: 2
+          - Description: "\uC0C1\uC790\uB97C \uBB34\uC2DC\uD558\uACE0 \uAC00\uB358\uAE38\uC744
+              \uAC04\uB2E4."
+            Instruction:
+              id: 3
+    00000001:
+      type: {class: , ns: , asm: }
+    00000002:
+      type: {class: Instruction/PerChance, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Chance: 40
+        Success:
+          id: 1
+        Failure:
+          id: 1
+    00000003:
+      type: {class: Instruction/PerChance, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Chance: 0
+        Success:
+          id: 1
+        Failure:
+          id: 1

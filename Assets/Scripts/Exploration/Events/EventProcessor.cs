@@ -15,7 +15,8 @@ namespace GuildMaster.Exploration.Events
     /// </Note>
     public class EventProcessor
     {
-        public EventProcessor(ExplorationView explorationView, ReadOnlyCollection<Character> characters, Inventory inventory)
+        public EventProcessor(ExplorationView explorationView, ReadOnlyCollection<Character> characters,
+            Inventory inventory)
         {
             _explorationView = explorationView;
             _characters = characters;
@@ -25,8 +26,8 @@ namespace GuildMaster.Exploration.Events
 
         public async void StartEvent()
         {
-            
         }
+
         /// <summary>
         /// 지시를 수행합니다.
         /// </summary>
@@ -36,11 +37,16 @@ namespace GuildMaster.Exploration.Events
         /// <exception cref="Exception"> 처리 불가능한 지시. 제대로 구현되었다면 불리지 않음. </exception>
         private bool FollowInstruction(Instruction instruction, Character selectedCharacter)
         {
+            int Calculate(Expression expression)
+                => ExpressionProcessor.Calculate(expression, selectedCharacter);
+
             switch (instruction)
             {
+                case null:
+                    return false;
                 case Instruction.PerChance perChance:
-                    ApplyModifier(perChance);
-                    if (_randomGenerator.NextDouble() > perChance.Chance)
+                    // ApplyModifier(perChance);
+                    if (_randomGenerator.Next(0, 100) < Calculate(perChance.Chance))
                     {
                         return FollowInstruction(perChance.Success, selectedCharacter);
                     }
@@ -49,27 +55,27 @@ namespace GuildMaster.Exploration.Events
                         return FollowInstruction(perChance.Failure, selectedCharacter);
                     }
                 case Instruction.ChangeEnergy changeEnergy:
-                    ApplyModifier(changeEnergy);
+                    // ApplyModifier(changeEnergy);
 
                     // 왜 Property를 ref로 받을 수 없는가?
                     // 그럼 Property get set에 접근할 수 있는 클래스라도 있어야 하는 것 아닌가?
                     switch (changeEnergy.TargetType)
                     {
                         case Instruction.ChangeEnergy.EnergyType.Hp:
-                            selectedCharacter.Hp -= changeEnergy.Amount;
+                            selectedCharacter.Hp += Calculate(changeEnergy.Amount);
                             break;
                         case Instruction.ChangeEnergy.EnergyType.Stamina:
-                            selectedCharacter.Stamina -= changeEnergy.Amount;
+                            selectedCharacter.Stamina -= Calculate(changeEnergy.Amount);
                             break;
                     }
 
                     return false;
                 case Instruction.GetItem getItem:
-                    ApplyModifier(getItem);
-                    _inventory.TryAddItem(getItem.Item, getItem.Number);
+                    // ApplyModifier(getItem);
+                    _inventory.TryAddItem(getItem.Item, Calculate(getItem.Number));
                     return false;
                 case Instruction.EndEvent endEvent:
-                    ApplyModifier(endEvent);
+                    // ApplyModifier(endEvent);
                     return true;
                 default:
                     throw new Exception($"Couldn't follow {nameof(Instruction)} {instruction}");
@@ -81,13 +87,13 @@ namespace GuildMaster.Exploration.Events
             /* Do Nothing */
         }
 
-        private void ApplyModifier<T>(T instr) where T : Instruction.PreModifiableInstruction<T>
-        {
-            foreach (var modifier in instr.Modifiers.Where(modifier => CheckCondition(modifier.Condition)))
-            {
-                modifier.Modify(instr);
-            }
-        }
+        // private void ApplyModifier<T>(T instr) where T : Instruction.PreModifiableInstruction<T>
+        // {
+        //     foreach (var modifier in instr.Modifiers.Where(modifier => CheckCondition(modifier.Condition)))
+        //     {
+        //         modifier.Modify(instr);
+        //     }
+        // }
 
         private bool CheckCondition(Condition condition)
         {
@@ -101,10 +107,9 @@ namespace GuildMaster.Exploration.Events
         }
 
 
-        private ExplorationView _explorationView;
-        private ReadOnlyCollection<Character> _characters;
-        private Inventory _inventory;
-
-        private System.Random _randomGenerator;
+        private readonly ExplorationView _explorationView;
+        private readonly ReadOnlyCollection<Character> _characters;
+        private readonly Inventory _inventory;
+        private readonly System.Random _randomGenerator;
     }
 }
