@@ -17,17 +17,9 @@ public class TextEffect : MonoBehaviour
     }
     public void SetMsg(string msg)
     {
-        if (isAnim)
-        {
-            msgText.text = targetMsg;
-            CancelInvoke();
-            EffectEnd();
-        }
-        else
-        {
-            targetMsg = msg;
-            EffectStart();
-        }
+        StopAllCoroutines();
+        targetMsg = msg;
+        EffectStart();
     }
     void EffectStart()
     {
@@ -35,19 +27,22 @@ public class TextEffect : MonoBehaviour
         index = 0;
         interval = 1.0f / CharPerSeconds;
         isAnim = true;
-        Invoke("EffectOn", interval);
+        StartCoroutine(EffectOn());
     }
-    void EffectOn()
+    IEnumerator EffectOn()
     {
-        if(msgText.text == targetMsg)
+        while (true)
         {
-            EffectEnd();
-            return;
-        }
-        msgText.text += targetMsg[index];
-        index++;
+            if (msgText.text == targetMsg)
+            {
+                EffectEnd();
+                break;
+            }
+            msgText.text += targetMsg[index];
+            index++;
 
-        Invoke("EffectOn", interval);
+            yield return new WaitForSeconds(interval);
+        }
     }
     void EffectEnd()
     {

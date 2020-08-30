@@ -22,6 +22,7 @@ namespace GuildMaster.Windows
         [SerializeField] private TextEffect dialogTextBox;
         [SerializeField] private RectTransform interactionButtonsParent;
         [SerializeField] private NpcInteractionButton interactionButtonPrefab;
+        [SerializeField] private QuestAvailableWindow questAvailableWindow;
         [SerializeField] private QuestSuggestWindow questSuggestWindow;
         [SerializeField] private ProgressBar affinityBar;
 
@@ -77,10 +78,7 @@ namespace GuildMaster.Windows
                 var availableQuests = questManager.GetAvailableQuestsFrom(_npc.StaticData.questData.QuestList);
                 if (availableQuests.Any())
                 {
-                    var questCode = availableQuests[0];
-                    var questStaticData = QuestDatabase.Get(questCode);
-                    PlayScript(questStaticData.QuestSuggestScript);
-                    UiWindowsManager.Instance.questSuggestWindow.Open(questCode, _npc);
+                    questAvailableWindow.Open(availableQuests, _npc, PlayScript);
                 }
                 else
                     dialogTextBox.SetMsg("가능한 퀘스트가 없습니다.");
@@ -114,17 +112,19 @@ namespace GuildMaster.Windows
 
         private void Cleanup()
         {
+            questSuggestWindow.Close();
+            questAvailableWindow.Close();
             if (_npc != null)
             {
                 _npc.Status.Affinity.Changed -= UpdateAffinityBar;
             }
-
             _npc = null;
         }
 
         protected override void OnClose()
         {
             Cleanup();
+            
             base.OnClose();
         }
     }
