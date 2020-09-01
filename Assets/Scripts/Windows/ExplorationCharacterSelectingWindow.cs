@@ -8,11 +8,14 @@ using UnityEngine.UI;
 
 namespace GuildMaster.Windows
 {
-    public class CharacterInspectWindow : DraggableWindow, IToggleableWindow
+    public class ExplorationCharacterSelectingWindow : DraggableWindow, IToggleableWindow
     {
-        [SerializeField] private Transform characterListParent;
-        [SerializeField] private Toggle characterSelectTogglePrefab;
-        [SerializeField] private ToggleGroup characterSelectToggleGroup;
+        [SerializeField] private Transform characterSelectingListParent;
+        [SerializeField] private Toggle characterSelectingTogglePrefab;
+        [SerializeField] private ToggleGroup characterSelectingToggleGroup;
+        [SerializeField] private Transform characterSelectedListParent;
+        [SerializeField] private Toggle characterSelectedTogglePrefab;
+        [SerializeField] private ToggleGroup characterSelectedToggleGroup;
         [SerializeField] private Image characterIllustration;
         [SerializeField] private Text nameLabel;
         [SerializeField] private Text loyaltyLabel;
@@ -31,13 +34,13 @@ namespace GuildMaster.Windows
             base.OpenWindow();
 
             SetCharacter(null);
-            foreach (Transform t in characterListParent)
+            foreach (Transform t in characterSelectingListParent)
                 Destroy(t.gameObject);
             foreach (var (ch, i) in Player.Instance.PlayerGuild._guildMembers.GuildMemberList.Select((i, j) =>
                 (i, j)))
             {
-                var made = Instantiate(characterSelectTogglePrefab, characterListParent);
-                made.group = characterSelectToggleGroup;
+                var made = Instantiate(characterSelectingTogglePrefab, characterSelectingListParent);
+                made.group = characterSelectingToggleGroup;
                 made.GetComponentInChildren<Text>().text = ch.UsingName;
                 var capture = ch;
                 made.onValueChanged.AddListener(b =>
@@ -47,6 +50,23 @@ namespace GuildMaster.Windows
                 if (i == 0)
                     made.isOn = true; //위의 AddListener와 순서 주의.
             }
+            foreach (Transform t in characterSelectedListParent)
+                Destroy(t.gameObject);
+            foreach (var (ch, i) in Player.Instance.PlayerGuild._guildMembers.GuildMemberList.Select((i, j) =>
+                (i, j)))
+            {
+                var made = Instantiate(characterSelectedTogglePrefab, characterSelectedListParent);
+                made.group = characterSelectedToggleGroup;
+                made.GetComponentInChildren<Text>().text = ch.UsingName;
+                var capture = ch;
+                made.onValueChanged.AddListener(b =>
+                {
+                    if (b) SetCharacter(capture);
+                });
+                if (i == 0)
+                    made.isOn = true; //위의 AddListener와 순서 주의.
+            }
+
         }
 
         private void SetCharacter(Character character)
