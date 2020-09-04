@@ -821,6 +821,7 @@ GameObject:
   - component: {fileID: 44392300}
   - component: {fileID: 44392299}
   - component: {fileID: 44392301}
+  - component: {fileID: 44392302}
   m_Layer: 0
   m_Name: StaticData
   m_TagString: Untagged
@@ -868,6 +869,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745686c2230f4d4ca849dbc926fb96a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &44392302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44392298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce6f1cf9f5f91eb4a9b1c6685200b0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NameMap:
+  - Name: "\uBD88\uAD74"
+    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uC8FD\uC744 \uC704\uAE30\uC5D0
+      \uCCD0\uD588\uC744 \uB54C \uD53C 1\uB85C \uC0DD\uC874\uD569\uB2C8\uB2E4"
+  - Name: "\uBC24\uC0D8"
+    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uD55C \uD134 \uC26C\uC5B4\uC57C\uD569\uB2C8\uB2E4"
+  - Name: "\uC878\uB9BC"
+    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uD134\uC774 \uC2DC\uC791\uB420\uB54C
+      \uC77C\uC815 \uD655\uB960\uB85C \uC7A0\uB4ED\uB2C8\uB2E4"
+  - Name: "\uAD11\uC804\uC0AC"
+    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uCCB4\uB825\uC774 \uB0AE\uC744
+      \uC218\uB85D \uACF5\uACA9\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  - Name: "\uACF5\uD3EC"
+    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uACF5\uACA9\uB825\uC774 50% \uAC10\uC18C\uD569\uB2C8\uB2E4"
+  - Name: "\uAD11\uBD84"
+    Description: "\uC774\uBC88\uD134\uC5D0 \uACF5\uACA9\uB825\uC774 2\uBC30\uB85C
+      \uC99D\uAC00\uD569\uB2C8\uB2E4"
 --- !u!1 &44735926
 GameObject:
   m_ObjectHideFlags: 0

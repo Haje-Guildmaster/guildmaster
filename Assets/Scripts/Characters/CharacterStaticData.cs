@@ -10,5 +10,6 @@ namespace GuildMaster.Characters
         public CharacterBasicData BasicData;
         public CharacterBattleStatData BattleStatData;
         public CharacterAlignmentData DefaultAlignment; //성향치
+        public CharacterTraitData TraitData;
     }
 }
