@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GuildMaster.Databases
 {
-    public abstract class DatabaseIndexDrawer<TDb, TElement> : PropertyDrawer where TDb : Database<TDb, TElement>
+    public abstract class DatabaseIndexDrawer<TDb, TElement> : PropertyDrawer where TDb : IndexDatabase<TDb, TElement>
     {
         [Pure]
         protected abstract string GetElementDescriptionWithIndex(int i, TElement element);
@@ -35,7 +35,7 @@ namespace GuildMaster.Databases
 
             var intIndexProperty = property.FindPropertyRelative("Value");
             var currentIntValue = intIndexProperty.intValue;
-            var currentElement = GetDatabase()._GetElement(new Database<TDb, TElement>.Index(currentIntValue));
+            var currentElement = GetDatabase()._GetElement(new IndexDatabase<TDb, TElement>.Index(currentIntValue));
             if (GUI.Button(buttonPosition,
                 new GUIContent(currentElement != null
                     ? GetElementDescriptionWithIndex(currentIntValue, currentElement)

@@ -6,13 +6,14 @@ using UnityEngine;
 namespace GuildMaster.Databases
 {
     [CreateAssetMenu(fileName = "ItemDatabase", menuName = "ScriptableObjects/ItemDatabase", order = 0)]
-    public class ItemDatabase : UnityEditableDatabase<ItemDatabase, ItemStaticData, ItemCode>
+    public class ItemDatabase : UnityEditableIndexDatabase<ItemDatabase, ItemStaticData>
     {}
 
     // 유니티 serialization을 위해.
     [Serializable]
     public class ItemCode : ItemDatabase.Index {}
     
+    [CustomPropertyDrawer(typeof(ItemDatabase.Index))]
     [CustomPropertyDrawer(typeof(ItemCode))]
     public class ItemCodeDrawer : DatabaseIndexDrawer<ItemDatabase, ItemStaticData>
     {

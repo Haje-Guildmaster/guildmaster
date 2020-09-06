@@ -6,11 +6,11 @@ using UnityEngine;
 namespace GuildMaster.Databases
 {
     [CreateAssetMenu(fileName = "InGameEventDatabase", menuName = "ScriptableObjects/InGameEventDatabase", order = 0)]
-    public class InGameEventDatabase : UnityEditableDatabase<InGameEventDatabase, InGameEventStaticData, EventCode>
+    public class InGameEventDatabase : UnityEditableIndexDatabase<InGameEventDatabase, InGameEventStaticData>
     {}
     
     [CustomEditor(typeof(InGameEventDatabase))]
-    public class InGameEventDatabaseEditor : DatabaseEditor<InGameEventDatabase, InGameEventStaticData, EventCode>
+    public class InGameEventDatabaseEditor : DatabaseEditor
     {
     }
 
@@ -18,6 +18,7 @@ namespace GuildMaster.Databases
     [Serializable]
     public class EventCode : InGameEventDatabase.Index {}
 
+    [CustomPropertyDrawer(typeof(InGameEventDatabase.Index))]
     [CustomPropertyDrawer(typeof(EventCode))]
     public class EventCodeDrawer : DatabaseIndexDrawer<InGameEventDatabase, InGameEventStaticData>
     {
