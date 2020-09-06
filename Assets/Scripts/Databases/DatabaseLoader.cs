@@ -8,6 +8,7 @@ namespace GuildMaster.Databases
         public NpcDatabase npcDatabase;
         public QuestDatabase questDatabase;
         public CharacterDatabase characterDatabase;
+        public TraitDatabase traitDatabase;
         public InGameEventDatabase inGameEventDatabase;
         public ExplorationLocationDatabase explorationLocationDatabase;
         
@@ -17,6 +18,7 @@ namespace GuildMaster.Databases
             NpcDatabase.LoadSingleton(npcDatabase);
             QuestDatabase.LoadSingleton(questDatabase);
             CharacterDatabase.LoadSingleton(characterDatabase);
+            TraitDatabase.LoadSingleton(traitDatabase);
             InGameEventDatabase.LoadSingleton(inGameEventDatabase);
             ExplorationLocationDatabase.LoadSingleton(explorationLocationDatabase);
         }

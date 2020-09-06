@@ -17,8 +17,6 @@ MonoBehaviour:
       Illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
       NameList:
       - "\uD669"
-      ActivatiedCharacteristicIndex: 1
-      ActiveTraits: 0000000001000000
     BattleStatData:
       MaxHp: 123
       SpIsMp: 0
@@ -32,13 +30,10 @@ MonoBehaviour:
       LawOrChaos: 3
       GoodOrEvil: 3
       SmartOrStupid: 3
-    TraitData: {fileID: 0}
   - BasicData:
       Illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}
       NameList:
       - "\uB378\uB9AC\uACE0"
-      ActivatiedCharacteristicIndex: 0
-      ActiveTraits: 0300000005000000
     BattleStatData:
       MaxHp: 20
       SpIsMp: 0
@@ -52,6 +47,5 @@ MonoBehaviour:
       LawOrChaos: 3
       GoodOrEvil: 3
       SmartOrStupid: 3
-    TraitData: {fileID: 0}
   currentEditingIndex:
     Value: 0

@@ -7,7 +7,7 @@ namespace GuildMaster.Databases
         where TIndexEnum : Enum
     {
         public TElement _GetElement(TIndexEnum indexEnum) => _GetElementByInt(Convert.ToInt32(indexEnum));
-        public TElement Get(TIndexEnum indexEnum) => Instance._GetElement(indexEnum);
+        public static TElement Get(TIndexEnum indexEnum) => Instance._GetElement(indexEnum);
     }
 
     public class UnityEditableEnumDatabase<TSelf, TElement, TIndexEnum> : EnumDatabase<TSelf, TElement, TIndexEnum>

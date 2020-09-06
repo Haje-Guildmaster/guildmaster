@@ -8,8 +8,8 @@ namespace GuildMaster.Characters
 {
     public class Character
     {
-        public event Action Changed; 
-        
+        public event Action Changed;
+
         //코드에 표시되어 있지 않다면 수의 하한선은 0입니다.
         public Character(CharacterCode code)
         {
@@ -20,17 +20,17 @@ namespace GuildMaster.Characters
             _stamina.Changed += Changed;
             _usingNameIndex.Changed += Changed;
             _characteristicIndex.Changed += Changed;
-            
+
             _code = code;
             _hp.Value = MaxHp;
             _sp.Value = MaxSp;
             _stamina.Value = MaxStamina;
             Alignment = StaticData.DefaultAlignment;
         }
-        
+
         public const int MaxLoyalty = 100;
 
-        
+
         public string UsingName => NameList[_usingNameIndex];                //현재 이름
         public string RealName => StaticData.BasicData.RealName;             //실제 이름
         public bool KnowUseRealName => _usingNameIndex == NameList.Count;    //현재 실제 이름을 사용중인지
@@ -39,16 +39,15 @@ namespace GuildMaster.Characters
         public int MaxSp => StaticData.BattleStatData.MaxSp;
         public int MaxHp => StaticData.BattleStatData.MaxHp;     // MaxSp, MaxSp, Hp 등은 후에 캐릭터 종류에 종속된 값이 아니게 될 것이라 판단하여 Character에 넣습니다.
         public int MaxStamina => StaticData.BattleStatData.MaxStamina;
+        public List<CharacterTraitData.Trait> ActiveTraits = new List<CharacterTraitData.Trait>(new CharacterTraitData.Trait[] { CharacterTraitData.Trait.Anger, CharacterTraitData.Trait.Unstop });
+
 
         public string TraitText()
         {
-            string _str = "";
-            List<CharacterTraitData.Trait> _activeTraits = StaticData.BasicData.ActiveTraits;
-            for(int i = 0; i < _activeTraits.Count-1; i++)
+            String _str = "";
+            for(int i = 0; i < ActiveTraits.Count; i++)
             {
-                _str += StaticData.TraitData.GetName(_activeTraits[i]);
-                _str += "\n";
-                _str += StaticData.TraitData.GetDescription(_activeTraits[i]);
+                _str += $"[{TraitDatabase.Get(ActiveTraits[i]).Name}]\n{TraitDatabase.Get(ActiveTraits[i]).Description}\n";
             }
             return _str;
         }

@@ -881,23 +881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce6f1cf9f5f91eb4a9b1c6685200b0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NameMap:
-  - Name: "\uBD88\uAD74"
-    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uC8FD\uC744 \uC704\uAE30\uC5D0
-      \uCCD0\uD588\uC744 \uB54C \uD53C 1\uB85C \uC0DD\uC874\uD569\uB2C8\uB2E4"
-  - Name: "\uBC24\uC0D8"
-    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uD55C \uD134 \uC26C\uC5B4\uC57C\uD569\uB2C8\uB2E4"
-  - Name: "\uC878\uB9BC"
-    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uD134\uC774 \uC2DC\uC791\uB420\uB54C
-      \uC77C\uC815 \uD655\uB960\uB85C \uC7A0\uB4ED\uB2C8\uB2E4"
-  - Name: "\uAD11\uC804\uC0AC"
-    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uCCB4\uB825\uC774 \uB0AE\uC744
-      \uC218\uB85D \uACF5\uACA9\uB825\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4"
-  - Name: "\uACF5\uD3EC"
-    Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uACF5\uACA9\uB825\uC774 50% \uAC10\uC18C\uD569\uB2C8\uB2E4"
-  - Name: "\uAD11\uBD84"
-    Description: "\uC774\uBC88\uD134\uC5D0 \uACF5\uACA9\uB825\uC774 2\uBC30\uB85C
-      \uC99D\uAC00\uD569\uB2C8\uB2E4"
 --- !u!1 &44735926
 GameObject:
   m_ObjectHideFlags: 0
@@ -10061,6 +10044,7 @@ MonoBehaviour:
   npcDatabase: {fileID: 11400000, guid: 24262711775cdba489a3899c94aae0c4, type: 2}
   questDatabase: {fileID: 11400000, guid: 77c7fdd39e26e7c4bb8945c83f9058da, type: 2}
   characterDatabase: {fileID: 11400000, guid: 4ed3405fba6f02f4192fa132271cf315, type: 2}
+  traitDatabase: {fileID: 11400000, guid: 6814ec3a55e5b114e98e55e84262783d, type: 2}
   inGameEventDatabase: {fileID: 11400000, guid: 12ee208022c34e045a1dc3b73f5d96b7,
     type: 2}
   explorationLocationDatabase: {fileID: 0}
@@ -15905,9 +15889,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 11500000, guid: 07f0a94252d489d4db3142a49d7fa10f, type: 3}
         m_TargetAssemblyTypeName: 
-        m_MethodName: Close
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
