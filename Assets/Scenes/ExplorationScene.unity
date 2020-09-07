@@ -5701,7 +5701,7 @@ MonoBehaviour:
   _choiceSelectorElementPrefab: {fileID: 171053607217455088, guid: 4ef83895cce81164b8fdef96c99b65ff,
     type: 3}
   _characterSelectHelperParent: {fileID: 1084042039}
-  _tempEventDescriptionLabel: {fileID: 1512593613}
+  _eventDescriptionLabel: {fileID: 828080373}
   CharacterSelectorYIndicator: {fileID: 1969739711}
 --- !u!224 &352643465
 RectTransform:
@@ -9029,6 +9029,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 828080370}
+  - component: {fileID: 828080373}
   - component: {fileID: 828080372}
   - component: {fileID: 828080371}
   m_Layer: 0
@@ -9096,6 +9097,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828080369}
   m_CullTransparentMesh: 0
+--- !u!114 &828080373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828080369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 574364ba92de4e509b7eab690d7ae4b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _label: {fileID: 1512593613}
 --- !u!224 &834239643 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 319393879149366903, guid: d6d425e7d0accc6459b878e51006e39e,

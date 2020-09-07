@@ -100,8 +100,12 @@ namespace GuildMaster.Exploration
 
             SetState(State.OnMove);
 
+            // Todo: 밑에 이거 수정.
+            if (Math.Abs(startingProgress) < 0.001f)
+                _roadView.TempResetPosition();
+
             _roadView.SetGoing(true);
-            _roadView.TempResetPosition();
+            
             _minimapView.SetPlayerIndicatorPath(startingBaseNode, headingNode);
 
             await ProcessRoadView();
@@ -142,11 +146,11 @@ namespace GuildMaster.Exploration
         public class ChoiceVisualData : EventProcessView.ChoiceVisualData{}
 
         public async Task<(int choiceIndex, Character selectedCharacter)> PlayEvent(
-            List<ChoiceVisualData> choiceVisualDataList)
+            List<ChoiceVisualData> choiceVisualDataList, string descriptionString)
         {
             SetState(State.EventProcessing);
             var ret = await _eventProcessView.WaitUserDecision(_roadView.CharacterSprites,
-                choiceVisualDataList.Select(cvd => (EventProcessView.ChoiceVisualData) cvd).ToList());
+                choiceVisualDataList.Select(cvd => (EventProcessView.ChoiceVisualData) cvd).ToList(), descriptionString);
             SetState(State.Waiting);
             return ret;
         }

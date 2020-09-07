@@ -34,7 +34,7 @@ namespace GuildMaster.Exploration.Events
                     CharacterSelectHelperStrings = _characters.Select(c=>(c, "이벤트 종료")).ToList(),
                 }
             };
-            var (choiceIndex, selectedCharacter) = await _explorationView.PlayEvent(testChoicesList);
+            var (choiceIndex, selectedCharacter) = await _explorationView.PlayEvent(testChoicesList, "간단한 설명임다.");
             Debug.Log(choiceIndex);
             Debug.Log(selectedCharacter.UsingName);
             await _explorationView.Notify("뭐가 어떻게 됐고 뭘 얻었고 어쩌고 저쩌고");

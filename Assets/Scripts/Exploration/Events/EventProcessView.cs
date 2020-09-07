@@ -17,7 +17,7 @@ namespace GuildMaster.Exploration.Events
         [SerializeField] private CharacterSelectHelper _characterSelectHelperPrefab;
         [SerializeField] private ChoiceSelectorElement _choiceSelectorElementPrefab;
         [SerializeField] private Transform _characterSelectHelperParent;
-        [SerializeField] private Text _tempEventDescriptionLabel;
+        [SerializeField] private EventDescriptionLabel _eventDescriptionLabel;
         [SerializeField] private Transform CharacterSelectorYIndicator;   // CharacterSelector 가 생성될 y 위치 지정. 
         
 
@@ -29,7 +29,7 @@ namespace GuildMaster.Exploration.Events
         public void SetActive(bool active)
         {
             _characterSelectHelperParent.gameObject.SetActive(active);
-            _tempEventDescriptionLabel.gameObject.SetActive(active);
+            _eventDescriptionLabel.gameObject.SetActive(active);
             _decisionSelector.gameObject.SetActive(active);
         }
 
@@ -50,7 +50,7 @@ namespace GuildMaster.Exploration.Events
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         public async Task<(int choiceIndex, Character selectedCharacter)> WaitUserDecision(
-            IEnumerable<CharacterSprite> characterSprites, List<ChoiceVisualData> choices)
+            IEnumerable<CharacterSprite> characterSprites, List<ChoiceVisualData> choices, string descriptionString)
         {
             Assert.IsTrue(choices.Count > 0);        // 적어도 하나의 선택지는 있어야 함.
             // 시간복잡도는 무시한 코드이므로 속도 문제가 있으면 수정할 것.
@@ -63,6 +63,8 @@ namespace GuildMaster.Exploration.Events
                 Destroy(child.gameObject);
             }
             
+            // 설명 설정.
+            _eventDescriptionLabel.Text = descriptionString;
             
             // 선택 버튼 생성.
             foreach (var (cvd, i) in choices.Select((val, i)=>(val, i)))
