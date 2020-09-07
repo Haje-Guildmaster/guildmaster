@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Tools;
@@ -17,7 +18,7 @@ namespace GuildMaster.Exploration.Events
         [SerializeField] private ChoiceSelectorElement _choiceSelectorElementPrefab;
         [SerializeField] private Transform _characterSelectHelperParent;
         [SerializeField] private Text _tempEventDescriptionLabel;
-        [SerializeField] private float CharacterSelectorRelativeYPosition = 20f;   // 캐릭터 스프라이트에 대해 얼마나 위에 있는지.
+        [SerializeField] private Transform CharacterSelectorYIndicator;   // CharacterSelector 가 생성될 y 위치 지정. 
         
 
         private void Awake()
@@ -39,7 +40,7 @@ namespace GuildMaster.Exploration.Events
         }
 
         /// <summary>
-        /// 
+        /// 이벤트에서 선택 가능한 선택지들을 보여주고 유저의 선택을 기다림.
         /// </summary>
         /// <note>
         /// 한번에 2개 이상 실행되면 안됩니다. (딱히 가드나 체크를 두지는 않았습니다)
@@ -53,7 +54,7 @@ namespace GuildMaster.Exploration.Events
         {
             Assert.IsTrue(choices.Count > 0);        // 적어도 하나의 선택지는 있어야 함.
             // 시간복잡도는 무시한 코드이므로 속도 문제가 있으면 수정할 것.
-
+            
             var cnt = 0;
             // 초기화.
             foreach (Transform child in _decisionSelector.transform)
@@ -83,18 +84,19 @@ namespace GuildMaster.Exploration.Events
             // 캐릭터 선택 도우미(캐릭터 머리 위에 뜨는 그거) 생성
             var characterSelectors = new List<(CharacterSprite sprite, CharacterSelectHelper selectHelper)>();
             
+            
             foreach (var cs in characterSprites)
             {
                 var made = Instantiate(_characterSelectHelperPrefab, _characterSelectHelperParent);
                 var csCapture = cs;
                 made.OnClick.AddListener(() => EventEndSignal(_decisionSelector.SelectedIndex, csCapture.Character));   // 클릭했을 시 이벤트 종료 신호를 보냄. 캐릭터 반환.
-                made.transform.position = cs.transform.position + new Vector3(0, CharacterSelectorRelativeYPosition);        // 위치 조정.
+                made.transform.position = new Vector3(cs.transform.position.x, CharacterSelectorYIndicator.position.y);        // 위치 조정.
                 characterSelectors.Add((cs, made));
             }
             
-            _decisionSelector.SetSelectedIndex(0, false);
-
             _decisionSelector.SelectingChange += UpdateCharacterSelectHelpers;
+            _decisionSelector.SetSelectedIndex(0, false);
+            
             void UpdateCharacterSelectHelpers(int i)
             {
                 Assert.IsTrue(choices.Count > i);

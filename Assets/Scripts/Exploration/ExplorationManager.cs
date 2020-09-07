@@ -25,7 +25,7 @@ namespace GuildMaster.Exploration
     {
         [SerializeField] private ExplorationView _explorationView;
         [SerializeField] private EventSeedCode _testEventSeed;
-        
+
         public static ExplorationManager Instance =>
             _instance != null ? _instance : (_instance = FindObjectOfType<ExplorationManager>());
 
@@ -35,9 +35,9 @@ namespace GuildMaster.Exploration
             _characters = new List<Character>(characters);
             _map = map;
             _explorationView.Setup(characters, map);
-            
+
             RunExploration();
-            
+
             async void RunExploration()
             {
                 _currentNode = await SelectStartingBase();
@@ -48,15 +48,14 @@ namespace GuildMaster.Exploration
                     var testEvent = eventSeed.Generate(new System.Random());
                     var destination = await SelectNextDestination();
                     await _explorationView.PlayRoadView(_currentNode, destination, 0f, 0.5f);
-                    await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory).ProcessEvent(testEvent);
+                    await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory).ProcessEvent(
+                        testEvent); // EventProcessor에게 이벤트 처리 떠넘김. Todo: EventProcessor 재사용 고려.
                     await _explorationView.PlayRoadView(_currentNode, destination, 0.5f, 1f);
 
                     _currentNode = destination;
                 }
             }
         }
-        
-        
 
 
         private async Task<MapNode> SelectStartingBase()
@@ -82,9 +81,10 @@ namespace GuildMaster.Exploration
         private List<Character> _characters;
         private ExplorationMap _map;
         private MapNode _currentNode;
+
         /// <summary>
         /// 이 탐색에 들고 나온 아이템들 인벤토리. // Todo: ExplorationLoader에서 탐색이 로드될 때 가져온 아이템 이곳으로 옮기기.
         /// </summary>
-        private Inventory _inventory = new Inventory(); 
+        private Inventory _inventory = new Inventory();
     }
 }

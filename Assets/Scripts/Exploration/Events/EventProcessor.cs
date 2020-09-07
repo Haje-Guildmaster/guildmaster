@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Data;
@@ -30,7 +31,7 @@ namespace GuildMaster.Exploration.Events
                 new ExplorationView.ChoiceVisualData
                 {
                     Description = "무시하고 지나간다",
-                    CharacterSelectHelperStrings = new List<(Character character, string description)>()
+                    CharacterSelectHelperStrings = _characters.Select(c=>(c, "이벤트 종료")).ToList(),
                 }
             };
             var (choiceIndex, selectedCharacter) = await _explorationView.PlayEvent(testChoicesList);
