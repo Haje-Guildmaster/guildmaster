@@ -13,11 +13,20 @@ namespace GuildMaster.Exploration
 
         private const float NormalMoveSpeed = 0.012f;
 
+        public IEnumerable<CharacterSprite> CharacterSprites => characterSprites;
+
+        public void TempResetPosition()
+        {
+            // Todo:
+            _currentPosition = 0f;
+        }
+        
+        
         public void Setup(List<Character> characters)
         {
             Cleanup();
             _going = false;
-            _currentPosition = 0f;
+            TempResetPosition();
             _moveSpeed = NormalMoveSpeed;
         }
 

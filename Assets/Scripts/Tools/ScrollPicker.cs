@@ -21,10 +21,12 @@ namespace GuildMaster.Tools
         [SerializeField] private float _moveSpeedCoefficient = 5;
         [SerializeField] private float _moveSpeedConstant = 3;
 
+        public int SelectedIndex { get; private set;}
+        
         public event Action<int> Picked;            // 선택된 항목을 다시 한번 클릭했을 때.
-        public event Action SelectingChange;        // 선택된 항목이 바뀌었을 때.
+        public event Action<int> SelectingChange;        // 선택된 항목이 바뀌었을 때.
 
-        private void Start()
+        private void Awake()
         {
             _ResetChildList();
         }
@@ -41,11 +43,11 @@ namespace GuildMaster.Tools
 
         private void Update()
         {
-            if (Math.Abs(_currentCenterIndex - _selectedIndex) < 0.001f)
+            if (Math.Abs(_currentCenterIndex - SelectedIndex) < 0.001f)
                 return;
             
-            GoToward(ref _currentCenterIndex, _selectedIndex,
-                (Math.Abs(_currentCenterIndex - _selectedIndex) * _moveSpeedCoefficient + _moveSpeedConstant) *
+            GoToward(ref _currentCenterIndex, SelectedIndex,
+                (Math.Abs(_currentCenterIndex - SelectedIndex) * _moveSpeedCoefficient + _moveSpeedConstant) *
                 Time.deltaTime);
             
             UpdateChildPosition();
@@ -53,11 +55,11 @@ namespace GuildMaster.Tools
 
         public void SetSelectedIndex(int index, bool anim=true)
         {
-            _selectedIndex = index;
+            SelectedIndex = index;
             if (!anim)
                 _currentCenterIndex = index;
             UpdateChildPosition();
-            SelectingChange?.Invoke();
+            SelectingChange?.Invoke(index);
         }
 
         private void UpdateChildPosition()
@@ -86,18 +88,20 @@ namespace GuildMaster.Tools
         private void _ResetChildList()
         {
             Cleanup();
+            var childExist = false;
             foreach (Transform child in transform)
             {
+                childExist = true;
                 var ind = child.transform.GetSiblingIndex();
 
                 var btn = child.GetComponent<Button>();
                 if (btn == null)
                     throw new Exception($"Direct child of {nameof(ScrollPicker)} must have {nameof(Button)} component");
-
+                
                 void OnClick()
                 {
                     if (btn.GetComponent<CanvasGroup>().alpha < 0.1f) return;     // 안보이는 건 클릭 안됨. Todo: GetComponent 대체.
-                        if (ind == _selectedIndex && (ind - _currentCenterIndex) < 0.5f)
+                        if (ind == SelectedIndex && (ind - _currentCenterIndex) < 0.5f)
                         Picked?.Invoke(ind);
                     SetSelectedIndex(ind);
                 }
@@ -106,7 +110,8 @@ namespace GuildMaster.Tools
                 _buttonsList.Add((btn, OnClick));
             }
 
-            SetSelectedIndex(0, false);
+            if (childExist)
+                SetSelectedIndex(0, false);
             UpdateChildPosition();
         }
 
@@ -122,7 +127,6 @@ namespace GuildMaster.Tools
         }
 
         private float _currentCenterIndex = 0f;
-        private int _selectedIndex;
         private readonly List<(Button button, UnityAction onClick)> _buttonsList = new List<(Button, UnityAction)>();
     }
 }

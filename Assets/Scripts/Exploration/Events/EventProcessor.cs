@@ -1,18 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Data;
+using UnityEngine;
+using Random = System.Random;
 
 namespace GuildMaster.Exploration.Events
 {
     /// <summary>
     /// 탐색에서 일어나는 이벤트를 처리합니다.
     /// </summary>
-    /// <Note>
-    /// 왜 코드가 이꼴이 났냐고 물어보신다면 저도 모르겠습니다. 뭔가 몇가지 조건을 만족시킬려고 했을 뿐인데 그걸 만족시킬려다
-    /// 무언가 괴상한 코드가 되었습니다.
-    /// </Note>
     public class EventProcessor
     {
         public EventProcessor(ExplorationView explorationView, ReadOnlyCollection<Character> characters,
@@ -24,8 +23,20 @@ namespace GuildMaster.Exploration.Events
             _randomGenerator = new Random();
         }
 
-        public async void StartEvent()
+        public async Task ProcessEvent(Event ev)
         {
+            var testChoicesList = new List<ExplorationView.ChoiceVisualData>
+            {
+                new ExplorationView.ChoiceVisualData
+                {
+                    Description = "무시하고 지나간다",
+                    CharacterSelectHelperStrings = new List<(Character character, string description)>()
+                }
+            };
+            var (choiceIndex, selectedCharacter) = await _explorationView.PlayEvent(testChoicesList);
+            Debug.Log(choiceIndex);
+            Debug.Log(selectedCharacter.UsingName);
+            await _explorationView.Notify("뭐가 어떻게 됐고 뭘 얻었고 어쩌고 저쩌고");
         }
 
         /// <summary>
@@ -82,10 +93,10 @@ namespace GuildMaster.Exploration.Events
             }
         }
 
-        private void ApplyModifier(Instruction _)
-        {
-            /* Do Nothing */
-        }
+        // private void ApplyModifier(Instruction _)
+        // {
+        //     /* Do Nothing */
+        // }
 
         // private void ApplyModifier<T>(T instr) where T : Instruction.PreModifiableInstruction<T>
         // {

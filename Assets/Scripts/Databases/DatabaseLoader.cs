@@ -10,6 +10,7 @@ namespace GuildMaster.Databases
         public CharacterDatabase characterDatabase;
         public InGameEventDatabase inGameEventDatabase;
         public ExplorationLocationDatabase explorationLocationDatabase;
+        public EventSeedDatabase eventSeedDatabase;
         
         private void Awake()
         {
@@ -19,6 +20,7 @@ namespace GuildMaster.Databases
             CharacterDatabase.LoadSingleton(characterDatabase);
             InGameEventDatabase.LoadSingleton(inGameEventDatabase);
             ExplorationLocationDatabase.LoadSingleton(explorationLocationDatabase);
+            EventSeedDatabase.LoadSingleton(eventSeedDatabase);
         }
     }
 }
