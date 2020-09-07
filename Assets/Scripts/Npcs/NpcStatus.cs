@@ -11,7 +11,7 @@ namespace GuildMaster.Npcs
 
         public NpcStatus()
         {
-            Affinity.Changed += Changed;
+            Affinity.Changed += ()=>Changed?.Invoke();
         }
         
         public readonly ChangeTrackedValue<int> Affinity = new ChangeTrackedValue<int>(0);

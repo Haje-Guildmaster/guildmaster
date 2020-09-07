@@ -12,12 +12,13 @@ namespace GuildMaster.Characters
         //코드에 표시되어 있지 않다면 수의 하한선은 0입니다.
         public Character(CharacterCode code)
         {
-            _injury.Changed += Changed;
-            _loyalty.Changed += Changed;
-            _hp.Changed += Changed;
-            _sp.Changed += Changed;
-            _stamina.Changed += Changed;
-            _usingNameIndex.Changed += Changed;
+            void InvokeChanged() => Changed?.Invoke();
+            _injury.Changed += InvokeChanged;
+            _loyalty.Changed += InvokeChanged;
+            _hp.Changed += InvokeChanged;
+            _sp.Changed += InvokeChanged;
+            _stamina.Changed += InvokeChanged;
+            _usingNameIndex.Changed += InvokeChanged;    
             
             _code = code;
             _hp.Value = MaxHp;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Data;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = System.Random;
 
 namespace GuildMaster.Exploration.Events
@@ -34,9 +35,11 @@ namespace GuildMaster.Exploration.Events
             }).ToList();
             var (choiceIndex, selectedCharacter) =
                 await _explorationView.PlayEvent(choicesList, ev.ShortDescription);
-            Debug.Log(choiceIndex);
-            Debug.Log(selectedCharacter.UsingName);
-            await _explorationView.Notify("뭐가 어떻게 됐고 뭘 얻었고 어쩌고 저쩌고");
+
+            Assert.IsTrue(choiceIndex < ev.Choices.Count);
+            Assert.IsTrue(_characters.Contains(selectedCharacter));
+            FollowInstruction(ev.Choices[choiceIndex].Instruction, selectedCharacter);
+            await _explorationView.Notify("일어난 일 로그(미구현)");
         }
 
 
@@ -113,6 +116,8 @@ namespace GuildMaster.Exploration.Events
                         case Instruction.ChangeEnergy.EnergyType.Stamina:
                             selectedCharacter.Stamina -= Calculate(changeEnergy.Amount);
                             break;
+                        default:
+                            throw new NotImplementedException();
                     }
 
                     return false;

@@ -33,8 +33,9 @@ MonoBehaviour:
       type: {class: AsIsEventSeed, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         _event:
-          ShortDescription: "\uC744 \uAC00\uB2E4\uAC00 \uC790\uBB3C\uC1E0\uAC00 \uC7A0\uACA8\uC788\uB294
-            \uC0C1\uC790\uB97C \uBC1C\uACAC\uD588\uB2E4. \uC5B4\uB5BB\uAC8C \uD560\uAE4C"
+          ShortDescription: "\uAE38\uC744 \uAC00\uB2E4\uAC00 \uC790\uBB3C\uC1E0\uAC00
+            \uC7A0\uACA8\uC788\uB294 \uC0C1\uC790\uB97C \uBC1C\uACAC\uD588\uB2E4.
+            \uC5B4\uB5BB\uAC8C \uD560\uAE4C?"
           FullDescription: "\uC790\uBB3C\uC1E0\uB97C \uC5F4\uBA74 \uC0C1\uC790\uC548\uC758
             \uBB34\uC5B8\uAC00\uB97C \uC5BB\uC744 \uC218 \uC788\uC744 \uAC83\uC774\uB2E4.
             \uBBFC\uCCA9\uC774 \uB192\uC740 \uCE90\uB9AD\uD130\uB77C\uBA74 \uC880\uB354
@@ -49,29 +50,39 @@ MonoBehaviour:
               \uAC04\uB2E4."
             Instruction:
               id: 3
+          - Description: "\uC790\uD574\uD55C\uB2E4.(\uD14C\uC2A4\uD2B8\uC6A9)"
+            Instruction:
+              id: 4
     00000001:
       type: {class: , ns: , asm: }
     00000002:
       type: {class: Instruction/PerChance, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Chance:
-          id: 4
-        Success:
           id: 5
+        Success:
+          id: 6
         Failure:
           id: 1
     00000003:
       type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
     00000004:
+      type: {class: Instruction/ChangeEnergy, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        TargetType: 0
+        Amount:
+          id: 7
+    00000005:
       type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         Type: 1
         Left:
-          id: 6
+          id: 8
         Right:
-          id: 7
-    00000005:
+          id: 9
+    00000006:
       type: {class: Instruction/GetItem, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Item:
@@ -80,17 +91,21 @@ MonoBehaviour:
           code:
             Value: 0
         Number:
-          id: 8
-    00000006:
+          id: 10
+    00000007:
+      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Value: -15
+    00000008:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Value: 5
-    00000007:
+    00000009:
       type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         StatusTarget: 3
-    00000008:
+    0000000A:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Value: 10
