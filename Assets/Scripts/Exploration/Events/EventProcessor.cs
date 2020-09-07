@@ -26,19 +26,56 @@ namespace GuildMaster.Exploration.Events
 
         public async Task ProcessEvent(Event ev)
         {
-            var testChoicesList = new List<ExplorationView.ChoiceVisualData>
+            var choicesList = ev.Choices.Select(choice => new ExplorationView.ChoiceVisualData
             {
-                new ExplorationView.ChoiceVisualData
-                {
-                    Description = "무시하고 지나간다",
-                    CharacterSelectHelperStrings = _characters.Select(c=>(c, "이벤트 종료")).ToList(),
-                }
-            };
-            var (choiceIndex, selectedCharacter) = await _explorationView.PlayEvent(testChoicesList, "간단한 설명임다.");
+                Description = choice.Description,
+                CharacterSelectHelperStrings =
+                    _characters.Select(c => (c, InstructionToText(choice.Instruction, c))).ToList(),
+            }).ToList();
+            var (choiceIndex, selectedCharacter) =
+                await _explorationView.PlayEvent(choicesList, ev.ShortDescription);
             Debug.Log(choiceIndex);
             Debug.Log(selectedCharacter.UsingName);
             await _explorationView.Notify("뭐가 어떻게 됐고 뭘 얻었고 어쩌고 저쩌고");
         }
+
+
+        /// <summary>
+        /// 지시를 유저에게 보여줄 텍스트로 바꿉니다. (아마 나중엔 반환타입이 단순 텍스트가 아니게 되리라 생각합니다만)
+        /// </summary>
+        /// <param name="instruction"> 지시 </param>
+        /// <param name="character"> 대상 캐릭터 </param>
+        /// <returns> 이 캐릭터로 지시를 실행하였을 시 일어나는 일에 대한 비주얼 정보. </returns>
+        /// <exception cref="Exception"> 처리 불가능한 지시. 제대로 구현되었다면 불리지 않음. </exception>
+        private string InstructionToText(Instruction instruction, Character character)
+        {
+            string ExpressionToText(Expression expression)
+                => ExpressionProcessor.Calculate(expression, character).ToString();
+
+            switch (instruction)
+            {
+                case Instruction.PerChance perChance:
+                    if (perChance.Failure == null)
+                        return
+                            $"{ExpressionToText(perChance.Chance)}% 확률로 ({InstructionToText(perChance.Success, character)})";
+                    else
+                        return
+                            $"{ExpressionToText(perChance.Chance)}% 확률로 ({InstructionToText(perChance.Success, character)})" +
+                            $", 실패시 ({InstructionToText(perChance.Success, character)})";
+                case Instruction.ChangeEnergy changeEnergy:
+                    var amount = ExpressionProcessor.Calculate(changeEnergy.Amount, character);
+                    return $"{changeEnergy.TargetType} {Math.Abs(amount)} {(amount > 0 ? "증가" : "감소")}";
+                case Instruction.GetItem getItem:
+                    return $"아이템 [{getItem.Item.StaticData.ItemName}] {ExpressionToText(getItem.Number)}개 획득";
+                case Instruction.EndEvent endEvent:
+                    return "이벤트 종료.";
+                case null:
+                    return "null";
+                default:
+                    throw new Exception($"Couldn't follow {nameof(Instruction)} {instruction}");
+            }
+        }
+
 
         /// <summary>
         /// 지시를 수행합니다.
@@ -57,7 +94,6 @@ namespace GuildMaster.Exploration.Events
                 case null:
                     return false;
                 case Instruction.PerChance perChance:
-                    // ApplyModifier(perChance);
                     if (_randomGenerator.Next(0, 100) < Calculate(perChance.Chance))
                     {
                         return FollowInstruction(perChance.Success, selectedCharacter);
@@ -67,8 +103,6 @@ namespace GuildMaster.Exploration.Events
                         return FollowInstruction(perChance.Failure, selectedCharacter);
                     }
                 case Instruction.ChangeEnergy changeEnergy:
-                    // ApplyModifier(changeEnergy);
-
                     // 왜 Property를 ref로 받을 수 없는가?
                     // 그럼 Property get set에 접근할 수 있는 클래스라도 있어야 하는 것 아닌가?
                     switch (changeEnergy.TargetType)
@@ -83,29 +117,14 @@ namespace GuildMaster.Exploration.Events
 
                     return false;
                 case Instruction.GetItem getItem:
-                    // ApplyModifier(getItem);
                     _inventory.TryAddItem(getItem.Item, Calculate(getItem.Number));
                     return false;
                 case Instruction.EndEvent endEvent:
-                    // ApplyModifier(endEvent);
                     return true;
                 default:
                     throw new Exception($"Couldn't follow {nameof(Instruction)} {instruction}");
             }
         }
-
-        // private void ApplyModifier(Instruction _)
-        // {
-        //     /* Do Nothing */
-        // }
-
-        // private void ApplyModifier<T>(T instr) where T : Instruction.PreModifiableInstruction<T>
-        // {
-        //     foreach (var modifier in instr.Modifiers.Where(modifier => CheckCondition(modifier.Condition)))
-        //     {
-        //         modifier.Modify(instr);
-        //     }
-        // }
 
         private bool CheckCondition(Condition condition)
         {
