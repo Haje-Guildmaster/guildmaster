@@ -17,7 +17,7 @@ public class TextEffect : MonoBehaviour
     }
     public void SetMsg(string msg)
     {
-        if (isAnim)
+        if (isAnim)//여기서 버그 생김 - CompleteMsg 함수 따로 생성 필요-마우스 클릭 시 불리기로
         {
             msgText.text = targetMsg;
             CancelInvoke();
