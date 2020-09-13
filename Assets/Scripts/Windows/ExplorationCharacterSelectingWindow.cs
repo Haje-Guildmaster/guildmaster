@@ -5,6 +5,8 @@ using GuildMaster.Data;
 using UnityEngine;
 using UnityEngine.UI;
 using GuildMaster.Exploration;
+using System.Runtime.CompilerServices;
+using System;
 
 namespace GuildMaster.Windows
 {
@@ -30,7 +32,7 @@ namespace GuildMaster.Windows
 
         public void StartExploration()
         {
-            ExplorationLoader.Instance.Load(_exploreCharacters);
+            ExplorationLoader.Instance.Load(_exploreCharacters); //Asd님이 구현중인 기능 에러 뜨는게 정상
         }
 
         public void AddCharacter()
@@ -52,6 +54,7 @@ namespace GuildMaster.Windows
         public void Open()
         {
             base.OpenWindow();
+            Set_allCharacters();
             RefreshList();
         }
 
@@ -72,7 +75,7 @@ namespace GuildMaster.Windows
                     if (b) SetCharacter(capture);
                 });
                 if (i == 0)
-                    made.isOn = true; //위의 AddListener와 순서 주의.
+                    made.isOn = false; //위의 AddListener와 순서 주의.
             }
             foreach (Transform t in characterSelectedListParent)
                 Destroy(t.gameObject);
@@ -88,7 +91,7 @@ namespace GuildMaster.Windows
                     if (b) SetCharacter(capture);
                 });
                 if (i == 0)
-                    made.isOn = true; //위의 AddListener와 순서 주의.
+                    made.isOn = false; //위의 AddListener와 순서 주의.
             }
         }
 
@@ -121,8 +124,23 @@ namespace GuildMaster.Windows
             intLabel.text = _currentCharacter.Int.ToString();
         }
 
+        private void Set_allCharacters()
+        {
+            if (setCharacters) return;
+            else
+            {
+                setCharacters = true;
+            }
+            foreach (var (ch, i) in Player.Instance.PlayerGuild._guildMembers.GuildMemberList.Select((i, j) =>
+                (i, j)))
+            {
+                _allCharacters.Add(ch);
+            }
+        }
+
         private Character _currentCharacter;
-        private List<Character> _allCharacters = Player.Instance.PlayerGuild._guildMembers.GuildMemberList;
+        private bool setCharacters = false;
+        private List<Character> _allCharacters = new List<Character>();
         private List<Character> _exploreCharacters = new List<Character>();
     }
 }

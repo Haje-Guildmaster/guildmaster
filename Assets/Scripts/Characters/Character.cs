@@ -19,7 +19,6 @@ namespace GuildMaster.Characters
             _sp.Changed += Changed;
             _stamina.Changed += Changed;
             _usingNameIndex.Changed += Changed;
-            _characteristicIndex.Changed += Changed;
 
             _code = code;
             _hp.Value = MaxHp;
@@ -34,13 +33,9 @@ namespace GuildMaster.Characters
         public string UsingName => NameList[_usingNameIndex];                //현재 이름
         public string RealName => StaticData.BasicData.RealName;             //실제 이름
         public bool KnowUseRealName => _usingNameIndex == NameList.Count;    //현재 실제 이름을 사용중인지
-        public string CharacteristicName;
-        public string CharacteristicContents;
         public int MaxSp => StaticData.BattleStatData.MaxSp;
         public int MaxHp => StaticData.BattleStatData.MaxHp;     // MaxSp, MaxSp, Hp 등은 후에 캐릭터 종류에 종속된 값이 아니게 될 것이라 판단하여 Character에 넣습니다.
         public int MaxStamina => StaticData.BattleStatData.MaxStamina;
-        public List<CharacterTraitData.Trait> ActiveTraits = new List<CharacterTraitData.Trait>(new CharacterTraitData.Trait[] { CharacterTraitData.Trait.Anger, CharacterTraitData.Trait.Unstop });
-
 
         public string TraitText()
         {
@@ -48,6 +43,16 @@ namespace GuildMaster.Characters
             for(int i = 0; i < ActiveTraits.Count; i++)
             {
                 _str += $"[{TraitDatabase.Get(ActiveTraits[i]).Name}]\n{TraitDatabase.Get(ActiveTraits[i]).Description}\n";
+            }
+            return _str;
+        }
+
+        public string TraitName()
+        {
+            String _str = "";
+            for (int i = 0; i < ActiveTraits.Count; i++)
+            {
+                _str += $"[{TraitDatabase.Get(ActiveTraits[i]).Name}] ";
             }
             return _str;
         }
@@ -101,8 +106,8 @@ namespace GuildMaster.Characters
         private readonly ChangeTrackedValue<int> _hp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _sp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _stamina = new ChangeTrackedValue<int>();
-        private readonly ChangeTrackedValue<int> _characteristicIndex = new ChangeTrackedValue<int>(0);                      // 현재 나타날 이름의 index
         private ReadOnlyCollection<string> NameList => StaticData.BasicData.NameList.AsReadOnly();
+        private ReadOnlyCollection<CharacterTraitData.Trait> ActiveTraits => StaticData.BasicData.ActiveTraits.AsReadOnly();
         public CharacterStaticData StaticData => CharacterDatabase.Get(_code);
     }
 }
