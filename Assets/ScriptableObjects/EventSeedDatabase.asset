@@ -93,9 +93,14 @@ MonoBehaviour:
         Number:
           id: 10
     00000007:
-      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
       data:
-        Value: -15
+        Type: 1
+        Left:
+          id: 11
+        Right:
+          id: 12
     00000008:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
@@ -109,3 +114,12 @@ MonoBehaviour:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Value: 10
+    0000000B:
+      type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        StatusTarget: 2
+    0000000C:
+      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Value: -1

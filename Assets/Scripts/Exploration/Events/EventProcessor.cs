@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Data;
-using UnityEngine;
+using GuildMaster.Items;
 using UnityEngine.Assertions;
 using Random = System.Random;
 
@@ -38,10 +38,33 @@ namespace GuildMaster.Exploration.Events
 
             Assert.IsTrue(choiceIndex < ev.Choices.Count);
             Assert.IsTrue(_characters.Contains(selectedCharacter));
-            FollowInstruction(ev.Choices[choiceIndex].Instruction, selectedCharacter);
-            await _explorationView.Notify("일어난 일 로그(미구현)");
+
+            var resultRecord = new ResultRecord();
+            FollowInstruction(ev.Choices[choiceIndex].Instruction, selectedCharacter, resultRecord);
+
+            await NotifyResult(resultRecord);
         }
 
+        private class ResultRecord
+        {
+            public Dictionary<Item, int> InventoryChange = new Dictionary<Item, int>();
+        }
+
+        private async Task NotifyResult(ResultRecord resultRecord)
+        {
+            var resultStr = "";
+            foreach (var kvp in resultRecord.InventoryChange)
+            {
+                var item = kvp.Key;
+                var number = kvp.Value;
+
+                resultStr += $"{item.StaticData.ItemName} {Math.Abs(number)}개 {(number > 0 ? "획득" : "상실")}\n";
+            }
+
+            if (resultStr == "")
+                resultStr = "획득한 아이템이 없습니다.";
+            await _explorationView.Notify(resultStr);
+        }
 
         /// <summary>
         /// 지시를 유저에게 보여줄 텍스트로 바꿉니다. (아마 나중엔 반환타입이 단순 텍스트가 아니게 되리라 생각합니다만)
@@ -81,53 +104,75 @@ namespace GuildMaster.Exploration.Events
 
 
         /// <summary>
-        /// 지시를 수행합니다.
+        /// 지시를 수행하고 resultRecord에 변경된 내용을 기록합니다.
         /// </summary>
         /// <param name="instruction"> 지시 </param>
         /// <param name="selectedCharacter"> 선택한 캐릭터 </param>
+        /// <param name="resultRecord"> 결과 기록장 </param>
         /// <returns> 이벤트를 끝내는지. </returns>
         /// <exception cref="Exception"> 처리 불가능한 지시. 제대로 구현되었다면 불리지 않음. </exception>
-        private bool FollowInstruction(Instruction instruction, Character selectedCharacter)
+        private bool FollowInstruction(Instruction instruction, Character selectedCharacter,
+            ResultRecord resultRecord)
         {
-            int Calculate(Expression expression)
-                => ExpressionProcessor.Calculate(expression, selectedCharacter);
+            return FollowInstr(instruction);
 
-            switch (instruction)
+            bool FollowInstr(Instruction instr)
             {
-                case null:
-                    return false;
-                case Instruction.PerChance perChance:
-                    if (_randomGenerator.Next(0, 100) < Calculate(perChance.Chance))
-                    {
-                        return FollowInstruction(perChance.Success, selectedCharacter);
-                    }
-                    else
-                    {
-                        return FollowInstruction(perChance.Failure, selectedCharacter);
-                    }
-                case Instruction.ChangeEnergy changeEnergy:
-                    // 왜 Property를 ref로 받을 수 없는가?
-                    // 그럼 Property get set에 접근할 수 있는 클래스라도 있어야 하는 것 아닌가?
-                    switch (changeEnergy.TargetType)
-                    {
-                        case Instruction.ChangeEnergy.EnergyType.Hp:
-                            selectedCharacter.Hp += Calculate(changeEnergy.Amount);
-                            break;
-                        case Instruction.ChangeEnergy.EnergyType.Stamina:
-                            selectedCharacter.Stamina -= Calculate(changeEnergy.Amount);
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
+                int Calculate(Expression expression)
+                    => ExpressionProcessor.Calculate(expression, selectedCharacter);
 
-                    return false;
-                case Instruction.GetItem getItem:
-                    _inventory.TryAddItem(getItem.Item, Calculate(getItem.Number));
-                    return false;
-                case Instruction.EndEvent endEvent:
-                    return true;
-                default:
-                    throw new Exception($"Couldn't follow {nameof(Instruction)} {instruction}");
+                switch (instr)
+                {
+                    case null:
+                        return false;
+                    case Instruction.PerChance perChance:
+                    {
+                        if (_randomGenerator.Next(0, 100) < Calculate(perChance.Chance))
+                        {
+                            return FollowInstr(perChance.Success);
+                        }
+                        else
+                        {
+                            return FollowInstr(perChance.Failure);
+                        }
+                    }
+                    case Instruction.ChangeEnergy changeEnergy:
+                    {
+                        // 왜 Property를 ref로 받을 수 없는가?
+                        // 그럼 Property get set에 접근할 수 있는 클래스라도 있어야 하는 것 아닌가?
+                        var amount = Calculate(changeEnergy.Amount);
+                        switch (changeEnergy.TargetType)
+                        {
+                            case Instruction.ChangeEnergy.EnergyType.Hp:
+                                selectedCharacter.Hp += amount;
+                                break;
+                            case Instruction.ChangeEnergy.EnergyType.Stamina:
+                                selectedCharacter.Stamina -= amount;
+                                break;
+                            default:
+                                throw new NotImplementedException();
+                        }
+
+                        var key = (selectedCharacter, changeEnergy.TargetType);
+                        return false;
+                    }
+                    case Instruction.GetItem getItem:
+                    {
+                        var number = Calculate(getItem.Number);
+                        if (_inventory.TryAddItem(getItem.Item, number))
+                        {
+                            var key = getItem.Item;
+                            resultRecord.InventoryChange.TryGetValue(key, out var original);
+                            resultRecord.InventoryChange[key] = original + number;
+                        }
+
+                        return false;
+                    }
+                    case Instruction.EndEvent endEvent:
+                        return true;
+                    default:
+                        throw new Exception($"Couldn't follow {nameof(Instruction)} {instr}");
+                }
             }
         }
 
