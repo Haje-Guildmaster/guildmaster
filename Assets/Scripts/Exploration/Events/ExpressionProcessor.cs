@@ -3,9 +3,9 @@ using GuildMaster.Characters;
 
 namespace GuildMaster.Exploration.Events
 {
-    public class ExpressionProcessor
+    public static class ExpressionProcessor
     {
-        public static int Calculate(Expression expression, Character selectedCharacter)
+        public static float Calculate(Expression expression, Character selectedCharacter)
         {
             switch (expression)
             {
@@ -27,13 +27,13 @@ namespace GuildMaster.Exploration.Events
                     switch (characterStatus.StatusTarget)
                     {
                         case Expression.CharacterStatus.Target.Hp:
-                            return selectedCharacter.Hp;
+                            return (float) selectedCharacter.Hp;
                         case Expression.CharacterStatus.Target.Stamina:
-                            return selectedCharacter.Stamina;
+                            return (float) selectedCharacter.Stamina;
                         case Expression.CharacterStatus.Target.Atk:
-                            return selectedCharacter.Atk;
+                            return (float) selectedCharacter.Atk;
                         case Expression.CharacterStatus.Target.Agi:
-                            return selectedCharacter.Agi;
+                            return (float) selectedCharacter.Agi;
                         default:
                             throw new NotImplementedException();
                     }

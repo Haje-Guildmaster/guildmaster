@@ -33,9 +33,8 @@ MonoBehaviour:
       type: {class: AsIsEventSeed, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         _event:
-          ShortDescription: "\uAE38\uC744 \uAC00\uB2E4\uAC00 \uC790\uBB3C\uC1E0\uAC00
-            \uC7A0\uACA8\uC788\uB294 \uC0C1\uC790\uB97C \uBC1C\uACAC\uD588\uB2E4.
-            \uC5B4\uB5BB\uAC8C \uD560\uAE4C?"
+          ShortDescription: "\uB2F9\uC2E0\uC740 \uAE38\uC744 \uAC00\uB2E4\uAC00 \uC7A0\uACA8\uC788\uB294
+            \uBCF4\uBB3C \uC0C1\uC790\uB97C \uB9CC\uB0AC\uB2E4."
           FullDescription: "\uC790\uBB3C\uC1E0\uB97C \uC5F4\uBA74 \uC0C1\uC790\uC548\uC758
             \uBB34\uC5B8\uAC00\uB97C \uC5BB\uC744 \uC218 \uC788\uC744 \uAC83\uC774\uB2E4.
             \uBBFC\uCCA9\uC774 \uB192\uC740 \uCE90\uB9AD\uD130\uB77C\uBA74 \uC880\uB354
@@ -58,6 +57,8 @@ MonoBehaviour:
     00000002:
       type: {class: Instruction/PerChance, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
+        <FlavorText>k__BackingField:
+          Text: 
         Chance:
           id: 5
         Success:
@@ -66,10 +67,15 @@ MonoBehaviour:
           id: 1
     00000003:
       type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        <FlavorText>k__BackingField:
+          Text: 
     00000004:
       type: {class: Instruction/ChangeEnergy, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
+        <FlavorText>k__BackingField:
+          Text: 
         TargetType: 0
         Amount:
           id: 7
@@ -85,6 +91,8 @@ MonoBehaviour:
     00000006:
       type: {class: Instruction/GetItem, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
+        <FlavorText>k__BackingField:
+          Text: 
         Item:
           equipmentStats:
             id: 1
@@ -104,7 +112,7 @@ MonoBehaviour:
     00000008:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
-        Value: 5
+        Value: 0.05
     00000009:
       type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}

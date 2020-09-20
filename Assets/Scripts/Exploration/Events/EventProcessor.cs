@@ -75,24 +75,21 @@ namespace GuildMaster.Exploration.Events
         /// <exception cref="Exception"> 처리 불가능한 지시. 제대로 구현되었다면 불리지 않음. </exception>
         private string InstructionToText(Instruction instruction, Character character)
         {
-            string ExpressionToText(Expression expression)
-                => ExpressionProcessor.Calculate(expression, character).ToString();
-
             switch (instruction)
             {
                 case Instruction.PerChance perChance:
                     if (perChance.Failure == null)
                         return
-                            $"{ExpressionToText(perChance.Chance)}% 확률로 ({InstructionToText(perChance.Success, character)})";
+                            $"{Math.Floor(Calculate(perChance.Chance, character)*100)}% 확률로 ({InstructionToText(perChance.Success, character)})";
                     else
                         return
-                            $"{ExpressionToText(perChance.Chance)}% 확률로 ({InstructionToText(perChance.Success, character)})" +
+                            $"{Math.Floor(Calculate(perChance.Chance, character)*100)}% 확률로 ({InstructionToText(perChance.Success, character)})" +
                             $", 실패시 ({InstructionToText(perChance.Success, character)})";
                 case Instruction.ChangeEnergy changeEnergy:
-                    var amount = ExpressionProcessor.Calculate(changeEnergy.Amount, character);
-                    return $"{changeEnergy.TargetType} {Math.Abs(amount)} {(amount > 0 ? "증가" : "감소")}";
+                    var amount = Calculate(changeEnergy.Amount, character);
+                    return $"{changeEnergy.TargetType} {Math.Abs((int)amount)} {(amount > 0 ? "증가" : "감소")}";
                 case Instruction.GetItem getItem:
-                    return $"아이템 [{getItem.Item.StaticData.ItemName}] {ExpressionToText(getItem.Number)}개 획득";
+                    return $"아이템 [{getItem.Item.StaticData.ItemName}] {Calculate(getItem.Number, character)}개 획득";
                 case Instruction.EndEvent endEvent:
                     return "이벤트 종료.";
                 case null:
@@ -118,16 +115,13 @@ namespace GuildMaster.Exploration.Events
 
             bool FollowInstr(Instruction instr)
             {
-                int Calculate(Expression expression)
-                    => ExpressionProcessor.Calculate(expression, selectedCharacter);
-
                 switch (instr)
                 {
                     case null:
                         return false;
                     case Instruction.PerChance perChance:
                     {
-                        if (_randomGenerator.Next(0, 100) < Calculate(perChance.Chance))
+                        if (_randomGenerator.NextDouble() < Calculate(perChance.Chance, selectedCharacter))
                         {
                             return FollowInstr(perChance.Success);
                         }
@@ -140,7 +134,7 @@ namespace GuildMaster.Exploration.Events
                     {
                         // 왜 Property를 ref로 받을 수 없는가?
                         // 그럼 Property get set에 접근할 수 있는 클래스라도 있어야 하는 것 아닌가?
-                        var amount = Calculate(changeEnergy.Amount);
+                        var amount = CalculateToInt(changeEnergy.Amount, selectedCharacter);
                         switch (changeEnergy.TargetType)
                         {
                             case Instruction.ChangeEnergy.EnergyType.Hp:
@@ -158,7 +152,7 @@ namespace GuildMaster.Exploration.Events
                     }
                     case Instruction.GetItem getItem:
                     {
-                        var number = Calculate(getItem.Number);
+                        var number = CalculateToInt(getItem.Number, selectedCharacter);
                         if (_inventory.TryAddItem(getItem.Item, number))
                         {
                             var key = getItem.Item;
@@ -176,6 +170,12 @@ namespace GuildMaster.Exploration.Events
             }
         }
 
+        private float Calculate(Expression expression, Character selectedCharacter) =>
+            ExpressionProcessor.Calculate(expression, selectedCharacter);
+
+        private int CalculateToInt(Expression expression, Character selectedCharacter) =>
+            (int) Calculate(expression, selectedCharacter);
+
         private bool CheckCondition(Condition condition)
         {
             switch (condition)
@@ -186,11 +186,11 @@ namespace GuildMaster.Exploration.Events
                     throw new Exception($"{nameof(CheckCondition)}: Couldn't check condition {condition}");
             }
         }
-
+        
 
         private readonly ExplorationView _explorationView;
         private readonly ReadOnlyCollection<Character> _characters;
         private readonly Inventory _inventory;
-        private readonly System.Random _randomGenerator;
+        private readonly Random _randomGenerator;
     }
 }

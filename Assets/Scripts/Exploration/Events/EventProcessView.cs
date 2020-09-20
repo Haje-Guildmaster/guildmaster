@@ -47,6 +47,7 @@ namespace GuildMaster.Exploration.Events
         /// </note>
         /// <param name="characterSprites"></param>
         /// <param name="choices"></param>
+        /// <param name="descriptionString"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         public async Task<(int choiceIndex, Character selectedCharacter)> WaitUserDecision(

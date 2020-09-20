@@ -23,7 +23,7 @@ namespace GuildMaster.Exploration.Events
         [Serializable]
         public class Constant : Expression
         {
-            public int Value;
+            public float Value;
         }
 
         [Serializable]
