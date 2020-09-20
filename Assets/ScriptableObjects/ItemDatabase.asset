@@ -47,8 +47,19 @@ MonoBehaviour:
     defaultEquipmentStats:
       id: 0
     isImportant: 0
+  - itemName: "\uC0C1\uC790"
+    itemDescription: "\uC0C1\uC790\uC774\uB2E4. "
+    isConsumable: 0
+    consumptionEffect:
+      id: 0
+    maxStack: 1
+    itemImage: {fileID: 21300000, guid: 6be65981966382043a5f524fcca9a8e4, type: 3}
+    isEquipable: 0
+    defaultEquipmentStats:
+      id: 0
+    isImportant: 0
   currentEditingIndex:
-    Value: 2
+    Value: 3
   references:
     version: 1
     00000000:

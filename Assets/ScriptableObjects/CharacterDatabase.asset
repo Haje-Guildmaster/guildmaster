@@ -22,7 +22,7 @@ MonoBehaviour:
       SpIsMp: 0
       MaxSp: 332
       MaxStamina: 155
-      BaseAtk: 100
+      BaseAtk: 1
       BaseDef: 100
       BaseAgi: 100
       BaseInt: 100
@@ -48,4 +48,4 @@ MonoBehaviour:
       GoodOrEvil: 3
       SmartOrStupid: 3
   currentEditingIndex:
-    Value: 1
+    Value: 0

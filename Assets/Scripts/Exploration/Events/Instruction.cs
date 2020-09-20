@@ -1,27 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Permissions;
 using GuildMaster.Items;
 using UnityEngine;
 
 namespace GuildMaster.Exploration.Events
 {
     [Serializable]
+    public class FlavorText
+    {
+        public bool Exist => Text != "";
+        [TextArea] public string Text;
+    }
+
+    [Serializable]
     public abstract class Instruction
     {
-        // 일단 이거 보류.
-        // 아마 후에 지울 듯.
-        // [Serializable]
-        // public class PreModifiableInstruction<TSelf> : Instruction
-        // {
-        //     [Serializable]
-        //     public abstract class Modifier
-        //     {
-        //         public Condition Condition;
-        //         public abstract void Modify(TSelf instruction);
-        //     }
-        //
-        //     [SerializeReference][SerializeReferenceButton]public List<Modifier> Modifiers;
-        // }
+        [field: SerializeField] public FlavorText FlavorText { get; private set; }
 
         [Serializable]
         public class PerChance : Instruction
@@ -59,12 +54,10 @@ namespace GuildMaster.Exploration.Events
             [SerializeReference] [SerializeReferenceButton]
             public Expression Amount;
         }
-        
+
         [Serializable]
         public class EndEvent : Instruction
         {
         }
     }
-
 }
-

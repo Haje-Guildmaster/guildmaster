@@ -33,16 +33,24 @@ namespace GuildMaster.Exploration.Events
                 CharacterSelectHelperStrings =
                     _characters.Select(c => (c, InstructionToText(choice.Instruction, c))).ToList(),
             }).ToList();
-            var (choiceIndex, selectedCharacter) =
-                await _explorationView.PlayEvent(choicesList, ev.ShortDescription);
-
-            Assert.IsTrue(choiceIndex < ev.Choices.Count);
-            Assert.IsTrue(_characters.Contains(selectedCharacter));
-
+            
             var resultRecord = new ResultRecord();
-            FollowInstruction(ev.Choices[choiceIndex].Instruction, selectedCharacter, resultRecord);
+            
+            while (true)
+            {
+                var (choiceIndex, selectedCharacter) =
+                    await _explorationView.PlayEvent(choicesList, ev.ShortDescription);
 
-            await NotifyResult(resultRecord);
+                Assert.IsTrue(choiceIndex < ev.Choices.Count);
+                Assert.IsTrue(_characters.Contains(selectedCharacter));
+                
+                var (endEvent, flavorTexts) =
+                    FollowInstruction(ev.Choices[choiceIndex].Instruction, selectedCharacter, resultRecord);
+                await NotifyActionResult(flavorTexts);
+                if (endEvent) break;
+            }
+
+            await NotifyOverallResult(resultRecord);
         }
 
         private class ResultRecord
@@ -50,7 +58,7 @@ namespace GuildMaster.Exploration.Events
             public Dictionary<Item, int> InventoryChange = new Dictionary<Item, int>();
         }
 
-        private async Task NotifyResult(ResultRecord resultRecord)
+        private async Task NotifyOverallResult(ResultRecord resultRecord)
         {
             var resultStr = "";
             foreach (var kvp in resultRecord.InventoryChange)
@@ -63,9 +71,21 @@ namespace GuildMaster.Exploration.Events
 
             if (resultStr == "")
                 resultStr = "획득한 아이템이 없습니다.";
+
+            resultStr = "결산\n\n" + resultStr;
             await _explorationView.Notify(resultStr);
         }
 
+        private async Task NotifyActionResult(IEnumerable<FlavorText> flavorTexts)
+        {
+            var resultStr = "";
+            foreach (var flavorText in flavorTexts)
+            {
+                resultStr += $"- {flavorText.Text}\n";
+            }
+
+            await _explorationView.Notify(resultStr);
+        }
         /// <summary>
         /// 지시를 유저에게 보여줄 텍스트로 바꿉니다. (아마 나중엔 반환타입이 단순 텍스트가 아니게 되리라 생각합니다만)
         /// </summary>
@@ -108,13 +128,18 @@ namespace GuildMaster.Exploration.Events
         /// <param name="resultRecord"> 결과 기록장 </param>
         /// <returns> 이벤트를 끝내는지. </returns>
         /// <exception cref="Exception"> 처리 불가능한 지시. 제대로 구현되었다면 불리지 않음. </exception>
-        private bool FollowInstruction(Instruction instruction, Character selectedCharacter,
+        private (bool FinishEvent, List<FlavorText> FlavorTexts) FollowInstruction(Instruction instruction, Character selectedCharacter,
             ResultRecord resultRecord)
         {
-            return FollowInstr(instruction);
-
+            var flavorTexts = new List<FlavorText>();
+            var finishEvent = FollowInstr(instruction);
+            return (finishEvent, flavorTexts);
+            
             bool FollowInstr(Instruction instr)
             {
+                if (instr.FlavorText.Exist)
+                    flavorTexts.Add(instr.FlavorText);
+                
                 switch (instr)
                 {
                     case null:
