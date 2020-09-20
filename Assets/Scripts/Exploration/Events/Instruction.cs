@@ -59,5 +59,16 @@ namespace GuildMaster.Exploration.Events
         public class EndEvent : Instruction
         {
         }
+
+        [Serializable]
+        public class Sequential : Instruction
+        {
+            [SerializeReference] [SerializeReferenceButton]
+            public List<Instruction> Instructions;
+        }
+
+        [Serializable]
+        public class DoNothing : Instruction
+        {}
     }
 }

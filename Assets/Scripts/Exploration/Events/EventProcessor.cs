@@ -104,7 +104,7 @@ namespace GuildMaster.Exploration.Events
                     else
                         return
                             $"{Math.Floor(Calculate(perChance.Chance, character)*100)}% 확률로 ({InstructionToText(perChance.Success, character)})" +
-                            $", 실패시 ({InstructionToText(perChance.Success, character)})";
+                            $", 실패시 ({InstructionToText(perChance.Failure, character)})";
                 case Instruction.ChangeEnergy changeEnergy:
                     var amount = Calculate(changeEnergy.Amount, character);
                     return $"{changeEnergy.TargetType} {Math.Abs((int)amount)} {(amount > 0 ? "증가" : "감소")}";
@@ -112,6 +112,24 @@ namespace GuildMaster.Exploration.Events
                     return $"아이템 [{getItem.Item.StaticData.ItemName}] {Calculate(getItem.Number, character)}개 획득";
                 case Instruction.EndEvent endEvent:
                     return "이벤트 종료.";
+                case Instruction.Sequential sequential:
+                {
+                    var instrs = sequential.Instructions;
+                    if (instrs.Count == 0)
+                        return "";
+                    if (instrs.Count == 1)
+                        return InstructionToText(instrs[0], character);
+                    
+                    var ret = "";
+                    foreach (var inst in instrs)
+                    {
+                        ret += $"- {InstructionToText(inst, character)}\n";
+                    }
+
+                    return ret;
+                }
+                case Instruction.DoNothing doNothing:
+                    return "";
                 case null:
                     return "null";
                 default:
@@ -189,6 +207,19 @@ namespace GuildMaster.Exploration.Events
                     }
                     case Instruction.EndEvent endEvent:
                         return true;
+                    case Instruction.DoNothing doNothing:
+                        return false;
+                    case Instruction.Sequential sequential:
+                    {
+                        var endEvent = false;
+                        foreach (var subInstr in sequential.Instructions)
+                        {
+                            endEvent = FollowInstr(subInstr);
+                            if (endEvent) break;
+                        }
+
+                        return endEvent;
+                    }
                     default:
                         throw new Exception($"Couldn't follow {nameof(Instruction)} {instr}");
                 }
