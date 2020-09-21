@@ -466,7 +466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &29258975
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17038,6 +17038,7 @@ MonoBehaviour:
   TextspeedWindow: {fileID: 990192867}
   BGMWindow: {fileID: 245490994}
   ExplorationCharacterSelectingWindow: {fileID: 0}
+  ExplorationItemSelectingWindow: {fileID: 0}
   itemInfoPanel: {fileID: 1315660339}
 --- !u!1 &1201529498
 GameObject:
