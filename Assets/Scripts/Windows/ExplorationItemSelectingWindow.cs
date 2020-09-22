@@ -60,7 +60,7 @@ namespace GuildMaster.Windows
             {
                 UiWindowsManager.Instance.ShowMessageBox("확인", "짐칸으로 옮기시겠습니까?",
                     new (string buttonText, Action onClicked)[]
-                        {("확인", () => ChangeExploreItemList()), ("취소", () => { })});
+                        {("확인", () => MoveItem(item)), ("취소", () => { })});
             }
         }
 
@@ -73,20 +73,28 @@ namespace GuildMaster.Windows
             {
                 ii.Clear();
             }
-
             foreach (var ((item, number), i) in itemList.Select((tup, i) => (tup, i)))
             {
                 _itemIcons[i].UpdateAppearance(item, number);
             }
+
+            foreach (var ii in _exploreItemIcons)
+            {
+                ii.Clear();
+            }
+            foreach (var ((item, number), i) in itemList.Select((tup, i) => (tup, i)))
+            {
+                _exploreItemIcons[i].UpdateAppearance(item, number);
+            }
+
         }
 
-        private void ChangeExploreItemList()
+        private void MoveItem(Item item)
         {
-            if (_ExploreItem.Contains(_currentItem))
-            {
-                _ExploreItem.Remove(_currentItem);
-                
-            }
+            Player.Instance.Inventory.TryDeleteItem(item, -1);
+             _ExploreItems.Add(item, 3);
+            Debug.Log("확인");
+            return;
         }
 
         private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
@@ -101,7 +109,6 @@ namespace GuildMaster.Windows
             {
                 ict.Toggle.isOn = (ItemCategory)ict.category == category;
             }
-
             Refresh();
             _changeCategoryBlock = false;
         }
@@ -143,10 +150,9 @@ namespace GuildMaster.Windows
             }
         }
 
-        private Item _currentItem;
         private ItemCategory _currentCategory;
-        private List<Item> _ExploreItem = new List<Item>();
-        private List<ItemIcon> _itemIcons;
+        private Dictionary<Item, int> _ExploreItems = new Dictionary<Item, int>();
+        private List<ItemIcon> _itemIcons , _exploreItemIcons;
     }
 }
 

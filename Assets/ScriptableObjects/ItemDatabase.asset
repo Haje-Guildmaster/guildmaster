@@ -19,7 +19,7 @@ MonoBehaviour:
     isConsumable: 1
     consumptionEffect:
       id: 0
-    maxStack: 12321
+    maxStack: 999
     itemImage: {fileID: 21300000, guid: 3420b425e2bc68a4cad81433b18b6845, type: 3}
     isEquipable: 0
     defaultEquipmentStats:
@@ -48,7 +48,7 @@ MonoBehaviour:
       id: 0
     isImportant: 0
   currentEditingIndex:
-    Value: 2
+    Value: 0
   references:
     version: 1
     00000000:
