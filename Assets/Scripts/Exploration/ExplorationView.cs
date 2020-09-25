@@ -9,6 +9,7 @@ using GuildMaster.Windows;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace GuildMaster.Exploration
 {
@@ -23,6 +24,8 @@ namespace GuildMaster.Exploration
 
         [FormerlySerializedAs("mapSelectView")] [SerializeField]
         private MapSelectView _mapSelectView;
+        [SerializeField] private Toggle _mapSelectViewToggle;
+
 
         [SerializeField] private MapBaseSelector _baseSelector;
         [SerializeField] private MapAdjacentSelector _adjacentSelector;
@@ -55,9 +58,9 @@ namespace GuildMaster.Exploration
             _mapSelectView.LoadMap(map);
             _minimapView.LoadMap(map);
             _footer.Setup(characters);
+            _mapSelectViewToggle.onValueChanged.AddListener(b => _mapSelectView.gameObject.SetActive(b));
 
             // Todo: 맵 종류 받아서 slideBackgroundView 초기화
-            // Todo: 캐릭터 생성.
         }
 
         public async Task<MapNode> SelectStartingBase()
@@ -165,8 +168,7 @@ namespace GuildMaster.Exploration
         }
 
         /// <summary>
-        /// 자신의 상태 설정. 같은 상태가 여러번 불리더라도 똑같이 작동함
-        /// (ex: SetState(State.OnMove)를 50번 반복해도 1번 호출한 것과 같은 효과)
+        /// 자신의 상태 설정.
         /// </summary>
         /// <param name="state"></param>
         private void SetState(State state)
@@ -176,18 +178,24 @@ namespace GuildMaster.Exploration
             {
                 case State.OnMove:
                     _minimapView.gameObject.SetActive(true);
-                    _mapSelectView.gameObject.SetActive(false);
+                    // _mapSelectView.gameObject.SetActive(false);
                     _eventProcessView.SetActive(false);
+                    _mapSelectViewToggle.gameObject.SetActive(false);
+                    _mapSelectViewToggle.isOn = false;
                     break;
                 case State.LocationSelecting:
                     _minimapView.gameObject.SetActive(false);
-                    _mapSelectView.gameObject.SetActive(true);
+                    // _mapSelectView.gameObject.SetActive(true);
                     _eventProcessView.SetActive(false);
+                    _mapSelectViewToggle.gameObject.SetActive(true);
+                    _mapSelectViewToggle.isOn = true;
                     break;
                 case State.EventProcessing:
                     _minimapView.gameObject.SetActive(true);
-                    _mapSelectView.gameObject.SetActive(false);
+                    // _mapSelectView.gameObject.SetActive(false);
                     _eventProcessView.SetActive(true);
+                    _mapSelectViewToggle.gameObject.SetActive(false);
+                    _mapSelectViewToggle.isOn = false;
                     break;
             }
 

@@ -24,7 +24,7 @@ namespace GuildMaster.Exploration
         {
             _basicMapView = GetComponent<BasicMapView<LocationButton, Image>>();
         }
-
+        
         public void LoadMap(ExplorationMap map)
         {
             _map = map;
@@ -37,25 +37,6 @@ namespace GuildMaster.Exploration
 
             ColorLocationButtons(_ => (Color.white, Color.white, Color.white));
         }
-
-        private void ProcessLocationButtonClick(LocationButton locationButton)
-        {
-            TrySelect(locationButton.Node);
-        }
-
-
-        private void TrySelect(MapNode node)
-        {
-            if (!_requestedSelect.HasValue) return;
-            var (filter, tcs) = _requestedSelect.Value;
-
-            if (filter(node))
-            {
-                _requestedSelect = null; // 순서주의
-                tcs.SetResult(node);
-            }
-        }
-
 
         [Pure]
         public delegate (Color normalColor, Color mouseOnColor, Color pressedColor) LocationButtonColorFunc(
@@ -70,7 +51,6 @@ namespace GuildMaster.Exploration
         }
 
         public delegate bool LocationFilter(MapNode node);
-
         public async Task<MapNode> Select(LocationFilter filter)
         {
             _requestedSelect?.taskCompletionSource.SetResult(null);; // 이미 선택 중이었다면 원래 선택은 실패.
@@ -80,7 +60,23 @@ namespace GuildMaster.Exploration
 
             return await selectedNode.Task;
         }
+        
+        private void ProcessLocationButtonClick(LocationButton locationButton)
+        {
+            TrySelect(locationButton.Node);
+        }
+        
+        private void TrySelect(MapNode node)
+        {
+            if (!_requestedSelect.HasValue) return;
+            var (filter, tcs) = _requestedSelect.Value;
 
+            if (filter(node))
+            {
+                _requestedSelect = null; // 순서주의
+                tcs.SetResult(node);
+            }
+        }
 
         private (LocationFilter filter, TaskCompletionSource<MapNode> taskCompletionSource)? _requestedSelect;
         private BasicMapView<LocationButton, Image> _basicMapView;
