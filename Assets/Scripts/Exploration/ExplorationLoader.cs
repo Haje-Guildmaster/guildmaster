@@ -23,7 +23,7 @@ namespace GuildMaster.Exploration
         public void Load(List<Character> characters)
         {
             _reservation = (5, characters);
-            SceneManager.LoadScene("ExplorationScene");
+            SceneManager.LoadScene("ExplorationScene_Adlet");
         }
 
         private (int length, List<Character> characters)? _reservation; //length는 임시.

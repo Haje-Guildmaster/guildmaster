@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GuildMaster.Databases
 {
-    public abstract class DatabaseEditor<TDb, TElement, TIndex> : 
-        Editor where TDb : UnityEditableDatabase<TDb, TElement, TIndex> where TIndex: Database<TDb, TElement>.Index, new()
+    public abstract class DatabaseEditor : 
+        Editor
     {
         private SerializedProperty _dataList;
         private SerializedProperty _serializedIndex;
@@ -35,7 +35,7 @@ namespace GuildMaster.Databases
                 GUILayout.Label("Json: ");
                 if (GUILayout.Button("Save"))
                 {
-                    var fp = EditorUtility.SaveFilePanel("저장 위치", "Assets/Json", $"{typeof(TDb).Name}", "json");
+                    var fp = EditorUtility.SaveFilePanel("저장 위치", "Assets/Json", "db" , "json");
                     SaveToJson(fp);
                 }
 
@@ -53,7 +53,11 @@ namespace GuildMaster.Databases
             _serializedIndex.isExpanded = true;
             EditorGUILayout.PropertyField(_serializedIndex);
 
-            var index = _serializedIndex.FindPropertyRelative("Value").intValue;
+            var valueProperty = _serializedIndex.FindPropertyRelative("Value");
+            // if (_serializedIndex.enum)
+            var index = valueProperty?.intValue ?? _serializedIndex.enumValueIndex;
+
+
             var validIndex = 0 <= index && index < _dataList.arraySize;
             var currentItem = (validIndex)
                     ? _dataList.GetArrayElementAtIndex(index) : null;

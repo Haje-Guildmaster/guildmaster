@@ -6,12 +6,12 @@ using UnityEngine;
 namespace GuildMaster.Databases
 {
     [CreateAssetMenu(fileName = "CharacterDatabase", menuName = "ScriptableObjects/CharacterDatabase", order = 0)]
-    public class CharacterDatabase : UnityEditableDatabase<CharacterDatabase, CharacterStaticData, CharacterCode>
+    public class CharacterDatabase : UnityEditableIndexDatabase<CharacterDatabase, CharacterStaticData>
     {
     }
 
     [CustomEditor(typeof(CharacterDatabase))]
-    public class CharacterDatabaseEditor : DatabaseEditor<CharacterDatabase, CharacterStaticData, CharacterCode>
+    public class CharacterDatabaseEditor : DatabaseEditor
     {
     }
 
@@ -20,6 +20,8 @@ namespace GuildMaster.Databases
     {
     }
 
+    
+    [CustomPropertyDrawer(typeof(CharacterDatabase.Index))]
     [CustomPropertyDrawer(typeof(CharacterCode))]
     public class CharacterCodeDrawer : DatabaseIndexDrawer<CharacterDatabase, CharacterStaticData>
     {

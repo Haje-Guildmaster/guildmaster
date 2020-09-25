@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using GuildMaster.Characters;
 using GuildMaster.Databases;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace GuildMaster.Exploration
         [SerializeField] private Text _atkLabel;
         [SerializeField] private Text _defLabel;
         [SerializeField] private Text _agiLabel;
+        [SerializeField] private Text _characteristicLabel;
 
         private void OnDestroy() => Unsubscribe();
 
@@ -48,6 +50,7 @@ namespace GuildMaster.Exploration
                 _atkLabel.text = $"ATK: {_character.Atk}";
                 _defLabel.text = $"DEF: {_character.Def}";
                 _agiLabel.text = $"AGI: {_character.Agi}";
+                _characteristicLabel.text = _character.TraitName();
             }
             else
             {
@@ -58,6 +61,7 @@ namespace GuildMaster.Exploration
                 _atkLabel.text = "";
                 _defLabel.text = "";
                 _agiLabel.text = "";
+                _characteristicLabel.text = "";
             }
         }
 
