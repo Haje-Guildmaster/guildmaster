@@ -15,7 +15,7 @@ namespace GuildMaster.Exploration
         [SerializeField] private SlideBackgroundElement characterSlide;        // Todo: 임시.
         
         
-        private const float NormalMoveSpeed = 0.012f;
+        private const float NormalMoveSpeed = 8f;
 
         public IEnumerable<CharacterSprite> CharacterSprites => characterSpriteFrames.Take(_characterCount);
 
@@ -52,7 +52,7 @@ namespace GuildMaster.Exploration
         private void Update()
         {
             if (!_going) return;
-            _currentPosition += _moveSpeed;
+            _currentPosition += _moveSpeed * Time.deltaTime;
             foreach (var chtr in characterSpriteFrames)
             {
                 chtr.Goto(_currentPosition*characterSlide.MoveRatio);
