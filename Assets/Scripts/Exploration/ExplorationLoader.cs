@@ -18,7 +18,7 @@ namespace GuildMaster.Exploration
 
                 var (len, characters) = _reservation.Value;
                 _reservation = null;
-                ExplorationManager.Instance.StartExploration(len, characters, FindObjectOfType<ExplorationDebugger>()._map);    // Todo:
+                ExplorationManager.Instance.StartExploration(characters, FindObjectOfType<ExplorationDebugger>()._map);    // Todo:
             };
         }
 

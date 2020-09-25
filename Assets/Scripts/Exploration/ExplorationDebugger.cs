@@ -19,7 +19,7 @@ namespace GuildMaster.Exploration
             _explorationView = FindObjectOfType<ExplorationView>();
             _explorationManager = FindObjectOfType<ExplorationManager>();
             
-            _explorationManager.StartExploration(-1, _characters.Select(cc=>new Character(cc)).ToList(), _map);
+            _explorationManager.StartExploration(_characters.Select(cc=>new Character(cc)).ToList(), _map);
         }
         
         private void OnGUI()

@@ -17,17 +17,19 @@ namespace GuildMaster.Exploration.Events
     public class EventProcessor
     {
         public EventProcessor(ExplorationView explorationView, ReadOnlyCollection<Character> characters,
-            Inventory inventory)
+            Inventory inventory, Event ev, ExplorationLog log = null)
         {
             _explorationView = explorationView;
             _characters = characters;
             _inventory = inventory;
             _randomGenerator = new Random();
+            _ev = ev;
+            _log = log;
         }
 
-        public async Task ProcessEvent(Event ev)
+        public async Task Run()
         {
-            var choicesList = ev.Choices.Select(choice => new ExplorationView.ChoiceVisualData
+            var choicesList = _ev.Choices.Select(choice => new ExplorationView.ChoiceVisualData
             {
                 Description = choice.Description,
                 CharacterSelectHelperStrings =
@@ -39,29 +41,46 @@ namespace GuildMaster.Exploration.Events
             while (true)
             {
                 var (choiceIndex, selectedCharacter) =
-                    await _explorationView.PlayEvent(choicesList, ev.ShortDescription);
+                    await _explorationView.PlayEvent(choicesList, _ev.ShortDescription);
 
-                Assert.IsTrue(choiceIndex < ev.Choices.Count);
+                Assert.IsTrue(choiceIndex < _ev.Choices.Count);
                 Assert.IsTrue(_characters.Contains(selectedCharacter));
                 
                 var (endEvent, flavorTexts) =
-                    FollowInstruction(ev.Choices[choiceIndex].Instruction, selectedCharacter, resultRecord);
+                    FollowInstruction(_ev.Choices[choiceIndex].Instruction, selectedCharacter, resultRecord);
                 await NotifyActionResult(flavorTexts);
                 if (endEvent) break;
             }
 
+            if (_log != null)
+                resultRecord.WriteToLog(_log);
+            
             await NotifyOverallResult(resultRecord);
         }
-
+        
         private class ResultRecord
         {
-            public Dictionary<Item, int> InventoryChange = new Dictionary<Item, int>();
+            public Dictionary<Item, int> AcquiredItems = new Dictionary<Item, int>();
+
+            public void WriteToLog(ExplorationLog log)
+            {
+                void AddCountDictTo<T>(IDictionary<T, int> toDict, IDictionary<T, int> fromDict)
+                {
+                    foreach (var pair in fromDict)
+                    {
+                        toDict.TryGetValue(pair.Key, out var original);
+                        toDict[pair.Key] = original + pair.Value;
+                    }
+                }
+                
+                AddCountDictTo(log.AcquiredItems, this.AcquiredItems);
+            }
         }
 
         private async Task NotifyOverallResult(ResultRecord resultRecord)
         {
             var resultStr = "";
-            foreach (var kvp in resultRecord.InventoryChange)
+            foreach (var kvp in resultRecord.AcquiredItems)
             {
                 var item = kvp.Key;
                 var number = kvp.Value;
@@ -199,8 +218,8 @@ namespace GuildMaster.Exploration.Events
                         if (_inventory.TryAddItem(getItem.Item, number))
                         {
                             var key = getItem.Item;
-                            resultRecord.InventoryChange.TryGetValue(key, out var original);
-                            resultRecord.InventoryChange[key] = original + number;
+                            resultRecord.AcquiredItems.TryGetValue(key, out var original);
+                            resultRecord.AcquiredItems[key] = original + number;
                         }
 
                         return false;
@@ -242,8 +261,9 @@ namespace GuildMaster.Exploration.Events
                     throw new Exception($"{nameof(CheckCondition)}: Couldn't check condition {condition}");
             }
         }
-        
 
+        private readonly ExplorationLog _log;
+        private readonly Event _ev;
         private readonly ExplorationView _explorationView;
         private readonly ReadOnlyCollection<Character> _characters;
         private readonly Inventory _inventory;

@@ -31,11 +31,12 @@ namespace GuildMaster.Exploration
             _instance != null ? _instance : (_instance = FindObjectOfType<ExplorationManager>());
 
 
-        public void StartExploration(int length, List<Character> characters, ExplorationMap map)
+        public void StartExploration(List<Character> characters, ExplorationMap map)
         {
             _characters = new List<Character>(characters);
             _map = map;
             _explorationView.Setup(characters, map);
+            _log = new ExplorationLog();
 
             RunExploration();
 
@@ -49,19 +50,28 @@ namespace GuildMaster.Exploration
                     var eventSeed = EventSeedDatabase.Get(_testEventSeed).EventSeed;
                     while (true)
                     {
-                        var testEvent = eventSeed.Generate(new System.Random());
+                        // 다음 목적지 선택.
                         var (end, destination) = await SelectNextDestination();
                         if (end) break;
-                        await _explorationView.PlayRoadView(_currentNode, destination, 0f, 0.5f);
-                        await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory).ProcessEvent(
-                            testEvent); // EventProcessor에게 이벤트 처리 떠넘김. Todo: EventProcessor 재사용 고려.
-                        await _explorationView.PlayRoadView(_currentNode, destination, 0.5f, 1f);
 
+                        // 이동
+                        await _explorationView.PlayRoadView(_currentNode, destination, 0f, 1f);
                         _currentNode = destination;
+
+                        // 이벤트 발생
+                        var testEvent = eventSeed.Generate(new System.Random());
+                        await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory, testEvent, _log)
+                            .Run(); // EventProcessor에게 이벤트 처리 떠넘김. Todo: EventProcessor 재사용 고려.
                     }
                 }
 
+                // 탐색 종료.
                 EndExploration();
+                async void EndExploration()
+                {
+                    await _explorationView.ReportExplorationResults(_log);
+                    TownLoadManager.LoadTownScene(TownRefs.TestTown);
+                }
             }
         }
 
@@ -94,13 +104,9 @@ namespace GuildMaster.Exploration
             return (endExploration, destination);
         }
 
-        private void EndExploration()
-        {
-            TownLoadManager.LoadTownScene(TownRefs.TestTown);
-        }
-
         private static ExplorationManager _instance;
 
+        private ExplorationLog _log;
         private List<Character> _characters;
         private ExplorationMap _map;
         private MapNode _currentNode;

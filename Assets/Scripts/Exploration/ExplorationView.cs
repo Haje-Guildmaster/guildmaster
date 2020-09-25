@@ -71,6 +71,7 @@ namespace GuildMaster.Exploration
             SetStateLocationSelecting(true);
 
             async Task<(bool, MapNode)> Select() => (false, await _baseSelector.Select(_mapSelectView));
+
             async Task<(bool, MapNode)> End()
             {
                 await _explorationEndButton.WaitForClick();
@@ -99,7 +100,9 @@ namespace GuildMaster.Exploration
         {
             SetStateLocationSelecting(allowEndingExploration);
 
-            async Task<(bool, MapNode)> Select() => (false, await _adjacentSelector.Select(_mapSelectView, startingNode));
+            async Task<(bool, MapNode)> Select() =>
+                (false, await _adjacentSelector.Select(_mapSelectView, startingNode));
+
             async Task<(bool, MapNode)> End()
             {
                 await _explorationEndButton.WaitForClick();
@@ -148,8 +151,8 @@ namespace GuildMaster.Exploration
 
             async Task ProcessRoadView()
             {
-                const float moveTime = 4f; // progress 1이 증가하는 데에 필요한 시간.
-                const float stepTime = 0.05f; // 스텝 시간
+                const float moveTime = 1f; // progress 1이 증가하는 데에 필요한 시간.
+                // const float stepTime = 0.02f; // 스텝 시간
                 var progress = startingProgress;
 
                 var flag = false;
@@ -158,10 +161,10 @@ namespace GuildMaster.Exploration
                     _minimapView.SetProgress(progress);
 
                     if (flag) break;
-                    await Task.Delay(TimeSpan.FromSeconds(stepTime));
+                    await Task.Yield();
 
 
-                    progress += stepTime / moveTime;
+                    progress += Time.deltaTime / moveTime;
                     if (progress >= headingProgress - 0.00001)
                     {
                         progress = headingProgress;
@@ -201,6 +204,23 @@ namespace GuildMaster.Exploration
         public async Task Notify(string notifyString)
         {
             await UiWindowsManager.Instance.AsyncShowMessageBox("알림", notifyString, new[] {"확인"});
+        }
+
+        public async Task ReportExplorationResults(ExplorationLog log)
+        {
+            SetStateOnMove();
+            
+            var resultStr = "";
+
+            resultStr += "획득한 아이템:\n";
+            foreach (var pair in log.AcquiredItems)
+                resultStr += $"{pair.Key.StaticData.ItemName} x {pair.Value}\n";
+            resultStr += "사용한 아이템:\n";
+            foreach (var pair in log.UsedItems)
+                resultStr += $"{pair.Key.StaticData.ItemName} x {pair.Value}\n";
+
+            await UiWindowsManager.Instance.AsyncShowMessageBox("탐색 결과", $"{resultStr}", new[] {"확인"});
+            SetStateWaiting();
         }
 
         private void _SetState(bool minimap, bool eventProcessView, bool mapSelectView, bool explorationEndButton)
