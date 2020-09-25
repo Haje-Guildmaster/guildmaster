@@ -48,6 +48,7 @@ namespace GuildMaster.Data
             return true;
         }
 
+        // Todo: Clone 또는 CopyFrom 구현.
 
         private readonly Dictionary<Item, int> _inventoryMap = new Dictionary<Item, int>();
     }

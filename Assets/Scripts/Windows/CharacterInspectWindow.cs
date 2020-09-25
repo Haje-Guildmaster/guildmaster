@@ -38,7 +38,7 @@ namespace GuildMaster.Windows
             {
                 var made = Instantiate(characterSelectTogglePrefab, characterListParent);
                 made.group = characterSelectToggleGroup;
-                made.GetComponentInChildren<Text>().text = ch.UsingName;
+                made.GetComponentInChildren<Text>().text = ch.UsingName;    //Todo: GetComponent 대체.
                 var capture = ch;
                 made.onValueChanged.AddListener(b =>
                 {

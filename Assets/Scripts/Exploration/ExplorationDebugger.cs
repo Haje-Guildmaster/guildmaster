@@ -11,7 +11,7 @@ namespace GuildMaster.Exploration
      */
     public class ExplorationDebugger: MonoBehaviour
     {
-        [SerializeField] private ExplorationMap _map;
+        /*[SerializeField] private*/ public ExplorationMap _map;
         [SerializeField] private List<CharacterCode> _characters;
 
         private void Start()
