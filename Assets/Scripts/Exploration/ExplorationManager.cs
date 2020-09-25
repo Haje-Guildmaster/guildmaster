@@ -7,7 +7,8 @@ using GuildMaster.Data;
 using GuildMaster.Databases;
 using GuildMaster.Exploration.Events;
 using GuildMaster.Tools;
-using UnityEditor;
+using GuildMaster.TownRoam.TownLoad;
+using GuildMaster.TownRoam.Towns;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -40,40 +41,62 @@ namespace GuildMaster.Exploration
 
             async void RunExploration()
             {
-                _currentNode = await SelectStartingBase();
+                var (endInBaseSelection, startingBase) = await SelectStartingBase();
+                _currentNode = startingBase;
 
-                var eventSeed = EventSeedDatabase.Get(_testEventSeed).EventSeed;
-                while (true)
+                if (!endInBaseSelection)
                 {
-                    var testEvent = eventSeed.Generate(new System.Random());
-                    var destination = await SelectNextDestination();
-                    await _explorationView.PlayRoadView(_currentNode, destination, 0f, 0.5f);
-                    await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory).ProcessEvent(
-                        testEvent); // EventProcessor에게 이벤트 처리 떠넘김. Todo: EventProcessor 재사용 고려.
-                    await _explorationView.PlayRoadView(_currentNode, destination, 0.5f, 1f);
+                    var eventSeed = EventSeedDatabase.Get(_testEventSeed).EventSeed;
+                    while (true)
+                    {
+                        var testEvent = eventSeed.Generate(new System.Random());
+                        var (end, destination) = await SelectNextDestination();
+                        if (end) break;
+                        await _explorationView.PlayRoadView(_currentNode, destination, 0f, 0.5f);
+                        await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory).ProcessEvent(
+                            testEvent); // EventProcessor에게 이벤트 처리 떠넘김. Todo: EventProcessor 재사용 고려.
+                        await _explorationView.PlayRoadView(_currentNode, destination, 0.5f, 1f);
 
-                    _currentNode = destination;
+                        _currentNode = destination;
+                    }
                 }
+
+                EndExploration();
             }
         }
 
 
-        private async Task<MapNode> SelectStartingBase()
+        private async Task<(bool endExploration, MapNode startingBase)> SelectStartingBase()
         {
-            var ret = await _explorationView.SelectStartingBase();
+            var (endExploration, startingBase) = await _explorationView.SelectStartingBase();
             // Todo: Assert대신 에러처리로 바꾸기.(유저에게 에러메시지를 출력하고 돌아간다던지.)
-            Assert.IsTrue(_map.Graph.Nodes.Contains(ret));
-            Assert.IsTrue(ret.Content.Location.LocationType == Location.Type.Base);
-            return ret;
+            if (!endExploration)
+            {
+                Assert.IsTrue(_map.Graph.Nodes.Contains(startingBase));
+                Assert.IsTrue(startingBase.Content.Location.LocationType == Location.Type.Base);
+            }
+
+            return (endExploration, startingBase);
         }
 
-        private async Task<MapNode> SelectNextDestination()
+        private async Task<(bool endExploration, MapNode destination)> SelectNextDestination()
         {
-            var ret = await _explorationView.SelectNextDestination(_currentNode);
-            // Todo: Assert대신 에러처리로 바꾸기.(유저에게 에러메시지를 출력하고 돌아간다던지.)
-            Assert.IsTrue(_map.Graph.Nodes.Contains(ret));
-            Assert.IsTrue(_currentNode.Connected.Exists(ind => _map.Graph.GetNode(ind) == ret));
-            return ret;
+            var allowEnd = _currentNode.Content.Location.LocationType == Location.Type.Base;
+            var (endExploration, destination) = await _explorationView.SelectNextDestination(_currentNode, allowEnd);
+
+            if (!endExploration)
+            {
+                // Todo: Assert대신 에러처리로 바꾸기.(유저에게 에러메시지를 출력하고 돌아간다던지.)
+                Assert.IsTrue(_map.Graph.Nodes.Contains(destination));
+                Assert.IsTrue(_currentNode.Connected.Exists(ind => _map.Graph.GetNode(ind) == destination));
+            }
+
+            return (endExploration, destination);
+        }
+
+        private void EndExploration()
+        {
+            TownLoadManager.LoadTownScene(TownRefs.TestTown);
         }
 
         private static ExplorationManager _instance;
