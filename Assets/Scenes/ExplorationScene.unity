@@ -8571,6 +8571,7 @@ MonoBehaviour:
   defLabel: {fileID: 463936214}
   agiLabel: {fileID: 527612144}
   intLabel: {fileID: 229511945}
+  CharacteristicLabel: {fileID: 0}
 --- !u!114 &749564315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23260,6 +23261,8 @@ MonoBehaviour:
   SeWindow: {fileID: 0}
   TextspeedWindow: {fileID: 0}
   BGMWindow: {fileID: 0}
+  ExplorationCharacterSelectingWindow: {fileID: 0}
+  ExplorationItemSelectingWindow: {fileID: 0}
   itemInfoPanel: {fileID: 1243713704}
 --- !u!1 &1899348572
 GameObject:
@@ -23760,6 +23763,7 @@ MonoBehaviour:
   npcDatabase: {fileID: 11400000, guid: 24262711775cdba489a3899c94aae0c4, type: 2}
   questDatabase: {fileID: 11400000, guid: 77c7fdd39e26e7c4bb8945c83f9058da, type: 2}
   characterDatabase: {fileID: 11400000, guid: 4ed3405fba6f02f4192fa132271cf315, type: 2}
+  traitDatabase: {fileID: 11400000, guid: 6814ec3a55e5b114e98e55e84262783d, type: 2}
   inGameEventDatabase: {fileID: 11400000, guid: 12ee208022c34e045a1dc3b73f5d96b7,
     type: 2}
   explorationLocationDatabase: {fileID: 11400000, guid: 61a729fbbe744f645a3e84ab150ac45e,

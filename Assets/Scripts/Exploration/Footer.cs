@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Characters;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace GuildMaster.Exploration
 {

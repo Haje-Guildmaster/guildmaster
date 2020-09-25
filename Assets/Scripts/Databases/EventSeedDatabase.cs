@@ -1,6 +1,5 @@
 using System;
 using GuildMaster.Exploration.Events;
-using GuildMaster.InGameEvents;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,19 +14,19 @@ namespace GuildMaster.Databases
     }
 
     [CreateAssetMenu(fileName = "EventSeedDatabase", menuName = "ScriptableObjects/EventSeedDatabase", order = 0)]
-    public class EventSeedDatabase : UnityEditableDatabase<EventSeedDatabase, EventSeedReference, EventSeedCode>
+    public class EventSeedDatabase : UnityEditableIndexDatabase<EventSeedDatabase, EventSeedReference>
     {
     }
     
     [CustomEditor(typeof(EventSeedDatabase))]
-    public class EventSeedDatabaseEditor : DatabaseEditor<EventSeedDatabase, EventSeedReference, EventSeedCode>
+    public class EventSeedDatabaseEditor : DatabaseEditor
     {
     }
 
-    // 유니티 serialization을 위해.
     [Serializable]
     public class EventSeedCode : EventSeedDatabase.Index {}
 
+    [CustomPropertyDrawer(typeof(EventSeedDatabase.Index))]
     [CustomPropertyDrawer(typeof(EventSeedCode))]
     public class EventSeedCodeDrawer : DatabaseIndexDrawer<EventSeedDatabase, EventSeedReference>
     {
