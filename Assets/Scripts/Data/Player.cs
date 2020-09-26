@@ -101,7 +101,7 @@ namespace GuildMaster.Data
         {
             QuestManager = new QuestManager(this);
             InGameEventManager = new InGameEventManager(this);
-            Inventory = new Inventory();
+            Inventory = new Inventory(36, 144, false);
             PlayerGuild = new Guild();
             TimeManager = new Timemanagement(new Timeblock(), new Timeblock(), new Timeblock(), new Timeblock()) ;
 

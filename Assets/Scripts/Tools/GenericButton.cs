@@ -20,8 +20,7 @@ namespace GuildMaster.Tools
         {
             Clicked?.Invoke(EventArgument);
         }
-
+        
         protected abstract T EventArgument { get; }
-
     }
 }

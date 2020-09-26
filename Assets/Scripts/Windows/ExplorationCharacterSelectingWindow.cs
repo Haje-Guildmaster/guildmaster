@@ -32,8 +32,8 @@ namespace GuildMaster.Windows
 
         public void OpenNext()
         {
-            UiWindowsManager.Instance.ExplorationItemSelectingWindow.Open();
             base.Close();
+            UiWindowsManager.Instance.ExplorationItemSelectingWindow.Open();
             //ExplorationLoader.Instance.Load(_exploreCharacters); //Asd가 구현중인 기능 에러 뜨는게 정상
         }
 
