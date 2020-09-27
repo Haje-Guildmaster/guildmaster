@@ -35,7 +35,7 @@ namespace GuildMaster.Databases
                 GUILayout.Label("Json: ");
                 if (GUILayout.Button("Save"))
                 {
-                    var fp = EditorUtility.SaveFilePanel("저장 위치", "Assets/Json", "db" , "json");
+                    var fp = EditorUtility.SaveFilePanel("저장 위치", "Assets/Json", serializedObject.targetObject.GetType().Name , "json");
                     SaveToJson(fp);
                 }
 
