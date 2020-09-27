@@ -69,6 +69,13 @@ namespace GuildMaster.Exploration.Events
 
         [Serializable]
         public class DoNothing : Instruction
-        {}
+        {
+        }
+
+        [Serializable]
+        public class AddChoice : Instruction
+        {
+            public Event.Choice Choice;
+        }
     }
 }
