@@ -187,12 +187,12 @@ namespace GuildMaster.Exploration
         }
 
         public async Task<(int choiceIndex, Character selectedCharacter)> PlayEvent(
-            IEnumerable<ChoiceVisualData> choiceVisualDataList, string descriptionString)
+            IEnumerable<ChoiceVisualData> choiceVisualDataList, string descriptionString, int initialChoiceIndex = 0)
         {
             SetStateEventProcessing();
             var ret = await _eventProcessView.WaitUserDecision(_roadView.CharacterSprites,
                 choiceVisualDataList.Select(cvd => (EventProcessView.ChoiceVisualData) cvd).ToList(),
-                descriptionString);
+                descriptionString, initialChoiceIndex);
             SetStateWaiting();
             return ret;
         }
@@ -209,7 +209,7 @@ namespace GuildMaster.Exploration
         public async Task ReportExplorationResults(ExplorationLog log)
         {
             SetStateOnMove();
-            
+
             var resultStr = "";
 
             resultStr += "획득한 아이템:\n";

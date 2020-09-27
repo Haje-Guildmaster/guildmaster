@@ -18,8 +18,8 @@ namespace GuildMaster.Exploration.Events
         [SerializeField] private ChoiceSelectorElement _choiceSelectorElementPrefab;
         [SerializeField] private Transform _characterSelectHelperParent;
         [SerializeField] private EventDescriptionLabel _eventDescriptionLabel;
-        [SerializeField] private Transform CharacterSelectorYIndicator;   // CharacterSelector 가 생성될 y 위치 지정. 
-        
+        [SerializeField] private Transform CharacterSelectorYIndicator; // CharacterSelector 가 생성될 y 위치 지정. 
+
 
         private void Awake()
         {
@@ -48,14 +48,17 @@ namespace GuildMaster.Exploration.Events
         /// <param name="characterSprites"></param>
         /// <param name="choices"></param>
         /// <param name="descriptionString"></param>
+        /// <param name="initialChoiceIndex"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
+        /// Todo: SetChoices랑 WaitDecision으로 나누기 고려
         public async Task<(int choiceIndex, Character selectedCharacter)> WaitUserDecision(
-            IEnumerable<CharacterSprite> characterSprites, List<ChoiceVisualData> choices, string descriptionString)
+            IEnumerable<CharacterSprite> characterSprites, List<ChoiceVisualData> choices, string descriptionString,
+            int initialChoiceIndex = 0)
         {
-            Assert.IsTrue(choices.Count > 0);        // 적어도 하나의 선택지는 있어야 함.
+            Assert.IsTrue(choices.Count > 0); // 적어도 하나의 선택지는 있어야 함.
             // 시간복잡도는 무시한 코드이므로 속도 문제가 있으면 수정할 것.
-            
+
             var cnt = 0;
             // 초기화.
             foreach (Transform child in _decisionSelector.transform)
@@ -63,59 +66,64 @@ namespace GuildMaster.Exploration.Events
                 cnt++;
                 Destroy(child.gameObject);
             }
-            
+
             // 설명 설정.
             _eventDescriptionLabel.Text = descriptionString;
-            
+
             // 선택 버튼 생성.
-            foreach (var (cvd, i) in choices.Select((val, i)=>(val, i)))
+            foreach (var (cvd, i) in choices.Select((val, i) => (val, i)))
             {
                 var made = Instantiate(_choiceSelectorElementPrefab, _decisionSelector.transform);
-                Assert.IsTrue(made.transform.GetSiblingIndex() == i+cnt);  
+                Assert.IsTrue(made.transform.GetSiblingIndex() == i + cnt);
                 made.DescriptionLabel.text = cvd.Description;
             }
-            
 
-            
+
             // 이벤트 끝내기 함수 설정. (캐릭터를 선택하였을 경우 불리는 놈)
             var tcs = new TaskCompletionSource<(int choiceIndex, Character selectedCharacter)>();
+
             void EventEndSignal(int choiceIndex, Character character)
             {
                 tcs.TrySetResult((choiceIndex, character));
             }
-            
+
             // 캐릭터 선택 도우미(캐릭터 머리 위에 뜨는 그거) 생성
             var characterSelectors = new List<(CharacterSprite sprite, CharacterSelectHelper selectHelper)>();
-            
-            
+
+
             foreach (var cs in characterSprites)
             {
                 var made = Instantiate(_characterSelectHelperPrefab, _characterSelectHelperParent);
                 var csCapture = cs;
-                made.OnClick.AddListener(() => EventEndSignal(_decisionSelector.SelectedIndex, csCapture.Character));   // 클릭했을 시 이벤트 종료 신호를 보냄. 캐릭터 반환.
-                made.transform.position = new Vector3(cs.transform.position.x, CharacterSelectorYIndicator.position.y);        // 위치 조정.
+                made.OnClick.AddListener(() =>
+                    EventEndSignal(_decisionSelector.SelectedIndex,
+                        csCapture.Character)); // 클릭했을 시 이벤트 종료 신호를 보냄. 캐릭터 반환.
+                made.transform.position =
+                    new Vector3(cs.transform.position.x, CharacterSelectorYIndicator.position.y); // 위치 조정.
                 characterSelectors.Add((cs, made));
             }
-            
-            _decisionSelector.SelectingChange += UpdateCharacterSelectHelpers;
-            _decisionSelector.SetSelectedIndex(0, false);
-            
+
             void UpdateCharacterSelectHelpers(int i)
             {
                 Assert.IsTrue(choices.Count > i);
                 foreach (var (sprite, selectHelper) in characterSelectors)
                 {
-                    var (_, description) = choices[i].CharacterSelectHelperStrings.Find(tup => tup.character == sprite.Character);
+                    var (_, description) = choices[i].CharacterSelectHelperStrings
+                        .Find(tup => tup.character == sprite.Character);
                     selectHelper.ButtonEnabled = description != null;
                     selectHelper.Text = description ?? "";
                 }
             }
             
+            
+            _decisionSelector.SelectingChange += UpdateCharacterSelectHelpers;
+            _decisionSelector.SetSelectedIndex(initialChoiceIndex, false);
+            
             // 선택기 선택된 것 초기화. 동시에 UpdateCharacterSelectHelpers가 불리게 될 것.
-            var result = await tcs.Task;            // 캐릭터를 눌러서 이벤트가 종료되기를 기다림.
-            
+            var result = await tcs.Task; // 캐릭터를 눌러서 이벤트가 종료되기를 기다림.
+
             _decisionSelector.SelectingChange -= UpdateCharacterSelectHelpers;
-            
+
             // 나가기 전 정리.
             foreach (Transform child in _decisionSelector.transform)
             {

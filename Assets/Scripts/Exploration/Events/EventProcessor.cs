@@ -37,11 +37,13 @@ namespace GuildMaster.Exploration.Events
             }).ToList();
             
             var resultRecord = new ResultRecord();
-            
+
+            var lastChoice = 0;
             while (true)
             {
                 var (choiceIndex, selectedCharacter) =
-                    await _explorationView.PlayEvent(choicesList, _ev.ShortDescription);
+                    await _explorationView.PlayEvent(choicesList, _ev.ShortDescription, lastChoice);
+                lastChoice = choiceIndex;
 
                 Assert.IsTrue(choiceIndex < _ev.Choices.Count);
                 Assert.IsTrue(_characters.Contains(selectedCharacter));
