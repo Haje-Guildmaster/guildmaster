@@ -3,10 +3,8 @@ using System.Linq;
 using GuildMaster.Characters;
 using GuildMaster.Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
-using GuildMaster.Exploration;
-using System.Runtime.CompilerServices;
-using System;
 
 namespace GuildMaster.Windows
 {
@@ -30,40 +28,15 @@ namespace GuildMaster.Windows
         [SerializeField] private Text intLabel;
         [SerializeField] private Text CharacteristicLabel;
 
-        public void StartExploration()
-        {
-            ExplorationLoader.Instance.Load(_exploreCharacters); //Asd님이 구현중인 기능 에러 뜨는게 정상
-        }
-
-        public void AddCharacter()
-        {
-            if (!_allCharacters.Contains(_currentCharacter)) return;
-            _allCharacters.Remove(_currentCharacter);
-            _exploreCharacters.Add(_currentCharacter);
-            RefreshList();
-        }
-
-        public void RemoveCharacter()
-        {
-            if (!_exploreCharacters.Contains(_currentCharacter)) return;
-            _exploreCharacters.Remove(_currentCharacter);
-            _allCharacters.Add(_currentCharacter);
-            RefreshList();
-        }
 
         public void Open()
         {
             base.OpenWindow();
-            Set_allCharacters();
-            RefreshList();
-        }
 
-        private void RefreshList()
-        {
             SetCharacter(null);
             foreach (Transform t in characterSelectingListParent)
                 Destroy(t.gameObject);
-            foreach (var (ch, i) in _allCharacters.Select((i, j) =>
+            foreach (var (ch, i) in Player.Instance.PlayerGuild._guildMembers.GuildMemberList.Select((i, j) =>
                 (i, j)))
             {
                 var made = Instantiate(characterSelectingTogglePrefab, characterSelectingListParent);
@@ -75,11 +48,11 @@ namespace GuildMaster.Windows
                     if (b) SetCharacter(capture);
                 });
                 if (i == 0)
-                    made.isOn = false; //위의 AddListener와 순서 주의.
+                    made.isOn = true; //위의 AddListener와 순서 주의.
             }
             foreach (Transform t in characterSelectedListParent)
                 Destroy(t.gameObject);
-            foreach (var (ch, i) in _exploreCharacters.Select((i, j) =>
+            foreach (var (ch, i) in Player.Instance.PlayerGuild._guildMembers.GuildMemberList.Select((i, j) =>
                 (i, j)))
             {
                 var made = Instantiate(characterSelectedTogglePrefab, characterSelectedListParent);
@@ -91,8 +64,9 @@ namespace GuildMaster.Windows
                     if (b) SetCharacter(capture);
                 });
                 if (i == 0)
-                    made.isOn = false; //위의 AddListener와 순서 주의.
+                    made.isOn = true; //위의 AddListener와 순서 주의.
             }
+
         }
 
         private void SetCharacter(Character character)
@@ -124,23 +98,6 @@ namespace GuildMaster.Windows
             intLabel.text = _currentCharacter.Int.ToString();
         }
 
-        private void Set_allCharacters()
-        {
-            if (setCharacters) return;
-            else
-            {
-                setCharacters = true;
-            }
-            foreach (var (ch, i) in Player.Instance.PlayerGuild._guildMembers.GuildMemberList.Select((i, j) =>
-                (i, j)))
-            {
-                _allCharacters.Add(ch);
-            }
-        }
-
         private Character _currentCharacter;
-        private bool setCharacters = false;
-        private List<Character> _allCharacters = new List<Character>();
-        private List<Character> _exploreCharacters = new List<Character>();
     }
 }
