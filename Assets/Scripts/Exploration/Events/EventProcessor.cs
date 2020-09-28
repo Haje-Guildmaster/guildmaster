@@ -34,7 +34,7 @@ namespace GuildMaster.Exploration.Events
                 {
                     Description = choice.Description,
                     CharacterSelectHelperStrings =
-                        _characters.Select(c => (c, InstructionToText(choice.Instruction, c))).ToList(),
+                        _characters.Select(c => (c, InstructionToText(choice.Sequential, c))).ToList(),
                     // Todo: 일회용 여부 전달?
                 };
 
@@ -54,7 +54,7 @@ namespace GuildMaster.Exploration.Events
 
                 var choice = choices[choiceIndex];
                 var (endEvent, flavorTexts, newChoices) =
-                    FollowInstruction(choice.Instruction, selectedCharacter, resultRecord);
+                    FollowInstruction(choice.Sequential, selectedCharacter, resultRecord);
                 await NotifyActionResult(flavorTexts);
                 choices.InsertRange(choiceIndex+1, newChoices);
                 if (choice.OneOff)
@@ -131,6 +131,8 @@ namespace GuildMaster.Exploration.Events
         {
             switch (instruction)
             {
+                case null:
+                    return "";
                 case Instruction.PerChance perChance:
                     if (perChance.Failure == null)
                         return
@@ -171,8 +173,9 @@ namespace GuildMaster.Exploration.Events
                     return "";
                 case Instruction.AddChoice addChoice:
                     return "새로운 선택지 추가";
-                case null:
-                    return "null";
+                case Instruction.If ifInstr:
+                    var matchCondition = CheckCondition(ifInstr.Condition, character);
+                    return InstructionToText(matchCondition ? ifInstr.IfTrue : ifInstr.Else, character);
                 default:
                     throw new Exception($"Couldn't follow {nameof(Instruction)} {instruction}");
             }
@@ -201,9 +204,6 @@ namespace GuildMaster.Exploration.Events
             
             bool FollowInstr(Instruction instr)
             {
-                if (instr.FlavorText.Exist)
-                    flavorTexts.Add(instr.FlavorText);
-
                 switch (instr)
                 {
                     case null:
@@ -257,6 +257,9 @@ namespace GuildMaster.Exploration.Events
                         return false;
                     case Instruction.Sequential sequential:
                     {
+                        if (sequential.FlavorText.Exist)
+                            flavorTexts.Add(sequential.FlavorText);
+
                         var endEvent = false;
                         foreach (var subInstr in sequential.Instructions)
                         {
@@ -271,6 +274,11 @@ namespace GuildMaster.Exploration.Events
                         newChoices.Add(addChoice.Choice);
                         return false;
                     }
+                    case Instruction.If ifInstr:
+                    {
+                        var matchCondition = CheckCondition(ifInstr.Condition, selectedCharacter);
+                        return FollowInstr(matchCondition ? ifInstr.IfTrue : ifInstr.Else);
+                    }
                     default:
                         throw new Exception($"Couldn't follow {nameof(Instruction)} {instr}");
                 }
@@ -283,12 +291,14 @@ namespace GuildMaster.Exploration.Events
         private int CalculateToInt(Expression expression, Character selectedCharacter) =>
             (int) Math.Round(Calculate(expression, selectedCharacter), 0);
 
-        private bool CheckCondition(Condition condition)
+        private bool CheckCondition(Condition condition, Character selectedCharacter)
         {
             switch (condition)
             {
                 case Condition.Always always:
                     return always.IsTrue;
+                case Condition.HasTrait hasTrait:
+                    return selectedCharacter.ActiveTraits.Contains(hasTrait.Trait);
                 default:
                     throw new Exception($"{nameof(CheckCondition)}: Couldn't check condition {condition}");
             }

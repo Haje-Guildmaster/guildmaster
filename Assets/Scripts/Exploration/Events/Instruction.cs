@@ -16,19 +16,14 @@ namespace GuildMaster.Exploration.Events
     [Serializable]
     public abstract class Instruction
     {
-        [field: SerializeField] public FlavorText FlavorText { get; private set; }
-
         [Serializable]
         public class PerChance : Instruction
         {
             [SerializeReference] [SerializeReferenceButton]
             public Expression Chance;
 
-            [SerializeReference] [SerializeReferenceButton]
-            public Instruction Success;
-
-            [SerializeReference] [SerializeReferenceButton]
-            public Instruction Failure;
+            public Sequential Success;
+            public Sequential Failure;
         }
 
         [Serializable]
@@ -63,6 +58,8 @@ namespace GuildMaster.Exploration.Events
         [Serializable]
         public class Sequential : Instruction
         {
+            [field: SerializeField] public FlavorText FlavorText { get; private set; }
+
             [SerializeReference] [SerializeReferenceButton]
             public List<Instruction> Instructions;
         }
@@ -76,6 +73,16 @@ namespace GuildMaster.Exploration.Events
         public class AddChoice : Instruction
         {
             public Event.Choice Choice;
+        }
+
+        [Serializable]
+        public class If : Instruction
+        {
+            [SerializeReference] [SerializeReferenceButton]
+            public Condition Condition;
+
+            public Sequential IfTrue;
+            public Sequential Else;
         }
     }
 }

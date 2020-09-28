@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GuildMaster.Exploration.Events
 {
@@ -16,8 +17,7 @@ namespace GuildMaster.Exploration.Events
             [TextArea] public string Description;
             public bool OneOff = false;            // 1번 사용하고 사라지는 선택인지. 선택지가 이벤트를 끝내다면 의미없음.
 
-            [SerializeReference] [SerializeReferenceButton]
-            public Instruction Instruction;
+            [FormerlySerializedAs("Instruction")] public Instruction.Sequential Sequential;
         }
 
         public string ShortDescription;

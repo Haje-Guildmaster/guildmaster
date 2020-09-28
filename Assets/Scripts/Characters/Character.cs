@@ -108,7 +108,7 @@ namespace GuildMaster.Characters
         private readonly ChangeTrackedValue<int> _sp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _stamina = new ChangeTrackedValue<int>();
         private ReadOnlyCollection<string> NameList => StaticData.BasicData.NameList.AsReadOnly();
-        private ReadOnlyCollection<CharacterTraitData.Trait> ActiveTraits => StaticData.BasicData.ActiveTraits.AsReadOnly();
+        public List<CharacterTraitData.Trait> ActiveTraits => StaticData.BasicData.ActiveTraits;
         public CharacterStaticData StaticData => CharacterDatabase.Get(_code);
     }
 }
