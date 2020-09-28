@@ -53,11 +53,11 @@ namespace GuildMaster.Exploration.Events
                 Assert.IsTrue(_characters.Contains(selectedCharacter));
 
                 var choice = choices[choiceIndex];
-                var (endEvent, flavorTexts, newChoices) =
+                var (endEvent, flavorTexts, newChoices, removeCurrentChoice) =
                     FollowInstruction(choice.Sequential, selectedCharacter, resultRecord);
                 await NotifyActionResult(flavorTexts);
-                choices.InsertRange(choiceIndex+1, newChoices);
-                if (choice.OneOff)
+                choices.InsertRange(choiceIndex + 1, newChoices);
+                if (removeCurrentChoice)
                 {
                     choices.RemoveAt(choiceIndex);
                     lastChoice = Math.Min(choiceIndex, choices.Count); // Max(0, choiceIndex-1)?
@@ -172,10 +172,12 @@ namespace GuildMaster.Exploration.Events
                 case Instruction.DoNothing doNothing:
                     return "";
                 case Instruction.AddChoice addChoice:
-                    return "새로운 선택지 추가";
+                    return $"새로운 선택지 [{addChoice.Choice.Description}]";
                 case Instruction.If ifInstr:
                     var matchCondition = CheckCondition(ifInstr.Condition, character);
                     return InstructionToText(matchCondition ? ifInstr.IfTrue : ifInstr.Else, character);
+                case Instruction.RemoveCurrentChoice _:
+                    return "현재 선택지 삭제";
                 default:
                     throw new Exception($"Couldn't follow {nameof(Instruction)} {instruction}");
             }
@@ -191,17 +193,19 @@ namespace GuildMaster.Exploration.Events
         /// <param name="resultRecord"> 결과 기록장 </param>
         /// <returns> 이벤트를 끝내는지. </returns>
         /// <exception cref="Exception"> 처리 불가능한 지시. 제대로 구현되었다면 불리지 않음. </exception>
-        private (bool FinishEvent, List<FlavorText> FlavorTexts, List<Event.Choice> newChoices) FollowInstruction(Instruction instruction,
-            Character selectedCharacter, ResultRecord resultRecord)
+        private (bool FinishEvent, List<FlavorText> FlavorTexts, List<Event.Choice> newChoices, bool removeCurrentChoice
+            ) FollowInstruction(Instruction instruction, Character selectedCharacter, ResultRecord resultRecord)
         {
             var flavorTexts = new List<FlavorText>();
             var newChoices = new List<Event.Choice>();
-            
-            {    // 스코프 제한용.
+            var removeCurrentChoice = false;
+
+            {
+                // 스코프 제한용.
                 var finishEvent = FollowInstr(instruction);
-                return (finishEvent, flavorTexts, newChoices);
+                return (finishEvent, flavorTexts, newChoices, removeCurrentChoice);
             }
-            
+
             bool FollowInstr(Instruction instr)
             {
                 switch (instr)
@@ -251,9 +255,9 @@ namespace GuildMaster.Exploration.Events
 
                         return false;
                     }
-                    case Instruction.EndEvent endEvent:
+                    case Instruction.EndEvent _:
                         return true;
-                    case Instruction.DoNothing doNothing:
+                    case Instruction.DoNothing _:
                         return false;
                     case Instruction.Sequential sequential:
                     {
@@ -278,6 +282,11 @@ namespace GuildMaster.Exploration.Events
                     {
                         var matchCondition = CheckCondition(ifInstr.Condition, selectedCharacter);
                         return FollowInstr(matchCondition ? ifInstr.IfTrue : ifInstr.Else);
+                    }
+                    case Instruction.RemoveCurrentChoice _:
+                    {
+                        removeCurrentChoice = true;
+                        return false;
                     }
                     default:
                         throw new Exception($"Couldn't follow {nameof(Instruction)} {instr}");

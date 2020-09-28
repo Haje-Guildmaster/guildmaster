@@ -35,7 +35,7 @@ MonoBehaviour:
       Illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}
       NameList:
       - "\uB378\uB9AC\uACE0"
-      ActiveTraits: 0400000005000000
+      ActiveTraits: 040000000500000007000000
     BattleStatData:
       MaxHp: 4321
       SpIsMp: 0
@@ -50,4 +50,4 @@ MonoBehaviour:
       GoodOrEvil: 3
       SmartOrStupid: 3
   currentEditingIndex:
-    Value: 0
+    Value: 1
