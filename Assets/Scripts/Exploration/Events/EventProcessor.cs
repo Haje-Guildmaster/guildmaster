@@ -34,7 +34,8 @@ namespace GuildMaster.Exploration.Events
                 {
                     Description = choice.Description,
                     CharacterSelectHelperStrings =
-                        _characters.Select(c => (c, InstructionToText(choice.Sequential, c))).ToList(),
+                        _characters.Select(c => (c, CheckCondition(choice.ActivationCondition, c),
+                            InstructionToText(choice.Sequential, c))).ToList(),
                     // Todo: 일회용 여부 전달?
                 };
 
@@ -46,13 +47,16 @@ namespace GuildMaster.Exploration.Events
             while (true)
             {
                 var (choiceIndex, selectedCharacter) = await _explorationView.PlayEvent(choices.Select(ChoiceToVisual),
-                    _ev.ShortDescription, lastChoice); // Select 시간복잡도 n 주의. 성능문제가 발생한다면 캐싱 고려.
+                    _ev.ShortDescription, lastChoice); // Select 시간복잡도 (선택지수)*(캐릭터수) 주의. 성능문제가 발생한다면 캐싱 고려.
                 lastChoice = choiceIndex;
 
                 Assert.IsTrue(choiceIndex < choices.Count);
-                Assert.IsTrue(_characters.Contains(selectedCharacter));
 
                 var choice = choices[choiceIndex];
+
+                Assert.IsTrue(_characters.Contains(selectedCharacter));
+                Assert.IsTrue(CheckCondition(choice.ActivationCondition, selectedCharacter));
+
                 var (endEvent, flavorTexts, newChoices, removeCurrentChoice) =
                     FollowInstruction(choice.Sequential, selectedCharacter, resultRecord);
                 await NotifyActionResult(flavorTexts);
@@ -304,6 +308,8 @@ namespace GuildMaster.Exploration.Events
         {
             switch (condition)
             {
+                case null:
+                    return true;
                 case Condition.Always always:
                     return always.IsTrue;
                 case Condition.HasTrait hasTrait:

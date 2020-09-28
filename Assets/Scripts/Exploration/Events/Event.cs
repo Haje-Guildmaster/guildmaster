@@ -16,6 +16,9 @@ namespace GuildMaster.Exploration.Events
         {
             [TextArea] public string Description;
 
+            [SerializeReference] [SerializeReferenceButton]
+            public Condition ActivationCondition;
+            
             [FormerlySerializedAs("Instruction")] public Instruction.Sequential Sequential;
         }
 

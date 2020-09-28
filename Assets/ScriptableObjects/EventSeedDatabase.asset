@@ -39,6 +39,8 @@ MonoBehaviour:
             \uBB34\uC5B8\uAC00\uB97C \uC5BB\uC744 \uC218 \uC788\uC744 \uAC83\uC774\uB2E4."
           Choices:
           - Description: "\"\uC800 \uBCF4\uBB3C\uC0C1\uC790\uB294 \uC2E0 \uBCF4\uBB3C\uC0C1\uC790\uC77C\uAC70\uC57C\""
+            ActivationCondition:
+              id: 1
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uB2F9\uC2E0\uC740 \uBCF4\uBB3C\uC0C1\uC790\uB97C \uB4A4\uB85C
@@ -46,18 +48,24 @@ MonoBehaviour:
               Instructions:
               - id: 2
           - Description: "\uC0B4\uD3B4\uBCF8\uB2E4. "
+            ActivationCondition:
+              id: 1
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uB2F9\uC2E0\uC740 \uC0C1\uC790\uB97C \uCC2C\uCC2C\uD788 \uC0B4\uD3B4\uBCF4\uC558\uB2E4."
               Instructions:
               - id: 3
           - Description: "\uBD80\uC234\uBCF8\uB2E4."
+            ActivationCondition:
+              id: 1
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uB2F9\uC2E0\uC740 \uC0C1\uC790\uB97C \uD798\uAECF \uCCE4\uB2E4."
               Instructions:
               - id: 4
           - Description: "\uAC00\uC9C0\uACE0 \uAC04\uB2E4."
+            ActivationCondition:
+              id: 1
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uB2F9\uC2E0\uC740 \uC0C1\uC790\uB97C \uD1B5\uC9F8\uB85C \uCC59\uACBC\uB2E4."
@@ -128,14 +136,16 @@ MonoBehaviour:
       data:
         Choice:
           Description: "\uD568\uC815\uD574\uC81C\uB85C \uB530\uBCF8\uB2E4"
+          ActivationCondition:
+            id: 15
           Sequential:
             <FlavorText>k__BackingField:
               Text: "\uB2F9\uC2E0\uC740 \uB2A5\uC219\uD55C \uC190\uB180\uB9BC\uC744
                 \uBC1C\uD718\uD574\uC11C \uC0C1\uC790\uB97C \uB544\uB2E4. \uB2F9\uC2E0\uC740
                 \uC0C1\uC790 \uC548\uC758 \uBCF4\uBB3C\uC744 \uCDE8\uD588\uB2E4."
             Instructions:
-            - id: 15
             - id: 16
+            - id: 17
     00000009:
       type: {class: Instruction/RemoveCurrentChoice, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
@@ -145,9 +155,9 @@ MonoBehaviour:
       data:
         Type: 0
         Left:
-          id: 17
-        Right:
           id: 18
+        Right:
+          id: 19
     0000000B:
       type: {class: Instruction/GetItem, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
@@ -157,7 +167,7 @@ MonoBehaviour:
           code:
             Value: 5
         Number:
-          id: 19
+          id: 20
     0000000C:
       type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
     0000000D:
@@ -166,12 +176,16 @@ MonoBehaviour:
       data:
         TargetType: 0
         Amount:
-          id: 20
+          id: 21
     0000000E:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Value: 1
     0000000F:
+      type: {class: Condition/HasTrait, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Trait: 7
+    00000010:
       type: {class: Instruction/GetItem, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Item:
@@ -180,53 +194,53 @@ MonoBehaviour:
           code:
             Value: 4
         Number:
-          id: 21
-    00000010:
-      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+          id: 22
     00000011:
+      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+    00000012:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Value: 0.5
-    00000012:
+    00000013:
       type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         Type: 1
         Left:
-          id: 22
-        Right:
           id: 23
-    00000013:
+        Right:
+          id: 24
+    00000014:
       type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         Type: 0
         Left:
-          id: 24
-        Right:
           id: 25
-    00000014:
-      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
-      data:
-        Value: -10
+        Right:
+          id: 26
     00000015:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
-        Value: 1
+        Value: -10
     00000016:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
-        Value: 0.05
+        Value: 1
     00000017:
+      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Value: 0.05
+    00000018:
       type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         StatusTarget: 2
-    00000018:
+    00000019:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Value: 0
-    00000019:
+    0000001A:
       type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:

@@ -36,7 +36,7 @@ namespace GuildMaster.Exploration.Events
         public class ChoiceVisualData
         {
             public string Description;
-            public List<(Character character, string description)> CharacterSelectHelperStrings;
+            public List<(Character character, bool activated, string description)> CharacterSelectHelperStrings;
         }
 
         /// <summary>
@@ -103,15 +103,16 @@ namespace GuildMaster.Exploration.Events
                 characterSelectors.Add((cs, made));
             }
 
+            // 현재 올려둔 선택지가 바뀌었을 때 캐릭터 선택 도우미의 모습 업데이트.
             void UpdateCharacterSelectHelpers(int i)
             {
                 Assert.IsTrue(choices.Count > i);
                 foreach (var (sprite, selectHelper) in characterSelectors)
                 {
-                    var (_, description) = choices[i].CharacterSelectHelperStrings
+                    var (_, activated, description) = choices[i].CharacterSelectHelperStrings
                         .Find(tup => tup.character == sprite.Character);
-                    selectHelper.ButtonEnabled = description != null;
-                    selectHelper.Text = description ?? "";
+                    selectHelper.ButtonEnabled = activated;
+                    selectHelper.Text = activated ? description : "";
                 }
             }
             
