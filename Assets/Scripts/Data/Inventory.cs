@@ -32,24 +32,7 @@ namespace GuildMaster.Data
             return true;
         }
 
-        public bool TryDeleteItem(Item item, int number)
-        {
-            _inventoryMap.TryGetValue(item, out var prevItemNum);
-            if (number < 0 || prevItemNum == number)
-            {
-                _inventoryMap.Remove(item);
-                Changed?.Invoke();
-            }
-            else if(number > 0 && prevItemNum < number)
-            {
-                _inventoryMap[item] = prevItemNum - number;
-                Changed?.Invoke();
-            }
-            return true;
-        }
-
-        // Todo: Clone 또는 CopyFrom 구현.
-
+        
         private readonly Dictionary<Item, int> _inventoryMap = new Dictionary<Item, int>();
     }
 }
