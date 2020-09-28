@@ -27,7 +27,6 @@ namespace GuildMaster.Windows
         public SEWindow SeWindow;
         public TextspeedWindow TextspeedWindow;
         public BGMWindow BGMWindow;
-        public ExplorationCharacterSelectingWindow ExplorationCharacterSelectingWindow;
             
         public ItemInfoPanel itemInfoPanel;    // 임시.
         

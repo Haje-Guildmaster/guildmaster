@@ -12,8 +12,6 @@ namespace GuildMaster
         {
             //씬별로 일부 창을 안띄우는 코드 구현 필요
 
-            if (Input.GetKeyDown(KeyCode.E))
-                UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.O)) //퀘스트 리스트
                 UiWindowsManager.Instance.questListWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.I)) //인벤토리

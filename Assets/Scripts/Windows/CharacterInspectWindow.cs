@@ -16,6 +16,7 @@ namespace GuildMaster.Windows
         [SerializeField] private Image characterIllustration;
         [SerializeField] private Text nameLabel;
         [SerializeField] private Text loyaltyLabel;
+        [SerializeField] private Text CharacteristicLabel;
         [SerializeField] private Text maxHpLabel;
         [SerializeField] private Text maxSpLeftLabel;
         [SerializeField] private Text maxSpValueLabel;
@@ -23,7 +24,6 @@ namespace GuildMaster.Windows
         [SerializeField] private Text defLabel;
         [SerializeField] private Text agiLabel;
         [SerializeField] private Text intLabel;
-        [SerializeField] private Text CharacteristicLabel;
 
 
         public void Open()
