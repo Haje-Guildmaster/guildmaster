@@ -25,31 +25,7 @@ namespace GuildMaster
             //Settings 와 그 자식 파일들 
             if (Input.GetKeyDown(KeyCode.Escape)) //ESC 환경설정
             {
-                if (UiWindowsManager.Instance.ExplorationItemSelectingWindow.IsOpen)
-                {
-                    UiWindowsManager.Instance.ExplorationItemSelectingWindow.Close();
-                }
-                else if (UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.IsOpen)
-                {
-                    UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Close();
-                }
-                else if (UiWindowsManager.Instance.questListWindow.IsOpen)
-                {
-                    UiWindowsManager.Instance.questListWindow.Close();
-                }
-                else if (UiWindowsManager.Instance.inventoryWindow.IsOpen)
-                {
-                    UiWindowsManager.Instance.inventoryWindow.Close();
-                }
-                else if (UiWindowsManager.Instance.characterInspectWindow.IsOpen)
-                {
-                    UiWindowsManager.Instance.characterInspectWindow.Close();
-                }
-                else if (UiWindowsManager.Instance.guildInspectWindow.IsOpen)
-                {
-                    UiWindowsManager.Instance.guildInspectWindow.Close();
-                }
-                else if (UiWindowsManager.Instance.TextureWindow.IsOpen)
+                if (UiWindowsManager.Instance.TextureWindow.IsOpen)
                 {
                     UiWindowsManager.Instance.TextureWindow.Toggle();
                 }

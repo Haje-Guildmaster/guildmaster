@@ -30,34 +30,32 @@ namespace GuildMaster.Windows
         [SerializeField] private Text intLabel;
         [SerializeField] private Text CharacteristicLabel;
 
-        public void OpenNext()
+        public void StartExploration()
         {
-            UiWindowsManager.Instance.ExplorationItemSelectingWindow.Open();
-            base.Close();
-            //ExplorationLoader.Instance.Load(_exploreCharacters); //Asd가 구현중인 기능 에러 뜨는게 정상
+            ExplorationLoader.Instance.Load(_exploreCharacters); //Asd님이 구현중인 기능 에러 뜨는게 정상
+        }
+
+        public void AddCharacter()
+        {
+            if (!_allCharacters.Contains(_currentCharacter)) return;
+            _allCharacters.Remove(_currentCharacter);
+            _exploreCharacters.Add(_currentCharacter);
+            RefreshList();
+        }
+
+        public void RemoveCharacter()
+        {
+            if (!_exploreCharacters.Contains(_currentCharacter)) return;
+            _exploreCharacters.Remove(_currentCharacter);
+            _allCharacters.Add(_currentCharacter);
+            RefreshList();
         }
 
         public void Open()
         {
             base.OpenWindow();
-            if(first) Set_allCharacters();
+            Set_allCharacters();
             RefreshList();
-        }
-        public void SwitchList()
-        {
-            if (_allCharacters.Contains(_currentCharacter))
-            {
-                if (_exploreCharacters.Count == 4) return;
-                _allCharacters.Remove(_currentCharacter);
-                _exploreCharacters.Add(_currentCharacter);
-                RefreshList();
-            }
-            else if (_exploreCharacters.Contains(_currentCharacter))
-            {
-                _exploreCharacters.Remove(_currentCharacter);
-                _allCharacters.Add(_currentCharacter);
-                RefreshList();
-            }
         }
 
         private void RefreshList()
@@ -128,7 +126,11 @@ namespace GuildMaster.Windows
 
         private void Set_allCharacters()
         {
-            first = false;
+            if (setCharacters) return;
+            else
+            {
+                setCharacters = true;
+            }
             foreach (var (ch, i) in Player.Instance.PlayerGuild._guildMembers.GuildMemberList.Select((i, j) =>
                 (i, j)))
             {
@@ -137,7 +139,7 @@ namespace GuildMaster.Windows
         }
 
         private Character _currentCharacter;
-        private bool first = true;
+        private bool setCharacters = false;
         private List<Character> _allCharacters = new List<Character>();
         private List<Character> _exploreCharacters = new List<Character>();
     }
