@@ -16,11 +16,11 @@ namespace GuildMaster.Exploration
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
 
     /// <summary>
-    /// ExplorationManager로부터 명령 받아 탐색 과정을 실제로 유저에게 보여주는 역할입니다.
+    /// ExplorationManager로부터 명령받아 탐색 과정 전부를 유저에게 보여주는 역할입니다.
     /// </summary>
     public class ExplorationView : MonoBehaviour
     {
-        // Todo: ExplorationUI로 분리.
+        // Todo: ExplorationUI로 분리?
         [SerializeField] private ExplorationRoadView _roadView;
 
         [FormerlySerializedAs("mapSelectView")] [SerializeField]
@@ -36,15 +36,13 @@ namespace GuildMaster.Exploration
         [SerializeField] private AsyncButton _explorationEndButton;
 
         [SerializeField] private EventProcessView _eventProcessView;
-        // Todo: Ui 부분 묶어서 한 클래스로 만들기?
 
         public State CurrentState { get; private set; } = State.Waiting;
 
         public enum State
         {
             /// <summary>
-            /// 명령 사이에 존재하는 명령을 기다리는 상태. 이 상태로 설정한다고 해서 직접적으로
-            /// 바뀌는 건 없으나 명령을 받기 전에 이 상태여야 하며
+            /// 명령 사이에 존재하는 명령을 기다리는 상태. 명령을 받기 전에 이 상태여야 하며
             /// 명령을 끝냈을 때 다시 이 상태로 돌아감. 이게 지켜지지 않을 경우 에러.
             /// </summary>
             Waiting,
@@ -53,6 +51,11 @@ namespace GuildMaster.Exploration
             LocationSelecting,
         }
 
+        /// <summary>
+        /// Setup
+        /// </summary>
+        /// <param name="characters"> 탐색에 참여한 캐릭터들 </param>
+        /// <param name="map"> 탐색하는 맵 </param>
         public void Setup(List<Character> characters, ExplorationMap map)
         {
             // Todo: Setup이 없어야 하는가?
@@ -66,6 +69,10 @@ namespace GuildMaster.Exploration
             // Todo: 맵 종류 받아서 slideBackgroundView 초기화
         }
 
+        /// <summary>
+        /// 유저가 시작하는 베이스캠프를 선택하거나 탐색 종료를 선택하는 것을 기다려 그 결정을 반환합니다. 
+        /// </summary>
+        /// <returns> (탐색을 그만두는지, 시작 베이스캠프) </returns>
         public async Task<(bool endExploration, MapNode startingNode)> SelectStartingBase()
         {
             SetStateLocationSelecting(true);
@@ -90,11 +97,11 @@ namespace GuildMaster.Exploration
 
         /// <summary>
         /// 탐색 중, 처음 시작하고 시작 거점을 정한 후나 어떤 장소에 도착한 후에 불러짐. <br/>
-        /// 다음 목적지를 고르고 반환.
+        /// 다음 목적지를 고르거나, allowEndingExploration이 참이었을 경우 유저가 탐색 종료를 선택했을 때 그 결정을 반환함.
         /// </summary>
         /// <param name="startingNode"> 시작 노드 </param>
         /// <param name="allowEndingExploration"> 탐색 중단이 가능한지. </param>
-        /// <return> 골라진 다음 목적지 </return>
+        /// <return> (탐색을 종료하는지, 골라진 다음 목적지) </return>
         public async Task<(bool endExploration, MapNode destination)> SelectNextDestination(MapNode startingNode,
             bool allowEndingExploration)
         {
@@ -125,7 +132,7 @@ namespace GuildMaster.Exploration
         }
 
         /// <summary>
-        /// 캐릭터들이 길을 가는 모습을 보여 준다.
+        /// 캐릭터들이 길을 가는 모습을 보여 줍니다.
         /// </summary>
         /// <param name="startingBaseNode"> 시작 노드 </param>
         /// <param name="headingNode"> 도착 지점 노드 </param>
@@ -179,13 +186,20 @@ namespace GuildMaster.Exploration
         }
 
         /// <summary>
-        /// 이벤트에서 선택지를 어떻게 보여 줄까에 대한 데이터.
-        /// EventProcessView.ChoiceVisualData와 곂치는 건 의존성을 줄이기 위해서임다.
+        /// 게임 화면에 선택지에 대한 정보를 표시하기 위해 필요한 모든 데이터를 지닌 클래스.
+        /// EventProcessView.ChoiceVisualData와 곂치는 건 이 함수의 호출자가 EventProcessView에 대한 의존성을 지니지 않도록 하기 위해서입니다.
         /// </summary>
         public class ChoiceVisualData : EventProcessView.ChoiceVisualData
         {
         }
 
+        /// <summary>
+        /// 이벤트의 선택지를 유저에게 보여주고 유저의 선택을 반환합니다.
+        /// </summary>
+        /// <param name="choiceVisualDataList"> 이벤트의 각 선택지가 어떤 모습으로 보여질 것인가를 정하는 데이터. </param>
+        /// <param name="descriptionString"> 이벤트의 설명 </param>
+        /// <param name="initialChoiceIndex"> 이벤트 화면에서 맨 처음 떠 있을 선택지 </param>
+        /// <returns> (선택한 선택지의 인덱스, 선택한 캐릭터) </returns>
         public async Task<(int choiceIndex, Character selectedCharacter)> PlayEvent(
             IEnumerable<ChoiceVisualData> choiceVisualDataList, string descriptionString, int initialChoiceIndex = 0)
         {
@@ -197,15 +211,21 @@ namespace GuildMaster.Exploration
             return ret;
         }
 
+        
         /// <summary>
         /// 유저에게 알림. 현재는 그냥 메시지 박스 띄우기.
         /// </summary>
-        /// <param name="notifyString"></param>
+        /// <param name="notifyString"> 띄울 알림 내용 </param>
         public async Task Notify(string notifyString)
         {
             await UiWindowsManager.Instance.AsyncShowMessageBox("알림", notifyString, new[] {"확인"});
         }
 
+        /// <summary>
+        /// ExplorationLog를 받아 최종적으로 탐색을 통해 무엇을 얻고 잃었는지 결산창을 띄웁니다. 유저가 결산창을 닫으면 반환합니다.
+        /// </summary>
+        /// <param name="log"> 탐색 로그 </param>
+        /// <returns></returns>
         public async Task ReportExplorationResults(ExplorationLog log)
         {
             SetStateOnMove();

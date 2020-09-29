@@ -20,7 +20,8 @@ namespace GuildMaster.Exploration
     /// 탐색 과정을 총괄합니다.
     /// </summary>
     /// <note>
-    /// 탐색을 순수하게 사건 위주로 인지하며 시간/그래픽을 직접적으로 다루지 않습니다.
+    /// 탐색을 순수하게 사건 위주로 인지하며 시간/그래픽을 직접적으로 다루지 않습니다(Text adventure).
+    /// ExplorationView가 올바른 값을 줄 것이라고 믿지 않습니다.
     /// </note>
     public class ExplorationManager : MonoBehaviour
     {
@@ -30,7 +31,11 @@ namespace GuildMaster.Exploration
         public static ExplorationManager Instance =>
             _instance != null ? _instance : (_instance = FindObjectOfType<ExplorationManager>());
 
-
+        /// <summary>
+        /// 탐색 과정을 시작합니다.
+        /// </summary>
+        /// <param name="characters"> 탐색에 참여하는 캐릭터들 </param>
+        /// <param name="map"> 탐색하는 맵 데이타 </param>
         public void StartExploration(List<Character> characters, ExplorationMap map)
         {
             _characters = new List<Character>(characters);
@@ -39,9 +44,10 @@ namespace GuildMaster.Exploration
             _log = new ExplorationLog();
 
             RunExploration();
-
+            
             async void RunExploration()
             {
+                // 처음 시작 지점 선택
                 var (endInBaseSelection, startingBase) = await SelectStartingBase();
                 _currentNode = startingBase;
 
@@ -76,6 +82,10 @@ namespace GuildMaster.Exploration
         }
 
 
+        /// <summary>
+        /// 시작 지점을 선택합니다.
+        /// </summary>
+        /// <returns> (탐색을 끝내는 지의 여부, 선택한 시작 지점) 튜플 </returns>
         private async Task<(bool endExploration, MapNode startingBase)> SelectStartingBase()
         {
             var (endExploration, startingBase) = await _explorationView.SelectStartingBase();
@@ -89,6 +99,10 @@ namespace GuildMaster.Exploration
             return (endExploration, startingBase);
         }
 
+        /// <summary>
+        /// 다음 목적지를 선택합니다.
+        /// </summary>
+        /// <returns> (탐색을 끝내는 지의 여부, 선택한 시작 지점) 튜플 </returns>
         private async Task<(bool endExploration, MapNode destination)> SelectNextDestination()
         {
             var allowEnd = _currentNode.Content.Location.LocationType == Location.Type.Base;

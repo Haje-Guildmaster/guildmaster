@@ -6,13 +6,21 @@ using UnityEngine.Serialization;
 
 namespace GuildMaster.Exploration
 {
+    /// <summary>
+    /// MapSelectView를 받아 유저가 MapSelectView에서 베이스캠프 중 하나를 선택하도록 하는 클래스 
+    /// </summary>
     public class MapBaseSelector : MonoBehaviour
     {
         [SerializeField] private Color _etcColor;
         [SerializeField] private Color _baseNormalColor;
         [SerializeField] private Color _baseMouseOnColor;
         [SerializeField] private Color _basePressedColor;
-
+        
+        /// <summary>
+        /// 베이스캠프 노드 하나를 선택하도록 합니다. 그 노드를 반환합니다.
+        /// </summary>
+        /// <param name="mapSelectView"> 지도 뷰 오브젝트 </param>
+        /// <returns> 선택된 베이스캠프 노드 </returns>
         public async Task<Graph<ExplorationMap.NodeContent>.Node> Select(MapSelectView mapSelectView)
         {
             mapSelectView.ColorLocationButtons(node =>

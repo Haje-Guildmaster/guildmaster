@@ -5,9 +5,10 @@ using UnityEngine;
 
 namespace GuildMaster.Exploration
 {
-    /*
-     * 탐색 씬에서 이동하고 있는 캐릭터 한 명의 모습을 나타냅니다.
-     */
+    /// <summary>
+    /// 탐색 씬에서 이동하고 있는 캐릭터 한 명의 모습을 나타내는 오브젝트.
+    /// 클릭당했을 경우 Clicked이벤트로 자기 자신을 반환한다.
+    /// </summary>
     [RequireComponent(typeof(SpriteRenderer))]
     public class CharacterSprite : GenericButton<CharacterSprite>
     {

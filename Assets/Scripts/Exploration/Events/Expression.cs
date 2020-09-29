@@ -6,7 +6,7 @@ namespace GuildMaster.Exploration.Events
 {
     /// <summary>
     /// 탐색에서 하나의 (수학적) 식을 나타냅니다.
-    /// "민첩*5 + 30"의 데미지 같은 거.
+    /// "민첩*5 + 30" 같은 거.
     /// </summary>
     [Serializable]
     public abstract class Expression

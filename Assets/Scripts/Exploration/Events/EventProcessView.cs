@@ -11,6 +11,9 @@ using UnityEngine.UI;
 
 namespace GuildMaster.Exploration.Events
 {
+    /// <summary>
+    /// 이벤트 처리를 유저에게 보여주는 역할의 유니티 오브젝트입니다.
+    /// </summary>
     public class EventProcessView : MonoBehaviour
     {
         [SerializeField] private ScrollPicker _decisionSelector;
@@ -33,6 +36,9 @@ namespace GuildMaster.Exploration.Events
             _decisionSelector.gameObject.SetActive(active);
         }
 
+        /// <summary>
+        /// 선택지 하나를 유저에게 보여주기 위해 필요한 모든 데이터를 담은 클래스.
+        /// </summary>
         public class ChoiceVisualData
         {
             public string Description;
@@ -40,18 +46,19 @@ namespace GuildMaster.Exploration.Events
         }
 
         /// <summary>
-        /// 이벤트에서 선택 가능한 선택지들을 보여주고 유저의 선택을 기다림.
+        /// 이벤트에서 선택 가능한 선택지들을 보여주고 유저의 선택을 기다려 반환합니다.
         /// </summary>
         /// <note>
         /// 한번에 2개 이상 실행되면 안됩니다. (딱히 가드나 체크를 두지는 않았습니다)
         /// </note>
-        /// <param name="characterSprites"></param>
-        /// <param name="choices"></param>
-        /// <param name="descriptionString"></param>
-        /// <param name="initialChoiceIndex"></param>
+        /// <param name="characterSprites"> 캐릭터 오브젝트들 </param>
+        /// <param name="choices"> 선택지 목록 </param>
+        /// <param name="descriptionString"> 이벤트의 설명 텍스트 </param>
+        /// <param name="initialChoiceIndex"> 맨 처음 선택되어 있어야 하는 </param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         /// Todo: SetChoices랑 WaitDecision으로 나누기 고려
+        /// Todo: 함수 이름 수정 고려.
         public async Task<(int choiceIndex, Character selectedCharacter)> WaitUserDecision(
             IEnumerable<CharacterSprite> characterSprites, List<ChoiceVisualData> choices, string descriptionString,
             int initialChoiceIndex = 0)
@@ -138,11 +145,6 @@ namespace GuildMaster.Exploration.Events
 
             return result;
         }
-
-        public void SetEvent(Event ev)
-        {
-        }
-
 
         private List<CharacterSelectHelper> _selectorList = new List<CharacterSelectHelper>();
     }

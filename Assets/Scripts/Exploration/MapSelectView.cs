@@ -12,7 +12,7 @@ namespace GuildMaster.Exploration
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
 
     /// <summary>
-    /// 지도를 보여주고 위치를 선택할 수 있는 함수를 제공하는 오브젝트.
+    /// 지도를 보여주고 위치를 선택할 수 있도록 하는 유니티 오브젝트.
     /// </summary>
 
     [RequireComponent(typeof(BasicMapView<LocationButton, Image>))]

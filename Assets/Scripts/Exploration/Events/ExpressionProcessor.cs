@@ -3,8 +3,18 @@ using GuildMaster.Characters;
 
 namespace GuildMaster.Exploration.Events
 {
+    /// <summary>
+    /// Expression을 계산하는 역할입니다.
+    /// </summary>
     public static class ExpressionProcessor
     {
+        /// <summary>
+        /// Expression을 계산합니다.
+        /// </summary>
+        /// <param name="expression"> 식 </param>
+        /// <param name="selectedCharacter"> 대상 캐릭터 </param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"> Unexpected Expression </exception>
         public static float Calculate(Expression expression, Character selectedCharacter)
         {
             switch (expression)

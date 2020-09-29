@@ -12,7 +12,7 @@ using Random = System.Random;
 namespace GuildMaster.Exploration.Events
 {
     /// <summary>
-    /// 탐색에서 일어나는 이벤트를 처리합니다.
+    /// EventManager로부터 탐색 진행을 넘겨받아 탐색 이벤트 전체를 처리하고 다시 EventManager로 반환하는 역할입니다.
     /// </summary>
     public class EventProcessor
     {
@@ -27,6 +27,9 @@ namespace GuildMaster.Exploration.Events
             _log = log;
         }
 
+        /// <summary>
+        /// 탐색을 진행하고 탐색이 끝나면 반환합니다.
+        /// </summary>
         public async Task Run()
         {
             ExplorationView.ChoiceVisualData ChoiceToVisual(Event.Choice choice) =>
@@ -36,7 +39,6 @@ namespace GuildMaster.Exploration.Events
                     CharacterSelectHelperStrings =
                         _characters.Select(c => (c, CheckCondition(choice.ActivationCondition, c),
                             InstructionToText(choice.Sequential, c))).ToList(),
-                    // Todo: 일회용 여부 전달?
                 };
 
             var choices = _ev.Choices.ToList(); // 선택지 복사. 변경가능하기에.
@@ -76,6 +78,10 @@ namespace GuildMaster.Exploration.Events
             await NotifyOverallResult(resultRecord);
         }
 
+        
+        /// <summary>
+        /// 탐색 하나에서 일어난 일에 관한 기록.
+        /// </summary>
         private class ResultRecord
         {
             public Dictionary<Item, int> AcquiredItems = new Dictionary<Item, int>();
@@ -94,7 +100,10 @@ namespace GuildMaster.Exploration.Events
                 AddCountDictTo(log.AcquiredItems, this.AcquiredItems);
             }
         }
-
+        
+        /// <summary>
+        /// 탐색이 끝날 때, 탐색에서 바뀐 것들을 유저에게 보여줍니다.
+        /// </summary>
         private async Task NotifyOverallResult(ResultRecord resultRecord)
         {
             var resultStr = "";

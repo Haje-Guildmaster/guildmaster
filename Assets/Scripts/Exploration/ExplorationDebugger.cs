@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace GuildMaster.Exploration
 {
-    /*
-     * 테스트용.
-     */
+    /// <summary>
+    /// 테스트용. 탐색 씬에서 시작해도 바로 탐색을 시작할 수 있도록 해 줌.
+    /// </summary>
     public class ExplorationDebugger: MonoBehaviour
     {
         /*[SerializeField] private*/ public ExplorationMap _map;

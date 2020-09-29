@@ -8,10 +8,17 @@ using UnityEngine.Serialization;
 
 namespace GuildMaster.Exploration
 {
+    /// <summary>
+    /// 탐색 씬에서 캐릭터들이 실제로 이동하는 길을 유저에게 보여주는 역할의 클래스입니다. 현재는 뒷쪽의 배경이 각자의 속도로 이동하는
+    /// 기능과 탐색에 나온 캐릭터들이 길에서 움직이는 것처럼 보이게 하는 기능을 담당합니다.
+    /// </summary>
     public class ExplorationRoadView : MonoBehaviour
     {
         [SerializeField] private SlideBackgroundView slideBackgroundView;
-        [SerializeField] private List<CharacterSprite> characterSpriteFrames;     // 빈 캐릭터 스프라이트들. 이들에게 캐릭터를 설정해 주어 사용.
+        /// <summary>
+        /// 빈 캐릭터 스프라이트들. 이들에게 캐릭터를 설정해 주어 사용.
+        /// </summary>
+        [SerializeField] private List<CharacterSprite> characterSpriteFrames; 
         [SerializeField] private SlideBackgroundElement characterSlide;        // Todo: 임시.
         
         

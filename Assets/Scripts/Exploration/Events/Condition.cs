@@ -2,6 +2,9 @@ using System;
 
 namespace GuildMaster.Exploration.Events
 {
+    /// <summary>
+    /// 이벤트에서 특정 조건을 나타내는 클래스.
+    /// </summary>
     [Serializable]
     public abstract class Condition
     {

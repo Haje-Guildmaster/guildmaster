@@ -4,6 +4,9 @@ using UnityEditorInternal;
 
 namespace GuildMaster.GuildManagement
 {
+    /// <summary>
+    /// 길드에 대한 정보를 저장하는 데이터 클래스.
+    /// </summary>
     public class Guild
     {
         public event Action Changed;

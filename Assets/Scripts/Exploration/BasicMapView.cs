@@ -10,8 +10,7 @@ namespace GuildMaster.Exploration
 
     /// <summary>
     /// 지도 뷰에서 제일 기본적이고 공통적인 부분, 즉 지도 그래프의 각 노드마다 노드 오브젝트를 생성하고 연결된 부분에는
-    /// edge오브젝트를 생성해서 보여주는
-    /// 컴포넌트.
+    /// edge오브젝트를 생성해서 보여주는 컴포넌트.
     /// </summary>
     /// <typeparam name="TNodeSprite"> 생성되는 Node 타입 </typeparam>
     /// <typeparam name="TEdgeSprite"> 생성되는 Edge 타입 </typeparam>
