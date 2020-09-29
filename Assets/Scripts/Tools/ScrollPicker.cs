@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -9,8 +8,15 @@ using UnityEngine.UI;
 
 namespace GuildMaster.Tools
 {
+    public interface IScrollPickerElement
+    {
+        Transform Transform { get; }
+        Button Button { get; }
+        float Alpha { get; set; }
+        
+    }
     /// <summary>
-    /// 직접 만든 간단한 선택기. child는 모두 <c>Button</c>과 <c>Canvas Group</c>을 지녀야 함.
+    /// 직접 만든 간단한 선택기 유니티 오브젝트. child는 모두 IScrollPickerElement인 컴포넌트가 있어야 합니다.
     /// 자식의 <c>localPosition</c>을 직접적으로 조작하므로 기존 위치는 무시됩니다.
     /// </summary>
     // Todo: Picked 이벤트 대신 async로 수정.
@@ -64,13 +70,13 @@ namespace GuildMaster.Tools
 
         private void UpdateChildPosition()
         {
-            foreach (var (btn, i) in _buttonsList.Select((tup, i) => (tup.button, i)))
+            foreach (var (element, i) in _elementList.Select((tup, i) => (tup.element, i)))
             {
-                var btnTrans = btn.transform;
+                var btnTrans = element.Transform;
                 Assert.IsTrue(i == btnTrans.GetSiblingIndex());
                 btnTrans.localPosition = new Vector3(0f, (_currentCenterIndex - i) * _yDiff);
                 
-                btn.GetComponent<CanvasGroup>().alpha = Math.Max(0f, 1 - Math.Abs(i - _currentCenterIndex) * _alphaPerIndexDiff); // Todo: GetComponent 대체.
+                element.Alpha = Math.Max(0f, 1 - Math.Abs(i - _currentCenterIndex) * _alphaPerIndexDiff);
             }
         }
 
@@ -94,20 +100,20 @@ namespace GuildMaster.Tools
                 childExist = true;
                 var ind = child.transform.GetSiblingIndex();
 
-                var btn = child.GetComponent<Button>();
+                var btn = child.GetComponent<IScrollPickerElement>();
                 if (btn == null)
-                    throw new Exception($"Direct child of {nameof(ScrollPicker)} must have {nameof(Button)} component");
+                    throw new Exception($"Direct child of {nameof(ScrollPicker)} must have a component that overrides {nameof(IScrollPickerElement)} component");
                 
                 void OnClick()
                 {
-                    if (btn.GetComponent<CanvasGroup>().alpha < 0.1f) return;     // 안보이는 건 클릭 안됨. Todo: GetComponent 대체.
+                    if (btn.Alpha < 0.1f) return;     // 안보이는 건 클릭 안됨.
                         if (ind == SelectedIndex && (ind - _currentCenterIndex) < 0.5f)
                         Picked?.Invoke(ind);
                     SetSelectedIndex(ind);
                 }
 
-                btn.onClick.AddListener(OnClick);
-                _buttonsList.Add((btn, OnClick));
+                btn.Button.onClick.AddListener(OnClick);
+                _elementList.Add((btn, OnClick));
             }
 
             if (childExist)
@@ -117,16 +123,16 @@ namespace GuildMaster.Tools
 
         private void Cleanup()
         {
-            foreach (var (child, onClick) in _buttonsList)
+            foreach (var (child, onClick) in _elementList)
             {
-                if (child == null) continue;
-                child.onClick.RemoveListener(onClick);
+                if (child.Button == null) continue;
+                child.Button.onClick.RemoveListener(onClick);
             }
 
-            _buttonsList.Clear();
+            _elementList.Clear();
         }
 
         private float _currentCenterIndex = 0f;
-        private readonly List<(Button button, UnityAction onClick)> _buttonsList = new List<(Button, UnityAction)>();
+        private readonly List<(IScrollPickerElement element, UnityAction onClick)> _elementList = new List<(IScrollPickerElement, UnityAction)>();
     }
 }
