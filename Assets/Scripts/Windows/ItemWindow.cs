@@ -1,5 +1,4 @@
 ﻿using GuildMaster.Data;
-using GuildMaster.Databases;
 using GuildMaster.Items;
 using GuildMaster.Windows;
 using GuildMaster.Windows.Inventory;
@@ -12,7 +11,8 @@ public class ItemWindow : MonoBehaviour
 {
     [SerializeField] private Type _type;
     [SerializeField] private ItemIcon ItemIconPrefab;
-    
+    public static List<ItemIcon> ItemIconList = new List<ItemIcon>();
+
     public enum Type
     {
         Inven, Bag,
@@ -112,6 +112,5 @@ public class ItemWindow : MonoBehaviour
         Refresh();
     }
     private int currentCategory = 0;
-    private List<ItemIcon> ItemIconList = new List<ItemIcon>();
     private Inventory inventory;
 }

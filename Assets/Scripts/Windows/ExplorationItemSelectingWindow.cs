@@ -21,10 +21,6 @@ namespace GuildMaster.Windows.Inventory
         {
             inventoryWindow.SetInventory(Player.Instance.Inventory);
             bagWindow.SetInventory(_exploreInventory);
-        }
-
-        private void Start()
-        {
             foreach (var ict in GetComponentsInChildren<ItemCategoryToggle>())
             {
                 var cat = ict.category;
@@ -34,6 +30,12 @@ namespace GuildMaster.Windows.Inventory
                 });
             }
             ChangeCategory(ItemWindow.ItemCategory.Equipable);
+            Refresh();
+        }
+
+        private void Start()
+        {
+            
         }
 
         private void OnEnable()
