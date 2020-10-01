@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using GuildMaster.TownRoam.TownModifiers;
 using GuildMaster.TownRoam.Towns;
 using UnityEngine;

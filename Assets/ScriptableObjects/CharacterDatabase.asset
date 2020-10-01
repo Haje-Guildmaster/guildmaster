@@ -17,12 +17,13 @@ MonoBehaviour:
       Illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
       NameList:
       - "\uD669"
+      ActiveTraits: 0000000002000000
     BattleStatData:
       MaxHp: 123
       SpIsMp: 0
       MaxSp: 332
       MaxStamina: 155
-      BaseAtk: 100
+      BaseAtk: 1
       BaseDef: 100
       BaseAgi: 100
       BaseInt: 100
@@ -34,18 +35,19 @@ MonoBehaviour:
       Illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}
       NameList:
       - "\uB378\uB9AC\uACE0"
+      ActiveTraits: 040000000500000007000000
     BattleStatData:
-      MaxHp: 20
+      MaxHp: 4321
       SpIsMp: 0
       MaxSp: 1
-      MaxStamina: 15
-      BaseAtk: 1
-      BaseDef: 1
-      BaseAgi: 1
-      BaseInt: 1
+      MaxStamina: 7075
+      BaseAtk: 1000
+      BaseDef: 1000
+      BaseAgi: 10
+      BaseInt: 1000
     DefaultAlignment:
       LawOrChaos: 3
       GoodOrEvil: 3
       SmartOrStupid: 3
   currentEditingIndex:
-    Value: 0
+    Value: 1

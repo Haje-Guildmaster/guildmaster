@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace GuildMaster.Databases
 {
-    public abstract class DatabaseEditor<TDb, TElement, TIndex> : 
-        Editor where TDb : UnityEditableDatabase<TDb, TElement, TIndex> where TIndex: Database<TDb, TElement>.Index, new()
+    /// <summary>
+    /// 데이터베이스의 에디터입니다. json으로 세이브/로드 기능을 지원하고, 유니티가 제공하는 기본 배열 편집기보다 편하게
+    /// 인덱스를 오가며 원소들을 편집할 수 있습니다.
+    /// </summary>
+    public abstract class DatabaseEditor : 
+        Editor
     {
         private SerializedProperty _dataList;
         private SerializedProperty _serializedIndex;
@@ -35,7 +39,7 @@ namespace GuildMaster.Databases
                 GUILayout.Label("Json: ");
                 if (GUILayout.Button("Save"))
                 {
-                    var fp = EditorUtility.SaveFilePanel("저장 위치", "Assets/Json", $"{typeof(TDb).Name}", "json");
+                    var fp = EditorUtility.SaveFilePanel("저장 위치", "Assets/Json", serializedObject.targetObject.GetType().Name , "json");
                     SaveToJson(fp);
                 }
 
@@ -53,7 +57,11 @@ namespace GuildMaster.Databases
             _serializedIndex.isExpanded = true;
             EditorGUILayout.PropertyField(_serializedIndex);
 
-            var index = _serializedIndex.FindPropertyRelative("Value").intValue;
+            var valueProperty = _serializedIndex.FindPropertyRelative("Value");
+            // if (_serializedIndex.enum)
+            var index = valueProperty?.intValue ?? _serializedIndex.enumValueIndex;
+
+
             var validIndex = 0 <= index && index < _dataList.arraySize;
             var currentItem = (validIndex)
                     ? _dataList.GetArrayElementAtIndex(index) : null;

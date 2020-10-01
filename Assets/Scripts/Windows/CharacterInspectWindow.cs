@@ -16,6 +16,7 @@ namespace GuildMaster.Windows
         [SerializeField] private Image characterIllustration;
         [SerializeField] private Text nameLabel;
         [SerializeField] private Text loyaltyLabel;
+        [SerializeField] private Text CharacteristicLabel;
         [SerializeField] private Text maxHpLabel;
         [SerializeField] private Text maxSpLeftLabel;
         [SerializeField] private Text maxSpValueLabel;
@@ -37,7 +38,7 @@ namespace GuildMaster.Windows
             {
                 var made = Instantiate(characterSelectTogglePrefab, characterListParent);
                 made.group = characterSelectToggleGroup;
-                made.GetComponentInChildren<Text>().text = ch.UsingName;
+                made.GetComponentInChildren<Text>().text = ch.UsingName;    //Todo: GetComponent 대체.
                 var capture = ch;
                 made.onValueChanged.AddListener(b =>
                 {
@@ -67,6 +68,7 @@ namespace GuildMaster.Windows
             characterIllustration.sprite = sd.BasicData.Illustration;
             nameLabel.text = _currentCharacter.UsingName;
             loyaltyLabel.text = _currentCharacter.Loyalty.ToString();
+            CharacteristicLabel.text = _currentCharacter.TraitText();
             maxHpLabel.text = $"{_currentCharacter.Hp}/{_currentCharacter.MaxHp}";
             maxSpLeftLabel.text = (sd.BattleStatData.SpIsMp ? "MP" : "DP") + ":";
             maxSpValueLabel.text = $"{_currentCharacter.Sp}/{_currentCharacter.MaxSp}";

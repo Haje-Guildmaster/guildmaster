@@ -1,5 +1,4 @@
 using System;
-using GuildMaster.InGameEvents;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,14 +7,12 @@ namespace GuildMaster.Databases
     [CreateAssetMenu(fileName = nameof(ExplorationLocationDatabase),
         menuName = "ScriptableObjects/" + nameof(ExplorationLocationDatabase), order = 0)]
     public class
-        ExplorationLocationDatabase : UnityEditableDatabase<ExplorationLocationDatabase, Exploration.Location,
-            LocationCode>
+        ExplorationLocationDatabase : UnityEditableIndexDatabase<ExplorationLocationDatabase, Exploration.Location>
     {
     }
 
     [CustomEditor(typeof(ExplorationLocationDatabase))]
-    public class ExplorationLocationDatabaseEditor : DatabaseEditor<ExplorationLocationDatabase, Exploration.Location,
-        LocationCode>
+    public class ExplorationLocationDatabaseEditor : DatabaseEditor
     {
     }
 
@@ -24,6 +21,7 @@ namespace GuildMaster.Databases
     {
     }
 
+    [CustomPropertyDrawer(typeof(ExplorationLocationDatabase.Index))]
     [CustomPropertyDrawer(typeof(LocationCode))]
     public class LocationCodeDrawer : DatabaseIndexDrawer<ExplorationLocationDatabase, Exploration.Location>
     {

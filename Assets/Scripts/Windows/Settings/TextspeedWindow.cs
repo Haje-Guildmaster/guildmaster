@@ -1,6 +1,4 @@
 ﻿
-using GuildMaster.Windows;
-
 namespace GuildMaster.Windows
 {
     public class TextspeedWindow : DraggableWindow, IToggleableWindow

@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace GuildMaster.Exploration
 {
-    /*
-     * 테스트용.
-     */
+    /// <summary>
+    /// 테스트용. 탐색 씬에서 시작해도 바로 탐색을 시작할 수 있도록 해 줌.
+    /// </summary>
     public class ExplorationDebugger: MonoBehaviour
     {
-        [SerializeField] private ExplorationMap _map;
+        /*[SerializeField] private*/ public ExplorationMap _map;
         [SerializeField] private List<CharacterCode> _characters;
 
         private void Start()
@@ -19,7 +19,7 @@ namespace GuildMaster.Exploration
             _explorationView = FindObjectOfType<ExplorationView>();
             _explorationManager = FindObjectOfType<ExplorationManager>();
             
-            _explorationManager.StartExploration(-1, _characters.Select(cc=>new Character(cc)).ToList(), _map);
+            _explorationManager.StartExploration(_characters.Select(cc=>new Character(cc)).ToList(), _map);
         }
         
         private void OnGUI()

@@ -15,6 +15,7 @@ namespace GuildMaster.Items
         public bool EquipAble => equipmentStats != null;
         public EquipmentStats EquipmentStats => equipmentStats;
         public ItemCode Code => code;
+        public ItemStaticData StaticData => ItemDatabase.Get(Code);
 
         private bool Equals(Item other)
         {
