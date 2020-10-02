@@ -4,7 +4,9 @@ using GuildMaster.Windows;
 using GuildMaster.Windows.Inventory;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Transactions;
 using UnityEngine;
 
 public class ItemWindow : MonoBehaviour
@@ -48,22 +50,27 @@ public class ItemWindow : MonoBehaviour
     }
     private void ItemClick(int index)
     {
-        inventory.ChangeItemIndex(currentCategory,inventory.InventoryAList[currentCategory][index].Item, index, index + 1);
-        Refresh();
+        if(_type == Type.Inven)
+        {
+            var (_item, _itemnum) = inventory.InventoryAList[currentCategory][index].getItemStack();
+            if(Player.Instance.Inventory.TryDeleteItem(_item, _itemnum)) Debug.Log("인벤토리 아이템 삭제 성공");
+            if(UiWindowsManager.Instance.ExplorationItemSelectingWindow.ExploreInventory.TryAddItem(_item, _itemnum)) Debug.Log("가방 아이템 더하기 성공");
+        }
+        if (_type == Type.Bag)
+        {
+            var (_item, _itemnum) = UiWindowsManager.Instance.ExplorationItemSelectingWindow.ExploreInventory.InventoryAList[currentCategory][index].getItemStack();
+            if (Player.Instance.Inventory.TryAddItem(_item, _itemnum)) Debug.Log("인벤토리 아이템 더하기 성공");
+            if (UiWindowsManager.Instance.ExplorationItemSelectingWindow.ExploreInventory.TryDeleteItem(_item, _itemnum)) Debug.Log("가방 아이템 삭제 성공");
+        }
+        UiWindowsManager.Instance.ExplorationItemSelectingWindow.bagWindow.Refresh();
+        return;
     }
     private void OnIconClick(int index)
     {
-        Item item = ItemIconList[index].item;
-        if (item == null)
-        {
-
-        }
-        else if(item != null && _type == Type.Inven)
-        {
-            UiWindowsManager.Instance.ShowMessageBox("확인", "가방으로 옮기시겠습니까?",
+        UiWindowsManager.Instance.ShowMessageBox("확인", "가방으로 옮기시겠습니까?",
                 new (string buttonText, Action onClicked)[]
                     {("확인", () => ItemClick(index)), ("취소", () => { }) });
-        }
+        return;
     }
     private void InitiateIcons()
     {
@@ -75,11 +82,12 @@ public class ItemWindow : MonoBehaviour
             ItemIconList[i].UpdateAppearance(null, 0, i);
         }
     }
-    private void RefreshIconEvents(Type type)
+    private void RefreshIconEvents()
     {
         foreach (var icon in ItemIconList)
         {
             icon.Clicked -= OnIconClick;
+            if (icon.item == null) continue;
             icon.Clicked += OnIconClick;
         }
     }
@@ -87,23 +95,12 @@ public class ItemWindow : MonoBehaviour
     {
         InitiateIcons();
         List<ItemStack>[] itemList = inventory.InventoryAList;
-        if (_type.Equals(Type.Inven))
+        for (int i = 0; i < inventory.WindowSize; i++)
         {
-            for (int i = 0; i < inventory.WindowSize; i++)
-            {
-                var (_item, _itemnum) = itemList[currentCategory][i].getItemStack();
-                ItemIconList[i].UpdateAppearance(_item, _itemnum, i);
-            }
+            var (_item, _itemnum) = itemList[currentCategory][i].getItemStack();
+            ItemIconList[i].UpdateAppearance(_item, _itemnum, i);
         }
-        else if (_type.Equals(Type.Bag))
-        {
-            for (int i = 0; i < inventory.WindowSize; i++)
-            {
-                var (_item, _itemnum) = itemList[0][i].getItemStack();
-                ItemIconList[i].UpdateAppearance(_item, _itemnum, i);
-            }
-        }
-        RefreshIconEvents(_type);
+        RefreshIconEvents();
     }
     public void SetInventory(Inventory _inventory)
     {

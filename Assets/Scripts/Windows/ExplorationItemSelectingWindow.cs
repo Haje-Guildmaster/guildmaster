@@ -7,7 +7,9 @@ namespace GuildMaster.Windows.Inventory
     {
         // Start is called before the first frame update
         [SerializeField] private ItemWindow inventoryWindow;
-        [SerializeField] private ItemWindow bagWindow;
+        [SerializeField] public ItemWindow bagWindow;
+        public Data.Inventory ExploreInventory => _exploreInventory;
+        
         public void Open()
         {
             base.OpenWindow();
@@ -22,6 +24,10 @@ namespace GuildMaster.Windows.Inventory
         {
             inventoryWindow.SetInventory(Player.Instance.Inventory);
             bagWindow.SetInventory(_exploreInventory);
+        }   
+
+        private void Start()
+        {
             foreach (var ict in GetComponentsInChildren<ItemCategoryToggle>())
             {
                 var cat = ict.category;
@@ -34,11 +40,6 @@ namespace GuildMaster.Windows.Inventory
             Refresh();
         }
 
-        private void Start()
-        {
-            
-        }
-
         private void OnEnable()
         {
             Player.Instance.Inventory.Changed += Refresh;
@@ -49,9 +50,10 @@ namespace GuildMaster.Windows.Inventory
             Player.Instance.Inventory.Changed -= Refresh;
         }
 
-        private void Refresh()
+        public void Refresh()
         {
             inventoryWindow.Refresh();
+            bagWindow.Refresh();
         }
 
         private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
@@ -69,9 +71,8 @@ namespace GuildMaster.Windows.Inventory
             Refresh();
             _changeCategoryBlock = false;
         }
-
+        public Data.Inventory _exploreInventory = new Data.Inventory(12, 12, true);
         private ItemWindow.ItemCategory _currentCategory;
-        private Data.Inventory _exploreInventory = new Data.Inventory(12, 12, true);
     }
 }
 

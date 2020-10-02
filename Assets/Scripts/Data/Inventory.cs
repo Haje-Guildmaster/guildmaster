@@ -54,6 +54,7 @@ namespace GuildMaster.Data
         private int getCategory(Item item)
         {
             var itemData = ItemDatabase.Get(item.Code);
+            if (IsStacked == true) return 0;
             if (itemData.IsEquipable) return 0;
             else if (itemData.IsConsumable) return 1;
             else if (!itemData.IsImportant && !itemData.IsConsumable && !itemData.IsEquipable) return 2;
@@ -134,11 +135,11 @@ namespace GuildMaster.Data
         {
             if (item == (Item)null || number == 0) return false;
             var categoryIndex = getCategory(item);
-            if (!inventoryAList[categoryIndex].Exists(x => x.Equals(item))) return false;
+            if (!inventoryAList[categoryIndex].Exists(x => item.Equals(x.Item))) return false;
             var itemData = ItemDatabase.Get(item.Code);
             int totalNum = 0;
             int index;
-            foreach (var items in inventoryAList[categoryIndex].FindAll(x => x.Item.Equals(item)))
+            foreach (var items in inventoryAList[categoryIndex].FindAll(x => item.Equals(x.Item)))
             {
                 var (_item, _number) = items.getItemStack();
                 totalNum += _number;
@@ -148,20 +149,20 @@ namespace GuildMaster.Data
             {
                 while (number > 0)
                 {
-                    index = inventoryAList[categoryIndex].FindLastIndex(x => x.Item.Equals(item));
+                    index = inventoryAList[categoryIndex].FindLastIndex(x => item.Equals(x.Item));
                     var (_item, _number) = inventoryAList[categoryIndex][index].getItemStack();
-                    if (number >= itemData.MaxStack)
+                    if (number >= _number)
                     {
+                        number -= _number;
                         _number = 0;
-                        number -= itemData.MaxStack;
-                        _item = null;
+                        inventoryAList[categoryIndex][index].setItemStack(null, 0);
                     }
                     else
                     {
                         _number -= number;
                         number = 0;
+                        inventoryAList[categoryIndex][index].setItemStack(_item, _number);
                     }
-                    if (number == 0) break;
                 }
             }
             if (!IsStacked)
@@ -169,6 +170,7 @@ namespace GuildMaster.Data
                 index = inventoryAList[categoryIndex].FindIndex(x => x.Item.Equals(item));
                 var (_item, _number) = inventoryAList[categoryIndex][index].getItemStack();
                 inventoryAList[categoryIndex][index].setItemStack(item, _number - number);
+                if (_number == number) inventoryAList[categoryIndex][index].setItemStack(null, 0);
             }
             Changed?.Invoke();
             return true;

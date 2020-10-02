@@ -3,11 +3,12 @@ using GuildMaster.Items;
 using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace GuildMaster.Windows.Inventory
 {
-    public class ItemIcon: GenericButton<int>, IPointerEnterHandler, IPointerExitHandler
+    public class ItemIcon: GenericButton<int>, IPointerEnterHandler, IPointerExitHandler, IDragHandler
     {
         public Image itemImage;
         public Text itemNumberLabel;
@@ -18,7 +19,7 @@ namespace GuildMaster.Windows.Inventory
         public void UpdateAppearance(Item item, int number, int index)
         {
             this._item = item;
-            if(item == null)
+            if(item == null || number == 0)
             {
                 itemImage.sprite = null;
                 itemNumberLabel.text ="0";
@@ -44,6 +45,14 @@ namespace GuildMaster.Windows.Inventory
             if (_panelRequestId == 0) return;
             UiWindowsManager.Instance.itemInfoPanel.Close(_panelRequestId);
             _panelRequestId = 0;
+        }
+
+        public void OnDrag(PointerEventData data)
+        {
+            if (_item == null) return;
+            if (transform.childCount > 0)
+                transform.GetChild(0).parent = transform.GetChild(0);
+            transform.GetChild(0).position = data.position;
         }
 
         protected override int EventArgument => _index;
