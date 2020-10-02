@@ -60,7 +60,14 @@ namespace GuildMaster.Data
             else if (itemData.IsImportant) return 3;
             else return -1;
         }
-
+        public void ChangeItemIndex(int category, Item item, int index1, int index2)
+        {
+            ItemStack itemStack;
+            itemStack = InventoryAList[category][index1];
+            InventoryAList[category][index1] = InventoryAList[category][index2];
+            InventoryAList[category][index2] = itemStack;
+            return;
+        }
         public bool TryAddItem(Item item, int number)
         {
             if (item == (Item)null || number == 0) return false;

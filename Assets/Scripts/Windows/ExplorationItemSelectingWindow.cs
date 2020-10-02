@@ -11,6 +11,7 @@ namespace GuildMaster.Windows.Inventory
         public void Open()
         {
             base.OpenWindow();
+            Refresh();
         }
         public void Back()
         {

@@ -11,7 +11,7 @@ public class ItemWindow : MonoBehaviour
 {
     [SerializeField] private Type _type;
     [SerializeField] private ItemIcon ItemIconPrefab;
-    public static List<ItemIcon> ItemIconList = new List<ItemIcon>();
+    
 
     public enum Type
     {
@@ -48,9 +48,8 @@ public class ItemWindow : MonoBehaviour
     }
     private void ItemClick(int index)
     {
-        ItemIcon icon = ItemIconList[index];
-        ItemIconList[index + 1].UpdateAppearance(icon.item, icon.number, index + 1);
-        ItemIconList[index].UpdateAppearance(null, 0, index);
+        inventory.ChangeItemIndex(currentCategory,inventory.InventoryAList[currentCategory][index].Item, index, index + 1);
+        Refresh();
     }
     private void OnIconClick(int index)
     {
@@ -113,4 +112,5 @@ public class ItemWindow : MonoBehaviour
     }
     private int currentCategory = 0;
     private Inventory inventory;
+    private List<ItemIcon> ItemIconList = new List<ItemIcon>();
 }
