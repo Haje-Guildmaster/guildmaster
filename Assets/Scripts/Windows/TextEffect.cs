@@ -10,6 +10,7 @@ public class TextEffect : MonoBehaviour
     Text msgText;
     private int index;
     private float interval;
+    private bool isAnim;
     private void Awake()
     {
         msgText = GetComponent<Text>();

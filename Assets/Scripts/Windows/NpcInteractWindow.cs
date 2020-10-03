@@ -24,6 +24,7 @@ namespace GuildMaster.Windows
         [SerializeField] private NpcInteractionButton interactionButtonPrefab;
         [SerializeField] private QuestSuggestWindow questSuggestWindow;
         [SerializeField] private ProgressBar affinityBar;
+        [SerializeField] private DialogUI dialogWindow;
 
         public Image Illustration => illustration;
         //public TextEffect DialogTextBox => dialogTextBox;
@@ -84,6 +85,18 @@ namespace GuildMaster.Windows
                 }
                 else
                     dialogTextBox.SetMsg("가능한 퀘스트가 없습니다.");
+            });
+            AddInteractionButtonToList("대화", () =>
+            {
+                Dialog.Dialog sample = new Dialog.Dialog();
+                sample.contents.Add("첫 대화.........");
+                sample.contents.Add("두번째 대화.........");
+                sample.contents.Add("세번째 대화.........");
+                DialogManager manager = new DialogManager(dialogWindow, sample);
+                manager.Play();
+
+
+
             });
         }
 
