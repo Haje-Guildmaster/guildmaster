@@ -13,7 +13,9 @@ public class ItemWindow : MonoBehaviour
 {
     [SerializeField] private Type _type;
     [SerializeField] private ItemIcon ItemIconPrefab;
-    
+    [SerializeField] private bool ClickEventOn = true;
+
+    public static ItemIcon DraggingItem;
 
     public enum Type
     {
@@ -26,7 +28,7 @@ public class ItemWindow : MonoBehaviour
         Etc,
         Important
     }
-    private int CategoryNum(ItemCategory category)
+    public static int CategoryToNum(ItemCategory category)
     {
         if (category == ItemCategory.Equipable) return 0;
         else if (category == ItemCategory.Consumable) return 1;
@@ -41,10 +43,10 @@ public class ItemWindow : MonoBehaviour
     {
         
     }
-    public void RefreshCategory(ItemCategory _currentCategory)
+    public void RefreshCategory(ItemWindow.ItemCategory itemCategory)
     {
         //if (_type != Type.Inven) return;
-        currentCategory = CategoryNum(_currentCategory);
+        currentCategory = ItemWindow.CategoryToNum(itemCategory);
         Refresh();
         return;
     }
@@ -67,7 +69,10 @@ public class ItemWindow : MonoBehaviour
     }
     private void OnIconClick(int index)
     {
-        UiWindowsManager.Instance.ShowMessageBox("확인", "가방으로 옮기시겠습니까?",
+        String Where;
+        if (_type == Type.Inven) Where = "가방으로";
+        else Where = "인벤토리로";
+        UiWindowsManager.Instance.ShowMessageBox("확인", Where + " 옮기시겠습니까?",
                 new (string buttonText, Action onClicked)[]
                     {("확인", () => ItemClick(index)), ("취소", () => { }) });
         return;
@@ -79,11 +84,12 @@ public class ItemWindow : MonoBehaviour
         for (int i = 0; i < inventory.WindowSize; i++)
         {
             ItemIconList.Add(Instantiate(ItemIconPrefab, transform));
-            ItemIconList[i].UpdateAppearance(null, 0, i);
+            ItemIconList[i].UpdateAppearance(null, 0, i, inventory);
         }
     }
     private void RefreshIconEvents()
     {
+        if (!ClickEventOn) return;
         foreach (var icon in ItemIconList)
         {
             icon.Clicked -= OnIconClick;
@@ -98,7 +104,7 @@ public class ItemWindow : MonoBehaviour
         for (int i = 0; i < inventory.WindowSize; i++)
         {
             var (_item, _itemnum) = itemList[currentCategory][i].getItemStack();
-            ItemIconList[i].UpdateAppearance(_item, _itemnum, i);
+            ItemIconList[i].UpdateAppearance(_item, _itemnum, i, inventory);
         }
         RefreshIconEvents();
     }

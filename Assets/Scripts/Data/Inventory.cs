@@ -51,15 +51,14 @@ namespace GuildMaster.Data
         public int WindowSize => windowsize;
         public int TotalSize => totalsize;
 
-        private int getCategory(Item item)
+        public static int getItemToCategoryNum(Item item)
         {
             var itemData = ItemDatabase.Get(item.Code);
-            if (IsStacked == true) return 0;
             if (itemData.IsEquipable) return 0;
             else if (itemData.IsConsumable) return 1;
             else if (!itemData.IsImportant && !itemData.IsConsumable && !itemData.IsEquipable) return 2;
             else if (itemData.IsImportant) return 3;
-            else return -1;
+            else return 0;
         }
         public void ChangeItemIndex(int category, Item item, int index1, int index2)
         {
@@ -73,30 +72,27 @@ namespace GuildMaster.Data
         {
             if (item == (Item)null || number == 0) return false;
             var itemData = ItemDatabase.Get(item.Code);
-            var categoryIndex = getCategory(item);
+            int index, emptyIndex, categoryIndex = getItemToCategoryNum(item);
             if (IsStacked)
             {
-                for (int i = 0; i < windowsize; i++)
+                categoryIndex = 0;
+                if(inventoryAList[categoryIndex].Exists(x => item.Equals(x.Item)))
                 {
-                    var (_item, _number) = inventoryAList[categoryIndex][i].getItemStack();
-                    if (item.Equals(_item))
+                    index = inventoryAList[categoryIndex].FindLastIndex(x => item.Equals(x.Item));
+                    var (_item, _number) = inventoryAList[categoryIndex].FindLast(x => item.Equals(x.Item)).getItemStack();
+                    int availableSpace = itemData.MaxStack - _number;
+                    if (number <= availableSpace)
                     {
-                        var availableSpace = itemData.MaxStack - _number;
-                        if (number <= availableSpace)
-                        {
-                            _number += number;
-                            number = 0;
-                        }
-                        else
-                        {
-                            _number += availableSpace;
-                            number -= availableSpace;
-                        }
+                        _number += number;
+                        number = 0;
                     }
-                    inventoryAList[categoryIndex][i].setItemStack(_item, _number);
-                    if (number == 0) break;
+                    else
+                    {
+                        _number += availableSpace;
+                        number -= availableSpace;
+                    }
+                    inventoryAList[categoryIndex][index].setItemStack(_item, _number);
                 }
-                int emptyIndex;
                 while (number > 0)
                 {
                     var newStackSize = Math.Min(number, itemData.MaxStack);
@@ -109,7 +105,7 @@ namespace GuildMaster.Data
             {
                 if (inventoryAList[categoryIndex].Exists(x => item.Equals(x.Item)))
                 {
-                    var index = inventoryAList[categoryIndex].FindIndex(x => item.Equals(x.Item));
+                    index = inventoryAList[categoryIndex].FindIndex(x => item.Equals(x.Item));
                     var (_item, _number) = inventoryAList[categoryIndex][index].getItemStack();
                     inventoryAList[categoryIndex][index].setItemStack(_item, _number + number);
                     number = 0;
@@ -134,7 +130,8 @@ namespace GuildMaster.Data
         public bool TryDeleteItem(Item item, int number)
         {
             if (item == (Item)null || number == 0) return false;
-            var categoryIndex = getCategory(item);
+            var categoryIndex = getItemToCategoryNum(item);
+            if (IsStacked) categoryIndex = 0;
             if (!inventoryAList[categoryIndex].Exists(x => item.Equals(x.Item))) return false;
             var itemData = ItemDatabase.Get(item.Code);
             int totalNum = 0;

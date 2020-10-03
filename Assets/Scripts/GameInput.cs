@@ -1,6 +1,7 @@
 ﻿using GuildMaster.Data; //for test
 using GuildMaster.InGameEvents; //for test
 using GuildMaster.Windows;
+using GuildMaster.Windows.Inventory;
 using UnityEditor; //for test
 using UnityEngine;
 
@@ -16,8 +17,11 @@ namespace GuildMaster
                 UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.O)) //퀘스트 리스트
                 UiWindowsManager.Instance.questListWindow.Toggle();
-            if (Input.GetKeyDown(KeyCode.I)) //인벤토리
+            if (Input.GetKeyDown(KeyCode.I)) // 인벤토리
+            {
+                UiWindowsManager.Instance.itemInfoPanel.Close(ItemIcon.panelRequestId); // 마우스 올리고 I 누르면 pannel이 안 꺼져서 추가함. 아래도 동일한 이유
                 UiWindowsManager.Instance.inventoryWindow.Toggle();
+            }
             if (Input.GetKeyDown(KeyCode.P)) //캐릭터
                 UiWindowsManager.Instance.characterInspectWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.G)) //길드 정보
@@ -28,6 +32,7 @@ namespace GuildMaster
                 if (UiWindowsManager.Instance.ExplorationItemSelectingWindow.IsOpen)
                 {
                     UiWindowsManager.Instance.ExplorationItemSelectingWindow.Close();
+                    UiWindowsManager.Instance.itemInfoPanel.Close(ItemIcon.panelRequestId);
                 }
                 else if (UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.IsOpen)
                 {
@@ -40,6 +45,7 @@ namespace GuildMaster
                 else if (UiWindowsManager.Instance.inventoryWindow.IsOpen)
                 {
                     UiWindowsManager.Instance.inventoryWindow.Close();
+                    UiWindowsManager.Instance.itemInfoPanel.Close(ItemIcon.panelRequestId);
                 }
                 else if (UiWindowsManager.Instance.characterInspectWindow.IsOpen)
                 {
