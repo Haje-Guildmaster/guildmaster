@@ -1,11 +1,13 @@
-using System;
 using GuildMaster.Characters;
-using GuildMaster.Databases;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GuildMaster.Exploration
 {
+    /// <summary>
+    /// 캐릭터 한 명의 정보를 보여줍니다.
+    /// Todo: Footer에 종속된 클래스가 아니므로 이름에서 Footer빼기
+    /// </summary>
     public class FooterCharacterInfo : MonoBehaviour
     {
         [SerializeField] private Image _characterIllust;
@@ -16,6 +18,7 @@ namespace GuildMaster.Exploration
         [SerializeField] private Text _atkLabel;
         [SerializeField] private Text _defLabel;
         [SerializeField] private Text _agiLabel;
+        [SerializeField] private Text _characteristicLabel;
 
         private void OnDestroy() => Unsubscribe();
 
@@ -48,6 +51,7 @@ namespace GuildMaster.Exploration
                 _atkLabel.text = $"ATK: {_character.Atk}";
                 _defLabel.text = $"DEF: {_character.Def}";
                 _agiLabel.text = $"AGI: {_character.Agi}";
+                _characteristicLabel.text = _character.TraitName();
             }
             else
             {
@@ -58,6 +62,7 @@ namespace GuildMaster.Exploration
                 _atkLabel.text = "";
                 _defLabel.text = "";
                 _agiLabel.text = "";
+                _characteristicLabel.text = "";
             }
         }
 

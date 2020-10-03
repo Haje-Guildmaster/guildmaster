@@ -4,7 +4,12 @@ using UnityEngine;
 
 namespace GuildMaster.Databases
 {
-    public abstract class DatabaseIndexDrawer<TDb, TElement> : PropertyDrawer where TDb : Database<TDb, TElement>
+    /// <summary>
+    /// 데이터베이스 인덱스의 유니티 편집기(PropertyDrawer)입니다. 버튼 식으로 클릭하면 선택 가능한 인덱스 전부가 뜹니다.  
+    /// </summary>
+    /// <typeparam name="TDb"> DB의 타입 </typeparam>
+    /// <typeparam name="TElement"> DB의 원소 타입 </typeparam>
+    public abstract class DatabaseIndexDrawer<TDb, TElement> : PropertyDrawer where TDb : IndexDatabase<TDb, TElement>
     {
         [Pure]
         protected abstract string GetElementDescriptionWithIndex(int i, TElement element);
@@ -35,7 +40,7 @@ namespace GuildMaster.Databases
 
             var intIndexProperty = property.FindPropertyRelative("Value");
             var currentIntValue = intIndexProperty.intValue;
-            var currentElement = GetDatabase()._GetElement(new Database<TDb, TElement>.Index(currentIntValue));
+            var currentElement = GetDatabase()._GetElement(new IndexDatabase<TDb, TElement>.Index(currentIntValue));
             if (GUI.Button(buttonPosition,
                 new GUIContent(currentElement != null
                     ? GetElementDescriptionWithIndex(currentIntValue, currentElement)

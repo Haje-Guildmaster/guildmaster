@@ -4,7 +4,7 @@ using UnityEditor;
 namespace GuildMaster.Databases
 {
     [CustomEditor(typeof(ItemDatabase))]
-    public class ItemDatabaseEditor: DatabaseEditor<ItemDatabase, ItemStaticData, ItemCode>
+    public class ItemDatabaseEditor: DatabaseEditor
     {
         protected override void CurrentItemField(SerializedProperty itemStaticData)
         {
