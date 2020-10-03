@@ -88,11 +88,8 @@ namespace GuildMaster.Windows
             });
             AddInteractionButtonToList("대화", () =>
             {
-                Dialogs.Dialog sample = new Dialogs.Dialog();
-                sample.contents.Add("첫 대화.........");
-                sample.contents.Add("두번째 대화.........");
-                sample.contents.Add("세번째 대화.........");
-                DialogManager manager = new DialogManager(dialogWindow, sample);
+                DialogCode code = _npc.StaticData.basicData.talk;
+                DialogManager manager = new DialogManager(dialogWindow, code);
                 manager.Play();
 
 

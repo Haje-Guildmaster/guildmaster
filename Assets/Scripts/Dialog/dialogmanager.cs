@@ -4,14 +4,15 @@ using UnityEngine;
 using GuildMaster.Windows;
 using GuildMaster.Dialogs;
 using System.Threading.Tasks;
+using GuildMaster.Databases;
 
 public class DialogManager
 {
 
-    public DialogManager(DialogUI dialogUI, Dialog dialog)
+    public DialogManager(DialogUI dialogUI, DialogCode dialogCode)
     {
         _dialogUI = dialogUI;
-        _dialog = dialog;
+        _dialog = DialogDatabase.Get(dialogCode);
     }
     public async Task Play()
     {
