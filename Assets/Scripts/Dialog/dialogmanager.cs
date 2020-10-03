@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GuildMaster.Windows;
-using GuildMaster.Dialog;
+using GuildMaster.Dialogs;
 using System.Threading.Tasks;
 
 public class DialogManager

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using GuildMaster.Data;
 using GuildMaster.Databases;
-using GuildMaster.Dialog;
+using GuildMaster.Dialogs;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using GuildMaster.Tools;

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using GuildMaster.Data;
 using GuildMaster.Databases;
-using GuildMaster.Dialog;
+using GuildMaster.Dialogs;
 using GuildMaster.Npcs;
 using GuildMaster.Quests;
 using GuildMaster.Tools;
@@ -88,7 +88,7 @@ namespace GuildMaster.Windows
             });
             AddInteractionButtonToList("대화", () =>
             {
-                Dialog.Dialog sample = new Dialog.Dialog();
+                Dialogs.Dialog sample = new Dialogs.Dialog();
                 sample.contents.Add("첫 대화.........");
                 sample.contents.Add("두번째 대화.........");
                 sample.contents.Add("세번째 대화.........");

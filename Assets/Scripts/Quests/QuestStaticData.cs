@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using GuildMaster.Data;
-using GuildMaster.Dialog;
+using GuildMaster.Dialogs;
 using GuildMaster.Npcs;
 using GuildMaster.Rewards;
 using UnityEngine;

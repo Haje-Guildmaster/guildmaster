@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GuildMaster.Dialog
+namespace GuildMaster.Dialogs
 {
     public class FadeIn : MonoBehaviour {
         public UnityEngine.UI.Image fadeImage;

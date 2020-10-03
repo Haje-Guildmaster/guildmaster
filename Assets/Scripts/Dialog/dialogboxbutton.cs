@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.Dialog
+namespace GuildMaster.Dialogs
 {
     public class dialogboxbutton : MonoBehaviour
     {
