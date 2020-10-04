@@ -1,12 +1,9 @@
 ﻿using GuildMaster.Data;
-using GuildMaster.Items;
 using GuildMaster.Windows;
 using GuildMaster.Windows.Inventory;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Transactions;
 using UnityEngine;
 
 public class ItemWindow : MonoBehaviour
@@ -37,7 +34,7 @@ public class ItemWindow : MonoBehaviour
     }
     private void Awake()
     {
-        ItemIconList = GetComponentsInChildren<ItemIcon>().ToList<ItemIcon>();
+        _ItemIconList = GetComponentsInChildren<ItemIcon>().ToList<ItemIcon>();
     }
     private void Start()
     {
@@ -46,7 +43,7 @@ public class ItemWindow : MonoBehaviour
     public void RefreshCategory(ItemWindow.ItemCategory itemCategory)
     {
         //if (_type != Type.Inven) return;
-        currentCategory = ItemWindow.CategoryToNum(itemCategory);
+        _currentCategory = ItemWindow.CategoryToNum(itemCategory);
         Refresh();
         return;
     }
@@ -54,15 +51,15 @@ public class ItemWindow : MonoBehaviour
     {
         if(_type == Type.Inven)
         {
-            var (_item, _itemnum) = inventory.InventoryAList[currentCategory][index].getItemStack();
-            if(Player.Instance.Inventory.TryDeleteItem(_item, _itemnum)) Debug.Log("인벤토리 아이템 삭제 성공");
-            if(UiWindowsManager.Instance.ExplorationItemSelectingWindow.ExploreInventory.TryAddItem(_item, _itemnum)) Debug.Log("가방 아이템 더하기 성공");
+            var (_item, _itemnum) = _inventory.InventoryAList[_currentCategory][index].getItemStack();
+            Player.Instance.Inventory.TryDeleteItem(_item, _itemnum);
+            UiWindowsManager.Instance.ExplorationItemSelectingWindow.ExploreInventory.TryAddItem(_item, _itemnum);
         }
         if (_type == Type.Bag)
         {
-            var (_item, _itemnum) = UiWindowsManager.Instance.ExplorationItemSelectingWindow.ExploreInventory.InventoryAList[currentCategory][index].getItemStack();
-            if (Player.Instance.Inventory.TryAddItem(_item, _itemnum)) Debug.Log("인벤토리 아이템 더하기 성공");
-            if (UiWindowsManager.Instance.ExplorationItemSelectingWindow.ExploreInventory.TryDeleteItem(_item, _itemnum)) Debug.Log("가방 아이템 삭제 성공");
+            var (_item, _itemnum) = UiWindowsManager.Instance.ExplorationItemSelectingWindow.ExploreInventory.InventoryAList[_currentCategory][index].getItemStack();
+            Player.Instance.Inventory.TryAddItem(_item, _itemnum);
+            UiWindowsManager.Instance.ExplorationItemSelectingWindow.ExploreInventory.TryDeleteItem(_item, _itemnum);
         }
         UiWindowsManager.Instance.ExplorationItemSelectingWindow.bagWindow.Refresh();
         return;
@@ -80,17 +77,17 @@ public class ItemWindow : MonoBehaviour
     private void InitiateIcons()
     {
         foreach (var icn in GetComponentsInChildren<ItemIcon>()) Destroy(icn.gameObject);
-        ItemIconList.Clear();
-        for (int i = 0; i < inventory.WindowSize; i++)
+        _ItemIconList.Clear();
+        for (int i = 0; i < _inventory.WindowSize; i++)
         {
-            ItemIconList.Add(Instantiate(ItemIconPrefab, transform));
-            ItemIconList[i].UpdateAppearance(null, 0, i, inventory);
+            _ItemIconList.Add(Instantiate(ItemIconPrefab, transform));
+            _ItemIconList[i].UpdateAppearance(null, 0, i, _inventory, this);
         }
     }
     private void RefreshIconEvents()
     {
         if (!ClickEventOn) return;
-        foreach (var icon in ItemIconList)
+        foreach (var icon in _ItemIconList)
         {
             icon.Clicked -= OnIconClick;
             if (icon.item == null) continue;
@@ -100,20 +97,20 @@ public class ItemWindow : MonoBehaviour
     public void Refresh() 
     {
         InitiateIcons();
-        List<ItemStack>[] itemList = inventory.InventoryAList;
-        for (int i = 0; i < inventory.WindowSize; i++)
+        List<ItemStack>[] itemList = _inventory.InventoryAList;
+        for (int i = 0; i < _inventory.WindowSize; i++)
         {
-            var (_item, _itemnum) = itemList[currentCategory][i].getItemStack();
-            ItemIconList[i].UpdateAppearance(_item, _itemnum, i, inventory);
+            var (_item, _itemnum) = itemList[_currentCategory][i].getItemStack();
+            _ItemIconList[i].UpdateAppearance(_item, _itemnum, i, _inventory, this);
         }
         RefreshIconEvents();
     }
-    public void SetInventory(Inventory _inventory)
+    public void SetInventory(Inventory inventory)
     {
-        inventory = _inventory;
+        _inventory = inventory;
         Refresh();
     }
-    private int currentCategory = 0;
-    private Inventory inventory;
-    private List<ItemIcon> ItemIconList = new List<ItemIcon>();
+    private int _currentCategory = 0;
+    private Inventory _inventory;
+    private List<ItemIcon> _ItemIconList = new List<ItemIcon>();
 }

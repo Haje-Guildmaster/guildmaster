@@ -2,7 +2,8 @@ using GuildMaster.Databases;
 using GuildMaster.Items;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
+using UnityEngine;
 
 namespace GuildMaster.Data
 {
@@ -60,12 +61,12 @@ namespace GuildMaster.Data
             else if (itemData.IsImportant) return 3;
             else return 0;
         }
-        public void ChangeItemIndex(int category, Item item, int index1, int index2)
+        public void ChangeItemIndex(int category, int index1, int index2)
         {
-            ItemStack itemStack;
-            itemStack = InventoryAList[category][index1];
-            InventoryAList[category][index1] = InventoryAList[category][index2];
-            InventoryAList[category][index2] = itemStack;
+            var(_item, _itemnum) = InventoryAList[category][index1].getItemStack();
+            var(_item2, _itemnum2) = InventoryAList[category][index2].getItemStack();
+            InventoryAList[category][index1].setItemStack(_item2, _itemnum2);
+            InventoryAList[category][index2].setItemStack(_item, _itemnum);
             return;
         }
         public bool TryAddItem(Item item, int number)
@@ -164,7 +165,7 @@ namespace GuildMaster.Data
             }
             if (!IsStacked)
             {
-                index = inventoryAList[categoryIndex].FindIndex(x => x.Item.Equals(item));
+                index = inventoryAList[categoryIndex].FindIndex(x => item.Equals(x.Item));
                 var (_item, _number) = inventoryAList[categoryIndex][index].getItemStack();
                 inventoryAList[categoryIndex][index].setItemStack(item, _number - number);
                 if (_number == number) inventoryAList[categoryIndex][index].setItemStack(null, 0);
