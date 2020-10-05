@@ -27,6 +27,7 @@ namespace GuildMaster.Windows
         public BGMWindow BGMWindow;
         public ExplorationCharacterSelectingWindow ExplorationCharacterSelectingWindow;
         public ExplorationItemSelectingWindow ExplorationItemSelectingWindow;
+        public WorldMapWindow worldMapWindow;
 
         public ItemInfoPanel itemInfoPanel;    // 임시.
         

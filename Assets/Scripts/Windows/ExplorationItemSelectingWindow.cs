@@ -15,6 +15,12 @@ namespace GuildMaster.Windows.Inventory
             base.OpenWindow();
             Refresh();
         }
+
+        public void GoWorldMap()
+        {
+            base.Close();
+            UiWindowsManager.Instance.worldMapWindow.Open();
+        }
         public void Back()
         {
             base.Close();
