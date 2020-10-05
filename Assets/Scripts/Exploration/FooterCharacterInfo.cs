@@ -1,12 +1,13 @@
-using System;
-using System.Collections.Generic;
 using GuildMaster.Characters;
-using GuildMaster.Databases;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GuildMaster.Exploration
 {
+    /// <summary>
+    /// 캐릭터 한 명의 정보를 보여줍니다.
+    /// Todo: Footer에 종속된 클래스가 아니므로 이름에서 Footer빼기
+    /// </summary>
     public class FooterCharacterInfo : MonoBehaviour
     {
         [SerializeField] private Image _characterIllust;

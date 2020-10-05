@@ -10,7 +10,7 @@ public class CharacterTraitData: MonoBehaviour
    
     public enum Trait
     {
-        Anger, Anger2, Unstop, Strong, Sleepy, Sleeping, Nothing,
+        Anger, Anger2, Unstop, Strong, Sleepy, Sleeping, Nothing, TrapDismantle
     }
 
     [Serializable]

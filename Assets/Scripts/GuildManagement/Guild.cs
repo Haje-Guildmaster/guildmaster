@@ -4,16 +4,20 @@ using UnityEditorInternal;
 
 namespace GuildMaster.GuildManagement
 {
+    /// <summary>
+    /// 길드에 대한 정보를 저장하는 데이터 클래스.
+    /// </summary>
     public class Guild
     {
         public event Action Changed;
 
         public Guild()
         {
-            Rank.Changed += Changed;
-            MemberNumberLimit.Changed += Changed;
-            Balance.Changed += Changed;
-            Reputation.Changed += Changed;
+            void InvokeChanged() => Changed?.Invoke();
+            Rank.Changed += InvokeChanged;
+            MemberNumberLimit.Changed += InvokeChanged;
+            Balance.Changed += InvokeChanged;
+            Reputation.Changed += InvokeChanged;
         }
 
         public enum GuildRank

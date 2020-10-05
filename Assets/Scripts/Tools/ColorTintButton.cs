@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace GuildMaster.Tools
 {
     /// <summary>
-    /// unity ui의 버튼처럼 마우스를 올려놓았을 때, 클릭했을 때 색이 바뀌는 유의 버튼입니다.
+    /// unity ui의 버튼처럼 마우스를 올려놓았을 때, 클릭했을 때 색이 바뀌는 류의 버튼입니다.
     /// (이쪽 기능만 따로 분리해서 컴포넌트로 만들까 했지만 일단은 당장 필요가 없는 바 GenericButton을 상속하도록 두었습니다.
     /// 이 기능이 버튼과 분리되어야 하는 상황이라고 생각한다면 분리해 주세요)
     /// </summary>

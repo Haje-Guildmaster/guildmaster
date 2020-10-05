@@ -90,7 +90,7 @@ namespace GuildMaster.Data
         {
             var made = new Npc(npcCode);
             _npcDataMap.Add(npcCode, made);
-            made.Status.Changed += Changed;
+            made.Status.Changed += ()=>Changed?.Invoke();
             Changed?.Invoke();
             return made;
         }
@@ -105,9 +105,11 @@ namespace GuildMaster.Data
             PlayerGuild = new Guild();
             TimeManager = new Timemanagement(new Timeblock(), new Timeblock(), new Timeblock(), new Timeblock()) ;
 
-            QuestManager.Changed += Changed;
-            Inventory.Changed += Changed;
-            PlayerGuild.Changed += Changed;
+            
+            void InvokeChanged() => Changed?.Invoke();
+            QuestManager.Changed += InvokeChanged;
+            Inventory.Changed += InvokeChanged;
+            PlayerGuild.Changed += InvokeChanged;
         }
     }
 }

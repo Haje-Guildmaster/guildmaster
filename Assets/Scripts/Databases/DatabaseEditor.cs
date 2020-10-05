@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace GuildMaster.Databases
 {
+    /// <summary>
+    /// 데이터베이스의 에디터입니다. json으로 세이브/로드 기능을 지원하고, 유니티가 제공하는 기본 배열 편집기보다 편하게
+    /// 인덱스를 오가며 원소들을 편집할 수 있습니다.
+    /// </summary>
     public abstract class DatabaseEditor : 
         Editor
     {
@@ -35,7 +39,7 @@ namespace GuildMaster.Databases
                 GUILayout.Label("Json: ");
                 if (GUILayout.Button("Save"))
                 {
-                    var fp = EditorUtility.SaveFilePanel("저장 위치", "Assets/Json", "db" , "json");
+                    var fp = EditorUtility.SaveFilePanel("저장 위치", "Assets/Json", serializedObject.targetObject.GetType().Name , "json");
                     SaveToJson(fp);
                 }
 

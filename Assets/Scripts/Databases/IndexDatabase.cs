@@ -55,6 +55,11 @@ namespace GuildMaster.Databases
         public static TElement Get(Index index) => Instance._GetElement(index); // 디비 접근시마다 Instance쓰는 게 싫어서 추가.
     }
 
+    /// <summary>
+    /// DatabaseEditor에서 편집할 수 있도록 한 IndexDatabase입니다.
+    /// </summary>
+    /// <typeparam name="TSelf"> 자기 자신의 타입 </typeparam>
+    /// <typeparam name="TElement"> DB 원소 타입 </typeparam>
     [Serializable]
     public abstract class UnityEditableIndexDatabase<TSelf, TElement> : IndexDatabase<TSelf, TElement>
         where TSelf : IndexDatabase<TSelf, TElement>

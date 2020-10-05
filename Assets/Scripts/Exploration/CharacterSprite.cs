@@ -5,19 +5,23 @@ using UnityEngine;
 
 namespace GuildMaster.Exploration
 {
-    /*
-     * 탐색 씬에서 이동하고 있는 캐릭터 한 명의 모습을 나타냅니다.
-     */
+    /// <summary>
+    /// 탐색 씬에서 이동하고 있는 캐릭터 한 명의 모습을 나타내는 오브젝트.
+    /// 클릭당했을 경우 Clicked이벤트로 자기 자신을 반환한다.
+    /// </summary>
     [RequireComponent(typeof(SpriteRenderer))]
     public class CharacterSprite : GenericButton<CharacterSprite>
     {
         protected override CharacterSprite EventArgument => this;
-        public Character Character { get; private set; }
 
-        public void SetCharacter(Character character)
+        public Character Character
         {
-            Character = character;
-            _renderer.sprite = Character.StaticData.BasicData.Illustration;
+            get => _character;
+            set
+            {
+                _character = value;
+                _renderer.sprite = _character.StaticData.BasicData.Illustration;
+            }
         }
 
         public void Goto(float xPosition)
@@ -64,9 +68,11 @@ namespace GuildMaster.Exploration
 
             transform.localPosition = locPos;
         }
+        
 
         private float _ySpeed;
 
+        private Character _character;
         private bool _isMoving;
         private Vector3 _initialLocalPosition;
         private SpriteRenderer _renderer;

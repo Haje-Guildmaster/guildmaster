@@ -30,4 +30,8 @@ MonoBehaviour:
   - Name: "\uC790\uB294 \uC911"
     Description: "\uC774 \uCE90\uB9AD\uD130\uB294 \uC790\uB294\uC911\uC785\uB2C8\uB2E4.
       \uB204\uAD70\uAC00 \uAE68\uC6B4\uB2E4\uBA74 \uC77C\uC5B4\uB0A0\uC218\uB3C4...?"
-  currentEditingIndex: 0
+  - Name: 
+    Description: 
+  - Name: "\uD568\uC815\uD574\uCCB4"
+    Description: "\uD568\uC815\uC744 \uD574\uCCB4\uD569\uB2C8\uB2E4."
+  currentEditingIndex: 7

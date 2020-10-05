@@ -13,13 +13,14 @@ namespace GuildMaster.Characters
         //코드에 표시되어 있지 않다면 수의 하한선은 0입니다.
         public Character(CharacterCode code)
         {
-            _injury.Changed += Changed;
-            _loyalty.Changed += Changed;
-            _hp.Changed += Changed;
-            _sp.Changed += Changed;
-            _stamina.Changed += Changed;
-            _usingNameIndex.Changed += Changed;
-
+            void InvokeChanged() => Changed?.Invoke();
+            _injury.Changed += InvokeChanged;
+            _loyalty.Changed += InvokeChanged;
+            _hp.Changed += InvokeChanged;
+            _sp.Changed += InvokeChanged;
+            _stamina.Changed += InvokeChanged;
+            _usingNameIndex.Changed += InvokeChanged;    
+            
             _code = code;
             _hp.Value = MaxHp;
             _sp.Value = MaxSp;
@@ -107,7 +108,7 @@ namespace GuildMaster.Characters
         private readonly ChangeTrackedValue<int> _sp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _stamina = new ChangeTrackedValue<int>();
         private ReadOnlyCollection<string> NameList => StaticData.BasicData.NameList.AsReadOnly();
-        private ReadOnlyCollection<CharacterTraitData.Trait> ActiveTraits => StaticData.BasicData.ActiveTraits.AsReadOnly();
+        public List<CharacterTraitData.Trait> ActiveTraits => StaticData.BasicData.ActiveTraits;
         public CharacterStaticData StaticData => CharacterDatabase.Get(_code);
     }
 }

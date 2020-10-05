@@ -24,6 +24,7 @@ namespace GuildMaster.Quests
         }
         
 
+        // Todo: return bool은 무시되기 정말 쉬우므로 Log등으로 수정.
         public bool ReceiveQuest(QuestCode questCode, NpcCode client)
         {
             if (!CanReceiveQuest(questCode)) return false;
