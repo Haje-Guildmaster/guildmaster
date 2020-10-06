@@ -18430,9 +18430,9 @@ MonoBehaviour:
   questDatabase: {fileID: 11400000, guid: 77c7fdd39e26e7c4bb8945c83f9058da, type: 2}
   characterDatabase: {fileID: 11400000, guid: 4ed3405fba6f02f4192fa132271cf315, type: 2}
   traitDatabase: {fileID: 11400000, guid: 6814ec3a55e5b114e98e55e84262783d, type: 2}
-  inGameEventDatabase: {fileID: 11400000, guid: 12ee208022c34e045a1dc3b73f5d96b7,
-    type: 2}
+  inGameEventDatabase: {fileID: 0}
   explorationLocationDatabase: {fileID: 0}
+  eventSeedDatabase: {fileID: 0}
 --- !u!1 &734394784
 GameObject:
   m_ObjectHideFlags: 0
@@ -50877,6 +50877,7 @@ MonoBehaviour:
   characterIllustration: {fileID: 142722640}
   nameLabel: {fileID: 88019031}
   loyaltyLabel: {fileID: 1931267381}
+  CharacteristicLabel: {fileID: 517281286}
   maxHpLabel: {fileID: 1573309202}
   maxSpLeftLabel: {fileID: 550741944}
   maxSpValueLabel: {fileID: 550741944}
@@ -50884,7 +50885,6 @@ MonoBehaviour:
   defLabel: {fileID: 2011417349}
   agiLabel: {fileID: 2011417349}
   intLabel: {fileID: 474518984}
-  CharacteristicLabel: {fileID: 517281286}
 --- !u!1 &2005324559
 GameObject:
   m_ObjectHideFlags: 0
