@@ -30,11 +30,13 @@ namespace GuildMaster.Windows
         [SerializeField] private Text intLabel;
         [SerializeField] private Text CharacteristicLabel;
 
+        public List<Character> exploreCharacterList = new List<Character>();
+
         public void OpenNext()
         {
             base.Close();
             UiWindowsManager.Instance.ExplorationItemSelectingWindow.Open();
-            //ExplorationLoader.Instance.Load(_exploreCharacters); //Asd가 구현중인 기능 에러 뜨는게 정상
+            //ExplorationLoader.Instance.Load(exploreCharacterList); //Asd가 구현중인 기능 에러 뜨는게 정상
         }
 
         public void Open()
@@ -47,14 +49,14 @@ namespace GuildMaster.Windows
         {
             if (_allCharacters.Contains(_currentCharacter))
             {
-                if (_exploreCharacters.Count == 4) return;
+                if (exploreCharacterList.Count == 4) return;
                 _allCharacters.Remove(_currentCharacter);
-                _exploreCharacters.Add(_currentCharacter);
+                exploreCharacterList.Add(_currentCharacter);
                 RefreshList();
             }
-            else if (_exploreCharacters.Contains(_currentCharacter))
+            else if (exploreCharacterList.Contains(_currentCharacter))
             {
-                _exploreCharacters.Remove(_currentCharacter);
+                exploreCharacterList.Remove(_currentCharacter);
                 _allCharacters.Add(_currentCharacter);
                 RefreshList();
             }
@@ -81,7 +83,7 @@ namespace GuildMaster.Windows
             }
             foreach (Transform t in characterSelectedListParent)
                 Destroy(t.gameObject);
-            foreach (var (ch, i) in _exploreCharacters.Select((i, j) =>
+            foreach (var (ch, i) in exploreCharacterList.Select((i, j) =>
                 (i, j)))
             {
                 var made = Instantiate(characterSelectedTogglePrefab, characterSelectedListParent);
@@ -139,6 +141,5 @@ namespace GuildMaster.Windows
         private Character _currentCharacter;
         private bool first = true;
         private List<Character> _allCharacters = new List<Character>();
-        private List<Character> _exploreCharacters = new List<Character>();
     }
 }
