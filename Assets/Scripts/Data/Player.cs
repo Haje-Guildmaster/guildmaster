@@ -24,7 +24,7 @@ namespace GuildMaster.Data
 
         // 속한 데이터
         public readonly QuestManager QuestManager;
-        public readonly Inventory Inventory;
+        public readonly PlayerInventory PlayerInventory;
         public readonly InGameEventManager InGameEventManager;
         public readonly Guild PlayerGuild;
 
@@ -56,7 +56,7 @@ namespace GuildMaster.Data
                     GetNpc(affinityReward.targetNpc).Status.Affinity.Value += affinityReward.amount;
                     break;
                 case Reward.ItemReward itemReward:
-                    Inventory.TryAddItem(itemReward.item, itemReward.number);
+                    PlayerInventory.TryAddItem(itemReward.item, itemReward.number);
                     break;
                 default:
                     throw new Exception($"Unexpected Reward: {reward}");
@@ -101,14 +101,14 @@ namespace GuildMaster.Data
         {
             QuestManager = new QuestManager(this);
             InGameEventManager = new InGameEventManager(this);
-            Inventory = new Inventory(36, 144, false);
+            PlayerInventory = new PlayerInventory(36, 144, false);
             PlayerGuild = new Guild();
             TimeManager = new Timemanagement(new Timeblock(), new Timeblock(), new Timeblock(), new Timeblock()) ;
 
             
             void InvokeChanged() => Changed?.Invoke();
             QuestManager.Changed += InvokeChanged;
-            Inventory.Changed += InvokeChanged;
+            PlayerInventory.Changed += InvokeChanged;
             PlayerGuild.Changed += InvokeChanged;
         }
     }

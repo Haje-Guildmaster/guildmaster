@@ -6,6 +6,6 @@ namespace GuildMaster.Windows.Inventory
 {
     public class ItemCategoryToggle: ColorIfToggleIsOn
     {
-        public ItemWindow.ItemCategory category;
+        public ItemListView.ItemCategory category;
     }
 }

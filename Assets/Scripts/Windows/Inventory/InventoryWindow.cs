@@ -5,7 +5,7 @@ namespace GuildMaster.Windows.Inventory
 {
     public class InventoryWindow : DraggableWindow, IToggleableWindow
     {
-        [SerializeField] private ItemWindow itemWindow;
+        [SerializeField] private ItemListView itemWindow;
 
         public void Open()
         {
@@ -28,7 +28,7 @@ namespace GuildMaster.Windows.Inventory
                     if (b) ChangeCategory(cat);
                 });
             }
-            ChangeCategory(ItemWindow.ItemCategory.Equipable);
+            ChangeCategory(ItemListView.ItemCategory.Equipable);
         }
 
         private void OnEnable()
@@ -49,7 +49,7 @@ namespace GuildMaster.Windows.Inventory
 
         private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
         // (isOn을 수정하며 이벤트 리스너에 의해 ChangeCategory가 다시 불림)
-        public void ChangeCategory(ItemWindow.ItemCategory category)
+        public void ChangeCategory(ItemListView.ItemCategory category)
         {
             if (_changeCategoryBlock) return;
             _changeCategoryBlock = true;
@@ -63,6 +63,6 @@ namespace GuildMaster.Windows.Inventory
             _changeCategoryBlock = false;
         }
 
-        private ItemWindow.ItemCategory _currentCategory;
+        private ItemListView.ItemCategory _currentCategory;
     }
 }

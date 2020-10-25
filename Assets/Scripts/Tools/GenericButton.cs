@@ -23,4 +23,16 @@ namespace GuildMaster.Tools
         
         protected abstract T EventArgument { get; }
     }
+    public abstract class GenericButton: ClickableComponent
+    {
+        public delegate void ClickedHandler();
+
+        public event ClickedHandler Clicked;
+
+        protected sealed override void OnClick()
+        {
+            Clicked?.Invoke();
+        }
+
+    }
 }
