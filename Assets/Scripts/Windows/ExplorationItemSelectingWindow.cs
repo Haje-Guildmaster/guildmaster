@@ -6,7 +6,7 @@ namespace GuildMaster.Windows.Inventory
     public class ExplorationItemSelectingWindow : DraggableWindow, IToggleableWindow
     {
         // Start is called before the first frame update
-        [SerializeField] private ItemListView inventoryWindow;
+        [SerializeField] private PlayerItemListView playerItemListView;
         [SerializeField] public ItemListView bagWindow;
         public Data.Inventory ExploreInventory => _exploreInventory;
         
@@ -28,7 +28,7 @@ namespace GuildMaster.Windows.Inventory
         }
         private void Awake()
         {
-            inventoryWindow.SetInventory(Player.Instance.Inventory);
+            playerItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
             bagWindow.SetInventory(_exploreInventory);
         }   
 
@@ -42,29 +42,29 @@ namespace GuildMaster.Windows.Inventory
                     if (b) ChangeCategory(cat);
                 });
             }
-            ChangeCategory(ItemListView.ItemCategory.Equipable);
+            ChangeCategory(PlayerInventory.ItemCategory.Equipable);
             Refresh();
         }
 
         private void OnEnable()
         {
-            Player.Instance.Inventory.Changed += Refresh;
+            Player.Instance.PlayerInventory.Changed += Refresh;
         }
 
         private void OnDisable()
         {
-            Player.Instance.Inventory.Changed -= Refresh;
+            Player.Instance.PlayerInventory.Changed -= Refresh;
         }
 
         public void Refresh()
         {
-            inventoryWindow.Refresh();
+            playerItemListView.Refresh();
             bagWindow.Refresh();
         }
 
         private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
         // (isOn을 수정하며 이벤트 리스너에 의해 ChangeCategory가 다시 불림)
-        public void ChangeCategory(ItemListView.ItemCategory category)
+        public void ChangeCategory(PlayerInventory.ItemCategory category)
         {
             if (_changeCategoryBlock) return;
             _changeCategoryBlock = true;
@@ -73,12 +73,12 @@ namespace GuildMaster.Windows.Inventory
             {
                 ict.Toggle.isOn = ict.category == category;
             }
-            inventoryWindow.RefreshCategory(category);
+            playerItemListView.ChangeCategory(category);
             Refresh();
             _changeCategoryBlock = false;
         }
-        public Data.Inventory _exploreInventory = new Data.Inventory(12, 12, true);
-        private ItemListView.ItemCategory _currentCategory;
+        public Data.Inventory _exploreInventory = new Data.Inventory(12, true);
+        private PlayerInventory.ItemCategory _currentCategory;
     }
 }
 

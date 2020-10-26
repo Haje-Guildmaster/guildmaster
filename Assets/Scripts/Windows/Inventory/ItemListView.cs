@@ -6,23 +6,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ItemListView : MonoBehaviour
 {
-    [SerializeField] private Type _type;
     [SerializeField] private ItemIcon ItemIconPrefab;
     [SerializeField] private bool ClickEventOn = true;
-    public enum Type
-    {
-        Inven, Bag,
-    }
+
+    public event Action<PointerEventData, Item> PointerEntered;
+    public event Action<PointerEventData> PointerExited;
+    public event Action<PointerEventData, int> BeginDrag;
+    public event Action<PointerEventData> EndDrag;
+    public event Action<PointerEventData, Item, int> Drag;
+    public event Action<PointerEventData, int> Drop;
     private void Awake()
     {
         _ItemIconList = GetComponentsInChildren<ItemIcon>().ToList<ItemIcon>();
-    }
-    private void Start()
-    {
-        
     }
     private void InitializeIcons()
     {
@@ -30,8 +29,23 @@ public class ItemListView : MonoBehaviour
         _ItemIconList.Clear();
         for (int i = 0; i < _inventory.Size; i++)
         {
-            _ItemIconList.Add(Instantiate(ItemIconPrefab, transform));
-            _ItemIconList[i].UpdateAppearance(null, 0);
+            var itemicon = Instantiate(ItemIconPrefab, transform);
+            _ItemIconList.Add(itemicon);
+            itemicon.UpdateAppearance(null, 0, i);
+            itemicon.PointerEntered -= (eventData, item) => this.PointerEntered?.Invoke(eventData, item);
+            itemicon.PointerExited -= (eventData) => this.PointerExited?.Invoke(eventData);
+            itemicon.BeginDrag -= (eventData, index) => this.BeginDrag?.Invoke(eventData, index);
+            itemicon.EndDrag -= (eventData) => this.EndDrag?.Invoke(eventData);
+            itemicon.Drag -= (eventData, item, number) => this.Drag?.Invoke(eventData, item, number);
+            itemicon.Drop -= (eventData, index) => this.Drop?.Invoke(eventData, index);
+
+            itemicon.UpdateAppearance(null, 0, i);
+            itemicon.PointerEntered += (eventData, item) => this.PointerEntered?.Invoke(eventData, item);
+            itemicon.PointerExited += (eventData) => this.PointerExited?.Invoke(eventData);
+            itemicon.BeginDrag += (eventData, index) => this.BeginDrag?.Invoke(eventData, index);
+            itemicon.EndDrag += (eventData) => this.EndDrag?.Invoke(eventData);
+            itemicon.Drag += (eventData, item, number) => this.Drag?.Invoke(eventData, item, number);
+            itemicon.Drop += (eventData, index) => this.Drop?.Invoke(eventData, index);
         }
     }
     public void Refresh() 
@@ -42,12 +56,12 @@ public class ItemListView : MonoBehaviour
         {
             Item _item = itemList[i].Item;
             int _number = itemList[i].ItemNum;
-            _ItemIconList[i].UpdateAppearance(_item, _number);
+            _ItemIconList[i].UpdateAppearance(_item, _number, i);
         }
     }
-    public void SetInventory(Inventory inventory)
+    public void SetInventory(Inventory _inventory)
     {
-        _inventory = inventory;
+        this._inventory = _inventory;
         Refresh();
     }
     private int _currentCategory = 0;

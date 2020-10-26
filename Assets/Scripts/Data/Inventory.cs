@@ -31,10 +31,10 @@ namespace GuildMaster.Data
     }
     public class Inventory
     {
-        public Inventory(int _Size, bool _IsStacked)
+        public Inventory(int Size, bool IsStacked)
         {
-            IsStacked = _IsStacked;
-            Size = _Size;
+            this.IsStacked = IsStacked;
+            this.Size = Size;
             _inventoryList = new List<ItemStack>();
             _inventoryList = new List<ItemStack>();
             _inventoryList.Clear();
