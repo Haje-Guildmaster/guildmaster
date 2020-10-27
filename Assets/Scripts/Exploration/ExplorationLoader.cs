@@ -16,23 +16,29 @@ namespace GuildMaster.Exploration
         private void Awake()
         {
             DontDestroyOnLoad(this);
-            SceneManager.sceneLoaded += (scene, mode) =>
-            {
-                if (!_reservation.HasValue) return;
-
-                var (len, characters) = _reservation.Value;
-                _reservation = null;
-                ExplorationManager.Instance.StartExploration(characters, FindObjectOfType<ExplorationDebugger>()._map);    // Todo:
-            };
         }
 
         [Obsolete]
-        public void Load(List<Character> characters)
+        public void Load(IEnumerable<Character> characters)
         {
-            _reservation = (5, characters);
+            var reservation = new Reservation
+            {
+                Characters = new List<Character>(characters),
+            };
+
+            // 씬이 로딩된 후에 할 일 지정.
+            SceneManager.sceneLoaded += CallExplorationManager;
+
+            void CallExplorationManager(Scene scene, LoadSceneMode mode)
+            {
+                SceneManager.sceneLoaded -= CallExplorationManager;
+                ExplorationManager.Instance.StartExploration(reservation.Characters,
+                    FindObjectOfType<ExplorationDebugger>()._map); // Todo:
+            }
+
             SceneManager.LoadScene("ExplorationScene");
         }
-        
+
         /// <summary>
         /// 탐색 씬을 열어 탐색 과정을 시작합니다. 미구현 상태.
         /// </summary>
@@ -43,9 +49,14 @@ namespace GuildMaster.Exploration
             throw new NotImplementedException();
         }
 
-        private (int length, List<Character> characters)? _reservation; //length는 임시.
+        private class Reservation
+        {
+            public List<Character> Characters;
+        }
 
         private static ExplorationLoader _instance;
-        public static ExplorationLoader Instance => _instance!=null ? _instance : (_instance = FindObjectOfType<ExplorationLoader>());
+
+        public static ExplorationLoader Instance =>
+            _instance != null ? _instance : (_instance = FindObjectOfType<ExplorationLoader>());
     }
 }
