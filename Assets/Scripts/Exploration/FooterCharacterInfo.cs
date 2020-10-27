@@ -1,4 +1,7 @@
+using System;
+using System.Linq;
 using GuildMaster.Characters;
+using GuildMaster.Databases;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,7 +54,14 @@ namespace GuildMaster.Exploration
                 _atkLabel.text = $"ATK: {_character.Atk}";
                 _defLabel.text = $"DEF: {_character.Def}";
                 _agiLabel.text = $"AGI: {_character.Agi}";
-                _characteristicLabel.text = _character.TraitName();
+                
+                string TraitString(Character character)
+                {
+                    return string.Join(" ", character.ActiveTraits
+                        .Select(TraitDatabase.Get)
+                        .Select(tsd => $"[{tsd.Name}]"));
+                }
+                _characteristicLabel.text = TraitString(_character);
             }
             else
             {
