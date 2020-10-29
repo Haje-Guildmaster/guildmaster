@@ -39,9 +39,9 @@ namespace GuildMaster.Exploration
             Cleanup();
             
             _characterCount = characters.Count;
-            for (var i = 0; i < _characterCount; i++)
+            for (var i = 0; i < characterSpriteFrames.Count; i++)
             {
-                characterSpriteFrames[i].Character = characters[i]; 
+                characterSpriteFrames[i].Character = i<_characterCount ? characters[i] : null; 
             }
 
             _going = false;

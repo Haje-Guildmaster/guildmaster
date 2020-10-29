@@ -20,7 +20,7 @@ namespace GuildMaster.Exploration
             set
             {
                 _character = value;
-                _renderer.sprite = _character.StaticData.BasicData.Illustration;
+                UpdateAppearance();
             }
         }
 
@@ -68,7 +68,11 @@ namespace GuildMaster.Exploration
 
             transform.localPosition = locPos;
         }
-        
+
+        private void UpdateAppearance()
+        {
+            _renderer.sprite = _character?.StaticData.BasicData.Illustration;
+        }
 
         private float _ySpeed;
 
