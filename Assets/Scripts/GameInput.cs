@@ -26,8 +26,6 @@ namespace GuildMaster
             if (Input.GetKeyDown(KeyCode.E))
                 UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Toggle();
             //Settings 와 그 자식 파일들 
-            if (Input.GetKeyDown(KeyCode.E))
-                UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.Escape)) //ESC 환경설정
             {
                 UiWindowsManager.Instance.CloseSingleWindow();

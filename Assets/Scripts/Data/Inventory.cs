@@ -44,13 +44,18 @@ namespace GuildMaster.Data
         public IReadOnlyList<ItemStack> InventoryList => _inventoryList;
         public event Action Changed;
 
-        public void ChangeItemIndex(int category, int index1, int index2)
+        public void ChangeItemIndex(int index1, int index2)
         {
             Item item = _inventoryList[index1].Item;
             int number = _inventoryList[index1].ItemNum;
             _inventoryList[index1].setItemStack(_inventoryList[index2].Item, _inventoryList[index2].ItemNum);
             _inventoryList[index2].setItemStack(item, number);
             return;
+        }
+        public ItemStack TryGetItem(int _index)
+        {
+            if (_index >= 0 && _index < Size) return _inventoryList[_index]; 
+            else return (ItemStack)null;
         }
         public bool TryAddItem(Item item, int number)
         {

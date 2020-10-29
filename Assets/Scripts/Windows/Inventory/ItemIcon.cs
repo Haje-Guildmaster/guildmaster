@@ -15,11 +15,16 @@ namespace GuildMaster.Windows.Inventory
         public event Action<PointerEventData> PointerExited;
         public event Action<PointerEventData, int> BeginDrag;
         public event Action<PointerEventData> EndDrag;
-        public event Action<PointerEventData, Item, int> Drag;
+        public event Action<PointerEventData> Drag;
         public event Action<PointerEventData, int> Drop;
 
         [SerializeField] private Image _itemImage;
         [SerializeField] private Text _itemNumberLabel;
+
+        ItemIcon(Item _item, int _number, int _index)
+        {
+            UpdateAppearance(_item, _number, _index);
+        }
 
         public void UpdateAppearance(Item _item, int _number, int _index)
         {
@@ -55,7 +60,7 @@ namespace GuildMaster.Windows.Inventory
 
         public void OnDrag(PointerEventData eventData)
         {
-            Drag?.Invoke(eventData, _item, _number);
+            Drag?.Invoke(eventData);
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -70,7 +75,5 @@ namespace GuildMaster.Windows.Inventory
 
         private Item _item = null;
         private int _number = 0, _index;
-
-        private int _panelRequestId; //static
     }
 }

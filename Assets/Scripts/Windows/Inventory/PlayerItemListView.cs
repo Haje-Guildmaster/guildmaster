@@ -14,7 +14,6 @@ public class PlayerItemListView : ItemListView
     {
         this._playerInventory = _playerInventory;
         ChangeCategory((int)PlayerInventory.ItemCategory.Equipable);
-        Refresh();
     }
     private PlayerInventory _playerInventory;
 }
