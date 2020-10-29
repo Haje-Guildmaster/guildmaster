@@ -1,34 +1,20 @@
 ﻿using GuildMaster.Data;
-using GuildMaster.Items;
-using GuildMaster.Windows;
-using GuildMaster.Windows.Inventory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class PlayerItemListView : MonoBehaviour
+public class PlayerItemListView : ItemListView
 {
-
-    public void Refresh()
-    {
-        _itemListView.Refresh();
-    }
 
     public void ChangeCategory(int _index)
     {
-        _itemListView.SetInventory(_playerInventory.PlayerInventoryArray[_index]);
-        Refresh();
+        Console.WriteLine(_index);
+        SetInventory(_playerInventory.PlayerInventoryList[_index]);
     }
 
     public void SetPlayerInventory(PlayerInventory _playerInventory)
     {
         this._playerInventory = _playerInventory;
-        int _index = (int)PlayerInventory.ItemCategory.Equipable;
-        ChangeCategory(_index);
+        ChangeCategory((int)PlayerInventory.ItemCategory.Equipable);
         Refresh();
     }
     private PlayerInventory _playerInventory;
-    private ItemListView _itemListView;
 }

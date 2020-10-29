@@ -26,7 +26,7 @@ namespace GuildMaster.Windows.Inventory
             if (_item == null || _number == 0)
             {
                 this._index = _index;
-                _itemImage.sprite = null;
+                _itemImage.sprite = (Sprite)null;
                 _itemNumberLabel.text = "";
                 return;
             }

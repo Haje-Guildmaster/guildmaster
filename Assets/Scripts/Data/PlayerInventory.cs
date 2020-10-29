@@ -10,7 +10,7 @@ namespace GuildMaster.Data
         /// <summary>
         /// public readonly로 바꿔야함
         /// </summary>
-        public Inventory[] PlayerInventoryArray => _playerInventoryArray;
+        public List<Inventory> PlayerInventoryList => _playerInventoryList;
 
         public enum ItemCategory: int
         {
@@ -35,8 +35,11 @@ namespace GuildMaster.Data
             this.RowSize = RowSize;
             this.Size = Size;
             this.IsStacked = IsStacked;
-            _playerInventoryArray = new Inventory[RowSize];
-            for (int i = 0; i< RowSize; i++) _playerInventoryArray[i] = new Inventory(Size, IsStacked);
+            _playerInventoryList = new List<Inventory>();
+            for (int i = 0; i < RowSize; i++)
+            {
+                _playerInventoryList.Add(new Inventory(Size, IsStacked));
+            }
         }
         public readonly int RowSize;
         public readonly int Size;
@@ -45,19 +48,19 @@ namespace GuildMaster.Data
         //플레이어 인벤토리에 종속적이므로 static 선언을 함
         public bool TryAddItem(Item item, int number)
         {
-            _playerInventoryArray[getItemToCategoryNum(item)].TryAddItem(item, number);
+            _playerInventoryList[getItemToCategoryNum(item)].TryAddItem(item, number);
             Changed?.Invoke();
             return true;
         }
 
         public bool TryDeleteItem(Item item, int number)
         {
-            _playerInventoryArray[getItemToCategoryNum(item)].TryDeleteItem(item, number);
+            _playerInventoryList[getItemToCategoryNum(item)].TryDeleteItem(item, number);
             Changed?.Invoke();
             return true;
         }
 
-        private Inventory[] _playerInventoryArray;
+        private List<Inventory> _playerInventoryList;
     }
 }
 

@@ -8381,6 +8381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerItemListView: {fileID: 596627258}
+  _currentCategory: 0
 --- !u!1 &300928089
 GameObject:
   m_ObjectHideFlags: 0
@@ -14528,6 +14529,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd94885a0f2e1d2468cdea0a958126ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemIconPrefab: {fileID: 5594947628906278521, guid: 0e5665c5b3d355d448cab2a2ff405d9b,
+    type: 3}
+  ClickEventOn: 1
 --- !u!114 &596627259
 MonoBehaviour:
   m_ObjectHideFlags: 0

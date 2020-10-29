@@ -59,9 +59,10 @@ namespace GuildMaster.Windows
                 ict.Toggle.isOn = ict.category == category;
             }
             playerItemListView.ChangeCategory((int)category);
+            
             _changeCategoryBlock = false;
         }
 
-        private PlayerInventory.ItemCategory _currentCategory;
+        [SerializeField] private PlayerInventory.ItemCategory _currentCategory;
     }
 }

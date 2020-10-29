@@ -30,7 +30,7 @@ public class ItemListView : MonoBehaviour
         for (int i = 0; i < _inventory.Size; i++)
         {
             var itemicon = Instantiate(ItemIconPrefab, transform);
-            _ItemIconList.Add(itemicon);
+            
             itemicon.UpdateAppearance(null, 0, i);
             itemicon.PointerEntered -= (eventData, item) => this.PointerEntered?.Invoke(eventData, item);
             itemicon.PointerExited -= (eventData) => this.PointerExited?.Invoke(eventData);
@@ -45,6 +45,8 @@ public class ItemListView : MonoBehaviour
             itemicon.EndDrag += (eventData) => this.EndDrag?.Invoke(eventData);
             itemicon.Drag += (eventData, item, number) => this.Drag?.Invoke(eventData, item, number);
             itemicon.Drop += (eventData, index) => this.Drop?.Invoke(eventData, index);
+
+            _ItemIconList.Add(itemicon);
         }
     }
     public void Refresh() 

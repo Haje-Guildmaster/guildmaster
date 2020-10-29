@@ -36,7 +36,6 @@ namespace GuildMaster.Data
             this.IsStacked = IsStacked;
             this.Size = Size;
             _inventoryList = new List<ItemStack>();
-            _inventoryList = new List<ItemStack>();
             _inventoryList.Clear();
             for (int i = 0; i < Size; i++) _inventoryList.Add(new ItemStack());
         }
