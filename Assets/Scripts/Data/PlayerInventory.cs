@@ -12,7 +12,7 @@ namespace GuildMaster.Data
         /// </summary>
         public Inventory[] PlayerInventoryArray => _playerInventoryArray;
 
-        public enum ItemCategory
+        public enum ItemCategory: int
         {
             Equipable = 0,
             Consumable = 1,

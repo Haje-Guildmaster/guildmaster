@@ -39,7 +39,6 @@ public class ItemListView : MonoBehaviour
             itemicon.Drag -= (eventData, item, number) => this.Drag?.Invoke(eventData, item, number);
             itemicon.Drop -= (eventData, index) => this.Drop?.Invoke(eventData, index);
 
-            itemicon.UpdateAppearance(null, 0, i);
             itemicon.PointerEntered += (eventData, item) => this.PointerEntered?.Invoke(eventData, item);
             itemicon.PointerExited += (eventData) => this.PointerExited?.Invoke(eventData);
             itemicon.BeginDrag += (eventData, index) => this.BeginDrag?.Invoke(eventData, index);
@@ -52,12 +51,7 @@ public class ItemListView : MonoBehaviour
     {
         InitializeIcons();
         IReadOnlyList<ItemStack> itemList = _inventory.InventoryList;
-        for (int i = 0; i < _inventory.Size; i++)
-        {
-            Item _item = itemList[i].Item;
-            int _number = itemList[i].ItemNum;
-            _ItemIconList[i].UpdateAppearance(_item, _number, i);
-        }
+        for (int i = 0; i < _inventory.Size; i++) _ItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i);
     }
     public void SetInventory(Inventory _inventory)
     {

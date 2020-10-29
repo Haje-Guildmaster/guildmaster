@@ -73,7 +73,7 @@ namespace GuildMaster.Windows.Inventory
             {
                 ict.Toggle.isOn = ict.category == category;
             }
-            playerItemListView.ChangeCategory(category);
+            playerItemListView.ChangeCategory((int)category);
             Refresh();
             _changeCategoryBlock = false;
         }
