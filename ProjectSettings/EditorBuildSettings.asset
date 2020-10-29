@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/TownRoamScene.unity
     guid: 6fde1846c2a4ea047bf28d48b40cd920
   - enabled: 1
-    path: Assets/Scenes/TestTownRoamStartScene.unity
+    path: Assets/Scenes/StartScene_asd.unity
     guid: 71d995b8304b3884b8647c355198d343
   - enabled: 1
     path: Assets/Scenes/ExplorationScene.unity
