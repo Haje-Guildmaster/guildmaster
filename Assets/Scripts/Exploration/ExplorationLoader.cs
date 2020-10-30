@@ -9,17 +9,12 @@ namespace GuildMaster.Exploration
 {
     /// <summary>
     /// 탐색 이외의 씬에서 탐색을 부를 때에 사용하는 클래스입니다.
-    /// ExplorationLoader.Instance.Load(...)을 부르면 탐색이 시작됩니다.
+    /// ExplorationLoader.Load(...)을 부르면 탐색이 시작됩니다.
     /// </summary>
-    public class ExplorationLoader : MonoBehaviour
+    public static class ExplorationLoader
     {
-        private void Awake()
-        {
-            DontDestroyOnLoad(this);
-        }
-
         [Obsolete]
-        public void Load(IEnumerable<Character> characters)
+        public static void Load(IEnumerable<Character> characters)
         {
             var reservation = new Reservation
             {
@@ -33,7 +28,7 @@ namespace GuildMaster.Exploration
             {
                 SceneManager.sceneLoaded -= CallExplorationManager;
                 ExplorationManager.Instance.StartExploration(reservation.Characters,
-                    FindObjectOfType<ExplorationDebugger>()._map); // Todo:
+                    UnityEngine.Object.FindObjectOfType<ExplorationDebugger>()._map); // Todo:
             }
 
             SceneManager.LoadScene("ExplorationScene");
@@ -44,7 +39,7 @@ namespace GuildMaster.Exploration
         /// </summary>
         /// <param name="characters"> 탐색에 참여하는 캐릭터들 </param>
         /// <param name="inventory"> 탐색에 들고 가는 인벤토리 </param>
-        public void Load(List<Character> characters, Inventory inventory)
+        public static void Load(List<Character> characters, Inventory inventory)
         {
             throw new NotImplementedException();
         }
@@ -53,10 +48,5 @@ namespace GuildMaster.Exploration
         {
             public List<Character> Characters;
         }
-
-        private static ExplorationLoader _instance;
-
-        public static ExplorationLoader Instance =>
-            _instance != null ? _instance : (_instance = FindObjectOfType<ExplorationLoader>());
     }
 }

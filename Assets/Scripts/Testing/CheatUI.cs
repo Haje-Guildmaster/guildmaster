@@ -45,7 +45,7 @@ namespace GuildMaster.Testing
                         }
 
                         if (GUILayout.Button("Start Exploration"))
-                            ExplorationLoader.Instance.Load(
+                            ExplorationLoader.Load(
                                 members.Where((c, i) => _explorationSelectedCharacter[i]).ToList());
                     }
             }
