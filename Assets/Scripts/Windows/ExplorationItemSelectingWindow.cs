@@ -1,19 +1,151 @@
 ﻿using GuildMaster.Data;
+using GuildMaster.Items;
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-namespace GuildMaster.Windows.Inventory
+namespace GuildMaster.Windows
 {
     public class ExplorationItemSelectingWindow : DraggableWindow, IToggleableWindow
     {
         // Start is called before the first frame update
         [SerializeField] private PlayerItemListView playerItemListView;
         [SerializeField] public ItemListView bagWindow;
-        public Data.Inventory ExploreInventory => _exploreInventory;
-        
+        [SerializeField] private int _panelRequestId;
+        public Data.Inventory ExploreInventory = new Data.Inventory(12, true);
+
+        void PointerEntered(Item item)
+        {
+            if (item != null)
+                _panelRequestId = UiWindowsManager.Instance.itemInfoPanel.Open(item.Code);
+        }
+
+        void PointerExited()
+        {
+            if (_panelRequestId == 0) return;
+            UiWindowsManager.Instance.itemInfoPanel.Close(_panelRequestId);
+            _panelRequestId = 0;
+        }
+
+        void P_BeginDrag(PointerEventData eventData, int index)
+        {
+            _draggingItemIndex = index;
+            _draggingItemStack = playerItemListView.getItemStack(index);
+            if (_draggingItemStack.Item == null) return;
+            _currentViewCategory = ItemListView.View_Category.Inventory;
+            _currentWindowCategory = ItemListView.Window_Category.ExplorationItemSelectingWindow;
+
+            //아이템이 따라가게 하는건 일단 봉인. 다 만들고 UI 개선시킬때 다시 하겠음.
+            //_ItemIcon = Instantiate(playerItemListView.draggingItemIcon, transform);
+            //_ItemIcon.UpdateAppearance(_draggingItemStack.Item, _draggingItemStack.ItemNum, index);
+            //_draggingItemIcon = Instantiate(_ItemIcon.transform, GameObject.FindGameObjectWithTag("Canvas").transform);
+
+            //Destroy(_ItemIcon.gameObject);
+            playerItemListView.OnOffItemIcon(false, _draggingItemIndex);
+        }
+
+        void B_BeginDrag(PointerEventData eventData, int index)
+        {
+            _draggingItemIndex = index;
+            _draggingItemStack = playerItemListView.getItemStack(index);
+            if (_draggingItemStack.Item == null) return;
+            _currentViewCategory = ItemListView.View_Category.Bag;
+            _currentWindowCategory = ItemListView.Window_Category.ExplorationItemSelectingWindow;
+
+            //아이템이 따라가게 하는건 일단 봉인. 다 만들고 UI 개선시킬때 다시 하겠음.
+            //_ItemIcon = Instantiate(playerItemListView.draggingItemIcon, transform);
+            //_ItemIcon.UpdateAppearance(_draggingItemStack.Item, _draggingItemStack.ItemNum, index);
+            //_draggingItemIcon = Instantiate(_ItemIcon.transform, GameObject.FindGameObjectWithTag("Canvas").transform);
+
+            //Destroy(_ItemIcon.gameObject);
+            playerItemListView.OnOffItemIcon(false, _draggingItemIndex);
+        }
+
+        void Drag(PointerEventData eventData)
+        {
+            //if (_draggingItemStack.Item == null) return;
+            //_draggingItemIcon.position = eventData.position;
+        }
+
+        void EndDrag()
+        {
+            //Destroy(_draggingItemIcon.gameObject);
+            playerItemListView.OnOffItemIcon(true, _draggingItemIndex);
+        }
+
+        void P_Drop(PointerEventData eventData, int index)
+        {
+            if (_draggingItemStack == null) return;
+            if (_draggingItemStack.Item == null || _draggingItemStack.ItemNum == 0) return;
+            if (_currentWindowCategory != ItemListView.Window_Category.ExplorationItemSelectingWindow) return;
+            if (_currentViewCategory == ItemListView.View_Category.Inventory)
+            {
+                if(_draggingItemIndex == index)
+                {
+                    P_Clicked(playerItemListView.getItemStack(index).Item, playerItemListView.getItemStack(index).ItemNum);
+                }
+                else
+                {
+                    playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);
+                }
+            }
+            else if (_currentViewCategory == ItemListView.View_Category.Bag)
+            {
+                P_Clicked(playerItemListView.getItemStack(index).Item, playerItemListView.getItemStack(index).ItemNum);
+            }
+            Refresh();
+            return;
+        }
+
+        void B_Drop(PointerEventData eventData, int index)
+        {
+            if (_draggingItemStack == null) return;
+            if (_draggingItemStack.Item == null || _draggingItemStack.ItemNum == 0) return;
+            if (_currentWindowCategory != ItemListView.Window_Category.ExplorationItemSelectingWindow) return;
+            if (_currentViewCategory == ItemListView.View_Category.Bag)
+            {
+                if (_draggingItemIndex == index)
+                {
+                    B_Clicked(playerItemListView.getItemStack(index).Item, playerItemListView.getItemStack(index).ItemNum);
+                }
+                else
+                {
+                    playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);
+                }
+            }
+            else if (_currentViewCategory == ItemListView.View_Category.Inventory)
+            {
+                B_Clicked(ExploreInventory.TryGetItemStack(index).Item, ExploreInventory.TryGetItemStack(index).ItemNum);
+            }
+            playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);
+            Refresh();
+            return;
+        }
+
+        void P_Clicked(Item item, int number)
+        {
+            UiWindowsManager.Instance.ShowMessageBox("확인", "가방으로 이동하겠습니까?",
+                    new (string buttonText, Action onClicked)[]
+                        {("확인", () => {
+                            Player.Instance.PlayerInventory.TryDeleteItem(item, number);
+                            ExploreInventory.TryAddItem(item, number);
+                        }), ("취소", () => Debug.Log("취소"))});
+        }
+
+        void B_Clicked(Item item, int number)
+        {
+            UiWindowsManager.Instance.ShowMessageBox("확인", "인벤토리로 이동하겠습니까?",
+                    new (string buttonText, Action onClicked)[]
+                        {("확인", () => {
+                            ExploreInventory.TryDeleteItem(item, number);
+                            Player.Instance.PlayerInventory.TryAddItem(item, number);
+                        }), ("취소", () => Debug.Log("취소"))});
+        }
+
         public void Open()
         {
             base.OpenWindow();
-            Refresh();
+            //Refresh(); 넣으면 안됨. 도대체 왜?
         }
 
         public void GoWorldMap()
@@ -29,7 +161,9 @@ namespace GuildMaster.Windows.Inventory
         private void Awake()
         {
             playerItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
-            bagWindow.SetInventory(_exploreInventory);
+            bagWindow.SetInventory(ExploreInventory);
+            initialized = true;
+            Refresh();
         }   
 
         private void Start()
@@ -43,7 +177,6 @@ namespace GuildMaster.Windows.Inventory
                 });
             }
             ChangeCategory(PlayerInventory.ItemCategory.Equipable);
-            Refresh();
         }
 
         private void OnEnable()
@@ -56,10 +189,38 @@ namespace GuildMaster.Windows.Inventory
             Player.Instance.PlayerInventory.Changed -= Refresh;
         }
 
-        public void Refresh()
+        private void Refresh()
         {
+            if (initialized == false) return;
             playerItemListView.Refresh();
             bagWindow.Refresh();
+            playerItemListView.PointerEntered -= PointerEntered;
+            playerItemListView.PointerExited -= PointerExited;
+            playerItemListView.BeginDrag -= P_BeginDrag;
+            playerItemListView.Drag -= Drag;
+            playerItemListView.EndDrag -= EndDrag;
+            playerItemListView.Drop -= P_Drop;
+
+            playerItemListView.PointerEntered += PointerEntered;
+            playerItemListView.PointerExited += PointerExited;
+            playerItemListView.BeginDrag += P_BeginDrag;
+            playerItemListView.Drag += Drag;
+            playerItemListView.EndDrag += EndDrag;
+            playerItemListView.Drop += P_Drop;
+
+            bagWindow.PointerEntered -= PointerEntered;
+            bagWindow.PointerExited -= PointerExited;
+            bagWindow.BeginDrag -= B_BeginDrag;
+            bagWindow.Drag -= Drag;
+            bagWindow.EndDrag -= EndDrag;
+            bagWindow.Drop -= B_Drop;
+
+            bagWindow.PointerEntered += PointerEntered;
+            bagWindow.PointerExited += PointerExited;
+            bagWindow.BeginDrag += B_BeginDrag;
+            bagWindow.Drag += Drag;
+            bagWindow.EndDrag += EndDrag;
+            bagWindow.Drop += B_Drop;
         }
 
         private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
@@ -74,11 +235,16 @@ namespace GuildMaster.Windows.Inventory
                 ict.Toggle.isOn = ict.category == category;
             }
             playerItemListView.ChangeCategory((int)category);
-            Refresh();
+            
             _changeCategoryBlock = false;
         }
-        public Data.Inventory _exploreInventory = new Data.Inventory(12, true);
+        
         private PlayerInventory.ItemCategory _currentCategory;
+        private int _draggingItemIndex;
+        private ItemStack _draggingItemStack;
+        private ItemListView.Window_Category _currentWindowCategory;
+        private ItemListView.View_Category _currentViewCategory;
+        private bool initialized = false;
     }
 }
 

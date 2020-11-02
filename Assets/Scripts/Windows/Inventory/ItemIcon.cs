@@ -1,4 +1,4 @@
-using GuildMaster.Data;
+
 using GuildMaster.Databases;
 using GuildMaster.Items;
 using GuildMaster.Tools;
@@ -9,12 +9,12 @@ using UnityEngine.UI;
 
 namespace GuildMaster.Windows.Inventory
 {
-    public class ItemIcon : GenericButton, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler
+    public class ItemIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler
     {
-        public event Action<PointerEventData, Item> PointerEntered;
-        public event Action<PointerEventData> PointerExited;
+        public event Action<Item> PointerEntered;
+        public event Action PointerExited;
         public event Action<PointerEventData, int> BeginDrag;
-        public event Action<PointerEventData> EndDrag;
+        public event Action EndDrag;
         public event Action<PointerEventData> Drag;
         public event Action<PointerEventData, int> Drop;
 
@@ -30,27 +30,37 @@ namespace GuildMaster.Windows.Inventory
         {
             if (_item == null || _number == 0)
             {
+                this._item = null;
+                this._number = 0;
                 this._index = _index;
                 _itemImage.sprite = (Sprite)null;
                 _itemNumberLabel.text = "";
-                return;
             }
-            this._item = _item;
-            this._number = _number;
-            this._index = _index;
-            _itemImage.sprite = ItemDatabase.Get(_item.Code).ItemImage;
-            _itemNumberLabel.text = _number.ToString();
+            else
+            {
+                this._item = _item;
+                this._number = _number;
+                this._index = _index;
+                _itemImage.sprite = ItemDatabase.Get(_item.Code).ItemImage;
+                _itemNumberLabel.text = _number.ToString();
+            }
             return;
+        }
+
+        public void ItemIconOnOff(bool onoff)
+        {
+            if (onoff) gameObject.GetComponent<Image>().color = Color.white;
+            else gameObject.GetComponent<Image>().color = Color.red;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            PointerEntered?.Invoke(eventData, _item);
+            PointerEntered?.Invoke(_item);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            PointerExited?.Invoke(eventData);
+            PointerExited?.Invoke();
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -65,7 +75,7 @@ namespace GuildMaster.Windows.Inventory
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            EndDrag?.Invoke(eventData);
+            EndDrag?.Invoke();
         }
 
         public void OnDrop(PointerEventData eventData)

@@ -52,7 +52,7 @@ namespace GuildMaster.Data
             _inventoryList[index2].setItemStack(item, number);
             return;
         }
-        public ItemStack TryGetItem(int _index)
+        public ItemStack TryGetItemStack(int _index)
         {
             if (_index >= 0 && _index < Size) return _inventoryList[_index]; 
             else return (ItemStack)null;

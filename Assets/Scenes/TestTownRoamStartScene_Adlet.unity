@@ -8381,7 +8381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerItemListView: {fileID: 596627258}
-  _currentCategory: 0
+  _panelRequestId: 0
 --- !u!1 &300928089
 GameObject:
   m_ObjectHideFlags: 0
@@ -8765,8 +8765,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69d7dce145f3464eb8ca3e096c7f90b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerItemListView: {fileID: 0}
+  playerItemListView: {fileID: 2055067372}
   bagWindow: {fileID: 1998827938}
+  _panelRequestId: 0
 --- !u!114 &316196142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14529,9 +14530,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd94885a0f2e1d2468cdea0a958126ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemIconPrefab: {fileID: 5594947628906278521, guid: 0e5665c5b3d355d448cab2a2ff405d9b,
+  ItemIconPrefab: {fileID: 5594947628906278521, guid: f5a29700260735442bd17d220dc9eca4,
     type: 3}
-  ClickEventOn: 1
+  draggingItemIcon: {fileID: -2789264379655631195, guid: 0e5665c5b3d355d448cab2a2ff405d9b,
+    type: 3}
+  view_Category: 0
+  window_Category: 0
 --- !u!114 &596627259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50637,9 +50641,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8828c22da5849014b92e413d537fa6fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemIconPrefab: {fileID: 5594947628906278521, guid: 0e5665c5b3d355d448cab2a2ff405d9b,
+  ItemIconPrefab: {fileID: 5594947628906278521, guid: f5a29700260735442bd17d220dc9eca4,
     type: 3}
-  ClickEventOn: 1
+  draggingItemIcon: {fileID: -2789264379655631195, guid: 0e5665c5b3d355d448cab2a2ff405d9b,
+    type: 3}
+  view_Category: 1
+  window_Category: 1
 --- !u!114 &1998827939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52593,12 +52600,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2055067371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8828c22da5849014b92e413d537fa6fa, type: 3}
+  m_Script: {fileID: 11500000, guid: fd94885a0f2e1d2468cdea0a958126ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemIconPrefab: {fileID: 5594947628906278521, guid: 0e5665c5b3d355d448cab2a2ff405d9b,
+  ItemIconPrefab: {fileID: 5594947628906278521, guid: f5a29700260735442bd17d220dc9eca4,
     type: 3}
-  ClickEventOn: 1
+  draggingItemIcon: {fileID: -2789264379655631195, guid: 0e5665c5b3d355d448cab2a2ff405d9b,
+    type: 3}
+  view_Category: 0
+  window_Category: 1
 --- !u!114 &2055067373
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,10 +7,7 @@ namespace GuildMaster.Data
 {
     public class PlayerInventory
     {
-        /// <summary>
-        /// public readonly로 바꿔야함
-        /// </summary>
-        public List<Inventory> PlayerInventoryList => _playerInventoryList;
+        public IReadOnlyList<Inventory> PlayerInventoryList => _playerInventoryList;
 
         public enum ItemCategory: int
         {
