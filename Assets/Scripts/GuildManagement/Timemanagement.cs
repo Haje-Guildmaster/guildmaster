@@ -28,6 +28,5 @@ public class Timemanagement
         Debug.Log("시간대가 변경되었습니다");
         Debug.Log("현재 시각 : " + TimeIndex.ToString());
         UiWindowsManager.Instance.ShowMessageBox("시간 변경 알림", "시간대가 변경되었습니다" + "\n현재 시각 : " + TimeIndex.ToString(), new (string, Action)[] { ("확인", () => { }) });
-        //위 코드 한줄은 재우의 도움으로 작성되었습니다.
     }
 }

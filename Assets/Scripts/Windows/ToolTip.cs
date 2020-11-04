@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class ToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [TextArea]public string Tooltipname = null;
-    [TextArea] public string Tooltipstring = null;
+    [TextArea]public string Tooltipstring = null;
     void Awake()
     {
         // = GetComponent<Text>();

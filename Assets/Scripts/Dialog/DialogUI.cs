@@ -1,16 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using GuildMaster.Data;
-using GuildMaster.Databases;
-using GuildMaster.Dialogs;
-using GuildMaster.Npcs;
-using GuildMaster.Quests;
+﻿using System.Threading.Tasks;
 using GuildMaster.Tools;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 namespace GuildMaster.Windows
 {
     public class DialogUI : Window
