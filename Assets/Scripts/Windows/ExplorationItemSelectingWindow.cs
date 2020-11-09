@@ -9,8 +9,8 @@ namespace GuildMaster.Windows
     public class ExplorationItemSelectingWindow : DraggableWindow, IToggleableWindow
     {
         // Start is called before the first frame update
-        [SerializeField] private PlayerItemListView playerItemListView;
         [SerializeField] public ItemListView bagWindow;
+        [SerializeField] private PlayerItemListView playerItemListView;
         [SerializeField] private int _panelRequestId;
         public Data.Inventory ExploreInventory = new Data.Inventory(12, true);
 
@@ -47,7 +47,7 @@ namespace GuildMaster.Windows
         void B_BeginDrag(PointerEventData eventData, int index)
         {
             _draggingItemIndex = index;
-            _draggingItemStack = playerItemListView.getItemStack(index);
+            _draggingItemStack = bagWindow.getItemStack(index);
             if (_draggingItemStack.Item == null) return;
             _currentViewCategory = ItemListView.View_Category.Bag;
             _currentWindowCategory = ItemListView.Window_Category.ExplorationItemSelectingWindow;
@@ -58,7 +58,7 @@ namespace GuildMaster.Windows
             //_draggingItemIcon = Instantiate(_ItemIcon.transform, GameObject.FindGameObjectWithTag("Canvas").transform);
 
             //Destroy(_ItemIcon.gameObject);
-            playerItemListView.OnOffItemIcon(false, _draggingItemIndex);
+            bagWindow.OnOffItemIcon(false, _draggingItemIndex);
         }
 
         void Drag(PointerEventData eventData)
@@ -71,6 +71,7 @@ namespace GuildMaster.Windows
         {
             //Destroy(_draggingItemIcon.gameObject);
             playerItemListView.OnOffItemIcon(true, _draggingItemIndex);
+            bagWindow.OnOffItemIcon(true, _draggingItemIndex);
         }
 
         void P_Drop(PointerEventData eventData, int index)
@@ -80,11 +81,7 @@ namespace GuildMaster.Windows
             if (_currentWindowCategory != ItemListView.Window_Category.ExplorationItemSelectingWindow) return;
             if (_currentViewCategory == ItemListView.View_Category.Inventory)
             {
-                if(_draggingItemIndex == index)
-                {
-                    P_Clicked(playerItemListView.getItemStack(index).Item, playerItemListView.getItemStack(index).ItemNum);
-                }
-                else
+                if(_draggingItemIndex != index)
                 {
                     playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);
                 }
@@ -104,41 +101,40 @@ namespace GuildMaster.Windows
             if (_currentWindowCategory != ItemListView.Window_Category.ExplorationItemSelectingWindow) return;
             if (_currentViewCategory == ItemListView.View_Category.Bag)
             {
-                if (_draggingItemIndex == index)
+                if (_draggingItemIndex != index)
                 {
-                    B_Clicked(playerItemListView.getItemStack(index).Item, playerItemListView.getItemStack(index).ItemNum);
-                }
-                else
-                {
-                    playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);
+                    bagWindow.ChangeItemStackIndex(index, _draggingItemIndex);
                 }
             }
             else if (_currentViewCategory == ItemListView.View_Category.Inventory)
             {
                 B_Clicked(ExploreInventory.TryGetItemStack(index).Item, ExploreInventory.TryGetItemStack(index).ItemNum);
             }
-            playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);
             Refresh();
             return;
         }
 
         void P_Clicked(Item item, int number)
         {
+            if (item == null) return;
             UiWindowsManager.Instance.ShowMessageBox("확인", "가방으로 이동하겠습니까?",
                     new (string buttonText, Action onClicked)[]
                         {("확인", () => {
                             Player.Instance.PlayerInventory.TryDeleteItem(item, number);
                             ExploreInventory.TryAddItem(item, number);
+                            Refresh();
                         }), ("취소", () => Debug.Log("취소"))});
         }
 
         void B_Clicked(Item item, int number)
         {
+            if (item == null) return;
             UiWindowsManager.Instance.ShowMessageBox("확인", "인벤토리로 이동하겠습니까?",
                     new (string buttonText, Action onClicked)[]
                         {("확인", () => {
                             ExploreInventory.TryDeleteItem(item, number);
                             Player.Instance.PlayerInventory.TryAddItem(item, number);
+                            Refresh();
                         }), ("취소", () => Debug.Log("취소"))});
         }
 
@@ -162,7 +158,37 @@ namespace GuildMaster.Windows
         {
             playerItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
             bagWindow.SetInventory(ExploreInventory);
-            initialized = true;
+            playerItemListView.PointerEntered -= PointerEntered;
+            playerItemListView.PointerExited -= PointerExited;
+            playerItemListView.BeginDrag -= P_BeginDrag;
+            playerItemListView.Drag -= Drag;
+            playerItemListView.EndDrag -= EndDrag;
+            playerItemListView.Drop -= P_Drop;
+            playerItemListView.Click -= P_Clicked;
+
+            playerItemListView.PointerEntered += PointerEntered;
+            playerItemListView.PointerExited += PointerExited;
+            playerItemListView.BeginDrag += P_BeginDrag;
+            playerItemListView.Drag += Drag;
+            playerItemListView.EndDrag += EndDrag;
+            playerItemListView.Drop += P_Drop;
+            playerItemListView.Click += P_Clicked;
+
+            bagWindow.PointerEntered -= PointerEntered;
+            bagWindow.PointerExited -= PointerExited;
+            bagWindow.BeginDrag -= B_BeginDrag;
+            bagWindow.Drag -= Drag;
+            bagWindow.EndDrag -= EndDrag;
+            bagWindow.Drop -= B_Drop;
+            bagWindow.Click -= B_Clicked;
+
+            bagWindow.PointerEntered += PointerEntered;
+            bagWindow.PointerExited += PointerExited;
+            bagWindow.BeginDrag += B_BeginDrag;
+            bagWindow.Drag += Drag;
+            bagWindow.EndDrag += EndDrag;
+            bagWindow.Drop += B_Drop;
+            bagWindow.Click += B_Clicked;
             Refresh();
         }   
 
@@ -191,36 +217,9 @@ namespace GuildMaster.Windows
 
         private void Refresh()
         {
-            if (initialized == false) return;
             playerItemListView.Refresh();
             bagWindow.Refresh();
-            playerItemListView.PointerEntered -= PointerEntered;
-            playerItemListView.PointerExited -= PointerExited;
-            playerItemListView.BeginDrag -= P_BeginDrag;
-            playerItemListView.Drag -= Drag;
-            playerItemListView.EndDrag -= EndDrag;
-            playerItemListView.Drop -= P_Drop;
-
-            playerItemListView.PointerEntered += PointerEntered;
-            playerItemListView.PointerExited += PointerExited;
-            playerItemListView.BeginDrag += P_BeginDrag;
-            playerItemListView.Drag += Drag;
-            playerItemListView.EndDrag += EndDrag;
-            playerItemListView.Drop += P_Drop;
-
-            bagWindow.PointerEntered -= PointerEntered;
-            bagWindow.PointerExited -= PointerExited;
-            bagWindow.BeginDrag -= B_BeginDrag;
-            bagWindow.Drag -= Drag;
-            bagWindow.EndDrag -= EndDrag;
-            bagWindow.Drop -= B_Drop;
-
-            bagWindow.PointerEntered += PointerEntered;
-            bagWindow.PointerExited += PointerExited;
-            bagWindow.BeginDrag += B_BeginDrag;
-            bagWindow.Drag += Drag;
-            bagWindow.EndDrag += EndDrag;
-            bagWindow.Drop += B_Drop;
+            
         }
 
         private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
@@ -244,7 +243,6 @@ namespace GuildMaster.Windows
         private ItemStack _draggingItemStack;
         private ItemListView.Window_Category _currentWindowCategory;
         private ItemListView.View_Category _currentViewCategory;
-        private bool initialized = false;
     }
 }
 

@@ -1,6 +1,5 @@
 ﻿using GuildMaster.Data;
 using GuildMaster.Items;
-using GuildMaster.Windows;
 using GuildMaster.Windows.Inventory;
 using System;
 using System.Collections.Generic;
@@ -8,114 +7,152 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemListView : MonoBehaviour
+namespace GuildMaster.Windows
 {
-    [SerializeField] public ItemIcon ItemIconPrefab;
-    [SerializeField] public DraggingItemIcon draggingItemIcon;
-    public enum View_Category{
-        Inventory,
-        Bag,
-    }
-    public enum Window_Category
+    public class ItemListView : MonoBehaviour
     {
-        InventoryWindow,
-        ExplorationItemSelectingWindow,
-    }
-    [SerializeField] public View_Category view_Category;
-    [SerializeField] public Window_Category window_Category;
-
-    public event Action<Item> PointerEntered;
-    public event Action PointerExited;
-    public event Action<PointerEventData, int> BeginDrag;
-    public event Action EndDrag;
-    public event Action<PointerEventData> Drag;
-    public event Action<PointerEventData, int> Drop;
-    private void Awake()
-    {
-        _ItemIconList = GetComponentsInChildren<ItemIcon>().ToList<ItemIcon>();
-    }
-    private void InitializeIcons()
-    {
-        foreach (var icn in GetComponentsInChildren<ItemIcon>()) Destroy(icn.gameObject);
-        _ItemIconList.Clear();
-        IReadOnlyList<ItemStack> itemList = _inventory.InventoryList;
-        for (int i = 0; i < _inventory.Size; i++)
+        [SerializeField] public ItemIcon ItemIconPrefab;
+        [SerializeField] public DraggingItemIcon draggingItemIcon;
+        public enum View_Category
         {
-            var itemicon = Instantiate(ItemIconPrefab, transform);
-
-            itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i);
-
-            _ItemIconList.Add(itemicon);
-
-            itemicon.PointerEntered -= (item) => PointerEntered?.Invoke(item);
-            itemicon.PointerExited -= () => PointerExited?.Invoke();
-            itemicon.BeginDrag -= (eventData, index) => BeginDrag?.Invoke(eventData, index);
-            itemicon.EndDrag -= () => EndDrag?.Invoke();
-            itemicon.Drag -= (eventData) => Drag?.Invoke(eventData);
-            itemicon.Drop -= (eventData, index) => Drop?.Invoke(eventData, index);
-
-            itemicon.PointerEntered += (item) => PointerEntered?.Invoke(item);
-            itemicon.PointerExited += () => PointerExited?.Invoke();
-            itemicon.BeginDrag += (eventData, index) => BeginDrag?.Invoke(eventData, index);
-            itemicon.EndDrag += () => EndDrag?.Invoke();
-            itemicon.Drag += (eventData) => Drag?.Invoke(eventData);
-            itemicon.Drop += (eventData, index) => Drop?.Invoke(eventData, index);
+            Inventory,
+            Bag,
         }
-    }
-    private void UpdateIcons()
-    {
-        IReadOnlyList<ItemStack> itemList = _inventory.InventoryList;
-        for (int i = 0; i < _inventory.Size; i++)
+        public enum Window_Category
         {
-
-            _ItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i);
-
-            _ItemIconList[i].PointerEntered -= (item) => PointerEntered?.Invoke(item);
-            _ItemIconList[i].PointerExited -= () => PointerExited?.Invoke();
-            _ItemIconList[i].BeginDrag -= (eventData, index) => BeginDrag?.Invoke(eventData, index);
-            _ItemIconList[i].EndDrag -= () => EndDrag?.Invoke();
-            _ItemIconList[i].Drag -= (eventData) => Drag?.Invoke(eventData);
-            _ItemIconList[i].Drop -= (eventData, index) => Drop?.Invoke(eventData, index);
-
-            _ItemIconList[i].PointerEntered += (item) => PointerEntered?.Invoke(item);
-            _ItemIconList[i].PointerExited += () => PointerExited?.Invoke();
-            _ItemIconList[i].BeginDrag += (eventData, index) => BeginDrag?.Invoke(eventData, index);
-            _ItemIconList[i].EndDrag += () => EndDrag?.Invoke();
-            _ItemIconList[i].Drag += (eventData) => Drag?.Invoke(eventData);
-            _ItemIconList[i].Drop += (eventData, index) => Drop?.Invoke(eventData, index);
+            InventoryWindow,
+            ExplorationItemSelectingWindow,
         }
-    }
-    public void ChangeItemStackIndex(int _index1, int _index2)
-    {
-        _inventory.ChangeItemIndex(_index1, _index2);
-    }
-    public ItemStack getItemStack(int _index)
-    {
-        return _inventory.TryGetItemStack(_index);
-    }
-    public void OnOffItemIcon(bool onoff, int _index)
-    {
-        if (onoff) {
-            _ItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
-            _ItemIconList[_index].ItemIconOnOff(onoff);
-        }
-        else
+        [SerializeField] public View_Category view_Category;
+        [SerializeField] public Window_Category window_Category;
+
+        public event Action<Item> PointerEntered;
+        public event Action PointerExited;
+        public event Action<PointerEventData, int> BeginDrag;
+        public event Action EndDrag;
+        public event Action<PointerEventData> Drag;
+        public event Action<PointerEventData, int> Drop;
+        public event Action<Item, int> Click;
+
+        private void InvokePointerEntered(Item item)
         {
-            //원래는 null, 0으로 안보이게 하는 함수였지만 일단 보류.
-            _ItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
-            _ItemIconList[_index].ItemIconOnOff(onoff);
-        } 
+            PointerEntered?.Invoke(item);
+        }
+        private void InvokePointerExited()
+        {
+            PointerExited?.Invoke();
+        }
+        private void InvokeBeginDrag(PointerEventData eventData, int index)
+        {
+            BeginDrag?.Invoke(eventData, index);
+        }
+        private void InvokeEndDrag()
+        {
+            EndDrag?.Invoke();
+        }
+        private void InvokeDrag(PointerEventData eventData)
+        {
+            Drag?.Invoke(eventData);
+        }
+        private void InvokeDrop(PointerEventData eventData, int index)
+        {
+            Drop?.Invoke(eventData, index);
+        }
+        private void InvokeClick(Item item, int number)
+        {
+            Click?.Invoke(item, number);
+        }
+
+        private void Awake()
+        {
+            _ItemIconList = GetComponentsInChildren<ItemIcon>().ToList<ItemIcon>();
+        }
+        private void InitializeIcons()
+        {
+            foreach (var icn in GetComponentsInChildren<ItemIcon>()) Destroy(icn.gameObject);
+            _ItemIconList.Clear();
+            IReadOnlyList<ItemStack> itemList = _inventory.InventoryList;
+            for (int i = 0; i < _inventory.Size; i++)
+            {
+                var itemicon = Instantiate(ItemIconPrefab, transform);
+
+                itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i);
+
+                _ItemIconList.Add(itemicon);
+
+                itemicon.PointerEntered -= InvokePointerEntered;
+                itemicon.PointerExited -= InvokePointerExited;
+                itemicon.BeginDrag -= InvokeBeginDrag;
+                itemicon.EndDrag -= InvokeEndDrag;
+                itemicon.Drag -= InvokeDrag;
+                itemicon.Drop -= InvokeDrop;
+                itemicon.Click -= InvokeClick;
+
+                itemicon.PointerEntered += InvokePointerEntered;
+                itemicon.PointerExited += InvokePointerExited;
+                itemicon.BeginDrag += InvokeBeginDrag;
+                itemicon.EndDrag += InvokeEndDrag;
+                itemicon.Drag += InvokeDrag;
+                itemicon.Drop += InvokeDrop;
+                itemicon.Click += InvokeClick;
+            }
+        }
+        private void UpdateIcons()
+        {
+            IReadOnlyList<ItemStack> itemList = _inventory.InventoryList;
+            for (int i = 0; i < _inventory.Size; i++)
+            {
+                _ItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i);
+
+                _ItemIconList[i].PointerEntered -= InvokePointerEntered;
+                _ItemIconList[i].PointerExited -= InvokePointerExited;
+                _ItemIconList[i].BeginDrag -= InvokeBeginDrag;
+                _ItemIconList[i].EndDrag -= InvokeEndDrag;
+                _ItemIconList[i].Drag -= InvokeDrag;
+                _ItemIconList[i].Drop -= InvokeDrop;
+
+                _ItemIconList[i].PointerEntered += InvokePointerEntered;
+                _ItemIconList[i].PointerExited += InvokePointerExited;
+                _ItemIconList[i].BeginDrag += InvokeBeginDrag;
+                _ItemIconList[i].EndDrag += InvokeEndDrag;
+                _ItemIconList[i].Drag += InvokeDrag;
+                _ItemIconList[i].Drop += InvokeDrop;
+            }
+        }
+        public void ChangeItemStackIndex(int _index1, int _index2)
+        {
+            _inventory.ChangeItemIndex(_index1, _index2);
+        }
+        public ItemStack getItemStack(int _index)
+        {
+            return _inventory.TryGetItemStack(_index);
+        }
+        public void OnOffItemIcon(bool onoff, int _index)
+        {
+            if (onoff)
+            {
+                _ItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
+                _ItemIconList[_index].ItemIconOnOff(onoff);
+            }
+            else
+            {
+                //원래는 null, 0으로 안보이게 하는 함수였지만 일단 보류.
+                _ItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
+                _ItemIconList[_index].ItemIconOnOff(onoff);
+            }
+        }
+        public void Refresh()
+        {
+            UpdateIcons();
+        }
+        public void SetInventory(Data.Inventory _inventory)
+        {
+            this._inventory = _inventory;
+            InitializeIcons();
+        }
+        private int _currentCategory = 0;
+        private Data.Inventory _inventory;
+        private List<ItemIcon> _ItemIconList = new List<ItemIcon>();
     }
-    public void Refresh() 
-    {
-        UpdateIcons();
-    }
-    public void SetInventory(Inventory _inventory)
-    {
-        this._inventory = _inventory;
-        InitializeIcons();
-    }
-    private int _currentCategory = 0;
-    private Inventory _inventory;
-    private List<ItemIcon> _ItemIconList = new List<ItemIcon>();
 }
+

@@ -7,9 +7,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GuildMaster.Windows.Inventory
+namespace GuildMaster.Windows
 {
-    public class ItemIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler
+    public class ItemIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler
     {
         public event Action<Item> PointerEntered;
         public event Action PointerExited;
@@ -17,6 +17,7 @@ namespace GuildMaster.Windows.Inventory
         public event Action EndDrag;
         public event Action<PointerEventData> Drag;
         public event Action<PointerEventData, int> Drop;
+        public event Action<Item, int> Click;
 
         [SerializeField] private Image _itemImage;
         [SerializeField] private Text _itemNumberLabel;
@@ -81,6 +82,11 @@ namespace GuildMaster.Windows.Inventory
         public void OnDrop(PointerEventData eventData)
         {
             Drop?.Invoke(eventData, _index);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Click?.Invoke(_item, _number);
         }
 
         private Item _item = null;
