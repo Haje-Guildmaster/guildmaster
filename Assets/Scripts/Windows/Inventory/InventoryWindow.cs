@@ -1,6 +1,6 @@
 using GuildMaster.Data;
 using GuildMaster.Items;
-using GuildMaster.Windows.Inventory;
+using GuildMaster.Windows.Inven;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -128,11 +128,11 @@ namespace GuildMaster.Windows
                 ict.Toggle.isOn = ict.category == category;
             }
             playerItemListView.ChangeCategory((int)category);
-            
+
             _changeCategoryBlock = false;
         }
 
-        
+
         private int _draggingItemIndex;
         private ItemStack _draggingItemStack;
         private PlayerInventory.ItemCategory _currentCategory;

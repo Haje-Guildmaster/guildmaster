@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GuildMaster.Windows.Inventory;
+using GuildMaster.Windows.Inven;
 using UnityEngine;
 
 namespace GuildMaster.Windows
 {
-    public class UiWindowsManager: MonoBehaviour
+    public class UiWindowsManager : MonoBehaviour
     {
         public NpcInteractWindow npcInteractWindow;
         public QuestSuggestWindow questSuggestWindow;
@@ -19,7 +19,7 @@ namespace GuildMaster.Windows
         public Transform messageBoxesParent;
         public CharacterInspectWindow characterInspectWindow;
         public GuildInspectWindow guildInspectWindow;
-        
+
         public SettingWindow settingWindow;
         public TextureWindow TextureWindow;
         public MVWindow MvWindow;
@@ -32,7 +32,7 @@ namespace GuildMaster.Windows
         public WorldMapWindow worldMapWindow;
 
         public ItemInfoPanel itemInfoPanel;    // 임시.
-        
+
         /// <summary>
         /// 메시지 창을 띄움
         /// </summary>
@@ -55,7 +55,7 @@ namespace GuildMaster.Windows
         public async Task<int> AsyncShowMessageBox(string title, string content, IEnumerable<string> buttonTexts)
         {
             var tcs = new TaskCompletionSource<int>();
-            ShowMessageBox(title, content, buttonTexts.Select<string, (string, Action)>( (text, i) => (text, () => tcs.SetResult(i))));
+            ShowMessageBox(title, content, buttonTexts.Select<string, (string, Action)>((text, i) => (text, () => tcs.SetResult(i))));
             return await tcs.Task;
         }
 
