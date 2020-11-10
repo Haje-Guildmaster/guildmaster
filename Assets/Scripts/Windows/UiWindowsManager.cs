@@ -27,7 +27,10 @@ namespace GuildMaster.Windows
         public SEWindow SeWindow;
         public TextspeedWindow TextspeedWindow;
         public BGMWindow BGMWindow;
-            
+        public ExplorationCharacterSelectingWindow ExplorationCharacterSelectingWindow;
+        public ExplorationItemSelectingWindow ExplorationItemSelectingWindow;
+        public WorldMapWindow worldMapWindow;
+
         public ItemInfoPanel itemInfoPanel;    // 임시.
         
         /// <summary>
@@ -54,6 +57,67 @@ namespace GuildMaster.Windows
             var tcs = new TaskCompletionSource<int>();
             ShowMessageBox(title, content, buttonTexts.Select<string, (string, Action)>( (text, i) => (text, () => tcs.SetResult(i))));
             return await tcs.Task;
+        }
+
+        public void CloseSingleWindow()
+        {
+            if (worldMapWindow.IsOpen)
+            {
+                worldMapWindow.Close();
+            }
+            else if (ExplorationCharacterSelectingWindow.IsOpen)
+            {
+                ExplorationCharacterSelectingWindow.Close();
+            }
+            else if (ExplorationItemSelectingWindow.IsOpen)
+            {
+                ExplorationItemSelectingWindow.Close();
+            }
+            else if (questListWindow.IsOpen)
+            {
+                questListWindow.Close();
+            }
+            else if (inventoryWindow.IsOpen)
+            {
+                inventoryWindow.Close();
+            }
+            else if (characterInspectWindow.IsOpen)
+            {
+                characterInspectWindow.Close();
+            }
+            else if (guildInspectWindow.IsOpen)
+            {
+                guildInspectWindow.Close();
+            }
+            else if (TextureWindow.IsOpen)
+            {
+                TextureWindow.Toggle();
+            }
+            else if (MvWindow.IsOpen)
+            {
+                MvWindow.Toggle();
+            }
+            else if (ResolutionWindow.IsOpen)
+            {
+                ResolutionWindow.Toggle();
+            }
+            else if (SeWindow.IsOpen)
+            {
+                SeWindow.Toggle();
+            }
+            else if (TextspeedWindow.IsOpen)
+            {
+                TextspeedWindow.Toggle();
+            }
+            else if (BGMWindow.IsOpen)
+            {
+                BGMWindow.Toggle();
+            }
+            else
+            {
+                settingWindow.Toggle();
+            }
+            return;
         }
 
         private static UiWindowsManager _instance;
