@@ -1,13 +1,13 @@
 ﻿using GuildMaster.Data; //for test
 using GuildMaster.InGameEvents; //for test
 using GuildMaster.Windows;
-using GuildMaster.Windows.Inventory;
+using GuildMaster.Windows.Inven;
 using UnityEditor; //for test
 using UnityEngine;
 
 namespace GuildMaster
 {
-    public class GameInput: MonoBehaviour
+    public class GameInput : MonoBehaviour
     {
         private void Update()
         {
@@ -22,7 +22,7 @@ namespace GuildMaster
             if (Input.GetKeyDown(KeyCode.P)) //캐릭터
                 UiWindowsManager.Instance.characterInspectWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.G)) //길드 정보
-                UiWindowsManager.Instance .guildInspectWindow.Toggle();
+                UiWindowsManager.Instance.guildInspectWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.E))
                 UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Toggle();
             //Settings 와 그 자식 파일들 

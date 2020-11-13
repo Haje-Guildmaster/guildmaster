@@ -2,9 +2,9 @@ using GuildMaster.Databases;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.Windows.Inventory
+namespace GuildMaster.Windows.Inven
 {
-    public class ItemInfoPanel: MonoBehaviour
+    public class ItemInfoPanel : MonoBehaviour
     {
         public Image itemImage;
         public Text nameLabel;
@@ -14,7 +14,7 @@ namespace GuildMaster.Windows.Inventory
         {
             JumpToMouse();
         }
-        
+
         public int Open(ItemCode itemCode)
         {
             gameObject.SetActive(true);

@@ -1,6 +1,6 @@
 ﻿using GuildMaster.Data;
 using GuildMaster.Items;
-using GuildMaster.Windows.Inventory;
+using GuildMaster.Windows.Inven;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,13 +145,13 @@ namespace GuildMaster.Windows
         {
             UpdateIcons();
         }
-        public void SetInventory(Data.Inventory _inventory)
+        public void SetInventory(Inventory _inventory)
         {
             this._inventory = _inventory;
             InitializeIcons();
         }
         private int _currentCategory = 0;
-        private Data.Inventory _inventory;
+        private Inventory _inventory;
         private List<ItemIcon> _ItemIconList = new List<ItemIcon>();
     }
 }

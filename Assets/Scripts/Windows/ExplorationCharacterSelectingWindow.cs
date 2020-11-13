@@ -2,11 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Characters;
 using GuildMaster.Data;
+using GuildMaster.Databases;
 using UnityEngine;
 using UnityEngine.UI;
-using GuildMaster.Exploration;
-using System.Runtime.CompilerServices;
-using System;
 
 namespace GuildMaster.Windows
 {
@@ -42,7 +40,7 @@ namespace GuildMaster.Windows
         public void Open()
         {
             base.OpenWindow();
-            if(first) Set_allCharacters();
+            if (first) Set_allCharacters();
             RefreshList();
         }
         public void SwitchList()
@@ -118,7 +116,14 @@ namespace GuildMaster.Windows
             characterIllustration.sprite = sd.BasicData.Illustration;
             nameLabel.text = _currentCharacter.UsingName;
             loyaltyLabel.text = _currentCharacter.Loyalty.ToString();
-            CharacteristicLabel.text = _currentCharacter.TraitText();
+
+            string TraitText(Character character)
+            {
+                return string.Join("\n", character.ActiveTraits
+                    .Select(TraitDatabase.Get)
+                    .Select(tsd => $"[{tsd.Name}]\n{tsd.Description}"));
+            }
+            CharacteristicLabel.text = TraitText(_currentCharacter);
             maxHpLabel.text = $"{_currentCharacter.Hp}/{_currentCharacter.MaxHp}";
             maxSpLeftLabel.text = (sd.BattleStatData.SpIsMp ? "MP" : "DP") + ":";
             maxSpValueLabel.text = $"{_currentCharacter.Sp}/{_currentCharacter.MaxSp}";

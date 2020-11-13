@@ -12,7 +12,7 @@ namespace GuildMaster.Windows
         [SerializeField] public ItemListView bagWindow;
         [SerializeField] private PlayerItemListView playerItemListView;
         [SerializeField] private int _panelRequestId;
-        public Data.Inventory ExploreInventory = new Data.Inventory(12, true);
+        public Inventory ExploreInventory = new Inventory(12, true);
 
         void PointerEntered(Item item)
         {
@@ -81,7 +81,7 @@ namespace GuildMaster.Windows
             if (_currentWindowCategory != ItemListView.Window_Category.ExplorationItemSelectingWindow) return;
             if (_currentViewCategory == ItemListView.View_Category.Inventory)
             {
-                if(_draggingItemIndex != index)
+                if (_draggingItemIndex != index)
                 {
                     playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);
                 }
@@ -190,7 +190,7 @@ namespace GuildMaster.Windows
             bagWindow.Drop += B_Drop;
             bagWindow.Click += B_Clicked;
             Refresh();
-        }   
+        }
 
         private void Start()
         {
@@ -219,7 +219,7 @@ namespace GuildMaster.Windows
         {
             playerItemListView.Refresh();
             bagWindow.Refresh();
-            
+
         }
 
         private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
@@ -234,10 +234,10 @@ namespace GuildMaster.Windows
                 ict.Toggle.isOn = ict.category == category;
             }
             playerItemListView.ChangeCategory((int)category);
-            
+
             _changeCategoryBlock = false;
         }
-        
+
         private PlayerInventory.ItemCategory _currentCategory;
         private int _draggingItemIndex;
         private ItemStack _draggingItemStack;
