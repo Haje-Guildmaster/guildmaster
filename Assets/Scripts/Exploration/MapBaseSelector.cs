@@ -9,8 +9,10 @@ namespace GuildMaster.Exploration
     /// <summary>
     /// MapSelectView를 받아 유저가 MapSelectView에서 베이스캠프 중 하나를 선택하도록 하는 클래스 
     /// </summary>
-    public class MapBaseSelector : MonoBehaviour
+    [Serializable]
+    public class MapBaseSelector
     {
+        [Header("[MapBaseSelector]")]
         [SerializeField] private Color _etcColor;
         [SerializeField] private Color _baseNormalColor;
         [SerializeField] private Color _baseMouseOnColor;

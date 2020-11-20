@@ -364,53 +364,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 48568108}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &54022507
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 54022509}
-  - component: {fileID: 54022508}
-  m_Layer: 0
-  m_Name: Map Base Selector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &54022508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 54022507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6366b740561445029d6ef6a7554b7ff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _etcColor: {r: 1, g: 1, b: 1, a: 1}
-  _baseNormalColor: {r: 1, g: 0.8775067, b: 0.15566039, a: 1}
-  _baseMouseOnColor: {r: 0.9339623, g: 0.79159975, b: 0.19824673, a: 1}
-  _basePressedColor: {r: 0.8679245, g: 0.75310034, b: 0.25792095, a: 1}
---- !u!4 &54022509
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 54022507}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1112774500}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &59933760
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3117,54 +3070,6 @@ MonoBehaviour:
   - {fileID: 190715417}
   - {fileID: 1110965697}
   characterSlide: {fileID: 1256421715}
---- !u!1 &343468046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 343468047}
-  - component: {fileID: 343468048}
-  m_Layer: 0
-  m_Name: Map Adjacent Selector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &343468047
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 343468046}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1112774500}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &343468048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 343468046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9796c52d84f49699ffd639ce036070c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _etcColor: {r: 1, g: 1, b: 1, a: 1}
-  _startLocationColor: {r: 1, g: 0.9728835, b: 0, a: 1}
-  _targetNormalColor: {r: 1, g: 0.86607474, b: 0.1462264, a: 1}
-  _targetMouseOnColor: {r: 0.9150943, g: 0.7166554, b: 0.23740657, a: 1}
-  _targetPressedColor: {r: 0.8490566, g: 0.6214208, b: 0.15619439, a: 1}
 --- !u!1 &352643463
 GameObject:
   m_ObjectHideFlags: 0
@@ -4425,8 +4330,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 329840476}
-  - {fileID: 54022509}
-  - {fileID: 343468047}
   - {fileID: 1734282890}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -4446,8 +4349,17 @@ MonoBehaviour:
   _roadView: {fileID: 329840477}
   _mapSelectView: {fileID: 1756273096}
   _mapSelectViewToggle: {fileID: 1979866070}
-  _baseSelector: {fileID: 54022508}
-  _adjacentSelector: {fileID: 343468048}
+  _baseSelector:
+    _etcColor: {r: 1, g: 1, b: 1, a: 1}
+    _baseNormalColor: {r: 1, g: 0.8775067, b: 0.15566039, a: 1}
+    _baseMouseOnColor: {r: 0.9339623, g: 0.79159975, b: 0.19824673, a: 1}
+    _basePressedColor: {r: 0.8679245, g: 0.75310034, b: 0.25792095, a: 1}
+  _adjacentSelector:
+    _etcColor: {r: 1, g: 1, b: 1, a: 1}
+    _startLocationColor: {r: 1, g: 0.9728835, b: 0, a: 1}
+    _targetNormalColor: {r: 1, g: 0.86607474, b: 0.1462264, a: 1}
+    _targetMouseOnColor: {r: 0.9150943, g: 0.7166554, b: 0.23740657, a: 1}
+    _targetPressedColor: {r: 0.8490566, g: 0.6214208, b: 0.15619439, a: 1}
   _minimapView: {fileID: 2031668888}
   _footer: {fileID: 1989669152}
   _explorationEndButton: {fileID: 1996681268}
@@ -5687,7 +5599,7 @@ RectTransform:
   - {fileID: 1979866067}
   - {fileID: 1996681264}
   m_Father: {fileID: 1112774500}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

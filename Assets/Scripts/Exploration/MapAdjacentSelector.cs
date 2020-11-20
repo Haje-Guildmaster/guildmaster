@@ -11,8 +11,10 @@ namespace GuildMaster.Exploration
     /// <summary>
     /// MapSelectView를 받아 유저가 MapSelectView에서 특정 노드의 옆 노드를 선택하도록 하는 클래스 
     /// </summary>
-    public class MapAdjacentSelector : MonoBehaviour
+    [Serializable]
+    public class MapAdjacentSelector
     {
+        [Header("[MapAdjacentSelector]")]
         [SerializeField] private Color _etcColor;
         [SerializeField] private Color _startLocationColor;
         [SerializeField] private Color _targetNormalColor;
