@@ -9,7 +9,6 @@ using GuildMaster.Windows;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace GuildMaster.Exploration
 {
@@ -25,8 +24,7 @@ namespace GuildMaster.Exploration
 
         [FormerlySerializedAs("mapSelectView")] [SerializeField]
         private MapSelectView _mapSelectView;
-
-        [SerializeField] private Toggle _mapSelectViewToggle;
+        [SerializeField] private MapSelectViewToggle _mapSelectViewToggle;
 
         [SerializeField] private MapBaseSelector _baseSelector;
         [SerializeField] private MapAdjacentSelector _adjacentSelector;
@@ -64,7 +62,8 @@ namespace GuildMaster.Exploration
             _mapSelectView.LoadMap(map);
             _minimapView.LoadMap(map);
             _footer.Setup(characters);
-            _mapSelectViewToggle.onValueChanged.AddListener(b => _mapSelectView.gameObject.SetActive(b));
+            
+            Assert.IsTrue(_mapSelectViewToggle.MapSelectView == _mapSelectView);
 
             // Todo: 맵 종류 받아서 slideBackgroundView 초기화
         }
@@ -249,7 +248,7 @@ namespace GuildMaster.Exploration
             // _mapSelectView.gameObject.SetActive(false);
             _eventProcessView.SetActive(eventProcessView);
             _mapSelectViewToggle.gameObject.SetActive(mapSelectView);
-            _mapSelectViewToggle.isOn = mapSelectView;
+            _mapSelectViewToggle.IsOn = mapSelectView;
             _explorationEndButton.gameObject.SetActive(explorationEndButton);
         }
 

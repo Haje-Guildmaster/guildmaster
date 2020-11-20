@@ -4348,7 +4348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roadView: {fileID: 329840477}
   _mapSelectView: {fileID: 1756273096}
-  _mapSelectViewToggle: {fileID: 1979866070}
+  _mapSelectViewToggle: {fileID: 1979866071}
   _baseSelector:
     _etcColor: {r: 1, g: 1, b: 1, a: 1}
     _baseNormalColor: {r: 1, g: 0.8775067, b: 0.15566039, a: 1}
@@ -8245,11 +8245,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1979866067}
+  - component: {fileID: 1979866071}
   - component: {fileID: 1979866070}
   - component: {fileID: 1979866069}
   - component: {fileID: 1979866068}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: Map Selector View Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8360,6 +8361,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &1979866071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979866066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b61fe12c6934fdaadf05fd7c6aefeb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MapSelectView>k__BackingField: {fileID: 1756273096}
 --- !u!1 &1989669147
 GameObject:
   m_ObjectHideFlags: 0
