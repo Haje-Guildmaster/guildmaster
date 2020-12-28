@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using GuildMaster.Tools;
 using UnityEngine;
@@ -22,16 +23,28 @@ namespace GuildMaster.Exploration
         /// 베이스캠프 노드 하나를 선택하도록 합니다. 그 노드를 반환합니다.
         /// </summary>
         /// <param name="mapSelectView"> 지도 뷰 오브젝트 </param>
+        /// <<param name="cancelToken"> CancellationToken </param>
         /// <returns> 선택된 베이스캠프 노드 </returns>
-        public async Task<Graph<ExplorationMap.NodeContent>.Node> Select(MapSelectView mapSelectView)
+        public async Task<Graph<ExplorationMap.NodeContent>.Node> Select(MapSelectView mapSelectView, CancellationToken cancelToken=default)
         {
             mapSelectView.ColorLocationButtons(node =>
                 node.Content.Location.LocationType == Location.Type.Base
                     ? (_baseNormalColor, _baseMouseOnColor, _basePressedColor)
                     : (_etcColor, _etcColor, _etcColor)
             );
-            var ret = await mapSelectView.Select(node => node.Content.Location.LocationType == Location.Type.Base);
-            ResetColors(mapSelectView);
+
+
+            Graph<ExplorationMap.NodeContent>.Node ret;
+            try
+            {
+                ret = await mapSelectView.Select(
+                    node => node.Content.Location.LocationType == Location.Type.Base, cancelToken);
+            }
+            finally
+            {
+                ResetColors(mapSelectView);
+            }
+
             return ret;
         }
 
