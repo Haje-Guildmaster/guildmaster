@@ -9,7 +9,7 @@ namespace GuildMaster.Exploration
     /// </summary>
     public class ExplorationLog
     {
-        public Dictionary<Item, int> AcquiredItems = new Dictionary<Item, int>();
-        public Dictionary<Item, int> UsedItems = new Dictionary<Item, int>();
+        public readonly Dictionary<Item, int> AcquiredItems = new Dictionary<Item, int>();
+        public readonly Dictionary<Item, int> UsedItems = new Dictionary<Item, int>();
     }
 }
