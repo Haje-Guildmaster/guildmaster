@@ -15,16 +15,14 @@ namespace GuildMaster.Tools
 
         public async Task WaitForClick()
         {
-            await _clickTaskCompletionSource.Task;
+            await _clickWaiter.Wait();
         }
         private void OnClick()
         {
-            var temp = _clickTaskCompletionSource;
-            _clickTaskCompletionSource = new TaskCompletionSource<bool>();
-            temp.SetResult(true);
+            _clickWaiter.Signal();
         }
 
-        private TaskCompletionSource<bool> _clickTaskCompletionSource = new TaskCompletionSource<bool>();
+        private SignalWaiter _clickWaiter = new SignalWaiter();
         private Button _button;
     }
 }
