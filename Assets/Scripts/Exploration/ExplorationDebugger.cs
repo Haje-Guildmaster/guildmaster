@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-using GuildMaster.Characters;
-using GuildMaster.Databases;
+using System;
 using UnityEngine;
 
 namespace GuildMaster.Exploration
@@ -9,6 +6,7 @@ namespace GuildMaster.Exploration
     /// <summary>
     /// 테스트용. 탐색 씬에서 시작해도 바로 탐색을 시작할 수 있도록 해 줌.
     /// </summary>
+    [Obsolete]
     public class ExplorationDebugger: MonoBehaviour
     {
         public ExplorationMap _map;
