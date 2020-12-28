@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Exploration.Events;
@@ -31,7 +32,7 @@ namespace GuildMaster.Exploration
         [SerializeField] private MinimapView _minimapView;
         [SerializeField] private Footer _footer;
 
-        [SerializeField] private AsyncButton _explorationEndButton;
+        [SerializeField] private ExplorationExitRequestButton _explorationEndButton;
 
         [SerializeField] private EventProcessView _eventProcessView;
 
@@ -71,25 +72,20 @@ namespace GuildMaster.Exploration
         /// <summary>
         /// 유저가 시작하는 베이스캠프를 선택하거나 탐색 종료를 선택하는 것을 기다려 그 결정을 반환합니다. 
         /// </summary>
-        /// <returns> (탐색을 그만두는지, 시작 베이스캠프) </returns>
-        public async Task<(bool endExploration, MapNode startingNode)> SelectStartingBase()
+        /// <returns> 시작 베이스캠프 </returns>
+        public async Task<MapNode> SelectStartingBase(CancellationToken cancellationToken=default)
         {
             SetStateLocationSelecting(true);
 
-            async Task<(bool, MapNode)> Select() => (false, await _baseSelector.Select(_mapSelectView));
-
-            async Task<(bool, MapNode)> End()
+            MapNode ret;
+            try
             {
-                await _explorationEndButton.WaitForClick();
-                return (true, null);
+                ret = await _baseSelector.Select(_mapSelectView, cancellationToken);
             }
-
-            var ret = await new TaskFactory().ContinueWhenAny(new[]
+            finally
             {
-                Select(),
-                End(),
-            }, t => t.Result);
-            SetStateWaiting();
+                SetStateWaiting();
+            }
             return ret;
         }
 
@@ -100,33 +96,22 @@ namespace GuildMaster.Exploration
         /// </summary>
         /// <param name="startingNode"> 시작 노드 </param>
         /// <param name="allowEndingExploration"> 탐색 중단이 가능한지. </param>
-        /// <return> (탐색을 종료하는지, 골라진 다음 목적지) </return>
-        public async Task<(bool endExploration, MapNode destination)> SelectNextDestination(MapNode startingNode,
-            bool allowEndingExploration)
+        /// <param name="cancellationToken"> CancellationToken </param>
+        /// <return> 골라진 다음 목적지 </return>
+        public async Task<MapNode> SelectNextDestination(MapNode startingNode,
+            bool allowEndingExploration, CancellationToken cancellationToken = default)
         {
             SetStateLocationSelecting(allowEndingExploration);
 
-            async Task<(bool, MapNode)> Select() =>
-                (false, await _adjacentSelector.Select(_mapSelectView, startingNode));
-
-            async Task<(bool, MapNode)> End()
+            MapNode ret;
+            try
             {
-                await _explorationEndButton.WaitForClick();
-                return (true, null);
+                ret = await _adjacentSelector.Select(_mapSelectView, startingNode, cancellationToken);
             }
-
-            (bool, MapNode) ret;
-            if (allowEndingExploration)
+            finally
             {
-                var fac = new TaskFactory<(bool, MapNode)>();
-                ret = await fac.ContinueWhenAny(new[] {Select(), End()}, t => t.Result);
+                SetStateWaiting();
             }
-            else
-            {
-                ret = await Select();
-            }
-
-            SetStateWaiting();
             return ret;
         }
 
@@ -210,7 +195,7 @@ namespace GuildMaster.Exploration
             return ret;
         }
 
-        
+
         /// <summary>
         /// 유저에게 알림. 현재는 그냥 메시지 박스 띄우기.
         /// </summary>
