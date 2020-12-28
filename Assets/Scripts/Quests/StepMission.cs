@@ -1,6 +1,6 @@
 ﻿using System;
 using GuildMaster.Databases;
-using GuildMaster.Dialog;
+using GuildMaster.Dialogs;
 using GuildMaster.Npcs;
 
 namespace GuildMaster.Quests

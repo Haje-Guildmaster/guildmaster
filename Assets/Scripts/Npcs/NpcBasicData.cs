@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using GuildMaster.Databases;
 
 namespace GuildMaster.Npcs
 {
@@ -9,5 +10,6 @@ namespace GuildMaster.Npcs
         public string npcName;
         public Sprite illustration;
         [TextArea] public string greeting;
+        public DialogCode talk;
     }
 }

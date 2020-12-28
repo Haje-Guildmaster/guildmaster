@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GuildMaster.Data;
-using GuildMaster.Dialog;
+using GuildMaster.Dialogs;
 using GuildMaster.Npcs;
 using UnityEngine;
 

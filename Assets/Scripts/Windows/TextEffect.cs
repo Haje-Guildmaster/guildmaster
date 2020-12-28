@@ -10,13 +10,14 @@ public class TextEffect : MonoBehaviour
     Text msgText;
     private int index;
     private float interval;
+    private bool isAnim;
     private void Awake()
     {
         msgText = GetComponent<Text>();
     }
     public void SetMsg(string msg)
     {
-        if (SettingVariables.isAnim)
+        if (isAnim)//여기서 버그 생김 - CompleteMsg 함수 따로 생성 필요-마우스 클릭 시 불리기로
         {
             msgText.text = targetMsg;
             CancelInvoke();

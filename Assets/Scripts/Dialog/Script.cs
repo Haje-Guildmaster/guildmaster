@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GuildMaster.Dialog
+namespace GuildMaster.Dialogs
 {
     /// 어떤 대화 하나를 나타냄.
     [Serializable]

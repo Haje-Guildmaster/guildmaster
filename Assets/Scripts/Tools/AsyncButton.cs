@@ -19,8 +19,9 @@ namespace GuildMaster.Tools
         }
         private void OnClick()
         {
-            _clickTaskCompletionSource.SetResult(true);
+            var temp = _clickTaskCompletionSource;
             _clickTaskCompletionSource = new TaskCompletionSource<bool>();
+            temp.SetResult(true);
         }
 
         private TaskCompletionSource<bool> _clickTaskCompletionSource = new TaskCompletionSource<bool>();
