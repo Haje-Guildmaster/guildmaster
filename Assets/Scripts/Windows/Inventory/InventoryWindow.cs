@@ -1,20 +1,76 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using GuildMaster.Data;
-using GuildMaster.Databases;
 using GuildMaster.Items;
-using GuildMaster.Tools;
+using GuildMaster.Windows.Inven;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-namespace GuildMaster.Windows.Inventory
+namespace GuildMaster.Windows
 {
     public class InventoryWindow : DraggableWindow, IToggleableWindow
     {
+        [SerializeField] private PlayerItemListView playerItemListView;
+        [SerializeField] private int _panelRequestId;
+
+        void PointerEntered(Item item)
+        {
+            if (item != null)
+                _panelRequestId = UiWindowsManager.Instance.itemInfoPanel.Open(item.Code);
+        }
+
+        void PointerExited()
+        {
+            if (_panelRequestId == 0) return;
+            UiWindowsManager.Instance.itemInfoPanel.Close(_panelRequestId);
+            _panelRequestId = 0;
+        }
+
+        void BeginDrag(PointerEventData eventData, int index)
+        {
+            _draggingItemIndex = index;
+            _draggingItemStack = playerItemListView.getItemStack(index);
+            if (_draggingItemStack.Item == null) return;
+            _currentWindowCategory = ItemListView.Window_Category.InventoryWindow;
+
+            //아이템이 따라가게 하는건 일단 봉인. 다 만들고 UI 개선시킬때 다시 하겠음.
+            //_ItemIcon = Instantiate(playerItemListView.draggingItemIcon, transform);
+            //_ItemIcon.UpdateAppearance(_draggingItemStack.Item, _draggingItemStack.ItemNum, index);
+            //_draggingItemIcon = Instantiate(_ItemIcon.transform, GameObject.FindGameObjectWithTag("Canvas").transform);
+
+            //Destroy(_ItemIcon.gameObject);
+            playerItemListView.OnOffItemIcon(false, _draggingItemIndex);
+        }
+
+        void Drag(PointerEventData eventData)
+        {
+            //if (_draggingItemStack.Item == null) return;
+            //_draggingItemIcon.position = eventData.position;
+        }
+
+        void EndDrag()
+        {
+            //Destroy(_draggingItemIcon.gameObject);
+            playerItemListView.OnOffItemIcon(true, _draggingItemIndex);
+        }
+
+        void Drop(PointerEventData eventData, int index)
+        {
+            if (_draggingItemStack == null) return;
+            if (_draggingItemStack.Item == null) return;
+            if (_currentWindowCategory != ItemListView.Window_Category.InventoryWindow) return;
+            playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);
+            Refresh();
+        }
+
+        public void Open()
+        {
+            base.OpenWindow();
+            Refresh();
+        }
+
         private void Awake()
         {
-            UpdateChildrenItemIcons();
+            playerItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
+            initialized = true;
         }
 
         private void Start()
@@ -27,65 +83,42 @@ namespace GuildMaster.Windows.Inventory
                     if (b) ChangeCategory(cat);
                 });
             }
-
-            ChangeCategory(ItemCategory.Equipable);
+            ChangeCategory(PlayerInventory.ItemCategory.Equipable);
         }
 
         private void OnEnable()
         {
-            Player.Instance.Inventory.Changed += Refresh;
+            Player.Instance.PlayerInventory.Changed += Refresh;
         }
 
         private void OnDisable()
         {
-            Player.Instance.Inventory.Changed -= Refresh;
-        }
-
-
-        private void OnItemIconClick(Item item)
-        {
-            if (item == null) return;
-            if (_IsItemInCategory(item, ItemCategory.Equipable))
-            {
-                UiWindowsManager.Instance.ShowMessageBox("확인", "증여하시겠습니까?",
-                    new (string buttonText, Action onClicked)[]
-                        {("확인", () => Debug.Log("확인")), ("취소", () => Debug.Log("취소"))});
-            }
-            else if (_IsItemInCategory(item, ItemCategory.Consumable))
-            {
-                UiWindowsManager.Instance.ShowMessageBox("확인", "짐칸으로 옮기시겠습니까?",
-                    new (string buttonText, Action onClicked)[]
-                        {("확인", () => Debug.Log("확인")), ("취소", () => Debug.Log("취소"))});
-            }
-        }
-
-        public void Open()
-        {
-            base.OpenWindow();
-            Refresh();
+            Player.Instance.PlayerInventory.Changed -= Refresh;
         }
 
         private void Refresh()
         {
-            var itemList = Player.Instance.Inventory.GetItemList()
-                .Where(tup => _IsItemInCategory(tup.item, _currentCategory));
+            if (initialized == false) return;
+            playerItemListView.Refresh();
 
-            foreach (var ii in _itemIcons)
-            {
-                ii.Clear();
-            }
+            playerItemListView.PointerEntered -= PointerEntered;
+            playerItemListView.PointerExited -= PointerExited;
+            playerItemListView.BeginDrag -= BeginDrag;
+            playerItemListView.Drag -= Drag;
+            playerItemListView.EndDrag -= EndDrag;
+            playerItemListView.Drop -= Drop;
 
-            foreach (var ((item, number), i) in itemList.Select((tup, i) => (tup, i)))
-            {
-                _itemIcons[i].UpdateAppearance(item, number);
-            }
+            playerItemListView.PointerEntered += PointerEntered;
+            playerItemListView.PointerExited += PointerExited;
+            playerItemListView.BeginDrag += BeginDrag;
+            playerItemListView.Drag += Drag;
+            playerItemListView.EndDrag += EndDrag;
+            playerItemListView.Drop += Drop;
         }
 
-
         private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
-
         // (isOn을 수정하며 이벤트 리스너에 의해 ChangeCategory가 다시 불림)
-        public void ChangeCategory(ItemCategory category)
+        private void ChangeCategory(PlayerInventory.ItemCategory category)
         {
             if (_changeCategoryBlock) return;
             _changeCategoryBlock = true;
@@ -94,49 +127,16 @@ namespace GuildMaster.Windows.Inventory
             {
                 ict.Toggle.isOn = ict.category == category;
             }
+            playerItemListView.ChangeCategory((int)category);
 
-            Refresh();
             _changeCategoryBlock = false;
         }
 
-        public enum ItemCategory
-        {
-            Equipable,
-            Consumable,
-            Etc,
-            Important
-        }
 
-
-        private void UpdateChildrenItemIcons()
-        {
-            _itemIcons = GetComponentsInChildren<ItemIcon>().ToList();
-            foreach (var icon in _itemIcons)
-            {
-                icon.Clicked += OnItemIconClick;
-            }
-        }
-
-        private static bool _IsItemInCategory(Item item, ItemCategory category)
-        {
-            if (item == null) return false;
-            var itemData = ItemDatabase.Get(item.Code);
-            switch (category)
-            {
-                case ItemCategory.Equipable:
-                    return item.EquipAble;
-                case ItemCategory.Consumable:
-                    return itemData.IsConsumable;
-                case ItemCategory.Important:
-                    return itemData.IsImportant;
-                case ItemCategory.Etc:
-                    return !item.EquipAble && !itemData.IsConsumable && !itemData.IsImportant;
-                default:
-                    return false;
-            }
-        }
-
-        private ItemCategory _currentCategory;
-        private List<ItemIcon> _itemIcons;
+        private int _draggingItemIndex;
+        private ItemStack _draggingItemStack;
+        private PlayerInventory.ItemCategory _currentCategory;
+        private ItemListView.Window_Category _currentWindowCategory;
+        private bool initialized = false;
     }
 }

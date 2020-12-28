@@ -1,11 +1,9 @@
-using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
+using GuildMaster.Windows;
 
-namespace GuildMaster.Windows.Inventory
+namespace GuildMaster.Data
 {
     public class ItemCategoryToggle: ColorIfToggleIsOn
     {
-        public InventoryWindow.ItemCategory category;
+        public PlayerInventory.ItemCategory category;
     }
 }

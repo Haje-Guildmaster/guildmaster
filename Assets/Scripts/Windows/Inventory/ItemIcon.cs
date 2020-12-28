@@ -1,48 +1,95 @@
+
 using GuildMaster.Databases;
 using GuildMaster.Items;
 using GuildMaster.Tools;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GuildMaster.Windows.Inventory
+namespace GuildMaster.Windows
 {
-    public class ItemIcon: GenericButton<Item>, IPointerEnterHandler, IPointerExitHandler
+    public class ItemIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler
     {
-        public Image itemImage;
-        public Text itemNumberLabel;
+        public event Action<Item> PointerEntered;
+        public event Action PointerExited;
+        public event Action<PointerEventData, int> BeginDrag;
+        public event Action EndDrag;
+        public event Action<PointerEventData> Drag;
+        public event Action<PointerEventData, int> Drop;
+        public event Action<Item, int> Click;
 
-        public void UpdateAppearance(Item item, int number)
+        [SerializeField] private Image _itemImage;
+        [SerializeField] private Text _itemNumberLabel;
+
+        ItemIcon(Item _item, int _number, int _index)
         {
-            this._item = item;
-            itemImage.sprite = ItemDatabase.Get(item.Code).ItemImage;
-            itemNumberLabel.text = number.ToString();
+            UpdateAppearance(_item, _number, _index);
+        }
+
+        public void UpdateAppearance(Item _item, int _number, int _index)
+        {
+            if (_item == null || _number == 0)
+            {
+                this._item = null;
+                this._number = 0;
+                this._index = _index;
+                _itemImage.sprite = (Sprite)null;
+                _itemNumberLabel.text = "";
+            }
+            else
+            {
+                this._item = _item;
+                this._number = _number;
+                this._index = _index;
+                _itemImage.sprite = ItemDatabase.Get(_item.Code).ItemImage;
+                _itemNumberLabel.text = _number.ToString();
+            }
+            return;
+        }
+
+        public void ItemIconOnOff(bool onoff)
+        {
+            if (onoff) gameObject.GetComponent<Image>().color = Color.white;
+            else gameObject.GetComponent<Image>().color = Color.red;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (_item != null)
-                _panelRequestId = UiWindowsManager.Instance.itemInfoPanel.Open(_item.Code);
+            PointerEntered?.Invoke(_item);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (_panelRequestId == 0) return;
-            UiWindowsManager.Instance.itemInfoPanel.Close(_panelRequestId);
-            _panelRequestId = 0;
+            PointerExited?.Invoke();
         }
 
-        protected override Item EventArgument => _item;
-
-        public void Clear()
+        public void OnBeginDrag(PointerEventData eventData)
         {
-            this._item = null;
-            itemImage.sprite = null;
-            itemNumberLabel.text = "";
+            BeginDrag?.Invoke(eventData, _index);
         }
 
+        public void OnDrag(PointerEventData eventData)
+        {
+            Drag?.Invoke(eventData);
+        }
 
-        private Item _item;
-        private int _panelRequestId;
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            EndDrag?.Invoke();
+        }
+
+        public void OnDrop(PointerEventData eventData)
+        {
+            Drop?.Invoke(eventData, _index);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Click?.Invoke(_item, _number);
+        }
+
+        private Item _item = null;
+        private int _number = 0, _index;
     }
 }
