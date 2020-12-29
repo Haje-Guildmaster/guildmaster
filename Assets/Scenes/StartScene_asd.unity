@@ -21709,7 +21709,7 @@ MonoBehaviour:
   characterSelectTogglePrefab: {fileID: -2390961436484333384, guid: 860fbc40bd45bc4459d7c3119c80b873,
     type: 3}
   characterSelectToggleGroup: {fileID: 1677051205}
-  characterIllustration: {fileID: 838424832}
+  characterIllustration: {fileID: 2020373169}
   nameLabel: {fileID: 202009556}
   loyaltyLabel: {fileID: 2083998016}
   CharacteristicLabel: {fileID: 1015717679}
