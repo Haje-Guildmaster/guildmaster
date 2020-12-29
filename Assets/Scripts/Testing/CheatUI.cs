@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Exploration;
 using GuildMaster.TownRoam.TownLoad;
 using GuildMaster.TownRoam.Towns;
-using UnityEditor;
 using UnityEngine;
 
 namespace GuildMaster.Testing
@@ -27,7 +25,7 @@ namespace GuildMaster.Testing
                             TownLoadManager.LoadTownScene(TownRefs.TestTown);
                     }
 
-                
+
                 if (_explorationToggleValue = GUILayout.Toggle(_explorationToggleValue, "Exploration"))
                     using (new Indent(20f))
                     {
@@ -69,6 +67,6 @@ namespace GuildMaster.Testing
 
         private bool _townSceneToggleValue = true;
         private bool _explorationToggleValue = true;
-        private List<bool> _explorationSelectedCharacter = new List<bool>();
+        private readonly List<bool> _explorationSelectedCharacter = new List<bool>();
     }
 }
