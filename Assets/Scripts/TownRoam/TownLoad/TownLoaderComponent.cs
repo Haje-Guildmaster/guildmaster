@@ -11,7 +11,7 @@ namespace GuildMaster.TownRoam.TownLoad
     public class TownLoaderComponent: MonoBehaviour
     {
         [SerializeField] private Transform townParent = null;
-        [SerializeField] private PlaceViewer placeViewer = null;
+        [SerializeField] private RoomViewer roomViewer = null;
         public Town LoadedTown { get; private set; }
         
         private void Start()
@@ -30,7 +30,7 @@ namespace GuildMaster.TownRoam.TownLoad
             
             generatedTown.transform.SetParent(townParent);
             LoadedTown = generatedTown;
-            placeViewer.Goto(startPlace);
+            // roomViewer.Focus(startPlace);
         }
 
         private static (Town, Place) _Gen(Town town, TownLoadManager.Option option)

@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace GuildMaster.TownRoam
 {
     public class TownRoamManager : MonoBehaviour
     {
-        [SerializeField] private PlaceViewer _placeViewer;
+        [SerializeField] private RoomViewer _roomViewer;
         // [Header("Places")]
         [SerializeField] private Room _guild;
 
@@ -29,7 +30,7 @@ namespace GuildMaster.TownRoam
         public void GotoRoom(Room room)
         {
             _currentRoom = room;
-            // Todo: placeViewer
+            _roomViewer.Focus(room);
         }
 
         private Room GetEntrance(PlaceName placeName)
