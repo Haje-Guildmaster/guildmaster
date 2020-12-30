@@ -7,8 +7,7 @@ using GuildMaster.Data;
 using GuildMaster.Databases;
 using GuildMaster.Exploration.Events;
 using GuildMaster.Tools;
-using GuildMaster.TownRoam.TownLoad;
-using GuildMaster.TownRoam.Towns;
+using GuildMaster.TownRoam;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -76,7 +75,7 @@ namespace GuildMaster.Exploration
                 async void EndExploration()
                 {
                     await _explorationView.ReportExplorationResults(_log);
-                    TownLoadManager.LoadTownScene(TownRefs.TestTown);
+                    TownRoamLoader.Load();
                 }
             }
         }

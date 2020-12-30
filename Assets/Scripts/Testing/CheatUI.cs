@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Exploration;
-using GuildMaster.TownRoam.TownLoad;
-using GuildMaster.TownRoam.Towns;
-using UnityEditor;
+using GuildMaster.TownRoam;
 using UnityEngine;
 
 namespace GuildMaster.Testing
@@ -24,7 +21,7 @@ namespace GuildMaster.Testing
                     using (new Indent(20f))
                     {
                         if (GUILayout.Button("Start Town Scene"))
-                            TownLoadManager.LoadTownScene(TownRefs.TestTown);
+                            TownRoamLoader.Load();
                     }
 
                 
