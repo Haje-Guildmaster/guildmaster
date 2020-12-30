@@ -32,7 +32,7 @@ namespace GuildMaster.Tools
         public event Action<int> Picked;            // 선택된 항목을 다시 한번 클릭했을 때.
         public event Action<int> SelectingChange;        // 선택된 항목이 바뀌었을 때.
 
-        private void Awake()
+        private void Start()
         {
             _ResetChildList();
         }

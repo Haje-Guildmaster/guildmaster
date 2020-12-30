@@ -1,11 +1,13 @@
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GuildMaster.Tools
+namespace GuildMaster.Exploration
 {
+    /// <summary>
+    /// 클릭했을 시 ExplorationManager에 탐색 종료를 요청합니다.
+    /// </summary>
     [RequireComponent(typeof(Button))]
-    public class AsyncButton: MonoBehaviour
+    public class ExplorationExitRequestButton: MonoBehaviour
     {
         private void Awake()
         {
@@ -13,16 +15,11 @@ namespace GuildMaster.Tools
             _button.onClick.AddListener(OnClick);
         }
 
-        public async Task WaitForClick()
-        {
-            await _clickWaiter.Wait();
-        }
         private void OnClick()
         {
-            _clickWaiter.Signal();
+            ExplorationManager.Instance.RequestExit();
         }
 
-        private SignalWaiter _clickWaiter = new SignalWaiter();
         private Button _button;
     }
 }

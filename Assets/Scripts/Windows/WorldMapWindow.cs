@@ -14,7 +14,7 @@ public class WorldMapWindow : DraggableWindow, IToggleableWindow
     public void GoToExploration()
     {
         base.Close();
-        ExplorationLoader.Instance.Load(UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.exploreCharacterList);
+        ExplorationLoader.Load(UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.exploreCharacterList);
     }
 
     public void Back()

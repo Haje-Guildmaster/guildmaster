@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
 using GuildMaster.Tools;
 using UnityEngine;
@@ -51,14 +52,18 @@ namespace GuildMaster.Exploration
         }
 
         public delegate bool LocationFilter(MapNode node);
-        public async Task<MapNode> Select(LocationFilter filter)
+        public async Task<MapNode> Select(LocationFilter filter, CancellationToken cancelToken = default)
         {
             _requestedSelect?.taskCompletionSource.SetResult(null);; // 이미 선택 중이었다면 원래 선택은 실패.
 
-            var selectedNode = new TaskCompletionSource<MapNode>();
-            _requestedSelect = (filter, selectedNode);
-
-            return await selectedNode.Task;
+            var nodeSelectCompletionSource = new TaskCompletionSource<MapNode>();
+            _requestedSelect = (filter, nodeSelectCompletionSource);
+            
+            using (cancelToken.Register(() => {
+                nodeSelectCompletionSource.TrySetCanceled();
+            })) {
+                return await nodeSelectCompletionSource.Task;
+            }
         }
         
         private void ProcessLocationButtonClick(LocationButton locationButton)
@@ -74,7 +79,7 @@ namespace GuildMaster.Exploration
             if (filter(node))
             {
                 _requestedSelect = null; // 순서주의
-                tcs.SetResult(node);
+                tcs.TrySetResult(node);
             }
         }
 
