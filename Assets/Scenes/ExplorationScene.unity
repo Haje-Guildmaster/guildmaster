@@ -3398,7 +3398,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &641487210
 PrefabInstance:
@@ -4429,7 +4429,7 @@ Transform:
   - {fileID: 343468047}
   - {fileID: 1734282890}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1112774501
 MonoBehaviour:
@@ -4635,83 +4635,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1168546856}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1229755650
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1229755652}
-  - component: {fileID: 1229755651}
-  m_Layer: 0
-  m_Name: Exploration Debugger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1229755651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1229755650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 027c16c451de4eaa90d96ebcce6a8dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _map:
-    _graph:
-      _nodes:
-      - _content:
-          LocationCode:
-            Value: 0
-          Position: {x: -2.5, y: -1}
-        Connected: 0100000005000000
-      - _content:
-          LocationCode:
-            Value: 1
-          Position: {x: -2, y: 2.3}
-        Connected: 0000000002000000
-      - _content:
-          LocationCode:
-            Value: 2
-          Position: {x: 0.6, y: 2.3}
-        Connected: 010000000300000004000000
-      - _content:
-          LocationCode:
-            Value: 3
-          Position: {x: 3.2, y: 2.6}
-        Connected: 0200000004000000
-      - _content:
-          LocationCode:
-            Value: 4
-          Position: {x: 2.5, y: 0.5}
-        Connected: 020000000300000005000000
-      - _content:
-          LocationCode:
-            Value: 5
-          Position: {x: -0.3, y: -1.8}
-        Connected: 0400000000000000
-    Background: {fileID: 21300000, guid: 20a854d7f88d75644a72c4d0aaf4717c, type: 3}
---- !u!4 &1229755652
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1229755650}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 533.31964, y: 387.61337, z: -605.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1256421712
 GameObject:
   m_ObjectHideFlags: 0
