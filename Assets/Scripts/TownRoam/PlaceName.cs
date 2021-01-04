@@ -9,6 +9,6 @@ namespace GuildMaster.TownRoam
         Square,
         Church,
         Forge,
-        Stagecoach,
+        // Stagecoach,
     }
 }
