@@ -183,6 +183,6 @@ namespace GuildMaster.Exploration
         /// <summary>
         /// 이 탐색에 들고 나온 아이템들 인벤토리. // Todo: ExplorationLoader에서 탐색이 로드될 때 가져온 아이템 이곳으로 옮기기.
         /// </summary>
-        private Inventory _inventory;
+        private Inventory _inventory = new Inventory(12, false);
     }
 }
