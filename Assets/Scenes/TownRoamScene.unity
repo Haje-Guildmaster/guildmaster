@@ -615,7 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4cba4cbb12844cf8a17981cdb6968b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npc:
+  _npcCode:
     Value: 1
 --- !u!4 &267165939309267843
 Transform:
@@ -847,7 +847,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3096590512938567388}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 54.699997, y: -15.699997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1096,7 +1096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4cba4cbb12844cf8a17981cdb6968b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npc:
+  _npcCode:
     Value: 0
 --- !u!61 &2236644747004973970
 BoxCollider2D:
