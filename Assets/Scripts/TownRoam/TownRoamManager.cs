@@ -8,8 +8,8 @@ namespace GuildMaster.TownRoam
     public class TownRoamManager : MonoBehaviour
     {
         [SerializeField] private RoomViewer _roomViewer;
-        // [Header("Places")]
-        [SerializeField] private Room _guild;
+        
+        [SerializeField] private Town _town;
 
 
         public static TownRoamManager Instance =>
@@ -35,19 +35,9 @@ namespace GuildMaster.TownRoam
 
         private Room GetEntrance(PlaceName placeName)
         {
-            Room ret = _GetEntrance(placeName);
+            Room ret = _town.GetEntrance(placeName);
             Assert.IsTrue(ret.BelongingPlace == placeName);
             return ret;
-        }
-        private Room _GetEntrance(PlaceName placeName)
-        {
-            switch (placeName)
-            {
-                case PlaceName.Guild:
-                    return _guild;
-                default:
-                    throw new NotImplementedException();
-            }   
         }
 
         private Room _currentRoom;

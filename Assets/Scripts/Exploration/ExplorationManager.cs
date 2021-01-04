@@ -154,7 +154,7 @@ namespace GuildMaster.Exploration
                 return (true, null);
             }
 
-            var taskList = new List<Task<(bool, MapNode)>>{Select()};
+            var taskList = new List<Task<(bool, MapNode)>> {Select()};
             if (allowEnd) taskList.Add(End());
 
             var (endExploration, destination) =
@@ -170,7 +170,7 @@ namespace GuildMaster.Exploration
 
             return (endExploration, destination);
         }
-        
+
         private static ExplorationManager _instance;
 
         private ExplorationLog _log;
