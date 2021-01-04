@@ -37,27 +37,8 @@ namespace GuildMaster.Characters
         public int MaxSp => StaticData.BattleStatData.MaxSp;
         public int MaxHp => StaticData.BattleStatData.MaxHp;     // MaxSp, MaxSp, Hp 등은 후에 캐릭터 종류에 종속된 값이 아니게 될 것이라 판단하여 Character에 넣습니다.
         public int MaxStamina => StaticData.BattleStatData.MaxStamina;
-
-        public string TraitText()
-        {
-            String _str = "";
-            for(int i = 0; i < ActiveTraits.Count; i++)
-            {
-                _str += $"[{TraitDatabase.Get(ActiveTraits[i]).Name}]\n{TraitDatabase.Get(ActiveTraits[i]).Description}\n";
-            }
-            return _str;
-        }
-
-        public string TraitName()
-        {
-            String _str = "";
-            for (int i = 0; i < ActiveTraits.Count; i++)
-            {
-                _str += $"[{TraitDatabase.Get(ActiveTraits[i]).Name}] ";
-            }
-            return _str;
-        }
-
+        
+        
         public float Injury                        // 현재 부상 정도(0~1). 퍼센트로 최대 체력이 깎인다.
         {
             get => _injury;
@@ -108,7 +89,7 @@ namespace GuildMaster.Characters
         private readonly ChangeTrackedValue<int> _sp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _stamina = new ChangeTrackedValue<int>();
         private ReadOnlyCollection<string> NameList => StaticData.BasicData.NameList.AsReadOnly();
-        public List<CharacterTraitData.Trait> ActiveTraits => StaticData.BasicData.ActiveTraits;
+        public List<Trait> ActiveTraits => StaticData.BasicData.ActiveTraits;
         public CharacterStaticData StaticData => CharacterDatabase.Get(_code);
     }
 }

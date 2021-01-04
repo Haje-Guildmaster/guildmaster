@@ -125,6 +125,7 @@ public class AudioManager : MonoBehaviour
             SEObjects.transform.SetParent(this.transform);
         }
         PlayBGM(0);
+        SetMasterVolumeOnOff(true);
     }
 
     public void PlayBGMwasPlaying()

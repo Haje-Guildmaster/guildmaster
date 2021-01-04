@@ -66,6 +66,6 @@ namespace GuildMaster.Testing
 
         private bool _townSceneToggleValue = true;
         private bool _explorationToggleValue = true;
-        private List<bool> _explorationSelectedCharacter = new List<bool>();
+        private readonly List<bool> _explorationSelectedCharacter = new List<bool>();
     }
 }

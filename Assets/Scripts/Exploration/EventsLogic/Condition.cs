@@ -1,4 +1,5 @@
 using System;
+using GuildMaster.Characters;
 
 namespace GuildMaster.Exploration.Events
 {
@@ -19,7 +20,7 @@ namespace GuildMaster.Exploration.Events
         [Serializable]
         public class HasTrait : Condition
         {
-            public CharacterTraitData.Trait Trait;
+            public Trait Trait;
         }
     }
 }

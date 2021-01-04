@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using GuildMaster.Characters;
-using GuildMaster.Databases;
 using UnityEngine;
 
 namespace GuildMaster.Exploration
