@@ -56,6 +56,7 @@ namespace GuildMaster.Windows
             Refresh();
         }
 
+        // Todo: 캐릭터 정보 변화 구독.
         private void Refresh()
         {
             if (_currentCharacter == null)

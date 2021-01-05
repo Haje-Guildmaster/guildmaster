@@ -10431,6 +10431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d14d15671e4712b3037f221b7b27c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _townSceneName: TownRoamScene
+  _explorationSceneName: ExplorationScene
 --- !u!4 &399374500
 Transform:
   m_ObjectHideFlags: 0

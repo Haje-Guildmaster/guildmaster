@@ -12,6 +12,9 @@ namespace GuildMaster.Testing
     /// </summary>
     public class CheatUI : MonoBehaviour
     {
+        [SerializeField] private string _townSceneName;
+        [SerializeField] private string _explorationSceneName;
+        
         private void OnGUI()
         {
             using (new GUILayout.VerticalScope())
@@ -21,7 +24,7 @@ namespace GuildMaster.Testing
                     using (new Indent(20f))
                     {
                         if (GUILayout.Button("Start Town Scene"))
-                            TownRoamLoader.Load();
+                            TownRoamLoader.Load(_townSceneName);
                     }
 
                 
@@ -43,7 +46,7 @@ namespace GuildMaster.Testing
 
                         if (GUILayout.Button("Start Exploration"))
                             ExplorationLoader.Load(
-                                members.Where((c, i) => _explorationSelectedCharacter[i]).ToList());
+                                members.Where((c, i) => _explorationSelectedCharacter[i]).ToList(), _explorationSceneName);
                     }
             }
         }
