@@ -7,7 +7,7 @@ namespace GuildMaster.TownRoam
         /// <summary>
         /// 마을 씬을 열고 TownRoamManager를 시작시킵니다.
         /// </summary>
-        public static void Load()
+        public static void Load(string sceneName="TownRoamScene")
         {
             // 씬이 로딩된 후에 할 일 지정.
             SceneManager.sceneLoaded += CallTownRoamManager;
@@ -18,7 +18,7 @@ namespace GuildMaster.TownRoam
                 TownRoamManager.Instance.StartTownRoam();
             }
 
-            SceneManager.LoadScene("TownRoamScene");
+            SceneManager.LoadScene(sceneName);
         }
     }
 }
