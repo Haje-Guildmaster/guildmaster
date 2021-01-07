@@ -17408,7 +17408,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 373381527}
         m_TargetAssemblyTypeName: WorldMapWindow, Assembly-CSharp
-        m_MethodName: GoToExploration
+        m_MethodName: GoNext
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -46991,7 +46991,7 @@ MonoBehaviour:
       - m_Target: {fileID: 503203603}
         m_TargetAssemblyTypeName: GuildMaster.Windows.Inventory.ExplorationItemSelectingWindow,
           Assembly-CSharp
-        m_MethodName: GoWorldMap
+        m_MethodName: GoNext
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

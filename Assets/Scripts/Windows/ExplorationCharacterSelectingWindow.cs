@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Data;
 using GuildMaster.Databases;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 
 namespace GuildMaster.Windows
 {
-    public class ExplorationCharacterSelectingWindow : DraggableWindow, IToggleableWindow
+    public class ExplorationCharacterSelectingWindow : DraggableWindow
     {
         [SerializeField] private Transform characterSelectingListParent;
         [SerializeField] private Toggle characterSelectingTogglePrefab;
@@ -29,20 +30,60 @@ namespace GuildMaster.Windows
         [SerializeField] private Text CharacteristicLabel;
 
         public List<Character> exploreCharacterList = new List<Character>();
+        
+        public class Response
+        {
+            public enum ActionEnum
+            {
+                Cancel,
+                GoNext
+            }
 
+            public ActionEnum NextAction;
+            public List<Character> SelectedCharacters;
+        }
+        
         public void OpenNext()
         {
-            base.Close();
-            UiWindowsManager.Instance.ExplorationItemSelectingWindow.Open();
-            //ExplorationLoader.Instance.Load(exploreCharacterList); //Asd가 구현중인 기능 에러 뜨는게 정상
+            _responseTaskCompletionSource.TrySetResult(
+                new Response
+                {
+                    NextAction = Response.ActionEnum.GoNext,
+                    SelectedCharacters = exploreCharacterList.ToList(),
+                });
+            Close();
         }
 
-        public void Open()
+        protected override void OnClose()
         {
-            base.OpenWindow();
-            if (first) Set_allCharacters();
-            RefreshList();
+            _responseTaskCompletionSource.TrySetResult(
+                new Response
+                {
+                    NextAction = Response.ActionEnum.Cancel,
+                    SelectedCharacters = null,
+                });
         }
+        
+        public async Task<Response> GetResponse()
+        {
+            // 마지막 GetResponse가 안 끝났으면 취소시키기
+            _responseTaskCompletionSource.TrySetResult(
+                new Response
+                {
+                    NextAction = Response.ActionEnum.Cancel,
+                    SelectedCharacters = null,
+                });
+            
+            // 윈도우 초기 화면
+            base.OpenWindow();
+            Set_allCharacters();
+            RefreshList();
+            
+            // 입력 기다림.
+            _responseTaskCompletionSource = new TaskCompletionSource<Response>(); 
+            return await _responseTaskCompletionSource.Task;
+        }
+
         public void SwitchList()
         {
             if (_allCharacters.Contains(_currentCharacter))
@@ -79,6 +120,7 @@ namespace GuildMaster.Windows
                 if (i == 0)
                     made.isOn = false; //위의 AddListener와 순서 주의.
             }
+
             foreach (Transform t in characterSelectedListParent)
                 Destroy(t.gameObject);
             foreach (var (ch, i) in exploreCharacterList.Select((i, j) =>
@@ -123,6 +165,7 @@ namespace GuildMaster.Windows
                     .Select(TraitDatabase.Get)
                     .Select(tsd => $"[{tsd.Name}]\n{tsd.Description}"));
             }
+
             CharacteristicLabel.text = TraitText(_currentCharacter);
             maxHpLabel.text = $"{_currentCharacter.Hp}/{_currentCharacter.MaxHp}";
             maxSpLeftLabel.text = (sd.BattleStatData.SpIsMp ? "MP" : "DP") + ":";
@@ -135,16 +178,11 @@ namespace GuildMaster.Windows
 
         private void Set_allCharacters()
         {
-            first = false;
-            foreach (var (ch, i) in Player.Instance.PlayerGuild._guildMembers.GuildMemberList.Select((i, j) =>
-                (i, j)))
-            {
-                _allCharacters.Add(ch);
-            }
+            _allCharacters = Player.Instance.PlayerGuild._guildMembers.GuildMemberList.ToList();
         }
 
         private Character _currentCharacter;
-        private bool first = true;
-        private List<Character> _allCharacters = new List<Character>();
+        private List<Character> _allCharacters;
+        private TaskCompletionSource<Response> _responseTaskCompletionSource = new TaskCompletionSource<Response>();
     }
 }

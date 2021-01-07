@@ -18,7 +18,7 @@ namespace GuildMaster.Windows
         private void StartExplorationPreparation()
         {
             BeforeAction?.Invoke();
-            UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Open();
+            // UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Open();
         }
 
         private Button _button;
