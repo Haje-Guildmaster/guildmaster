@@ -22,7 +22,13 @@ public class WorldMapWindow : DraggableWindow
 
     public async Task<Response> GetResponse()
     {
+        // 마지막 GetResponse가 안 끝났으면 취소시키기
         _responseTaskCompletionSource.TrySetResult(new Response {NextAction = Response.ActionEnum.Cancel});
+
+        // 윈도우 열기.
+        base.OpenWindow();
+
+        // 입력 기다리기.
         _responseTaskCompletionSource = new TaskCompletionSource<Response>();
         return await _responseTaskCompletionSource.Task;
     }
