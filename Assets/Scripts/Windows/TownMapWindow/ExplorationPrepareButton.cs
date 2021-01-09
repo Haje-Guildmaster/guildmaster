@@ -1,4 +1,5 @@
 using System;
+using GuildMaster.TownRoam;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ namespace GuildMaster.Windows
         private void StartExplorationPreparation()
         {
             BeforeAction?.Invoke();
+            ExplorationPreparer.Instance.GoExplore();
             // UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Open();
         }
 

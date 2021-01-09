@@ -1,5 +1,6 @@
 ﻿using GuildMaster.Data; //for test
-using GuildMaster.InGameEvents; //for test
+using GuildMaster.InGameEvents;
+using GuildMaster.TownRoam; //for test
 using GuildMaster.Windows;
 using GuildMaster.Windows.Inven;
 using UnityEditor; //for test
@@ -23,8 +24,8 @@ namespace GuildMaster
                 UiWindowsManager.Instance.characterInspectWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.G)) //길드 정보
                 UiWindowsManager.Instance.guildInspectWindow.Toggle();
-            // if (Input.GetKeyDown(KeyCode.E))
-                // UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Toggle();
+            if (Input.GetKeyDown(KeyCode.E))
+                ExplorationPreparer.Instance.GoExplore();
             //Settings 와 그 자식 파일들 
             if (Input.GetKeyDown(KeyCode.Escape)) //ESC 환경설정
             {
