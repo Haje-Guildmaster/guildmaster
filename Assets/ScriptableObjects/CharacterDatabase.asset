@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - BasicData:
-      Illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
+      Illustration: {fileID: 21300000, guid: 2f948accacb6dd84c8f832900e1e0959, type: 3}
       NameList:
       - "\uD669"
       ActiveTraits: 0000000002000000
@@ -50,4 +50,4 @@ MonoBehaviour:
       GoodOrEvil: 3
       SmartOrStupid: 3
   currentEditingIndex:
-    Value: 1
+    Value: 0
