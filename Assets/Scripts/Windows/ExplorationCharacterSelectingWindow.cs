@@ -16,10 +16,9 @@ namespace GuildMaster.Windows
     {
         [SerializeField] private Transform characterSelectingListParent;
         [SerializeField] private Toggle characterSelectingTogglePrefab;
-        [SerializeField] private ToggleGroup characterSelectingToggleGroup;
+        [SerializeField] private ToggleGroup characterToggleGroup;
         [SerializeField] private Transform characterSelectedListParent;
         [SerializeField] private Toggle characterSelectedTogglePrefab;
-        [SerializeField] private ToggleGroup characterSelectedToggleGroup;
         [SerializeField] private Image characterIllustration;
         [SerializeField] private Text nameLabel;
         [SerializeField] private Text loyaltyLabel;
@@ -116,7 +115,7 @@ namespace GuildMaster.Windows
                 (i, j)))
             {
                 var made = Instantiate(characterSelectingTogglePrefab, characterSelectingListParent);
-                made.group = characterSelectingToggleGroup;
+                made.group = characterToggleGroup;
                 made.GetComponentInChildren<Text>().text = ch.UsingName;
                 var capture = ch;
                 made.onValueChanged.AddListener(b =>
@@ -133,7 +132,7 @@ namespace GuildMaster.Windows
                 (i, j)))
             {
                 var made = Instantiate(characterSelectedTogglePrefab, characterSelectedListParent);
-                made.group = characterSelectedToggleGroup;
+                made.group = characterToggleGroup;
                 made.GetComponentInChildren<Text>().text = ch.UsingName;
                 var capture = ch;
                 made.onValueChanged.AddListener(b =>
