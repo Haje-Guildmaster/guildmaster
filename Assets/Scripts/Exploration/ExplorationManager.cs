@@ -16,6 +16,7 @@ using UnityEngine.Assertions;
 namespace GuildMaster.Exploration
 {
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
+    using Weighteditem = ProbabilityTool<EventSeedCode>.Weighteditem;
 
     /// <summary>
     /// 탐색 과정을 총괄합니다.
@@ -27,7 +28,9 @@ namespace GuildMaster.Exploration
     public class ExplorationManager : MonoBehaviour
     {
         [SerializeField] private ExplorationView _explorationView;
-        [SerializeField] private EventSeedCode _testEventSeed;
+        //발생 가능한 EventSeedCode를 리스트로 받습니다.
+        [SerializeField] private List<EventSeedCode> _testEventSeed;
+
 
         public static ExplorationManager Instance =>
             _instance != null ? _instance : (_instance = FindObjectOfType<ExplorationManager>());
@@ -44,6 +47,21 @@ namespace GuildMaster.Exploration
             _explorationView.Setup(characters, map);
             _log = new ExplorationLog();
 
+            //확률적으로 택해진 EventSeedCode를 담을 변수 생성
+            EventSeedCode _chosenEventSeedCode = new EventSeedCode(); 
+
+            //EventSeedCode 리스트에 Weight를 적용시켜서 대응되는 Weighteditem 리스트를 만듭니다.
+            List<Weighteditem> _weightedSeedList = new List<Weighteditem>();
+            foreach(EventSeedCode eventSeed in _testEventSeed)
+            {
+                //TODO : 지금은 각 EventSeedCode가 동일한 가중치를 가지지만, 이후 확률을 조정할 수 있도록 변경되어야 함
+                Weighteditem weightedItem = new Weighteditem(eventSeed, 2);
+                _weightedSeedList.Add(weightedItem);
+            }
+            //위 리스트를 인자로 probabilitytool 인스턴스를 만듭니다. 이 인스턴스는 이벤트 발생 때마다
+            //랜덤한 EventSeedCode를 고르기 위해 사용됩니다.
+            ProbabilityTool<EventSeedCode> seedChoiceTool = new ProbabilityTool<EventSeedCode>(_weightedSeedList);
+
             RunExploration();
 
             async void RunExploration()
@@ -54,7 +72,7 @@ namespace GuildMaster.Exploration
 
                 if (!endInBaseSelection)
                 {
-                    var eventSeed = EventSeedDatabase.Get(_testEventSeed).EventSeed;
+                    
                     while (true)
                     {
                         // 다음 목적지 선택.
@@ -66,6 +84,8 @@ namespace GuildMaster.Exploration
                         _currentNode = destination;
 
                         // 이벤트 발생
+                        _chosenEventSeedCode = (EventSeedCode)seedChoiceTool.Getitem().item;
+                        var eventSeed = EventSeedDatabase.Get(_chosenEventSeedCode).EventSeed;
                         var testEvent = eventSeed.Generate(new System.Random());
                         await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory, testEvent,
                                 _log)

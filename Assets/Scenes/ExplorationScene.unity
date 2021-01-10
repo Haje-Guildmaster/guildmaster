@@ -3290,7 +3290,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explorationView: {fileID: 1112774501}
   _testEventSeed:
-    Value: 0
+  - Value: 0
+  - Value: 1
 --- !u!4 &562616186
 Transform:
   m_ObjectHideFlags: 0
