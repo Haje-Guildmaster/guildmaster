@@ -32,7 +32,8 @@ namespace GuildMaster.TownRoam
                         {
                             case 0:
                             {
-                                var characterResponse = await CharacterSelector.GetResponse(characters, cancellationToken);
+                                var characterResponse =
+                                    await CharacterSelector.GetResponse(characters, cancellationToken);
                                 characters = characterResponse.SelectedCharacters;
                                 var next = characterResponse.NextAction;
                                 if (next == ExplorationCharacterSelectingWindow.Response.ActionEnum.GoNext)
@@ -66,6 +67,14 @@ namespace GuildMaster.TownRoam
                                 break;
                             }
                             case 3:
+                                if (characters.Count == 0)
+                                {
+                                    await UiWindowsManager.Instance
+                                        .AsyncShowMessageBox("알림", "캐릭터를 1명 이상 선택해야 합니다.", new[] {"확인"});
+                                    step = 0;
+                                    break;
+                                }
+
                                 ExplorationLoader.Load(characters, inventory);
                                 return;
                             default:
@@ -93,7 +102,7 @@ namespace GuildMaster.TownRoam
             else
                 GoExplore();
         }
-        
+
         private CancellationTokenSource _goExploreCancelTokenSource = new CancellationTokenSource();
 
         private readonly SingularRun _goExploreSingularRun = new SingularRun();
