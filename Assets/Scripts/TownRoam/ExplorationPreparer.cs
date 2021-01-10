@@ -22,7 +22,7 @@ namespace GuildMaster.TownRoam
             {
                 try
                 {
-                    List<Character> characters = null;
+                    List<Character> characters = new List<Character>();
                     var inventory = new Inventory(12, true);
 
                     var step = 0;
@@ -32,7 +32,7 @@ namespace GuildMaster.TownRoam
                         {
                             case 0:
                             {
-                                var characterResponse = await CharacterSelector.GetResponse(cancellationToken);
+                                var characterResponse = await CharacterSelector.GetResponse(characters, cancellationToken);
                                 characters = characterResponse.SelectedCharacters;
                                 var next = characterResponse.NextAction;
                                 if (next == ExplorationCharacterSelectingWindow.Response.ActionEnum.GoNext)

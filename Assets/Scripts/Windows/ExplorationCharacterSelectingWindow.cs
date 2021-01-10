@@ -32,8 +32,6 @@ namespace GuildMaster.Windows
         [SerializeField] private Text intLabel;
         [SerializeField] private Text CharacteristicLabel;
 
-        public List<Character> exploreCharacterList = new List<Character>();
-
         public class Response
         {
             public enum ActionEnum
@@ -52,7 +50,7 @@ namespace GuildMaster.Windows
                 new Response
                 {
                     NextAction = Response.ActionEnum.GoNext,
-                    SelectedCharacters = exploreCharacterList.ToList(),
+                    SelectedCharacters = _exploreCharacterList.ToList(),
                 });
         }
 
@@ -66,15 +64,19 @@ namespace GuildMaster.Windows
                 });
         }
 
-        public async Task<Response> GetResponse(CancellationToken cancellationToken = default)
+        public async Task<Response> GetResponse(List<Character> initialSelectedCharacters = null,
+            CancellationToken cancellationToken = default)
         {
+            if (initialSelectedCharacters == null)
+                initialSelectedCharacters = new List<Character>();
+            
             return await _getResponseSingularRun.Run(async linkedCancellationToken =>
             {
                 try
                 {
                     // 윈도우 초기 화면
                     base.OpenWindow();
-                    Set_allCharacters();
+                    ResetCharacterLists(initialSelectedCharacters);
                     RefreshList();
 
                     // 입력 기다림.
@@ -92,14 +94,14 @@ namespace GuildMaster.Windows
         {
             if (_allCharacters.Contains(_currentCharacter))
             {
-                if (exploreCharacterList.Count == 4) return;
+                if (_exploreCharacterList.Count == 4) return;
                 _allCharacters.Remove(_currentCharacter);
-                exploreCharacterList.Add(_currentCharacter);
+                _exploreCharacterList.Add(_currentCharacter);
                 RefreshList();
             }
-            else if (exploreCharacterList.Contains(_currentCharacter))
+            else if (_exploreCharacterList.Contains(_currentCharacter))
             {
-                exploreCharacterList.Remove(_currentCharacter);
+                _exploreCharacterList.Remove(_currentCharacter);
                 _allCharacters.Add(_currentCharacter);
                 RefreshList();
             }
@@ -127,7 +129,7 @@ namespace GuildMaster.Windows
 
             foreach (Transform t in characterSelectedListParent)
                 Destroy(t.gameObject);
-            foreach (var (ch, i) in exploreCharacterList.Select((i, j) =>
+            foreach (var (ch, i) in _exploreCharacterList.Select((i, j) =>
                 (i, j)))
             {
                 var made = Instantiate(characterSelectedTogglePrefab, characterSelectedListParent);
@@ -180,11 +182,26 @@ namespace GuildMaster.Windows
             intLabel.text = _currentCharacter.Int.ToString();
         }
 
-        private void Set_allCharacters()
+        private void ResetCharacterLists(List<Character> initialExploreCharacterList)
         {
             _allCharacters = Player.Instance.PlayerGuild._guildMembers.GuildMemberList.ToList();
+            _exploreCharacterList.Clear();
+            foreach (var c in initialExploreCharacterList)
+            {
+                if (_allCharacters.Contains(c))
+                {
+                    _allCharacters.Remove(c);
+                    _exploreCharacterList.Add(c);
+                }
+                else
+                {
+                    Debug.LogWarning($"{nameof(_allCharacters)} doesn't contains {c} from {nameof(initialExploreCharacterList)}");
+                }
+            }
         }
 
+
+        private readonly List<Character> _exploreCharacterList = new List<Character>();
         private readonly SingularRun _getResponseSingularRun = new SingularRun();
         private Character _currentCharacter;
         private List<Character> _allCharacters;
