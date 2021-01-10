@@ -2,7 +2,9 @@
 using GuildMaster.Windows;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using GuildMaster.Tools;
 using UnityEngine;
 
 public class WorldMapWindow : DraggableWindow
@@ -19,27 +21,32 @@ public class WorldMapWindow : DraggableWindow
         public ActionEnum NextAction;
     }
 
-
-    public async Task<Response> GetResponse()
+    public async Task<Response> GetResponse(CancellationToken cancellationToken = default)
     {
-        // 마지막 GetResponse가 안 끝났으면 취소시키기
-        _responseTaskCompletionSource.TrySetResult(new Response {NextAction = Response.ActionEnum.Cancel});
+        return await _getResponseSingularRun.Run(async linkedCancellationToken =>
+        {
+            try
+            {
+                // 윈도우 열기.
+                base.OpenWindow();
 
-        // 윈도우 열기.
-        base.OpenWindow();
-
-        // 입력 기다리기.
-        _responseTaskCompletionSource = new TaskCompletionSource<Response>();
-        return await _responseTaskCompletionSource.Task;
+                // 입력 기다리기
+                _responseTaskCompletionSource = new TaskCompletionSource<Response>();
+                return await _responseTaskCompletionSource.CancellableTask(linkedCancellationToken);
+            }
+            finally
+            {
+                Close();
+            }
+        }, cancellationToken);
     }
-    
+
     public void GoNext()
     {
         _responseTaskCompletionSource.TrySetResult(new Response
         {
             NextAction = Response.ActionEnum.GoNext,
         });
-        Close();
     }
 
     public void Back()
@@ -48,7 +55,6 @@ public class WorldMapWindow : DraggableWindow
         {
             NextAction = Response.ActionEnum.GoBack,
         });
-        Close();
     }
 
     protected override void OnClose()
@@ -59,5 +65,6 @@ public class WorldMapWindow : DraggableWindow
         });
     }
 
+    private readonly SingularRun _getResponseSingularRun = new SingularRun();
     private TaskCompletionSource<Response> _responseTaskCompletionSource = new TaskCompletionSource<Response>();
 }

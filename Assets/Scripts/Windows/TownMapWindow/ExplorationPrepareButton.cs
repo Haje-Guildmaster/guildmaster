@@ -20,7 +20,6 @@ namespace GuildMaster.Windows
         {
             BeforeAction?.Invoke();
             ExplorationPreparer.Instance.GoExplore();
-            // UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Open();
         }
 
         private Button _button;

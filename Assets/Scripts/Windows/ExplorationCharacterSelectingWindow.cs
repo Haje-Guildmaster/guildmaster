@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Data;
 using GuildMaster.Databases;
+using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +33,7 @@ namespace GuildMaster.Windows
         [SerializeField] private Text CharacteristicLabel;
 
         public List<Character> exploreCharacterList = new List<Character>();
-        
+
         public class Response
         {
             public enum ActionEnum
@@ -42,7 +45,7 @@ namespace GuildMaster.Windows
             public ActionEnum NextAction;
             public List<Character> SelectedCharacters;
         }
-        
+
         public void OpenNext()
         {
             _responseTaskCompletionSource.TrySetResult(
@@ -51,7 +54,6 @@ namespace GuildMaster.Windows
                     NextAction = Response.ActionEnum.GoNext,
                     SelectedCharacters = exploreCharacterList.ToList(),
                 });
-            Close();
         }
 
         protected override void OnClose()
@@ -63,25 +65,27 @@ namespace GuildMaster.Windows
                     SelectedCharacters = null,
                 });
         }
-        
-        public async Task<Response> GetResponse()
+
+        public async Task<Response> GetResponse(CancellationToken cancellationToken = default)
         {
-            // 마지막 GetResponse가 안 끝났으면 취소시키기
-            _responseTaskCompletionSource.TrySetResult(
-                new Response
+            return await _getResponseSingularRun.Run(async linkedCancellationToken =>
+            {
+                try
                 {
-                    NextAction = Response.ActionEnum.Cancel,
-                    SelectedCharacters = null,
-                });
-            
-            // 윈도우 초기 화면
-            base.OpenWindow();
-            Set_allCharacters();
-            RefreshList();
-            
-            // 입력 기다림.
-            _responseTaskCompletionSource = new TaskCompletionSource<Response>(); 
-            return await _responseTaskCompletionSource.Task;
+                    // 윈도우 초기 화면
+                    base.OpenWindow();
+                    Set_allCharacters();
+                    RefreshList();
+
+                    // 입력 기다림.
+                    _responseTaskCompletionSource = new TaskCompletionSource<Response>();
+                    return await _responseTaskCompletionSource.CancellableTask(linkedCancellationToken);
+                }
+                finally
+                {
+                    Close();
+                }
+            }, cancellationToken);
         }
 
         public void SwitchList()
@@ -181,6 +185,7 @@ namespace GuildMaster.Windows
             _allCharacters = Player.Instance.PlayerGuild._guildMembers.GuildMemberList.ToList();
         }
 
+        private readonly SingularRun _getResponseSingularRun = new SingularRun();
         private Character _currentCharacter;
         private List<Character> _allCharacters;
         private TaskCompletionSource<Response> _responseTaskCompletionSource = new TaskCompletionSource<Response>();

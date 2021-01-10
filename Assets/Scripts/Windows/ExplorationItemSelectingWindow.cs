@@ -1,7 +1,9 @@
 ﻿using GuildMaster.Data;
 using GuildMaster.Items;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
+using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -26,21 +28,30 @@ namespace GuildMaster.Windows
             public ActionEnum NextAction;
         }
 
-        public async Task<Response> GetResponse(Inventory targetInventory)
+        public async Task<Response> GetResponse(Inventory targetInventory,
+            CancellationToken cancellationToken = default)
         {
-            // 마지막 GetResponse가 안 끝났으면 취소시키기
-            _responseTaskCompletionSource.TrySetResult(new Response {NextAction = Response.ActionEnum.Cancel});
+            return await _getResponseSingularRun.Run(async linkedCancellationToken =>
+            {
+                try
+                {
+                    // 타겟 인벤토리 변경.
+                    _exploreInventory = targetInventory;
+                    bagWindow.SetInventory(_exploreInventory);
+                    
+                    // 윈도우 초기 화면
+                    base.OpenWindow();
+                    Refresh();
 
-            // 타겟 인벤토리 변경.
-            _exploreInventory = targetInventory;
-
-            // 윈도우 초기 화면
-            base.OpenWindow();
-            Refresh();
-
-            // 입력 기다리기.
-            _responseTaskCompletionSource = new TaskCompletionSource<Response>();
-            return await _responseTaskCompletionSource.Task;
+                    // 입력 기다리기
+                    _responseTaskCompletionSource = new TaskCompletionSource<Response>();
+                    return await _responseTaskCompletionSource.CancellableTask(linkedCancellationToken);
+                }
+                finally
+                {
+                    Close();
+                }
+            }, cancellationToken);
         }
 
         void PointerEntered(Item item)
@@ -185,7 +196,6 @@ namespace GuildMaster.Windows
                 {
                     NextAction = Response.ActionEnum.GoNext,
                 });
-            base.Close();
         }
 
         public void Back()
@@ -195,7 +205,6 @@ namespace GuildMaster.Windows
                 {
                     NextAction = Response.ActionEnum.GoBack,
                 });
-            base.Close();
         }
 
         protected override void OnClose()
@@ -293,6 +302,7 @@ namespace GuildMaster.Windows
             _changeCategoryBlock = false;
         }
 
+        private readonly SingularRun _getResponseSingularRun = new SingularRun();
         private Inventory _exploreInventory = new Inventory(12, true);
         private PlayerInventory.ItemCategory _currentCategory;
         private int _draggingItemIndex;
