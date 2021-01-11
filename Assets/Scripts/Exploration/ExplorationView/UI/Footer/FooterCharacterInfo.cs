@@ -51,9 +51,10 @@ namespace GuildMaster.Exploration
                 _nameLabel.text = _character.UsingName;
                 _hpLabel.text = $"HP: {_character.Hp}/{_character.MaxHp}";
                 _staminaLabel.text = $"STM: {_character.Stamina}/{_character.MaxStamina}";
-                _atkLabel.text = $"ATK: {_character.Atk}";
+                /*_atkLabel.text = $"ATK: {_character.Atk}";
                 _defLabel.text = $"DEF: {_character.Def}";
-                _agiLabel.text = $"AGI: {_character.Agi}";
+                _agiLabel.text = $"AGI: {_character.Agi}";*/
+                //스텟 수정중이라 잠시 꺼두기
                 
                 string TraitString(Character character)
                 {

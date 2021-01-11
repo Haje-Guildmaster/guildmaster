@@ -78,12 +78,13 @@ namespace GuildMaster.Windows
             }
             CharacteristicLabel.text = TraitText(_currentCharacter);
             maxHpLabel.text = $"{_currentCharacter.Hp}/{_currentCharacter.MaxHp}";
-            maxSpLeftLabel.text = (sd.BattleStatData.SpIsMp ? "MP" : "DP") + ":";
+            /*maxSpLeftLabel.text = (sd.StatData.SpIsMp ? "MP" : "DP") + ":";
             maxSpValueLabel.text = $"{_currentCharacter.Sp}/{_currentCharacter.MaxSp}";
             atkLabel.text = _currentCharacter.Atk.ToString();
             defLabel.text = _currentCharacter.Def.ToString();
             agiLabel.text = _currentCharacter.Agi.ToString();
-            intLabel.text = _currentCharacter.Int.ToString();
+            intLabel.text = _currentCharacter.Int.ToString();*/
+            //스텟 변경중이라 잠시 꺼두기
         }
 
         private Character _currentCharacter;
