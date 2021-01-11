@@ -10,19 +10,25 @@ using UnityEngine;
 
 namespace GuildMaster.TownRoam
 {
+    /// <summary>
+    /// 탐색을 준비를 총괄합니다. 탐색에 필요한 캐릭터 선택, 아이템 선택, 맵 선택을 마치고 탐색을 시작시킵니다. 
+    /// </summary>
     public class ExplorationPreparer
     {
         public static ExplorationPreparer Instance => _instance = _instance ?? new ExplorationPreparer();
 
         public bool Running => _goExploreSingularRun.Running;
 
+        /// <summary>
+        /// 탐색 준비를 시작합니다. 탐색에 필요한 캐릭터 선택, 아이템 선택, 맵 선택을 마치고 탐색을 시작시킵니다.
+        /// </summary>
         public async void GoExplore()
         {
             await _goExploreSingularRun.Run(async cancellationToken =>
             {
                 try
                 {
-                    List<Character> characters = new List<Character>();
+                    var characters = new List<Character>();
                     var inventory = new Inventory(12, true);
 
                     var step = 0;

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace GuildMaster.TownRoam
 {
+    /// <summary>
+    /// 마을 전체를 나타내는 데이터 클래스이자 유니티 오브젝트입니다.
+    /// </summary>
     public class Town: MonoBehaviour
     {
         public Room GuildEntrance;
