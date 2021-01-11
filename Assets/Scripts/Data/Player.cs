@@ -27,6 +27,7 @@ namespace GuildMaster.Data
         public readonly PlayerInventory PlayerInventory;
         public readonly InGameEventManager InGameEventManager;
         public readonly Guild PlayerGuild;
+        public readonly MedicalBed MedicalBed;
 
         private readonly Dictionary<NpcCode, Npc> _npcDataMap = new Dictionary<NpcCode, Npc>(); // Todo: NpcCode 이중저장. Set이나 리스트 사용 고려.
 
@@ -104,12 +105,13 @@ namespace GuildMaster.Data
             PlayerInventory = new PlayerInventory(4, 36, false);
             PlayerGuild = new Guild();
             TimeManager = new Timemanagement(new Timeblock(), new Timeblock(), new Timeblock(), new Timeblock()) ;
-
+            MedicalBed = new MedicalBed(3);
             
             void InvokeChanged() => Changed?.Invoke();
             QuestManager.Changed += InvokeChanged;
             PlayerInventory.Changed += InvokeChanged;
             PlayerGuild.Changed += InvokeChanged;
+            MedicalBed.Changed += InvokeChanged;
         }
     }
 }
