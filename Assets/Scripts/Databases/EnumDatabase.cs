@@ -13,6 +13,12 @@ namespace GuildMaster.Databases
         where TIndexEnum : Enum
     {
         public TElement _GetElement(TIndexEnum indexEnum) => _GetElementByInt(Convert.ToInt32(indexEnum));
+        
+        /// <summary>
+        /// DB에서 enum 값을 이용해 element 하나를 가져옵니다.
+        /// </summary>
+        /// <param name="indexEnum"> enum 값 </param>
+        /// <returns> enum값과 매칭되는 element 값 </returns>
         public static TElement Get(TIndexEnum indexEnum) => Instance._GetElement(indexEnum);
     }
     

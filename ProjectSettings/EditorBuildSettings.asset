@@ -20,6 +20,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/TestTownRoamStartScene_Adlet.unity
+    guid: 1b0ec233ba845f140af8543c4fbe248d
+  - enabled: 1
+    path: Assets/Scenes/ExplorationScene_Adlet.unity
+    guid: ea1e94e8009dae043b2535e8fe965a93
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 4ae267633de3e2a48b6baac44711f8cd,
       type: 2}
