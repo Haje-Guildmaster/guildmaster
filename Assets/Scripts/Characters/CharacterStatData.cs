@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GuildMaster.Characters
 {
@@ -9,16 +10,16 @@ namespace GuildMaster.Characters
     [Serializable]
     public class CharacterStatData
     {
-        public int MaxHp;
-        public int MaxStamina;
+        public List<int> MaxHp;
+        public List<int> MaxStamina;
         
-        public int Strength;
-        public int Trick;
-        public int Wisdom;
+        public List<int> Strength;
+        public List<int> Trick;
+        public List<int> Wisdom; 
+        
+        public int MaxLoyalty; //내부적인 최대 값. 보여지는 최대 값은 / 10
+        public int MaxLevel;
 
-        public int Level;
-        public int CurrentXP;
-        public int[] LevelupXP;
-        public int Loyalty;
+        public List<int> LevelupXP;
     }
 }
