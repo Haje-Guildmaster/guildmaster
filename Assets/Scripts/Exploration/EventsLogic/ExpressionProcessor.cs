@@ -36,15 +36,15 @@ namespace GuildMaster.Exploration.Events
                 case Expression.CharacterStatus characterStatus:
                     switch (characterStatus.StatusTarget)
                     {
-                        //스텟 변경중이라 잠시 꺼두기
-                        /*case Expression.CharacterStatus.Target.Hp:
-                            return (float) selectedCharacter.Hp;
+                        //변경 필요
+                        case Expression.CharacterStatus.Target.Hp:
+                            return (float)selectedCharacter.Hp;
                         case Expression.CharacterStatus.Target.Stamina:
-                            return (float) selectedCharacter.Stamina;
-                        case Expression.CharacterStatus.Target.Atk:
-                            return (float) selectedCharacter.Atk;
+                            return (float)selectedCharacter.Stamina;
+                        /*case Expression.CharacterStatus.Target.Atk:
+                            return (float)selectedCharacter.Atk;
                         case Expression.CharacterStatus.Target.Agi:
-                            return (float) selectedCharacter.Agi;*/
+                            return (float)selectedCharacter.Agi;*/
                         default:
                             throw new NotImplementedException();
                     }
