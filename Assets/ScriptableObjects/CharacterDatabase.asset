@@ -12,6 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103a36fee1564ecca5725f1a90324f0f, type: 3}
   m_Name: CharacterDatabase
   m_EditorClassIdentifier: 
-  dataList: []
+  dataList:
+  - BasicData:
+      Illustration: {fileID: 21300000, guid: d9252f30ca202904e877130c52625f4f, type: 3}
+      NameList:
+      - "\uD751\uAE30\uC0AC"
+      - "\uAE30\uC0AC"
+      ActiveTraits: 01000000
+    StatData:
+      MaxHp: 0000000064000000c80000002c01000090010000f4010000
+      MaxStamina: 00000000320000003c000000410000004600000050000000
+      Strength: 000000000500000006000000070000000800000009000000
+      Trick: 000000000200000002000000030000000300000003000000
+      Wisdom: 000000000300000004000000050000000600000007000000
+      MaxLoyalty: 100
+      MaxLevel: 5
+      LevelupXP: 00000000640000006e00000078000000820000008c000000
   currentEditingIndex:
     Value: 0
