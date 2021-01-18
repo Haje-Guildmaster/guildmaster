@@ -30,7 +30,6 @@ namespace GuildMaster.Characters
         public CharacterStaticData StaticData => CharacterDatabase.Get(_code);      // 캐릭터 코드
         public List<Trait> ActiveTraits => StaticData.BasicData.ActiveTraits;       // 캐릭터 특성
         public int MaxLoyalty => StaticData.StatData.MaxLoyalty;                    // 충성도 최대 값 (내부적으로 100)
-        public int CurrentLevelupXP => LevelupXP[_level];
         //보정값 안 붙는 애들 private
         private readonly CharacterCode _code;
         private readonly ChangeTrackedValue<int> _usingNameIndex = new ChangeTrackedValue<int>(0); // 현재 나타날 이름의 index
@@ -117,6 +116,7 @@ namespace GuildMaster.Characters
                 else _xp.Value = Math.Min(0, value);
             }
         }
+        public int CurrentLevelupXP => LevelupXP[_level];                           // 현재 레벨업에 필요한 경험치 값
         public int Loyalty  
         {
             get => (_loyalty.Value + 9) / 10;
