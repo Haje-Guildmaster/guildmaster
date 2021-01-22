@@ -47,20 +47,13 @@ namespace GuildMaster.Exploration
             _explorationView.Setup(characters, map);
             _log = new ExplorationLog();
 
-            //확률적으로 택해진 EventSeedCode를 담을 변수 생성
-            EventSeedCode _chosenEventSeedCode = new EventSeedCode(); 
-
             //EventSeedCode 리스트에 Weight를 적용시켜서 대응되는 Weighteditem 리스트를 만듭니다.
-            List<Weighteditem> _weightedSeedList = new List<Weighteditem>();
-            foreach(EventSeedCode eventSeed in _testEventSeed)
-            {
-                //TODO : 지금은 각 EventSeedCode가 동일한 가중치를 가지지만, 이후 확률을 조정할 수 있도록 변경되어야 함
-                Weighteditem weightedItem = new Weighteditem(eventSeed, 2);
-                _weightedSeedList.Add(weightedItem);
-            }
+            List<Weighteditem> weightedSeedList = new List<Weighteditem>();
+            //TODO : 지금은 각 EventSeedCode가 동일한 가중치를 가지지만, 이후 확률을 조정할 수 있도록 변경되어야 함
+            weightedSeedList = _testEventSeed.Select(es => new Weighteditem(es, 2)).ToList();
             //위 리스트를 인자로 probabilitytool 인스턴스를 만듭니다. 이 인스턴스는 이벤트 발생 때마다
             //랜덤한 EventSeedCode를 고르기 위해 사용됩니다.
-            ProbabilityTool<EventSeedCode> seedChoiceTool = new ProbabilityTool<EventSeedCode>(_weightedSeedList);
+            ProbabilityTool<EventSeedCode> seedChoiceTool = new ProbabilityTool<EventSeedCode>(weightedSeedList);
 
             RunExploration();
 
@@ -84,8 +77,11 @@ namespace GuildMaster.Exploration
                         _currentNode = destination;
 
                         // 이벤트 발생
-                        _chosenEventSeedCode = (EventSeedCode)seedChoiceTool.Getitem().item;
-                        var eventSeed = EventSeedDatabase.Get(_chosenEventSeedCode).EventSeed;
+                        // 확률적으로 택해진 EventSeedCode를 담을 변수 생성
+                        EventSeedCode chosenEventSeedCode = new EventSeedCode();
+
+                        chosenEventSeedCode = seedChoiceTool.Getitem().item;
+                        var eventSeed = EventSeedDatabase.Get(chosenEventSeedCode).EventSeed;
                         var testEvent = eventSeed.Generate(new System.Random());
                         await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory, testEvent,
                                 _log)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = System.Random;
 
 namespace GuildMaster.Exploration.Events
@@ -31,10 +32,12 @@ namespace GuildMaster.Exploration.Events
             int randomNumber = _rnd.Next(0, totalWeight);
 
             Weighteditem selecteditem  = null;
+            bool flag = false;
             foreach (Weighteditem item in _elementlist)
             {
                 if (randomNumber < item.Weight)
                 {
+                    flag = true;
                     selecteditem = item;
                     break;
                 }
@@ -42,10 +45,12 @@ namespace GuildMaster.Exploration.Events
                 randomNumber = randomNumber - item.Weight;
             }
 
+            Assert.IsTrue(flag);
+
             return selecteditem;
         }
         /// <summary>
-        /// ProbanilityTool 내의 중첩 클래스로, 생성자를 통해 인스턴스 본인과 정수 가중치를 받습니다.
+        /// ProbabilityTool 내의 중첩 클래스로, 생성자를 통해 인스턴스 본인과 정수 가중치를 받습니다.
         /// </summary>
         public class Weighteditem
         {
