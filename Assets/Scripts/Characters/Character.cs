@@ -19,8 +19,8 @@ namespace GuildMaster.Characters
             _hp.Changed += InvokeChanged;
             _sp.Changed += InvokeChanged;
             _stamina.Changed += InvokeChanged;
-            _usingNameIndex.Changed += InvokeChanged;    
-            
+            _usingNameIndex.Changed += InvokeChanged;
+
             _code = code;
             _hp.Value = MaxHp;
             _sp.Value = MaxSp;
@@ -31,15 +31,18 @@ namespace GuildMaster.Characters
         public const int MaxLoyalty = 100;
 
 
-        public string UsingName => NameList[_usingNameIndex];                //현재 이름
-        public string RealName => StaticData.BasicData.RealName;             //실제 이름
-        public bool KnowUseRealName => _usingNameIndex == NameList.Count;    //현재 실제 이름을 사용중인지
+        public string UsingName => NameList[_usingNameIndex]; //현재 이름
+        public string RealName => StaticData.BasicData.RealName; //실제 이름
+        public bool KnowUseRealName => _usingNameIndex == NameList.Count; //현재 실제 이름을 사용중인지
         public int MaxSp => StaticData.BattleStatData.MaxSp;
-        public int MaxHp => StaticData.BattleStatData.MaxHp;     // MaxSp, MaxSp, Hp 등은 후에 캐릭터 종류에 종속된 값이 아니게 될 것이라 판단하여 Character에 넣습니다.
+
+        public int MaxHp =>
+            StaticData.BattleStatData.MaxHp; // MaxSp, MaxSp, Hp 등은 후에 캐릭터 종류에 종속된 값이 아니게 될 것이라 판단하여 Character에 넣습니다.
+
         public int MaxStamina => StaticData.BattleStatData.MaxStamina;
-        
-        
-        public float Injury                        // 현재 부상 정도(0~1). 퍼센트로 최대 체력이 깎인다.
+
+
+        public float Injury // 현재 부상 정도(0~1). 퍼센트로 최대 체력이 깎인다.
         {
             get => _injury;
             set
@@ -51,9 +54,10 @@ namespace GuildMaster.Characters
 
         public int Hp
         {
-            get => _hp; 
+            get => _hp;
             set => _hp.Value = Math.Min(CurrentMaxHp, Math.Max(value, 0));
         }
+
         public int Sp
         {
             get => _sp;
@@ -65,26 +69,48 @@ namespace GuildMaster.Characters
             get => _stamina;
             set => _stamina.Value = Math.Min(MaxSp, Math.Max(value, 0));
         }
-        
+
         public int Loyalty
         {
             get => _loyalty;
             set => _loyalty.Value = Math.Min(MaxLoyalty, Math.Max(value, 0));
         }
 
-        public int CurrentMaxHp => (int)(MaxHp*(1-Injury));
+        public int CurrentMaxHp => (int) (MaxHp * (1 - Injury));
 
-        public int Agi => StaticData.BattleStatData.BaseAgi;
-        public int Atk => StaticData.BattleStatData.BaseAtk;
-        public int Def => StaticData.BattleStatData.BaseDef;
-        public int Int => StaticData.BattleStatData.BaseInt;
+        public class CharacterStat
+        {
+            public CharacterStat(int agi, int atk, int def, int statInt)
+            {
+                Agi = agi;
+                Atk = atk;
+                Def = def;
+                Int = statInt;
+            }
+            public readonly int Agi;
+            public readonly int Atk;
+            public readonly int Def;
+            public readonly int Int;
+        }
+
+        [Obsolete] public int Agi => StaticData.BattleStatData.BaseAgi;
+        [Obsolete] public int Atk => StaticData.BattleStatData.BaseAtk;
+        [Obsolete] public int Def => StaticData.BattleStatData.BaseDef;
+        [Obsolete] public int Int => StaticData.BattleStatData.BaseInt;
+
+        public CharacterStat GetStat() => new CharacterStat(
+            agi: StaticData.BattleStatData.BaseAgi,
+            atk: StaticData.BattleStatData.BaseAtk,
+            def: StaticData.BattleStatData.BaseDef,
+            statInt: StaticData.BattleStatData.BaseInt);
+
 
         public CharacterAlignmentData Alignment;
 
         private readonly CharacterCode _code;
         private readonly ChangeTrackedValue<float> _injury = new ChangeTrackedValue<float>(0);
         private readonly ChangeTrackedValue<int> _loyalty = new ChangeTrackedValue<int>(0);
-        private readonly ChangeTrackedValue<int> _usingNameIndex = new ChangeTrackedValue<int>(0);                      // 현재 나타날 이름의 index
+        private readonly ChangeTrackedValue<int> _usingNameIndex = new ChangeTrackedValue<int>(0); // 현재 나타날 이름의 index
         private readonly ChangeTrackedValue<int> _hp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _sp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _stamina = new ChangeTrackedValue<int>();
