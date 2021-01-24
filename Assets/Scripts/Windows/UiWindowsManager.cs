@@ -19,7 +19,8 @@ namespace GuildMaster.Windows
         public Transform messageBoxesParent;
         public CharacterInspectWindow characterInspectWindow;
         public GuildInspectWindow guildInspectWindow;
-
+        public TownMapWindow TownMapWindow;
+        
         public SettingWindow settingWindow;
         public TextureWindow TextureWindow;
         public MVWindow MvWindow;

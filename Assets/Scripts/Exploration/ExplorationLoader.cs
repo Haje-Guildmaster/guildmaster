@@ -14,7 +14,7 @@ namespace GuildMaster.Exploration
     public static class ExplorationLoader
     {
         [Obsolete]
-        public static void Load(IEnumerable<Character> characters)
+        public static void Load(IEnumerable<Character> characters, string sceneName = "ExplorationScene")
         {
             var reservation = new Reservation
             {
@@ -31,7 +31,7 @@ namespace GuildMaster.Exploration
                     UnityEngine.Object.FindObjectOfType<ExplorationDebugger>()._map); // Todo:
             }
 
-            SceneManager.LoadScene("ExplorationScene");
+            SceneManager.LoadScene(sceneName);
         }
 
         /// <summary>

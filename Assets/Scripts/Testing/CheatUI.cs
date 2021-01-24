@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Data;
 using GuildMaster.Exploration;
-using GuildMaster.TownRoam.TownLoad;
-using GuildMaster.TownRoam.Towns;
+using GuildMaster.TownRoam;
 using UnityEngine;
 
 namespace GuildMaster.Testing
@@ -13,6 +12,9 @@ namespace GuildMaster.Testing
     /// </summary>
     public class CheatUI : MonoBehaviour
     {
+        [SerializeField] private string _townSceneName;
+        [SerializeField] private string _explorationSceneName;
+        
         private void OnGUI()
         {
             using (new GUILayout.VerticalScope())
@@ -22,10 +24,10 @@ namespace GuildMaster.Testing
                     using (new Indent(20f))
                     {
                         if (GUILayout.Button("Start Town Scene"))
-                            TownLoadManager.LoadTownScene(TownRefs.TestTown);
+                            TownRoamLoader.Load(_townSceneName);
                     }
 
-
+                
                 if (_explorationToggleValue = GUILayout.Toggle(_explorationToggleValue, "Exploration"))
                     using (new Indent(20f))
                     {
@@ -44,7 +46,7 @@ namespace GuildMaster.Testing
 
                         if (GUILayout.Button("Start Exploration"))
                             ExplorationLoader.Load(
-                                members.Where((c, i) => _explorationSelectedCharacter[i]).ToList());
+                                members.Where((c, i) => _explorationSelectedCharacter[i]).ToList(), _explorationSceneName);
                     }
             }
         }

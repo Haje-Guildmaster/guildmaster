@@ -52,6 +52,11 @@ namespace GuildMaster.Databases
         }
 
         public TElement _GetElement(Index index) => base._GetElementByInt(index.Value);
+        /// <summary>
+        /// DB에서 인덱스를 이용해 element 하나를 가져옵니다. 인덱스가 범위를 벗어난다면 null을 반환합니다.
+        /// </summary>
+        /// <param name="index"> 인덱스 </param>
+        /// <returns> element at the index </returns>
         public static TElement Get(Index index) => Instance._GetElement(index); // 디비 접근시마다 Instance쓰는 게 싫어서 추가.
     }
 
