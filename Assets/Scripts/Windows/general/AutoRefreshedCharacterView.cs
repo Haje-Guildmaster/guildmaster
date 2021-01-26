@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GuildMaster.Windows
 {
-    public class AutoRefreshedCharacterView : MonoBehaviour, IValueView<Character>
+    public class AutoRefreshedCharacterView : MonoBehaviour
     {
         [SerializeField] private ObjectWith<IValueView<string>> _nameView;
         [SerializeField] private ObjectWith<IValueView<Tuple<int, int>>> _hpPairView;   // (hp, maxHp)
@@ -15,7 +15,7 @@ namespace GuildMaster.Windows
         [SerializeField] private ObjectWith<IValueView<Box<int>>> _loyaltyView;
         
 
-        public void SetValue(Character character)
+        public void SetCharacter(Character character)
         {
             var prevCharacter = _character;
             _character = character;
