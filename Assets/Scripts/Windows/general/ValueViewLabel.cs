@@ -1,5 +1,3 @@
-using System;
-using GuildMaster.Characters;
 using UnityEngine;
 using UnityEngine.UI;
 
