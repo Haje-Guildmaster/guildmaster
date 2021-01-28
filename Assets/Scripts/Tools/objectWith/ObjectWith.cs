@@ -25,8 +25,8 @@ namespace GuildMaster.Tools
         public void OnAfterDeserialize()
         {
             Object = _innerValue as T;
-            if (Object == null && _innerValue != null)
-                throw new Exception($"_innerValue should be of type '{typeof(T)}'");
+            // if (Object == null && _innerValue != null)
+                // throw new Exception($"_innerValue should be of type '{typeof(T)}'");
         }
     }
 }
