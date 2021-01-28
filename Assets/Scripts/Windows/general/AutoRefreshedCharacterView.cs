@@ -29,12 +29,12 @@ namespace GuildMaster.Windows
         
         private void Refresh()
         {
-            _nameView.Object.SetValue(_character.UsingName);
-            _hpPairView.Object.SetValue(new Tuple<int, int>(_character.Hp, _character.MaxHp));
-            _staminaPairView.Object.SetValue(new Tuple<int, int>(_character.Sp, _character.MaxSp));
-            _statView.Object.SetValue(_character.GetStat());
-            _illustView.Object.SetValue(_character.StaticData.BasicData.Illustration);
-            _loyaltyView.Object.SetValue(_character.Loyalty);
+            _nameView.Object?.SetValue(_character?.UsingName ?? "");
+            _hpPairView.Object?.SetValue(new Tuple<int, int>(_character?.Hp ?? 0, _character?.MaxHp ?? 0));
+            _staminaPairView.Object?.SetValue(new Tuple<int, int>(_character?.Sp ?? 0, _character?.MaxSp ?? 0));
+            _statView.Object?.SetValue(_character?.GetStat());
+            _illustView.Object?.SetValue(_character?.StaticData.BasicData.Illustration);
+            _loyaltyView.Object?.SetValue(_character?.Loyalty ?? 0);
         }
 
 
