@@ -13,7 +13,12 @@ namespace GuildMaster.Windows
         [SerializeField] private ObjectWith<IValueView<Character.CharacterStat>> _statView;
         [SerializeField] private ObjectWith<IValueView<Sprite>> _illustView;
         [SerializeField] private ObjectWith<IValueView<Box<int>>> _loyaltyView;
-        
+
+        private void OnDestroy()
+        {
+            if (_character != null)
+                _character.Changed -= Refresh;
+        }
 
         public void SetCharacter(Character character)
         {
