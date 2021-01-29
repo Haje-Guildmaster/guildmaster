@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Random = System.Random;
+using System;
 
 namespace GuildMaster.Exploration.Events
 {
@@ -31,7 +32,7 @@ namespace GuildMaster.Exploration.Events
             }
             int randomNumber = _rnd.Next(0, totalWeight);
 
-            Weighteditem selecteditem  = null;
+            Weighteditem selecteditem = null;
             bool flag = false;
             foreach (Weighteditem item in _elementlist)
             {
@@ -52,7 +53,7 @@ namespace GuildMaster.Exploration.Events
         /// <summary>
         /// ProbabilityTool 내의 중첩 클래스로, 생성자를 통해 인스턴스 본인과 정수 가중치를 받습니다.
         /// </summary>
-        public class Weighteditem
+        [Serializable] public class Weighteditem
         {
             public T item = default(T);
             public int Weight = 0;

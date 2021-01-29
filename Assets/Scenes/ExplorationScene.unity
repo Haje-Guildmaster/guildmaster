@@ -3290,8 +3290,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explorationView: {fileID: 1112774501}
   _testEventSeed:
-  - Value: 0
-  - Value: 1
+  - item:
+      Value: 0
+    Weight: 50
+  _defaultEventSeed:
+    Value: 1
 --- !u!4 &562616186
 Transform:
   m_ObjectHideFlags: 0
@@ -4584,31 +4587,55 @@ MonoBehaviour:
           LocationCode:
             Value: 0
           Position: {x: -2.5, y: -1}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 50
         Connected: 0100000005000000
       - _content:
           LocationCode:
             Value: 1
           Position: {x: -2, y: 2.3}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 50
         Connected: 0000000002000000
       - _content:
           LocationCode:
             Value: 2
           Position: {x: 0.6, y: 2.3}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 50
         Connected: 010000000300000004000000
       - _content:
           LocationCode:
             Value: 3
           Position: {x: 3.2, y: 2.6}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
         Connected: 0200000004000000
       - _content:
           LocationCode:
             Value: 4
           Position: {x: 2.5, y: 0.5}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
         Connected: 020000000300000005000000
       - _content:
           LocationCode:
             Value: 5
           Position: {x: -0.3, y: -1.8}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
         Connected: 0400000000000000
     Background: {fileID: 21300000, guid: 20a854d7f88d75644a72c4d0aaf4717c, type: 3}
 --- !u!4 &1229755652
