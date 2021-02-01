@@ -54,7 +54,6 @@ namespace GuildMaster.Exploration
                 _atkLabel.text = $"Strength: {_character.Strength}";
                 _defLabel.text = $"Trick: {_character.Trick}";
                 _agiLabel.text = $"Wisdom: {_character.Wisdom}";
-                //스텟 수정중이라 잠시 꺼두기
 
                 string TraitString(Character character)
                 {

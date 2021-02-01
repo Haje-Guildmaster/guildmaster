@@ -24,11 +24,11 @@ namespace GuildMaster.Characters
             _stamina.Value = StatMaxStaminaList[1];
         }
         //보정값 안 붙는 애들
-        public string UsingName => NameList[_usingNameIndex];                       // 현재 이름
-        public string RealName => StaticData.BasicData.RealName;                    // 실제 이름
+        public string UsingName => NameList[_usingNameIndex].Trim();                // 현재 이름
+        public string RealName => StaticData.BasicData.RealName.Trim();             // 실제 이름
         public bool KnowUseRealName => _usingNameIndex == NameList.Count;           // 현재 실제 이름을 사용중인지
         public CharacterStaticData StaticData => CharacterDatabase.Get(_code);      // 캐릭터 코드
-        public List<Trait> ActiveTraits => StaticData.BasicData.ActiveTraits;       // 캐릭터 특성
+        public ReadOnlyCollection<Trait> ActiveTraits => StaticData.BasicData.ActiveTraits.AsReadOnly();       // 캐릭터 특성
         public int MaxLoyalty => StaticData.StatData.MaxLoyalty;                    // 충성도 최대 값 (내부적으로 100)
         //보정값 안 붙는 애들 private
         private readonly CharacterCode _code;
@@ -40,6 +40,7 @@ namespace GuildMaster.Characters
         private readonly ChangeTrackedValue<int> _loyalty = new ChangeTrackedValue<int>(0);
         private ReadOnlyCollection<string> NameList => StaticData.BasicData.NameList.AsReadOnly();
         private ReadOnlyCollection<int> LevelupXP => StaticData.StatData.LevelupXP.AsReadOnly();
+        private int MaxLevel => StaticData.StatData.MaxLevel;
         //보정값 붙는 애들 (보정값 붙기 전)
         private ReadOnlyCollection<int> StatMaxHpList => StaticData.StatData.MaxHp.AsReadOnly();
         private ReadOnlyCollection<int> StatMaxStaminaList => StaticData.StatData.MaxStamina.AsReadOnly();
@@ -99,8 +100,8 @@ namespace GuildMaster.Characters
             get => _level.Value;
             private set
             {
-                if (value < 1) return;
-                _level.Value = value;                
+                if (value < 1 || value > MaxLevel) throw new Exception("Level is lower than 1 or Bigger than Max Level");
+                _level.Value = value;
             }
         }
         public int XP
@@ -108,12 +109,12 @@ namespace GuildMaster.Characters
             get => _xp.Value;
             set
             {
-                if (value >= LevelupXP[_level])
+                while (value >= LevelupXP[_level])
                 {
                     _xp.Value = value - LevelupXP[_level];
                     Level += 1;
                 }
-                else _xp.Value = Math.Min(0, value);
+                _xp.Value = Math.Min(0, value);
             }
         }
         public int CurrentLevelupXP => LevelupXP[_level];                           // 현재 레벨업에 필요한 경험치 값
