@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 using GuildMaster.Characters;
 using GuildMaster.Data;
 using GuildMaster.Databases;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GuildMaster.Windows
@@ -18,13 +16,11 @@ namespace GuildMaster.Windows
         [SerializeField] private Text nameLabel;
         [SerializeField] private Text loyaltyLabel;
         [SerializeField] private Text CharacteristicLabel;
-        [SerializeField] private Text maxHpLabel;
-        [SerializeField] private Text maxSpLeftLabel;
-        [SerializeField] private Text maxSpValueLabel;
-        [SerializeField] private Text atkLabel;
-        [SerializeField] private Text defLabel;
-        [SerializeField] private Text agiLabel;
-        [SerializeField] private Text intLabel;
+        [SerializeField] private Text HpLabel;
+        [SerializeField] private Text StaminaLabel;
+        [SerializeField] private Text StrengthLabel;
+        [SerializeField] private Text TrickLabel;
+        [SerializeField] private Text WisdomLabel;
 
 
         public void Open()
@@ -52,11 +48,21 @@ namespace GuildMaster.Windows
 
         private void SetCharacter(Character character)
         {
+            Unsubscribe();
             _currentCharacter = character;
+            if(_currentCharacter != null)
+                _currentCharacter.Changed += Refresh;
             Refresh();
         }
 
-        // Todo: 캐릭터 정보 변화 구독.
+        private void Unsubscribe()
+        {
+            if (_currentCharacter != null)
+                _currentCharacter.Changed -= Refresh;
+        }
+
+        private void OnDestroy() => Unsubscribe();
+
         private void Refresh()
         {
             if (_currentCharacter == null)
@@ -78,13 +84,11 @@ namespace GuildMaster.Windows
                     .Select(tsd => $"[{tsd.Name}]\n{tsd.Description}"));
             }
             CharacteristicLabel.text = TraitText(_currentCharacter);
-            maxHpLabel.text = $"{_currentCharacter.Hp}/{_currentCharacter.MaxHp}";
-            maxSpLeftLabel.text = (sd.BattleStatData.SpIsMp ? "MP" : "DP") + ":";
-            maxSpValueLabel.text = $"{_currentCharacter.Sp}/{_currentCharacter.MaxSp}";
-            atkLabel.text = _currentCharacter.Atk.ToString();
-            defLabel.text = _currentCharacter.Def.ToString();
-            agiLabel.text = _currentCharacter.Agi.ToString();
-            intLabel.text = _currentCharacter.Int.ToString();
+            HpLabel.text = $"{_currentCharacter.Hp}/{_currentCharacter.MaxHp}";
+            StaminaLabel.text = $"{_currentCharacter.Stamina}/{_currentCharacter.MaxStamina}";
+            StrengthLabel.text = _currentCharacter.Strength.ToString();
+            TrickLabel.text = _currentCharacter.Trick.ToString();
+            WisdomLabel.text = _currentCharacter.Wisdom.ToString();
         }
 
         private Character _currentCharacter;
