@@ -23,4 +23,5 @@ namespace GuildMaster.Exploration.Events
             return _event;
         }
     }
+    //TODO : 이벤트 발생 확률 등이 이 class에 추가되어야 할지 논의 필요.
 }

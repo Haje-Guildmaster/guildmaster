@@ -15,6 +15,7 @@ using UnityEngine.Assertions;
 namespace GuildMaster.Exploration
 {
     using MapNode = Graph<ExplorationMap.NodeContent>.Node;
+    using Weighteditem = ProbabilityTool<EventSeedCode>.Weighteditem;
 
     /// <summary>
     /// 탐색 과정을 총괄합니다.
@@ -26,7 +27,10 @@ namespace GuildMaster.Exploration
     public class ExplorationManager : MonoBehaviour
     {
         [SerializeField] private ExplorationView _explorationView;
-        [SerializeField] private EventSeedCode _testEventSeed;
+        //발생 가능한 EventSeedCode를 리스트로 받습니다.
+        [SerializeField] private List<Weighteditem> _testEventSeed;
+        [SerializeField] private EventSeedCode _defaultEventSeed;
+
 
         public static ExplorationManager Instance =>
             _instance != null ? _instance : (_instance = FindObjectOfType<ExplorationManager>());
@@ -53,7 +57,7 @@ namespace GuildMaster.Exploration
 
                 if (!endInBaseSelection)
                 {
-                    var eventSeed = EventSeedDatabase.Get(_testEventSeed).EventSeed;
+                    
                     while (true)
                     {
                         // 다음 목적지 선택.
@@ -64,7 +68,30 @@ namespace GuildMaster.Exploration
                         await _explorationView.PlayRoadView(_currentNode, destination);
                         _currentNode = destination;
 
+                        // 현재 Node에서 이벤트 풀 정보를 가져오고 처리
+                        List<Weighteditem> weightedSeedList = _currentNode.Content._eventSeedCodeList.ToList();
+                        // 100을 전체 비중의 한계치로 두고, 남는 비중을 주어진 _defaultEventSeed를 이용해 채웁니다.(_defaultEventSeed는 '이벤트 없음'의 EventSeedCode로 가정)
+                        int weightSum = 0;
+                        foreach (Weighteditem item in weightedSeedList)
+                        {
+                            weightSum += item.Weight;
+                        }
+                        int weightLeft = 100 - weightSum;
+                        if (weightLeft > 0)
+                        {
+                            Weighteditem defaultItem = new Weighteditem(_defaultEventSeed, weightLeft);
+                            weightedSeedList.Add(defaultItem);
+                        }
+
+                        //위에서 생성된 weightedSeedList를 인자로 ProbabilityTool 오브젝트를 만듭니다.
+                        ProbabilityTool<EventSeedCode> seedChoiceTool = new ProbabilityTool<EventSeedCode>(weightedSeedList);
+
                         // 이벤트 발생
+                        // 확률적으로 택해진 EventSeedCode를 담을 변수 생성
+                        EventSeedCode chosenEventSeedCode = new EventSeedCode();
+
+                        chosenEventSeedCode = seedChoiceTool.Getitem().item;
+                        var eventSeed = EventSeedDatabase.Get(chosenEventSeedCode).EventSeed;
                         var testEvent = eventSeed.Generate(new System.Random());
                         await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory, testEvent,
                                 _log)

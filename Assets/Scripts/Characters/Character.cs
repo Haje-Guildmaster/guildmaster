@@ -38,7 +38,7 @@ namespace GuildMaster.Characters
             {
                 if (list.Count <= MaxLevel) errormessage += $"{nameof(list)}의 길이: {list.Count}으로 Unity 상에서 MaxLevel({MaxLevel})보다 적게 설정되어있음.\n";
             }
-            if (errormessage != null) throw new Exception(errormessage.Trim());
+            if (errormessage != "") throw new Exception(errormessage.Trim());
         }
         //보정값 안 붙는 애들
         public string UsingName => NameList[_usingNameIndex].Trim();                // 현재 이름
