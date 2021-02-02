@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Data;
@@ -15,7 +16,6 @@ namespace GuildMaster.TownRoam
     {
         [SerializeField] private int _bedIndex;
         [SerializeField] private AutoRefreshedCharacterView _characterView;
-        [SerializeField] private TMP_Dropdown _dropdownPrefab;
 
         private async void OnEnable()
         {
@@ -29,12 +29,6 @@ namespace GuildMaster.TownRoam
         {
             _medicalBedCache.Changed -= Refresh;
             _medicalBedCache = null;
-        }
-
-
-        public void OpenCharacterSelectDropdown(Vector2 position)
-        {
-            throw new NotImplementedException();
         }
 
 
