@@ -51,10 +51,10 @@ namespace GuildMaster.Exploration
                 _nameLabel.text = _character.UsingName;
                 _hpLabel.text = $"HP: {_character.Hp}/{_character.MaxHp}";
                 _staminaLabel.text = $"STM: {_character.Stamina}/{_character.MaxStamina}";
-                _atkLabel.text = $"ATK: {_character.Atk}";
-                _defLabel.text = $"DEF: {_character.Def}";
-                _agiLabel.text = $"AGI: {_character.Agi}";
-                
+                _atkLabel.text = $"Strength: {_character.Strength}";
+                _defLabel.text = $"Trick: {_character.Trick}";
+                _agiLabel.text = $"Wisdom: {_character.Wisdom}";
+
                 string TraitString(Character character)
                 {
                     return string.Join(" ", character.ActiveTraits

@@ -8,8 +8,7 @@ using GuildMaster.Data;
 using GuildMaster.Databases;
 using GuildMaster.Exploration.Events;
 using GuildMaster.Tools;
-using GuildMaster.TownRoam.TownLoad;
-using GuildMaster.TownRoam.Towns;
+using GuildMaster.TownRoam;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -106,7 +105,7 @@ namespace GuildMaster.Exploration
                 async void EndExploration()
                 {
                     await _explorationView.ReportExplorationResults(_log);
-                    TownLoadManager.LoadTownScene(TownRefs.TestTown);
+                    TownRoamLoader.Load();
                 }
             }
         }
@@ -182,7 +181,7 @@ namespace GuildMaster.Exploration
                 return (true, null);
             }
 
-            var taskList = new List<Task<(bool, MapNode)>>{Select()};
+            var taskList = new List<Task<(bool, MapNode)>> {Select()};
             if (allowEnd) taskList.Add(End());
 
             var (endExploration, destination) =
@@ -198,7 +197,7 @@ namespace GuildMaster.Exploration
 
             return (endExploration, destination);
         }
-        
+
         private static ExplorationManager _instance;
 
         private ExplorationLog _log;
@@ -211,6 +210,6 @@ namespace GuildMaster.Exploration
         /// <summary>
         /// 이 탐색에 들고 나온 아이템들 인벤토리. // Todo: ExplorationLoader에서 탐색이 로드될 때 가져온 아이템 이곳으로 옮기기.
         /// </summary>
-        private Inventory _inventory;
+        private Inventory _inventory = new Inventory(12, false);
     }
 }

@@ -72,14 +72,15 @@ namespace GuildMaster.Databases
                     var ind = (int) indexNumberObject;
                     intIndexProperty.serializedObject.Update();
                     intIndexProperty.intValue = ind;
-                    intIndexProperty.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+                    intIndexProperty.serializedObject.ApplyModifiedProperties();
                 }
             }
         }
 
         private TDb GetDatabase()
         {
-            return Resources.FindObjectsOfTypeAll<TDb>()[0];
+            string path = AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("t:"+ typeof(TDb).Name)[0]);
+            return AssetDatabase.LoadAssetAtPath<TDb>(path);
         }
     }
 }

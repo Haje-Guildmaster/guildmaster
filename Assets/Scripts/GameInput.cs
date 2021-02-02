@@ -30,11 +30,17 @@ namespace GuildMaster
             {
                 UiWindowsManager.Instance.CloseSingleWindow();
             }
+            
+            
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                UiWindowsManager.Instance.CloseSingleWindow();
+            }
 
-            //For Test InGameEvents
+            // For Test
             if (Input.GetKeyDown(KeyCode.T))
             {
-                // Player.Instance.InGameEventManager.Occur(inGameEventData);
+                UiWindowsManager.Instance.TownMapWindow.Toggle();
             }
         }
     }
