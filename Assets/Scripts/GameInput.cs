@@ -23,8 +23,10 @@ namespace GuildMaster
                 UiWindowsManager.Instance.characterInspectWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.G)) //길드 정보
                 UiWindowsManager.Instance.guildInspectWindow.Toggle();
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E)) //탐험 캐릭터 선택 창
                 UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Toggle();
+            if (Input.GetKeyDown(KeyCode.S)) //상점 윈도우
+                UiWindowsManager.Instance.shopWindow.Toggle();
             //Settings 와 그 자식 파일들 
             if (Input.GetKeyDown(KeyCode.Escape)) //ESC 환경설정
             {

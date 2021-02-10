@@ -19,6 +19,7 @@ namespace GuildMaster.Windows
         public Transform messageBoxesParent;
         public CharacterInspectWindow characterInspectWindow;
         public GuildInspectWindow guildInspectWindow;
+        public ShopWindow shopWindow;
         public TownMapWindow TownMapWindow;
         
         public SettingWindow settingWindow;
@@ -89,6 +90,10 @@ namespace GuildMaster.Windows
             else if (guildInspectWindow.IsOpen)
             {
                 guildInspectWindow.Close();
+            }
+            else if (shopWindow.IsOpen)
+            {
+                shopWindow.Close();
             }
             else if (TextureWindow.IsOpen)
             {
