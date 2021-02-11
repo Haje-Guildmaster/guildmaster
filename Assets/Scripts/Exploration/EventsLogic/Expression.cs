@@ -49,8 +49,9 @@ namespace GuildMaster.Exploration.Events
             {
                 Hp,
                 Stamina,
-                Atk,
-                Agi,
+                Strength,
+                Trick,
+                Wisdom,
             }
 
             public Target StatusTarget;
