@@ -1,18 +1,58 @@
 ﻿using GuildMaster.Data;
 using GuildMaster.Items;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
+using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace GuildMaster.Windows
 {
-    public class ExplorationItemSelectingWindow : DraggableWindow, IToggleableWindow
+    public class ExplorationItemSelectingWindow : DraggableWindow
     {
         // Start is called before the first frame update
         [SerializeField] public ItemListView bagWindow;
         [SerializeField] private PlayerItemListView playerItemListView;
         [SerializeField] private int _panelRequestId;
-        public Inventory ExploreInventory = new Inventory(12, true);
+
+        public class Response
+        {
+            public enum ActionEnum
+            {
+                Cancel,
+                GoBack,
+                GoNext,
+            }
+
+            public ActionEnum NextAction;
+        }
+
+        public async Task<Response> GetResponse(Inventory targetInventory,
+            CancellationToken cancellationToken = default)
+        {
+            return await _getResponseSingularRun.Run(async linkedCancellationToken =>
+            {
+                try
+                {
+                    // 타겟 인벤토리 변경.
+                    _exploreInventory = targetInventory;
+                    bagWindow.SetInventory(_exploreInventory);
+                    
+                    // 윈도우 초기 화면
+                    base.OpenWindow();
+                    Refresh();
+
+                    // 입력 기다리기
+                    _responseTaskCompletionSource = new TaskCompletionSource<Response>();
+                    return await _responseTaskCompletionSource.CancellableTask(linkedCancellationToken);
+                }
+                finally
+                {
+                    Close();
+                }
+            }, cancellationToken);
+        }
 
         void PointerEntered(Item item)
         {
@@ -90,6 +130,7 @@ namespace GuildMaster.Windows
             {
                 P_Clicked(playerItemListView.getItemStack(index).Item, playerItemListView.getItemStack(index).ItemNum);
             }
+
             Refresh();
             return;
         }
@@ -108,8 +149,10 @@ namespace GuildMaster.Windows
             }
             else if (_currentViewCategory == ItemListView.View_Category.Inventory)
             {
-                B_Clicked(ExploreInventory.TryGetItemStack(index).Item, ExploreInventory.TryGetItemStack(index).ItemNum);
+                B_Clicked(_exploreInventory.TryGetItemStack(index).Item,
+                    _exploreInventory.TryGetItemStack(index).ItemNum);
             }
+
             Refresh();
             return;
         }
@@ -118,46 +161,65 @@ namespace GuildMaster.Windows
         {
             if (item == null) return;
             UiWindowsManager.Instance.ShowMessageBox("확인", "가방으로 이동하겠습니까?",
-                    new (string buttonText, Action onClicked)[]
-                        {("확인", () => {
-                            Player.Instance.PlayerInventory.TryDeleteItem(item, number);
-                            ExploreInventory.TryAddItem(item, number);
-                            Refresh();
-                        }), ("취소", () => Debug.Log("취소"))});
+                new (string buttonText, Action onClicked)[]
+                {
+                    ("확인", () =>
+                    {
+                        Player.Instance.PlayerInventory.TryDeleteItem(item, number);
+                        _exploreInventory.TryAddItem(item, number);
+                        Refresh();
+                    }),
+                    ("취소", () => Debug.Log("취소"))
+                });
         }
 
         void B_Clicked(Item item, int number)
         {
             if (item == null) return;
             UiWindowsManager.Instance.ShowMessageBox("확인", "인벤토리로 이동하겠습니까?",
-                    new (string buttonText, Action onClicked)[]
-                        {("확인", () => {
-                            ExploreInventory.TryDeleteItem(item, number);
-                            Player.Instance.PlayerInventory.TryAddItem(item, number);
-                            Refresh();
-                        }), ("취소", () => Debug.Log("취소"))});
+                new (string buttonText, Action onClicked)[]
+                {
+                    ("확인", () =>
+                    {
+                        _exploreInventory.TryDeleteItem(item, number);
+                        Player.Instance.PlayerInventory.TryAddItem(item, number);
+                        Refresh();
+                    }),
+                    ("취소", () => Debug.Log("취소"))
+                });
         }
 
-        public void Open()
+        public void GoNext()
         {
-            base.OpenWindow();
-            //Refresh(); 넣으면 안됨. 도대체 왜?
+            _responseTaskCompletionSource.TrySetResult(
+                new Response
+                {
+                    NextAction = Response.ActionEnum.GoNext,
+                });
         }
 
-        public void GoWorldMap()
-        {
-            base.Close();
-            UiWindowsManager.Instance.worldMapWindow.Open();
-        }
         public void Back()
         {
-            base.Close();
-            UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Open();
+            _responseTaskCompletionSource.TrySetResult(
+                new Response
+                {
+                    NextAction = Response.ActionEnum.GoBack,
+                });
         }
+
+        protected override void OnClose()
+        {
+            _responseTaskCompletionSource.TrySetResult(
+                new Response
+                {
+                    NextAction = Response.ActionEnum.Cancel,
+                });
+        }
+
         private void Awake()
         {
             playerItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
-            bagWindow.SetInventory(ExploreInventory);
+            bagWindow.SetInventory(_exploreInventory);
             playerItemListView.PointerEntered -= PointerEntered;
             playerItemListView.PointerExited -= PointerExited;
             playerItemListView.BeginDrag -= P_BeginDrag;
@@ -202,6 +264,7 @@ namespace GuildMaster.Windows
                     if (b) ChangeCategory(cat);
                 });
             }
+
             ChangeCategory(PlayerInventory.ItemCategory.Equipable);
         }
 
@@ -219,10 +282,10 @@ namespace GuildMaster.Windows
         {
             playerItemListView.Refresh();
             bagWindow.Refresh();
-
         }
 
         private bool _changeCategoryBlock = false; //ChangeCategory안에서 ChangeCategory가 다시 실행되는 것 방지.
+
         // (isOn을 수정하며 이벤트 리스너에 의해 ChangeCategory가 다시 불림)
         public void ChangeCategory(PlayerInventory.ItemCategory category)
         {
@@ -233,16 +296,20 @@ namespace GuildMaster.Windows
             {
                 ict.Toggle.isOn = ict.category == category;
             }
-            playerItemListView.ChangeCategory((int)category);
+
+            playerItemListView.ChangeCategory((int) category);
 
             _changeCategoryBlock = false;
         }
 
+        private readonly SingularRun _getResponseSingularRun = new SingularRun();
+        private Inventory _exploreInventory = new Inventory(12, true);
         private PlayerInventory.ItemCategory _currentCategory;
         private int _draggingItemIndex;
         private ItemStack _draggingItemStack;
         private ItemListView.Window_Category _currentWindowCategory;
         private ItemListView.View_Category _currentViewCategory;
+
+        private TaskCompletionSource<Response> _responseTaskCompletionSource = new TaskCompletionSource<Response>();
     }
 }
-

@@ -39,9 +39,9 @@ namespace GuildMaster.Exploration
         /// </summary>
         /// <param name="characters"> 탐색에 참여하는 캐릭터들 </param>
         /// <param name="inventory"> 탐색에 들고 가는 인벤토리 </param>
-        public static void Load(List<Character> characters, Inventory inventory)
+        public static void Load(IEnumerable<Character> characters, Inventory inventory)
         {
-            throw new NotImplementedException();
+            Load(characters);   // Todo: 인벤토리 전달.
         }
 
         private class Reservation
