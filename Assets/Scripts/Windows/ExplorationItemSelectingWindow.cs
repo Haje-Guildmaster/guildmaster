@@ -116,7 +116,7 @@ namespace GuildMaster.Windows
 
         void P_Drop(PointerEventData eventData, int index)
         {
-            if (_draggingItemStack == null) return;
+            // if (_draggingItemStack == null) return;
             if (_draggingItemStack.Item == null || _draggingItemStack.ItemNum == 0) return;
             if (_currentWindowCategory != ItemListView.Window_Category.ExplorationItemSelectingWindow) return;
             if (_currentViewCategory == ItemListView.View_Category.Inventory)
@@ -137,7 +137,6 @@ namespace GuildMaster.Windows
 
         void B_Drop(PointerEventData eventData, int index)
         {
-            if (_draggingItemStack == null) return;
             if (_draggingItemStack.Item == null || _draggingItemStack.ItemNum == 0) return;
             if (_currentWindowCategory != ItemListView.Window_Category.ExplorationItemSelectingWindow) return;
             if (_currentViewCategory == ItemListView.View_Category.Bag)

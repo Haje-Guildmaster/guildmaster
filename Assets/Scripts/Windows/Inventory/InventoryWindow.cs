@@ -54,7 +54,7 @@ namespace GuildMaster.Windows
 
         void Drop(PointerEventData eventData, int index)
         {
-            if (_draggingItemStack == null) return;
+            // if (_draggingItemStack == null) return;
             if (_draggingItemStack.Item == null) return;
             if (_currentWindowCategory != ItemListView.Window_Category.InventoryWindow) return;
             playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GuildMaster.Characters;
 using GuildMaster.Data;
 using GuildMaster.Items;
+using UnityEngine;
 using UnityEngine.Assertions;
 using Random = System.Random;
 
@@ -259,11 +260,17 @@ namespace GuildMaster.Exploration.Events
                     case Instruction.GetItem getItem:
                     {
                         var number = CalculateToInt(getItem.Number, selectedCharacter);
-                        if (_inventory.TryAddItem(getItem.Item, number))
+                        if (_inventory.CanAddItem(getItem.Item, number))
                         {
+                            _inventory.AddItem(getItem.Item, number);
                             var key = getItem.Item;
                             resultRecord.AcquiredItems.TryGetValue(key, out var original);
                             resultRecord.AcquiredItems[key] = original + number;
+                        }
+                        else
+                        {
+                            Debug.Log("Todo: 메시지 & 유저가 inventory 비울 때까지 기다리기.");
+                            // Todo: 메시지 & 유저가 inventory 비울 때까지 기다리기.
                         }
 
                         return false;

@@ -71,7 +71,7 @@ namespace GuildMaster.Windows
         {
             foreach (var icn in GetComponentsInChildren<ItemIcon>()) Destroy(icn.gameObject);
             _ItemIconList.Clear();
-            IReadOnlyList<ItemStack> itemList = _inventory.InventoryList;
+            IReadOnlyList<ItemStack> itemList = _inventory.ItemStackList;
             for (int i = 0; i < _inventory.Size; i++)
             {
                 var itemicon = Instantiate(ItemIconPrefab, transform);
@@ -99,7 +99,7 @@ namespace GuildMaster.Windows
         }
         private void UpdateIcons()
         {
-            IReadOnlyList<ItemStack> itemList = _inventory.InventoryList;
+            IReadOnlyList<ItemStack> itemList = _inventory.ItemStackList;
             for (int i = 0; i < _inventory.Size; i++)
             {
                 _ItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i);
