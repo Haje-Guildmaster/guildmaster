@@ -6,16 +6,15 @@ namespace GuildMaster.Windows
     public class PlayerItemListView : ItemListView
     {
 
-        public void ChangeCategory(int _index)
+        public void ChangeCategory(PlayerInventory.ItemCategory category)
         {
-            Console.WriteLine(_index);
-            SetInventory(_playerInventory.PlayerInventoryList[_index]);
+            SetInventory(_playerInventory.GetInventory(category));
         }
 
         public void SetPlayerInventory(PlayerInventory _playerInventory)
         {
             this._playerInventory = _playerInventory;
-            ChangeCategory((int)PlayerInventory.ItemCategory.Equipable);
+            ChangeCategory(PlayerInventory.ItemCategory.Equipable);
         }
         private PlayerInventory _playerInventory;
     }

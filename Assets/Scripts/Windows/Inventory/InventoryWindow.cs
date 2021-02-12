@@ -127,7 +127,7 @@ namespace GuildMaster.Windows
             {
                 ict.Toggle.isOn = ict.category == category;
             }
-            playerItemListView.ChangeCategory((int)category);
+            playerItemListView.ChangeCategory(category);
 
             _changeCategoryBlock = false;
         }

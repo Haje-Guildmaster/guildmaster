@@ -7,58 +7,70 @@ namespace GuildMaster.Data
 {
     public class PlayerInventory
     {
-        public IReadOnlyList<Inventory> PlayerInventoryList => _playerInventoryList;
-
-        public enum ItemCategory: int
+        public enum ItemCategory
         {
-            Equipable = 0,
-            Consumable = 1,
-            Etc = 2,
-            Important = 3,
+            Equipable,
+            Consumable,
+            Etc,
+            Important,
+
+            COUNT, // 개수.
         }
 
-        public int getItemToCategoryNum(Item item) //아이템의 카테고리를 숫자로서 반환해 줌.
+        /// <summary>
+        /// 아이템의 카테고리를 분류해 반환함.
+        /// </summary>
+        /// <param name="item"> 아이템 </param>
+        /// <returns> 지정한 아이템의 카테고리 </returns>
+        public static ItemCategory GetItemCategory(Item item)
         {
             var itemData = ItemDatabase.Get(item.Code);
-            if (itemData.IsEquipable) return 0;
-            else if (itemData.IsConsumable) return 1;
-            else if (!itemData.IsImportant && !itemData.IsConsumable && !itemData.IsEquipable) return 2;
-            else if (itemData.IsImportant) return 3;
-            else return 0;
+            if (itemData.IsEquipable) return ItemCategory.Equipable;
+            if (itemData.IsConsumable) return ItemCategory.Consumable;
+            if (itemData.IsImportant) return ItemCategory.Important;
+            return ItemCategory.Etc;
         }
 
-        public PlayerInventory(int RowSize, int Size, bool IsStacked)
+        public PlayerInventory(int size, bool isStacked)
         {
-            this.RowSize = RowSize;
-            this.Size = Size;
-            this.IsStacked = IsStacked;
-            _playerInventoryList = new List<Inventory>();
-            for (int i = 0; i < RowSize; i++)
+            _inventoryArray = new Inventory[(int) ItemCategory.COUNT];
+            for (int i = 0; i < (int) ItemCategory.COUNT; i++)
             {
-                _playerInventoryList.Add(new Inventory(Size, IsStacked));
+                var newInventory = new Inventory(size, isStacked);
+                _inventoryArray[i] = newInventory;
+                newInventory.Changed += () => Changed?.Invoke();
             }
         }
-        public readonly int RowSize;
-        public readonly int Size;
-        public readonly bool IsStacked;
+
+        public Inventory GetInventory(ItemCategory category) => _inventoryArray[(int) category];
+
+
         public event Action Changed;
-        //플레이어 인벤토리에 종속적이므로 static 선언을 함
-        public bool TryAddItem(Item item, int number)
+
+        /// <summary>
+        /// 지정한 아이템을 지정한 숫자만큼 인벤토리에 넣습니다. <br/>
+        /// 넣는 데에 성공한 개수를 반환합니다.
+        /// </summary>
+        /// <param name="item"> 아이템 </param>
+        /// <param name="number"> 넣는 개수 </param>
+        /// <returns></returns>
+        public int TryAddItem(Item item, int number)
         {
-            _playerInventoryList[getItemToCategoryNum(item)].TryAddItem(item, number);
-            Changed?.Invoke();
-            return true;
+            return GetInventory(GetItemCategory(item)).TryAddItem(item, number);
         }
 
-        public bool TryDeleteItem(Item item, int number)
+        /// <summary>
+        /// 지정한 아이템을 지정한 숫자만큼 제거합니다. <br/>
+        /// 실제로 제거된 아이템 개수를 반환합니다.
+        /// </summary>
+        /// <param name="item"> 제거할 아이템 </param>
+        /// <param name="number"> 제거하는 개수 </param>
+        /// <returns> 실제로 제거된 아이템 개수 </returns>
+        public int TryDeleteItem(Item item, int number)
         {
-            _playerInventoryList[getItemToCategoryNum(item)].TryDeleteItem(item, number);
-            Changed?.Invoke();
-            return true;
+            return GetInventory(GetItemCategory(item)).TryRemoveItem(item, number);
         }
 
-        private List<Inventory> _playerInventoryList;
+        private readonly Inventory[] _inventoryArray;
     }
 }
-
-
