@@ -13,6 +13,8 @@ namespace GuildMaster.Databases
             var isConsumable = itemStaticData.FindPropertyRelative("isConsumable");
             var consumptionEffect = itemStaticData.FindPropertyRelative("consumptionEffect");
             var maxStack = itemStaticData.FindPropertyRelative("maxStack");
+            var buyPrice = itemStaticData.FindPropertyRelative("buyPrice");
+            var sellPrice = itemStaticData.FindPropertyRelative("sellPrice");
             var itemImage = itemStaticData.FindPropertyRelative("itemImage");
             var isEquipable = itemStaticData.FindPropertyRelative("isEquipable");
             var defaultEquipmentStats = itemStaticData.FindPropertyRelative("defaultEquipmentStats");
@@ -22,6 +24,8 @@ namespace GuildMaster.Databases
             EditorGUILayout.PropertyField(itemDescription);
             EditorGUILayout.PropertyField(itemImage);
             EditorGUILayout.PropertyField(maxStack);
+            EditorGUILayout.PropertyField(buyPrice);
+            EditorGUILayout.PropertyField(sellPrice);
 
             EditorGUILayout.PropertyField(isConsumable);
             if (isConsumable.boolValue)

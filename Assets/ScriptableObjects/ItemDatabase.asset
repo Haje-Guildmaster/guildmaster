@@ -20,6 +20,8 @@ MonoBehaviour:
     consumptionEffect:
       id: 0
     maxStack: 12321
+    buyPrice: 100
+    sellPrice: 40
     itemImage: {fileID: 21300000, guid: 3420b425e2bc68a4cad81433b18b6845, type: 3}
     isEquipable: 0
     defaultEquipmentStats:
@@ -31,6 +33,8 @@ MonoBehaviour:
     consumptionEffect:
       id: 0
     maxStack: 1
+    buyPrice: 1000
+    sellPrice: 300
     itemImage: {fileID: 21300000, guid: 172fd38e4962cef468b7d9a9fb836e93, type: 3}
     isEquipable: 1
     defaultEquipmentStats:
@@ -42,6 +46,8 @@ MonoBehaviour:
     consumptionEffect:
       id: 0
     maxStack: 999
+    buyPrice: 100
+    sellPrice: 30
     itemImage: {fileID: 21300000, guid: da407f354517679408cfd88151bf4a77, type: 3}
     isEquipable: 0
     defaultEquipmentStats:
@@ -53,6 +59,8 @@ MonoBehaviour:
     consumptionEffect:
       id: 0
     maxStack: 1
+    buyPrice: 0
+    sellPrice: 0
     itemImage: {fileID: 21300000, guid: 6be65981966382043a5f524fcca9a8e4, type: 3}
     isEquipable: 0
     defaultEquipmentStats:
@@ -64,6 +72,8 @@ MonoBehaviour:
     consumptionEffect:
       id: 0
     maxStack: 1
+    buyPrice: 0
+    sellPrice: 0
     itemImage: {fileID: 21300000, guid: 6be65981966382043a5f524fcca9a8e4, type: 3}
     isEquipable: 0
     defaultEquipmentStats:
@@ -75,13 +85,15 @@ MonoBehaviour:
     consumptionEffect:
       id: 0
     maxStack: 1000
+    buyPrice: 1000
+    sellPrice: 1000
     itemImage: {fileID: 21300000, guid: 6be65981966382043a5f524fcca9a8e4, type: 3}
     isEquipable: 0
     defaultEquipmentStats:
       id: 0
     isImportant: 0
   currentEditingIndex:
-    Value: 5
+    Value: 0
   references:
     version: 1
     00000000:

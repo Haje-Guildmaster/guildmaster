@@ -11,6 +11,8 @@ namespace GuildMaster.Items
         [SerializeField] private bool isConsumable;
         [SerializeReference][SerializeReferenceButton] private ItemEffect consumptionEffect;
         [SerializeField] private int maxStack;
+        [SerializeField] private int buyPrice;
+        [SerializeField] private int sellPrice;
         [SerializeField] private Sprite itemImage;            //Todo: Assetbundle(또는 Resource) path로 대체.
         [SerializeField] private bool isEquipable;
         [SerializeReference][SerializeReferenceButton] private EquipmentStats defaultEquipmentStats;
@@ -18,6 +20,8 @@ namespace GuildMaster.Items
         
         public ItemEffect ConsumptionEffect => consumptionEffect;
         public int MaxStack => maxStack;
+        public int BuyPrice => buyPrice;
+        public int SellPrice => sellPrice;
         public Sprite ItemImage => itemImage;
         public string ItemName => itemName;
         public string ItemDescription => itemDescription;
