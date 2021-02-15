@@ -21,11 +21,30 @@ MonoBehaviour:
     questData:
       questList:
       - Value: 0
+    dealData:
+      npcInventoryUnlimit: []
+      npcInventoryLimit: []
   - basicData:
       npcName: HWANG
       illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
       greeting: "\uBC18\uAC00\uC6CC\uC6A9"
     questData:
       questList: []
+    dealData:
+      npcInventoryUnlimit: []
+      npcInventoryLimit: []
+  - basicData:
+      npcName: "\uC7A1\uC0C1\uC778 \uD669\uC528"
+      illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
+      greeting: "\uC88B\uC740 \uBB3C\uAC74\uC774 \uB4E4\uC5B4\uC654\uB2E4\uAD6C!"
+    questData:
+      questList: []
+    dealData:
+      npcInventoryUnlimit:
+      - Value: 0
+      npcInventoryLimit:
+      - itemcode:
+          Value: 1
+        number: 3
   currentEditingIndex:
-    Value: 0
+    Value: 2
