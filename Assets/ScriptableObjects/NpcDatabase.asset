@@ -22,6 +22,7 @@ MonoBehaviour:
       questList:
       - Value: 0
     dealData:
+      shopname: 
       npcInventoryUnlimit: []
       npcInventoryLimit: []
   - basicData:
@@ -31,6 +32,7 @@ MonoBehaviour:
     questData:
       questList: []
     dealData:
+      shopname: 
       npcInventoryUnlimit: []
       npcInventoryLimit: []
   - basicData:
@@ -40,6 +42,7 @@ MonoBehaviour:
     questData:
       questList: []
     dealData:
+      shopname: "\uD669\uC528\uC758 \uC7A1\uD654\uC810"
       npcInventoryUnlimit:
       - Value: 0
       npcInventoryLimit:

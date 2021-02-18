@@ -12,7 +12,18 @@ namespace GuildMaster.Databases
     // 유니티 serialization을 위해.
     [Serializable]
     public class ItemCode : ItemDatabase.Index {}
-    
+    [Serializable]
+    public class ItemCodeStack
+    {
+        public ItemCodeStack(ItemCode itemcode, int number)
+        {
+            this.itemcode = itemcode;
+            this.number = number;
+        }
+        public ItemCode itemcode;
+        public int number;
+    }
+
     [CustomPropertyDrawer(typeof(ItemDatabase.Index))]
     [CustomPropertyDrawer(typeof(ItemCode))]
     public class ItemCodeDrawer : DatabaseIndexDrawer<ItemDatabase, ItemStaticData>

@@ -85,6 +85,19 @@ namespace GuildMaster.Windows
                 else
                     dialogTextBox.SetMsg("가능한 퀘스트가 없습니다.");
             });
+            AddInteractionButtonToList("거래 하기", () =>
+            {
+                if (_npc.StaticData.HasDeal)
+                {
+                    var npcinventoryunlimit = _npc.StaticData.dealData.NpcInventoryUnlimit;
+                    var npcinventorylimit = _npc.StaticData.dealData.NpcInventoryLimit;
+                    string shopname = _npc.StaticData.dealData.shopname;
+                    UiWindowsManager.Instance.shopWindow.Open(npcinventoryunlimit, npcinventorylimit, shopname);
+
+                }
+                else
+                    dialogTextBox.SetMsg("이 NPC는 거래하고 싶지 않은듯 하다...");
+            });
         }
 
         private void AddInteractionButtonToList(string buttonText, UnityAction handler)

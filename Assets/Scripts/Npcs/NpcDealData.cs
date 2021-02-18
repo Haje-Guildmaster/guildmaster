@@ -8,16 +8,11 @@ using UnityEngine;
 
 namespace GuildMaster.Npcs
 {
-    [System.Serializable]
-    public class ItemCodeStack
-    {
-        public ItemCode itemcode;
-        public int number;
-    }
     [Serializable]
     public class NpcDealData
     {
-        public bool HasDeal => false;
+        public bool HasDeal => npcInventoryLimit.Count > 0 || npcInventoryUnlimit.Count > 0;
+        [SerializeField] public string shopname;
         [SerializeField] private List<ItemCode> npcInventoryUnlimit = new List<ItemCode>();
         [SerializeField] private List<ItemCodeStack> npcInventoryLimit = new List<ItemCodeStack>();
         public ReadOnlyCollection<ItemCode> NpcInventoryUnlimit => npcInventoryUnlimit.AsReadOnly();
