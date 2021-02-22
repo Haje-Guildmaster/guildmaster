@@ -1,6 +1,5 @@
 ﻿using GuildMaster.Data;
 using GuildMaster.Items;
-using GuildMaster.Windows.Inven;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,6 +109,7 @@ namespace GuildMaster.Windows
                 _ItemIconList[i].EndDrag -= InvokeEndDrag;
                 _ItemIconList[i].Drag -= InvokeDrag;
                 _ItemIconList[i].Drop -= InvokeDrop;
+                _ItemIconList[i].Click -= InvokeClick;
 
                 _ItemIconList[i].PointerEntered += InvokePointerEntered;
                 _ItemIconList[i].PointerExited += InvokePointerExited;
@@ -117,6 +117,7 @@ namespace GuildMaster.Windows
                 _ItemIconList[i].EndDrag += InvokeEndDrag;
                 _ItemIconList[i].Drag += InvokeDrag;
                 _ItemIconList[i].Drop += InvokeDrop;
+                _ItemIconList[i].Click += InvokeClick;
             }
         }
         public void ChangeItemStackIndex(int _index1, int _index2)
@@ -152,7 +153,7 @@ namespace GuildMaster.Windows
         }
         private int _currentCategory = 0;
         private Inventory _inventory;
-        private List<ItemIcon> _ItemIconList = new List<ItemIcon>();
+        private List<ItemIcon> _ItemIconList;
     }
 }
 

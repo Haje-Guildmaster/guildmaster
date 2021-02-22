@@ -19,12 +19,12 @@ namespace GuildMaster.Windows
         public event Action<PointerEventData, int> Drop;
         public event Action<Item, int> Click;
 
-        [SerializeField] private Image _itemImage;
-        [SerializeField] private Text _itemNumberLabel;
+        [SerializeField] protected Image _itemImage;
+        [SerializeField] protected Text _itemNumberLabel;
 
-        ItemIcon(Item _item, int _number, int _index)
+        public ItemIcon(Item item, int number, int index)
         {
-            UpdateAppearance(_item, _number, _index);
+            UpdateAppearance(item, number, index);
         }
 
         public void UpdateAppearance(Item _item, int _number, int _index)
@@ -89,7 +89,7 @@ namespace GuildMaster.Windows
             Click?.Invoke(_item, _number);
         }
 
-        private Item _item = null;
-        private int _number = 0, _index;
+        protected Item _item = null;
+        protected int _number = 0, _index;
     }
 }
