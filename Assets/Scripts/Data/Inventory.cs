@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace GuildMaster.Data
 {
+    [Serializable]
     public class ItemStack
     {
         public Item Item;
@@ -39,7 +40,6 @@ namespace GuildMaster.Data
         public void setItemStack(Item item, int itemNum)
         {
             if (item == (Item)null && itemNum != 0) throw new ArgumentException("아이템 값이 null입니다");
-            if (itemNum <= 0) throw new ArgumentException("아이템 개수가 0 이하입니다");
             Item = item;
             ItemNum = itemNum;
         }

@@ -29,7 +29,7 @@ namespace GuildMaster.Windows
 
         public void UpdateAppearance(Item _item, int _number, int _index)
         {
-            if (_item == null || _number == 0)
+            if (_item == null || _number <= 0)
             {
                 this._item = null;
                 this._number = 0;
