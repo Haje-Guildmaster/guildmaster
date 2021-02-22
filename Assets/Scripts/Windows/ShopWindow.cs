@@ -1,4 +1,5 @@
-﻿using GuildMaster.Databases;
+﻿using GuildMaster.Data;
+using GuildMaster.Databases;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
@@ -12,12 +13,12 @@ namespace GuildMaster.Windows
         {
             base.OpenWindow();
         }
-        public void Open(ReadOnlyCollection<ItemCode> npcInventoryUnlimited, ReadOnlyCollection<ItemCodeStack> npcInventoryLimited, string shopname)
+        public void Open(ReadOnlyCollection<ItemStack> npcInventoryUnlimited, ReadOnlyCollection<ItemStack> npcInventoryLimited, string shopname)
         {
             this.npcInventoryUnlimited = npcInventoryUnlimited;
-            foreach (ItemCodeStack itemCodeStack in npcInventoryLimited)
+            foreach (ItemStack itemstack in npcInventoryLimited)
             {
-                this.npcInventoryLimited.Add(new ItemCodeStack(itemCodeStack.itemcode, itemCodeStack.number));
+                this.npcInventoryLimited.Add(new ItemStack(itemstack.Item, itemstack.ItemNum));
             }
             this.shopname = shopname;
             Open();
@@ -28,8 +29,8 @@ namespace GuildMaster.Windows
             GameObject.Find("Title").GetComponent<Text>().text = shopname;
         }
 
-        private ReadOnlyCollection<ItemCode> npcInventoryUnlimited;
-        private List<ItemCodeStack> npcInventoryLimited = new List<ItemCodeStack>();
+        private ReadOnlyCollection<ItemStack> npcInventoryUnlimited;
+        private List<ItemStack> npcInventoryLimited = new List<ItemStack>();
         private string shopname;
     }
 }

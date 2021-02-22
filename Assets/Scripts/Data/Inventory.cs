@@ -12,6 +12,9 @@ namespace GuildMaster.Data
     {
         public Item Item;
         public int ItemNum;
+        public int BuyCost;
+        public int SellCost;
+        public int Quantity;
         public ItemStack()
         {
             Item = null;
@@ -21,12 +24,33 @@ namespace GuildMaster.Data
         {
             Item = item;
             ItemNum = itemNum;
+            BuyCost = item.StaticData.BuyPrice;
+            SellCost = item.StaticData.SellPrice;
+            Quantity = 0;
+        }
+        public ItemStack(Item item, int itemNum, int quantity)
+        {
+            Item = item;
+            ItemNum = itemNum;
+            BuyCost = item.StaticData.BuyPrice;
+            SellCost = item.StaticData.SellPrice;
+            Quantity = quantity;
         }
         public void setItemStack(Item item, int itemNum)
         {
             if (item == (Item)null && itemNum != 0) throw new ArgumentException("아이템 값이 null입니다");
+            if (itemNum <= 0) throw new ArgumentException("아이템 개수가 0 이하입니다");
             Item = item;
             ItemNum = itemNum;
+        }
+        public void setItemStack(Item item, int itemNum, int quantity)
+        {
+            if (item == (Item)null && itemNum != 0) throw new ArgumentException("아이템 값이 null입니다");
+            if (itemNum <= 0) throw new ArgumentException("아이템 개수가 0 이하입니다");
+            if (quantity > itemNum) return;
+            Item = item;
+            ItemNum = itemNum;
+            Quantity = quantity;
         }
     }
     public class Inventory

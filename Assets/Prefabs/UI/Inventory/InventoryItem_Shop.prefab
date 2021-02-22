@@ -466,7 +466,7 @@ GameObject:
   - component: {fileID: 7394488333675362073}
   - component: {fileID: 3600624041053661996}
   m_Layer: 9
-  m_Name: ItemBuySellNumLabel
+  m_Name: ItemQuantityLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -706,6 +706,7 @@ MonoBehaviour:
   _itemImage: {fileID: 4359270126286552298}
   _itemNumberLabel: {fileID: 5031351292030672138}
   _itemCostLabel: {fileID: 3705100290029522184}
+  _itemQuantityLabel: {fileID: 3600624041053661996}
 --- !u!1 &8831564198239136774
 GameObject:
   m_ObjectHideFlags: 0
