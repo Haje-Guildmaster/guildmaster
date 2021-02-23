@@ -9,18 +9,18 @@ using UnityEngine;
 namespace GuildMaster.Data
 {
     [Serializable]
-    public class ItemCodeCount
+    public class ItemCount
     {
-        public ItemCode ItemCode;
+        public Item Item;
         public int Number;
-        public ItemCodeCount()
+        public ItemCount()
         {
-            ItemCode = null;
+            Item = null;
             Number = 0;
         }
-        public ItemCodeCount(ItemCode item, int number)
+        public ItemCount(Item item, int number)
         {
-            ItemCode = item;
+            Item = item;
             Number = number;
         }
     }

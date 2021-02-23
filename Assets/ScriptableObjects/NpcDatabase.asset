@@ -44,11 +44,24 @@ MonoBehaviour:
     dealData:
       shopname: "\uD669\uC528\uC758 \uC7A1\uD654\uC810"
       npcInventoryUnlimit:
-      - Value: 0
-      - Value: 2
+      - equipmentStats:
+          id: 0
+        code:
+          Value: 0
+      - equipmentStats:
+          id: 0
+        code:
+          Value: 2
       npcInventoryLimit:
-      - ItemCode:
-          Value: 1
+      - Item:
+          equipmentStats:
+            id: 0
+          code:
+            Value: 1
         Number: 5
   currentEditingIndex:
     Value: 2
+  references:
+    version: 1
+    00000000:
+      type: {class: , ns: , asm: }
