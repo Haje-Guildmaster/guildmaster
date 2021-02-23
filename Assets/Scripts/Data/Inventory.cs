@@ -68,31 +68,44 @@ namespace GuildMaster.Data
         {
             if (infinite == false) throw new ArgumentException("ItemStack(int, bool) 생성자는 개수가 제한이 없는 아이템 스택을 생성하기 위해 존재하는 생성자입니다.");
             Item = item;
-            ItemNum = 0;
+            ItemNum = 1; //TryAddItem 리팩토링 최소화를 위해 1로 설정
             BuyCost = item.StaticData.BuyPrice;
             SellCost = item.StaticData.SellPrice;
             Quantity = 0;
             isInfinite = infinite; 
         }
-        public void setItemStack(Item item, int itemNum)
+        public void setInfiniteItemStack(Item item)
         {
-            if (item == (Item)null && itemNum != 0) throw new ArgumentException("아이템 값이 null인데 아이템 개수가 0이 아닙니다.");
+            if (item == null)
+                throw new ArgumentException("아이템 값이 null입니다.");
             Item = item;
-            ItemNum = itemNum;
+            ItemNum = 1;
             BuyCost = item.StaticData.BuyPrice;
             SellCost = item.StaticData.SellPrice;
             Quantity = 0;
-            if (itemNum == 0)
-                isInfinite = false;
-            else if (itemNum > 0)
-                isInfinite = true;
-            else
+            isInfinite = true;
+        }
+        public void setItemStack(Item item, int itemNum)
+        {
+            if (item == (Item)null && itemNum != 0) 
+                throw new ArgumentException("아이템 값이 null인데 아이템 개수가 0이 아닙니다.");
+            Item = item;
+            ItemNum = itemNum;
+            if (item != null)
+            {
+                BuyCost = item.StaticData.BuyPrice;
+                SellCost = item.StaticData.SellPrice;
+            }
+            isInfinite = false;
+            if (ItemNum < 0)
                 throw new ArgumentException("아이템의 개수가 음수입니다");
         }
         public void setItemQuantity(int quantity)
         {
-            if (Item == (Item)null && quantity != 0) throw new ArgumentException("아이템 값이 null인 곳의 quantity를 바꾸려고 시도했습니다.");
-            if (quantity > ItemNum || quantity < 0) return;
+            if (Item == (Item)null && quantity != 0) 
+                throw new ArgumentException("아이템 값이 null인 ItemStack의 quantity를 바꾸려고 시도했습니다.");
+            if (quantity > ItemNum || quantity < 0) 
+                return;
             Quantity = quantity;
         }
     }
@@ -124,6 +137,13 @@ namespace GuildMaster.Data
             if (_index >= 0 && _index < Size) return _inventoryList[_index]; 
             else return (ItemStack)null;
         }
+        public bool TryAddInfiniteItem(Item item)
+        {
+            if (item == null) return false;
+            ItemStaticData itemData = ItemDatabase.Get(item.Code);
+            TryAddItem(item, 1);
+            return true;
+        }
         public bool TryAddItem(Item item, int number)
         {
             if (item == (Item)null || number == 0) return false;
@@ -131,11 +151,12 @@ namespace GuildMaster.Data
             int index, emptyIndex;
             if (IsStacked)
             {
-                if(_inventoryList.Exists(x => item.Equals(x.Item)))
+                if(_inventoryList.Exists(x => item.Equals(x.Item) && !x.isInfinite))
                 {
-                    index = _inventoryList.FindLastIndex(x => item.Equals(x.Item));
-                    Item _item = _inventoryList.FindLast(x => item.Equals(x.Item)).Item;
-                    int _number = _inventoryList.FindLast(x => item.Equals(x.Item)).ItemNum;
+                    index = _inventoryList.FindLastIndex(x => item.Equals(x.Item) && !x.isInfinite);
+                    ItemStack itemStack = _inventoryList.FindLast(x => item.Equals(x.Item) && !x.isInfinite);
+                    Item _item = itemStack.Item;
+                    int _number = itemStack.ItemNum;
                     int availableSpace = itemData.MaxStack - _number;
                     if (number <= availableSpace)
                     {
@@ -151,7 +172,7 @@ namespace GuildMaster.Data
                 }
                 while (number > 0)
                 {
-                    var newStackSize = Math.Min(number, itemData.MaxStack);
+                    int newStackSize = Math.Min(number, itemData.MaxStack);
                     emptyIndex = _inventoryList.FindIndex(x => x.Item == (Item)null);
                     number -= newStackSize;
                     _inventoryList[emptyIndex].setItemStack(item, newStackSize);
@@ -159,7 +180,7 @@ namespace GuildMaster.Data
             }
             else if (!IsStacked)
             {
-                if (_inventoryList.Exists(x => item.Equals(x.Item)))
+                if (_inventoryList.Exists(x => item.Equals(x.Item) && !x.isInfinite))
                 {
                     index = _inventoryList.FindIndex(x => item.Equals(x.Item));
                     Item _item = _inventoryList[index].Item;

@@ -44,38 +44,12 @@ public class ShopItemListView : MonoBehaviour
     {
         Click?.Invoke(item, number);
     }
-
     private void Awake()
     {
         if(view_Category == View_Category.Player_Inventory)
             _ShopItemIconList = GetComponentsInChildren<ShopItemIcon>().ToList();
     }
-    private void InitializeIcons_MakeNew()
-    {
-        foreach (var icn in GetComponentsInChildren<ItemIcon>()) Destroy(icn.gameObject);
-        _ShopItemIconList.Clear();
-        IReadOnlyList<ItemStack> itemList = _inventory.InventoryList;
-        for (int i = 0; i < _inventory.Size; i++)
-        {
-            var itemicon = Instantiate(ShopItemIconPrefab, transform);
-
-            if(buyOrSell == BuyOrSell.Buy)
-                itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].BuyCost, 0);
-            if (buyOrSell == BuyOrSell.Sell)
-                itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].SellCost, 0);
-
-            _ShopItemIconList.Add(itemicon);
-
-            itemicon.PointerEntered -= InvokePointerEntered;
-            itemicon.PointerExited -= InvokePointerExited;
-            itemicon.Click -= InvokeClick;
-
-            itemicon.PointerEntered += InvokePointerEntered;
-            itemicon.PointerExited += InvokePointerExited;
-            itemicon.Click += InvokeClick;
-        }
-    }
-    private void InitializeIcons_Fill()
+    private void InitializeIcons()
     {
         foreach (var icn in GetComponentsInChildren<ItemIcon>()) Destroy(icn.gameObject);
         _ShopItemIconList.Clear();
@@ -85,9 +59,9 @@ public class ShopItemListView : MonoBehaviour
             var itemicon = Instantiate(ShopItemIconPrefab, transform);
 
             if (buyOrSell == BuyOrSell.Buy)
-                itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].BuyCost, 0);
+                itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].BuyCost, 0, itemList[i].isInfinite);
             if (buyOrSell == BuyOrSell.Sell)
-                itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].SellCost, 0);
+                itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].SellCost, 0, itemList[i].isInfinite);
 
             _ShopItemIconList.Add(itemicon);
 
@@ -106,9 +80,9 @@ public class ShopItemListView : MonoBehaviour
         for (int i = 0; i < _inventory.Size; i++)
         {
             if (buyOrSell == BuyOrSell.Buy)
-                _ShopItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].BuyCost, 0);
+                _ShopItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].BuyCost, 0, itemList[i].isInfinite);
             if (buyOrSell == BuyOrSell.Sell)
-                _ShopItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].SellCost, 0);
+                _ShopItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].SellCost, 0, itemList[i].isInfinite);
 
             _ShopItemIconList[i].PointerEntered -= InvokePointerEntered;
             _ShopItemIconList[i].PointerExited -= InvokePointerExited;
@@ -129,15 +103,16 @@ public class ShopItemListView : MonoBehaviour
     }
     public void OnOffItemIcon(bool onoff, int _index)
     {
+        ItemStack itemstack = _inventory.TryGetItemStack(_index);
         if (onoff)
         {
-            _ShopItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
+            _ShopItemIconList[_index].UpdateAppearance(itemstack.Item, itemstack.ItemNum, _index);
             _ShopItemIconList[_index].ItemIconOnOff(onoff);
         }
         else
         {
             //원래는 null, 0으로 안보이게 하는 함수였지만 일단 보류.
-            _ShopItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
+            _ShopItemIconList[_index].UpdateAppearance(itemstack.Item, itemstack.ItemNum, _index);
             _ShopItemIconList[_index].ItemIconOnOff(onoff);
         }
     }
@@ -148,10 +123,7 @@ public class ShopItemListView : MonoBehaviour
     public void SetInventory(Inventory _inventory)
     {
         this._inventory = _inventory;
-        if(view_Category == View_Category.Player_Inventory)
-            InitializeIcons_Fill();
-        if (view_Category == View_Category.Shop)
-            InitializeIcons_MakeNew();
+        InitializeIcons();
     }
     private Inventory _inventory;
     private List<ShopItemIcon> _ShopItemIconList = new List<ShopItemIcon>();
