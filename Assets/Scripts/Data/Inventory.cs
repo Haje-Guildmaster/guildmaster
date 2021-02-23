@@ -9,6 +9,22 @@ using UnityEngine;
 namespace GuildMaster.Data
 {
     [Serializable]
+    public class ItemCodeCount
+    {
+        public ItemCode ItemCode;
+        public int Number;
+        public ItemCodeCount()
+        {
+            ItemCode = null;
+            Number = 0;
+        }
+        public ItemCodeCount(ItemCode item, int number)
+        {
+            ItemCode = item;
+            Number = number;
+        }
+    }
+    [Serializable]
     public class ItemStack
     {
         public Item Item;
@@ -16,11 +32,21 @@ namespace GuildMaster.Data
         public int BuyCost;
         public int SellCost;
         public int Quantity;
+        public bool isInfinite;
+        /// <summary>
+        /// 빈칸을 표시하기 위한 생성자.
+        /// </summary>
         public ItemStack()
         {
             Item = null;
             ItemNum = 0;
+            Quantity = 0;
         }
+        /// <summary>
+        /// 개수 제한이 있는 아이템을 생성하기 위한 생성자.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="itemNum"></param>
         public ItemStack(Item item, int itemNum)
         {
             Item = item;
@@ -28,28 +54,45 @@ namespace GuildMaster.Data
             BuyCost = item.StaticData.BuyPrice;
             SellCost = item.StaticData.SellPrice;
             Quantity = 0;
+            if (itemNum > 0)
+                isInfinite = false;
+            else
+                throw new ArgumentException("아이템의 개수가 0 또는 음수입니다");
         }
-        public ItemStack(Item item, int itemNum, int quantity)
+        /// <summary>
+        /// 개수 제한이 없는 아이템을 생성하기 위한 생성자.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="infinite"></param>
+        public ItemStack(Item item, bool infinite)
         {
+            if (infinite == false) throw new ArgumentException("ItemStack(int, bool) 생성자는 개수가 제한이 없는 아이템 스택을 생성하기 위해 존재하는 생성자입니다.");
+            Item = item;
+            ItemNum = 0;
+            BuyCost = item.StaticData.BuyPrice;
+            SellCost = item.StaticData.SellPrice;
+            Quantity = 0;
+            isInfinite = infinite; 
+        }
+        public void setItemStack(Item item, int itemNum)
+        {
+            if (item == (Item)null && itemNum != 0) throw new ArgumentException("아이템 값이 null인데 아이템 개수가 0이 아닙니다.");
             Item = item;
             ItemNum = itemNum;
             BuyCost = item.StaticData.BuyPrice;
             SellCost = item.StaticData.SellPrice;
-            Quantity = quantity;
+            Quantity = 0;
+            if (itemNum == 0)
+                isInfinite = false;
+            else if (itemNum > 0)
+                isInfinite = true;
+            else
+                throw new ArgumentException("아이템의 개수가 음수입니다");
         }
-        public void setItemStack(Item item, int itemNum)
+        public void setItemQuantity(int quantity)
         {
-            if (item == (Item)null && itemNum != 0) throw new ArgumentException("아이템 값이 null입니다");
-            Item = item;
-            ItemNum = itemNum;
-        }
-        public void setItemStack(Item item, int itemNum, int quantity)
-        {
-            if (item == (Item)null && itemNum != 0) throw new ArgumentException("아이템 값이 null입니다");
-            if (itemNum <= 0) throw new ArgumentException("아이템 개수가 0 이하입니다");
-            if (quantity > itemNum) return;
-            Item = item;
-            ItemNum = itemNum;
+            if (Item == (Item)null && quantity != 0) throw new ArgumentException("아이템 값이 null인 곳의 quantity를 바꾸려고 시도했습니다.");
+            if (quantity > ItemNum || quantity < 0) return;
             Quantity = quantity;
         }
     }

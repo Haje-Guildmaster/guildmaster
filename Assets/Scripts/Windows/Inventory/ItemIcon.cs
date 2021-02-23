@@ -21,7 +21,7 @@ namespace GuildMaster.Windows
 
         [SerializeField] protected Image _itemImage;
         [SerializeField] protected Text _itemNumberLabel;
-
+        protected ItemIcon() { }
         public ItemIcon(Item item, int number, int index)
         {
             UpdateAppearance(item, number, index);
