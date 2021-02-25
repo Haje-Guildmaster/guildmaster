@@ -31,6 +31,7 @@ namespace GuildMaster.Windows
         public void Open(ReadOnlyCollection<Item> npcInventoryInf, ReadOnlyCollection<ItemCount> npcInventoryNotInf, string shopname)
         {
             this.npcInventoryInf = npcInventoryInf;
+            this.npcInventoryNotInf = new List<ItemCount>();
             foreach (ItemCount itemCount in npcInventoryNotInf)
             {
                 this.npcInventoryNotInf.Add(new ItemCount(itemCount.Item, itemCount.Number));
@@ -78,15 +79,17 @@ namespace GuildMaster.Windows
             npcInventory = new Inventory(npcInventoryInf.Count + npcInventoryNotInf.Count, false);
             foreach (Item item in npcInventoryInf)
             {
+                if (item == null) continue;
                 npcInventory.TryAddInfiniteItem(item);
             }
             foreach (ItemCount itemcount in npcInventoryNotInf)
             {
+                if (itemcount.Item == null) continue;
                 npcInventory.TryAddItem(itemcount.Item, itemcount.Number);
             }
         }
         private ReadOnlyCollection<Item> npcInventoryInf;
-        private List<ItemCount> npcInventoryNotInf = new List<ItemCount>();
+        private List<ItemCount> npcInventoryNotInf;
         private Inventory npcInventory;
         private string shopname;
         private bool initialized = false;

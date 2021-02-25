@@ -33,7 +33,7 @@ namespace GuildMaster.Windows
                 _itemCostLabel.text = "";
                 _itemQuantityLabel.text = "";
             }
-            else if ( _isinfinite == true)
+            else if (infinite == true)
             {
                 _item = item;
                 _number = 0;

@@ -140,8 +140,8 @@ namespace GuildMaster.Data
         public bool TryAddInfiniteItem(Item item)
         {
             if (item == null) return false;
-            ItemStaticData itemData = ItemDatabase.Get(item.Code);
-            TryAddItem(item, 1);
+            int index = _inventoryList.FindIndex(x => x.Item == null);
+            _inventoryList[index] = new ItemStack(item, true);
             return true;
         }
         public bool TryAddItem(Item item, int number)
