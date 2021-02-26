@@ -40,6 +40,30 @@ namespace GuildMaster.Windows
             BuildNPCInventory();
             Initialize();
             Open();
+            Refresh();
+        }
+        void PointerEntered(Item item)
+        {
+            if (item != null)
+                _panelRequestId = UiWindowsManager.Instance.itemInfoPanel.Open(item.Code);
+        }
+
+        void PointerExited()
+        {
+            if (_panelRequestId == 0) return;
+            UiWindowsManager.Instance.itemInfoPanel.Close(_panelRequestId);
+            _panelRequestId = 0;
+        }
+        void PlayerClicked(Item item, int index)
+        {
+            ResetIconOnOff();
+            playerShopItemListView.OnOffItemIcon(false, index);
+        }
+
+        void ShopClicked(Item item, int index)
+        {
+            ResetIconOnOff();
+            shopItemListView.OnOffItemIcon(false, index);
         }
         private bool _changeCategoryBlock = false;
         public void ChangeCategory(PlayerInventory.ItemCategory category)
@@ -73,6 +97,19 @@ namespace GuildMaster.Windows
             ShopName.text = shopname;
             playerShopItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
             shopItemListView.SetInventory(npcInventory);
+            //이벤트 구독
+            shopItemListView.PointerEntered -= PointerEntered;
+            shopItemListView.PointerEntered += PointerEntered;
+            shopItemListView.PointerExited -= PointerExited;
+            shopItemListView.PointerExited += PointerExited;
+            shopItemListView.IClick -= ShopClicked;
+            shopItemListView.IClick += ShopClicked;
+            playerShopItemListView.PointerEntered -= PointerEntered;
+            playerShopItemListView.PointerEntered += PointerEntered;
+            playerShopItemListView.PointerExited -= PointerExited;
+            playerShopItemListView.PointerExited += PointerExited;
+            playerShopItemListView.IClick -= PlayerClicked;
+            playerShopItemListView.IClick += PlayerClicked;
         }
         private void BuildNPCInventory()
         {
@@ -88,8 +125,21 @@ namespace GuildMaster.Windows
                 npcInventory.TryAddItem(itemcount.Item, itemcount.Number);
             }
         }
+        private void Refresh()
+        {
+            shopItemListView.Refresh();
+            playerShopItemListView.Refresh();
+        }
+        private void ResetIconOnOff()
+        {
+            shopItemListView.ResetOnOffItemIcon();
+            playerShopItemListView.ResetOnOffItemIcon();
+        }
+        private int _panelRequestId;
         private ReadOnlyCollection<Item> npcInventoryInf;
         private List<ItemCount> npcInventoryNotInf;
+        private Dictionary<int, int> shopOnDict = new Dictionary<int, int>();
+        private Dictionary<int, int> playerOnDict = new Dictionary<int, int>();
         private Inventory npcInventory;
         private string shopname;
         private bool initialized = false;

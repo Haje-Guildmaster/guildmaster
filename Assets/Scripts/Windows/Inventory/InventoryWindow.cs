@@ -37,7 +37,7 @@ namespace GuildMaster.Windows
             //_draggingItemIcon = Instantiate(_ItemIcon.transform, GameObject.FindGameObjectWithTag("Canvas").transform);
 
             //Destroy(_ItemIcon.gameObject);
-            playerItemListView.OnOffItemIcon(false, _draggingItemIndex);
+            playerItemListView.OnOffItemIcon(true, _draggingItemIndex);
         }
 
         void Drag(PointerEventData eventData)
@@ -49,7 +49,7 @@ namespace GuildMaster.Windows
         void EndDrag()
         {
             //Destroy(_draggingItemIcon.gameObject);
-            playerItemListView.OnOffItemIcon(true, _draggingItemIndex);
+            playerItemListView.OnOffItemIcon(false, _draggingItemIndex);
         }
 
         void Drop(PointerEventData eventData, int index)

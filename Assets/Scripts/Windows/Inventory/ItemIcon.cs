@@ -18,6 +18,7 @@ namespace GuildMaster.Windows
         public event Action<PointerEventData> Drag;
         public event Action<PointerEventData, int> Drop;
         public event Action<Item, int> Click;
+        public event Action<Item, int> IClick;
 
         [SerializeField] protected Image _itemImage;
         [SerializeField] protected Text _itemNumberLabel;
@@ -47,11 +48,14 @@ namespace GuildMaster.Windows
             }
             return;
         }
-
+        /// <summary>
+        /// true°¡ 
+        /// </summary>
+        /// <param name="onoff"></param>
         public void ItemIconOnOff(bool onoff)
         {
-            if (onoff) gameObject.GetComponent<Image>().color = Color.white;
-            else gameObject.GetComponent<Image>().color = Color.red;
+            if (onoff) gameObject.GetComponent<Image>().color = Color.red;
+            else gameObject.GetComponent<Image>().color = Color.white;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -88,7 +92,10 @@ namespace GuildMaster.Windows
         {
             Click?.Invoke(_item, _number);
         }
-
+        public void OnPointerClickIndex(PointerEventData eventData)
+        {
+            IClick?.Invoke(_item, _index);
+        }
         protected Item _item = null;
         protected int _number = 0, _index;
     }

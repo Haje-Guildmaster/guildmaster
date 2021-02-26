@@ -41,7 +41,7 @@ namespace GuildMaster.Windows
             //_draggingItemIcon = Instantiate(_ItemIcon.transform, GameObject.FindGameObjectWithTag("Canvas").transform);
 
             //Destroy(_ItemIcon.gameObject);
-            playerItemListView.OnOffItemIcon(false, _draggingItemIndex);
+            playerItemListView.OnOffItemIcon(true, _draggingItemIndex);
         }
 
         void B_BeginDrag(PointerEventData eventData, int index)
@@ -58,7 +58,7 @@ namespace GuildMaster.Windows
             //_draggingItemIcon = Instantiate(_ItemIcon.transform, GameObject.FindGameObjectWithTag("Canvas").transform);
 
             //Destroy(_ItemIcon.gameObject);
-            bagWindow.OnOffItemIcon(false, _draggingItemIndex);
+            bagWindow.OnOffItemIcon(true, _draggingItemIndex);
         }
 
         void Drag(PointerEventData eventData)
@@ -70,8 +70,8 @@ namespace GuildMaster.Windows
         void EndDrag()
         {
             //Destroy(_draggingItemIcon.gameObject);
-            playerItemListView.OnOffItemIcon(true, _draggingItemIndex);
-            bagWindow.OnOffItemIcon(true, _draggingItemIndex);
+            playerItemListView.OnOffItemIcon(false, _draggingItemIndex);
+            bagWindow.OnOffItemIcon(false, _draggingItemIndex);
         }
 
         void P_Drop(PointerEventData eventData, int index)
@@ -159,35 +159,33 @@ namespace GuildMaster.Windows
             playerItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
             bagWindow.SetInventory(ExploreInventory);
             playerItemListView.PointerEntered -= PointerEntered;
-            playerItemListView.PointerExited -= PointerExited;
-            playerItemListView.BeginDrag -= P_BeginDrag;
-            playerItemListView.Drag -= Drag;
-            playerItemListView.EndDrag -= EndDrag;
-            playerItemListView.Drop -= P_Drop;
-            playerItemListView.Click -= P_Clicked;
-
             playerItemListView.PointerEntered += PointerEntered;
+            playerItemListView.PointerExited -= PointerExited;
             playerItemListView.PointerExited += PointerExited;
+            playerItemListView.BeginDrag -= P_BeginDrag;
             playerItemListView.BeginDrag += P_BeginDrag;
+            playerItemListView.Drag -= Drag;
             playerItemListView.Drag += Drag;
+            playerItemListView.EndDrag -= EndDrag;
             playerItemListView.EndDrag += EndDrag;
+            playerItemListView.Drop -= P_Drop;
             playerItemListView.Drop += P_Drop;
+            playerItemListView.Click -= P_Clicked;
             playerItemListView.Click += P_Clicked;
 
             bagWindow.PointerEntered -= PointerEntered;
-            bagWindow.PointerExited -= PointerExited;
-            bagWindow.BeginDrag -= B_BeginDrag;
-            bagWindow.Drag -= Drag;
-            bagWindow.EndDrag -= EndDrag;
-            bagWindow.Drop -= B_Drop;
-            bagWindow.Click -= B_Clicked;
-
             bagWindow.PointerEntered += PointerEntered;
+            bagWindow.PointerExited -= PointerExited;
             bagWindow.PointerExited += PointerExited;
+            bagWindow.BeginDrag -= B_BeginDrag;
             bagWindow.BeginDrag += B_BeginDrag;
+            bagWindow.Drag -= Drag;
             bagWindow.Drag += Drag;
+            bagWindow.EndDrag -= EndDrag;
             bagWindow.EndDrag += EndDrag;
+            bagWindow.Drop -= B_Drop;
             bagWindow.Drop += B_Drop;
+            bagWindow.Click -= B_Clicked;
             bagWindow.Click += B_Clicked;
             Refresh();
         }

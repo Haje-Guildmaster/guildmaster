@@ -130,17 +130,8 @@ namespace GuildMaster.Windows
         }
         public void OnOffItemIcon(bool onoff, int _index)
         {
-            if (onoff)
-            {
-                _ItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
-                _ItemIconList[_index].ItemIconOnOff(onoff);
-            }
-            else
-            {
-                //원래는 null, 0으로 안보이게 하는 함수였지만 일단 보류.
-                _ItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
-                _ItemIconList[_index].ItemIconOnOff(onoff);
-            }
+            _ItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
+            _ItemIconList[_index].ItemIconOnOff(onoff);
         }
         public void Refresh()
         {

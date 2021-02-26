@@ -30,7 +30,8 @@ public class ShopItemListView : MonoBehaviour
 
     public event Action<Item> PointerEntered;
     public event Action PointerExited;
-    public event Action<Item, int> Click;
+    public event Action<Item, int> IClick;
+    public IReadOnlyList<ShopItemIcon> ShopItemIconList => _ShopItemIconList.AsReadOnly();
 
     private void InvokePointerEntered(Item item)
     {
@@ -40,14 +41,26 @@ public class ShopItemListView : MonoBehaviour
     {
         PointerExited?.Invoke();
     }
-    private void InvokeClick(Item item, int number)
+    private void InvokeClick(Item item, int index)
     {
-        Click?.Invoke(item, number);
+        IClick?.Invoke(item, index);
     }
     private void Awake()
     {
         if(view_Category == View_Category.Player_Inventory)
             _ShopItemIconList = GetComponentsInChildren<ShopItemIcon>().ToList();
+    }
+    public void OnOffItemIcon(bool onoff, int _index)
+    {
+        _ShopItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum, _index);
+        _ShopItemIconList[_index].ItemIconOnOff(onoff);
+    }
+    public void ResetOnOffItemIcon()
+    {
+        foreach (ShopItemIcon shopItemIcon in _ShopItemIconList)
+        {
+            shopItemIcon.ItemIconOnOff(false);
+        }
     }
     private void InitializeIcons()
     {
@@ -67,11 +80,11 @@ public class ShopItemListView : MonoBehaviour
 
             itemicon.PointerEntered -= InvokePointerEntered;
             itemicon.PointerExited -= InvokePointerExited;
-            itemicon.Click -= InvokeClick;
+            itemicon.IClick -= InvokeClick;
 
             itemicon.PointerEntered += InvokePointerEntered;
             itemicon.PointerExited += InvokePointerExited;
-            itemicon.Click += InvokeClick;
+            itemicon.IClick += InvokeClick;
         }
     }
     private void UpdateIcons()
@@ -100,21 +113,6 @@ public class ShopItemListView : MonoBehaviour
     public ItemStack getItemStack(int _index)
     {
         return _inventory.TryGetItemStack(_index);
-    }
-    public void OnOffItemIcon(bool onoff, int _index)
-    {
-        ItemStack itemstack = _inventory.TryGetItemStack(_index);
-        if (onoff)
-        {
-            _ShopItemIconList[_index].UpdateAppearance(itemstack.Item, itemstack.ItemNum, _index);
-            _ShopItemIconList[_index].ItemIconOnOff(onoff);
-        }
-        else
-        {
-            //원래는 null, 0으로 안보이게 하는 함수였지만 일단 보류.
-            _ShopItemIconList[_index].UpdateAppearance(itemstack.Item, itemstack.ItemNum, _index);
-            _ShopItemIconList[_index].ItemIconOnOff(onoff);
-        }
     }
     public void Refresh()
     {
