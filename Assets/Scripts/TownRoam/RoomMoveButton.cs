@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 namespace GuildMaster.TownRoam
 {
+    /// <summary>
+    /// 지정된 Room으로 이동하는 버튼입니다. 현재는 MovePlaceButton을 대신 사용하고 있습니다.
+    /// </summary>
     [RequireComponent(typeof(Button))]
     public class RoomMoveButton: MonoBehaviour
     {
