@@ -64,7 +64,7 @@ namespace GuildMaster.Windows
 
         private void Awake()
         {
-            _ItemIconList = GetComponentsInChildren<ItemIcon>().ToList<ItemIcon>();
+            _ItemIconList = GetComponentsInChildren<ItemIcon>().ToList();
         }
         private void InitializeIcons()
         {
@@ -80,19 +80,18 @@ namespace GuildMaster.Windows
                 _ItemIconList.Add(itemicon);
 
                 itemicon.PointerEntered -= InvokePointerEntered;
-                itemicon.PointerExited -= InvokePointerExited;
-                itemicon.BeginDrag -= InvokeBeginDrag;
-                itemicon.EndDrag -= InvokeEndDrag;
-                itemicon.Drag -= InvokeDrag;
-                itemicon.Drop -= InvokeDrop;
-                itemicon.Click -= InvokeClick;
-
                 itemicon.PointerEntered += InvokePointerEntered;
+                itemicon.PointerExited -= InvokePointerExited;
                 itemicon.PointerExited += InvokePointerExited;
+                itemicon.BeginDrag -= InvokeBeginDrag;
                 itemicon.BeginDrag += InvokeBeginDrag;
+                itemicon.EndDrag -= InvokeEndDrag;
                 itemicon.EndDrag += InvokeEndDrag;
+                itemicon.Drag -= InvokeDrag;
                 itemicon.Drag += InvokeDrag;
+                itemicon.Drop -= InvokeDrop;
                 itemicon.Drop += InvokeDrop;
+                itemicon.Click -= InvokeClick;
                 itemicon.Click += InvokeClick;
             }
         }

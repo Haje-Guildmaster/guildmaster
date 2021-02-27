@@ -14,8 +14,12 @@ namespace GuildMaster.Windows
         [SerializeField] private Text ShopName; 
         [SerializeField] private ShopItemListView shopItemListView;
         [SerializeField] private PlayerShopItemListView playerShopItemListView;
+        [SerializeField] private Text BuyText;
+        [SerializeField] private Text SellText;
+        [SerializeField] private Text TotalText;
+
         /// <summary>
-        /// 이 메서드 말고 오버라이딩 된 다른 Open 메서드로 윈도우를 오픈해주세요.
+        /// 외부에서 열 땐 이 메서드 말고 오버라이딩 된 다른 Open 메서드로 윈도우를 오픈해주세요.
         /// </summary>
         public void Open()
         {
@@ -54,16 +58,18 @@ namespace GuildMaster.Windows
             UiWindowsManager.Instance.itemInfoPanel.Close(_panelRequestId);
             _panelRequestId = 0;
         }
-        void PlayerClicked(Item item, int index)
+        void PlayerClicked(ItemStack itemStack, int index)
         {
             ResetIconOnOff();
-            playerShopItemListView.OnOffItemIcon(false, index);
+            playerShopItemListView.OnOffItemIcon(true, index);
+            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, false);
         }
 
-        void ShopClicked(Item item, int index)
+        void ShopClicked(ItemStack itemStack, int index)
         {
             ResetIconOnOff();
-            shopItemListView.OnOffItemIcon(false, index);
+            shopItemListView.OnOffItemIcon(true, index);
+            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, true);
         }
         private bool _changeCategoryBlock = false;
         public void ChangeCategory(PlayerInventory.ItemCategory category)
@@ -97,19 +103,7 @@ namespace GuildMaster.Windows
             ShopName.text = shopname;
             playerShopItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
             shopItemListView.SetInventory(npcInventory);
-            //이벤트 구독
-            shopItemListView.PointerEntered -= PointerEntered;
-            shopItemListView.PointerEntered += PointerEntered;
-            shopItemListView.PointerExited -= PointerExited;
-            shopItemListView.PointerExited += PointerExited;
-            shopItemListView.IClick -= ShopClicked;
-            shopItemListView.IClick += ShopClicked;
-            playerShopItemListView.PointerEntered -= PointerEntered;
-            playerShopItemListView.PointerEntered += PointerEntered;
-            playerShopItemListView.PointerExited -= PointerExited;
-            playerShopItemListView.PointerExited += PointerExited;
-            playerShopItemListView.IClick -= PlayerClicked;
-            playerShopItemListView.IClick += PlayerClicked;
+            
         }
         private void BuildNPCInventory()
         {
@@ -129,6 +123,19 @@ namespace GuildMaster.Windows
         {
             shopItemListView.Refresh();
             playerShopItemListView.Refresh();
+            //이벤트 구독
+            shopItemListView.PointerEntered -= PointerEntered;
+            shopItemListView.PointerEntered += PointerEntered;
+            shopItemListView.PointerExited -= PointerExited;
+            shopItemListView.PointerExited += PointerExited;
+            shopItemListView.SClick -= ShopClicked;
+            shopItemListView.SClick += ShopClicked;
+            playerShopItemListView.PointerEntered -= PointerEntered;
+            playerShopItemListView.PointerEntered += PointerEntered;
+            playerShopItemListView.PointerExited -= PointerExited;
+            playerShopItemListView.PointerExited += PointerExited;
+            playerShopItemListView.SClick -= PlayerClicked;
+            playerShopItemListView.SClick += PlayerClicked;
         }
         private void ResetIconOnOff()
         {

@@ -1,4 +1,5 @@
 ﻿
+using GuildMaster.Data;
 using GuildMaster.Databases;
 using GuildMaster.Items;
 using GuildMaster.Tools;
@@ -13,6 +14,7 @@ namespace GuildMaster.Windows
     {
         [SerializeField] private Text _itemCostLabel;
         [SerializeField] private Text _itemQuantityLabel;
+        public event Action<ItemStack, int> SClick;
         public ShopItemIcon(Item item, int number, int index, int cost, int quantity, bool infinite) 
             : base()
         {
@@ -66,6 +68,15 @@ namespace GuildMaster.Windows
                     _itemQuantityLabel.text = _quantity.ToString();
             }
             return;
+        }
+        public override void OnPointerClick(PointerEventData eventData)
+        {
+            ItemStack itemStack;
+            if (_isinfinite)
+                itemStack = new ItemStack(_item, true);
+            else
+                itemStack = new ItemStack(_item, _number);
+            SClick?.Invoke(itemStack, _index);
         }
         private int _cost;
         private int _quantity;

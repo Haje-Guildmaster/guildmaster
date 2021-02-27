@@ -34,6 +34,7 @@ namespace GuildMaster.Windows
         public WorldMapWindow worldMapWindow;
 
         public ItemInfoPanel itemInfoPanel;    // 임시.
+        public ShopItemPanel shopItemPanel;
 
         /// <summary>
         /// 메시지 창을 띄움

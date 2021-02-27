@@ -18,7 +18,6 @@ namespace GuildMaster.Windows
         public event Action<PointerEventData> Drag;
         public event Action<PointerEventData, int> Drop;
         public event Action<Item, int> Click;
-        public event Action<Item, int> IClick;
 
         [SerializeField] protected Image _itemImage;
         [SerializeField] protected Text _itemNumberLabel;
@@ -88,13 +87,9 @@ namespace GuildMaster.Windows
             Drop?.Invoke(eventData, _index);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public virtual void OnPointerClick(PointerEventData eventData)
         {
             Click?.Invoke(_item, _number);
-        }
-        public void OnPointerClickIndex(PointerEventData eventData)
-        {
-            IClick?.Invoke(_item, _index);
         }
         protected Item _item = null;
         protected int _number = 0, _index;

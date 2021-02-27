@@ -30,7 +30,7 @@ public class ShopItemListView : MonoBehaviour
 
     public event Action<Item> PointerEntered;
     public event Action PointerExited;
-    public event Action<Item, int> IClick;
+    public event Action<ItemStack, int> SClick;
     public IReadOnlyList<ShopItemIcon> ShopItemIconList => _ShopItemIconList.AsReadOnly();
 
     private void InvokePointerEntered(Item item)
@@ -41,9 +41,9 @@ public class ShopItemListView : MonoBehaviour
     {
         PointerExited?.Invoke();
     }
-    private void InvokeClick(Item item, int index)
+    private void InvokeClick(ItemStack itemStack, int index)
     {
-        IClick?.Invoke(item, index);
+        SClick?.Invoke(itemStack, index);
     }
     private void Awake()
     {
@@ -79,12 +79,11 @@ public class ShopItemListView : MonoBehaviour
             _ShopItemIconList.Add(itemicon);
 
             itemicon.PointerEntered -= InvokePointerEntered;
-            itemicon.PointerExited -= InvokePointerExited;
-            itemicon.IClick -= InvokeClick;
-
             itemicon.PointerEntered += InvokePointerEntered;
+            itemicon.PointerExited -= InvokePointerExited;
             itemicon.PointerExited += InvokePointerExited;
-            itemicon.IClick += InvokeClick;
+            itemicon.SClick -= InvokeClick;
+            itemicon.SClick += InvokeClick;
         }
     }
     private void UpdateIcons()
@@ -98,12 +97,11 @@ public class ShopItemListView : MonoBehaviour
                 _ShopItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].SellCost, 0, itemList[i].isInfinite);
 
             _ShopItemIconList[i].PointerEntered -= InvokePointerEntered;
-            _ShopItemIconList[i].PointerExited -= InvokePointerExited;
-            _ShopItemIconList[i].Click -= InvokeClick;
-
             _ShopItemIconList[i].PointerEntered += InvokePointerEntered;
+            _ShopItemIconList[i].PointerExited -= InvokePointerExited;
             _ShopItemIconList[i].PointerExited += InvokePointerExited;
-            _ShopItemIconList[i].Click += InvokeClick;
+            _ShopItemIconList[i].SClick -= InvokeClick;
+            _ShopItemIconList[i].SClick += InvokeClick;
         }
     }
     public void ChangeItemStackIndex(int _index1, int _index2)
