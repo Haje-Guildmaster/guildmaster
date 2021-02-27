@@ -26,7 +26,10 @@ namespace GuildMaster.Windows.Inven
 
             return ++_currentRequestId;
         }
-
+        public void Close()
+        {
+            gameObject.SetActive(false);
+        }
         public void Close(int requestId)
         {
             if (requestId == _currentRequestId)

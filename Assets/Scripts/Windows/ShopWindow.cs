@@ -17,7 +17,12 @@ namespace GuildMaster.Windows
         [SerializeField] private Text BuyText;
         [SerializeField] private Text SellText;
         [SerializeField] private Text TotalText;
-
+        public void CloseWindow()
+        {
+            UiWindowsManager.Instance.shopItemPanel.Close();
+            UiWindowsManager.Instance.itemInfoPanel.Close();
+            base.Close();
+        }
         /// <summary>
         /// 외부에서 열 땐 이 메서드 말고 오버라이딩 된 다른 Open 메서드로 윈도우를 오픈해주세요.
         /// </summary>

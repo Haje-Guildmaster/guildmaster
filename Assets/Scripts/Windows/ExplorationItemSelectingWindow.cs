@@ -137,7 +137,11 @@ namespace GuildMaster.Windows
                             Refresh();
                         }), ("취소", () => Debug.Log("취소"))});
         }
-
+        public void CloseWindow()
+        {
+            base.Close();
+            UiWindowsManager.Instance.itemInfoPanel.Close(_panelRequestId);
+        }
         public void Open()
         {
             base.OpenWindow();

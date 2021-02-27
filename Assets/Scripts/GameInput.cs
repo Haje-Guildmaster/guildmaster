@@ -17,6 +17,7 @@ namespace GuildMaster
                 UiWindowsManager.Instance.questListWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.I)) // 인벤토리
             {
+                UiWindowsManager.Instance.itemInfoPanel.Close();
                 UiWindowsManager.Instance.inventoryWindow.Toggle();
             }
             if (Input.GetKeyDown(KeyCode.P)) //캐릭터
@@ -25,22 +26,17 @@ namespace GuildMaster
                 UiWindowsManager.Instance.guildInspectWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.E)) //탐험 캐릭터 선택 창
                 UiWindowsManager.Instance.ExplorationCharacterSelectingWindow.Toggle();
-            if (Input.GetKeyDown(KeyCode.S)) //상점 윈도우
-                UiWindowsManager.Instance.shopWindow.Toggle();
             //Settings 와 그 자식 파일들 
             if (Input.GetKeyDown(KeyCode.Escape)) //ESC 환경설정
             {
                 UiWindowsManager.Instance.CloseSingleWindow();
             }
-            
-            
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q)) //설정
             {
                 UiWindowsManager.Instance.CloseSingleWindow();
             }
-
             // For Test
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.T)) //마을 맵
             {
                 UiWindowsManager.Instance.TownMapWindow.Toggle();
             }

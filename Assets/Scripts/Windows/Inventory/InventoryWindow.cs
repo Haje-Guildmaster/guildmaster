@@ -60,7 +60,11 @@ namespace GuildMaster.Windows
             playerItemListView.ChangeItemStackIndex(index, _draggingItemIndex);
             Refresh();
         }
-
+        public void CloseWindow()
+        {
+            base.Close();
+            UiWindowsManager.Instance.itemInfoPanel.Close(_panelRequestId);
+        }
         public void Open()
         {
             base.OpenWindow();

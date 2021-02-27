@@ -74,7 +74,7 @@ namespace GuildMaster.Windows
             }
             else if (ExplorationItemSelectingWindow.IsOpen)
             {
-                ExplorationItemSelectingWindow.Close();
+                ExplorationItemSelectingWindow.CloseWindow();
             }
             else if (questListWindow.IsOpen)
             {
@@ -82,7 +82,7 @@ namespace GuildMaster.Windows
             }
             else if (inventoryWindow.IsOpen)
             {
-                inventoryWindow.Close();
+                inventoryWindow.CloseWindow();
             }
             else if (characterInspectWindow.IsOpen)
             {
@@ -94,7 +94,7 @@ namespace GuildMaster.Windows
             }
             else if (shopWindow.IsOpen)
             {
-                shopWindow.Close();
+                shopWindow.CloseWindow();
             }
             else if (TextureWindow.IsOpen)
             {
