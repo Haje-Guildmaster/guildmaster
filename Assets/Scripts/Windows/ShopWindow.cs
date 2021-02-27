@@ -14,6 +14,7 @@ namespace GuildMaster.Windows
         [SerializeField] private Text ShopName; 
         [SerializeField] private ShopItemListView shopItemListView;
         [SerializeField] private PlayerShopItemListView playerShopItemListView;
+        [SerializeField] private Text PlayerGold;
         [SerializeField] private Text BuyText;
         [SerializeField] private Text SellText;
         [SerializeField] private Text TotalText;
@@ -49,35 +50,61 @@ namespace GuildMaster.Windows
             BuildNPCInventory();
             Initialize();
             Open();
+            EventRefresh();
             Refresh();
         }
-        void PointerEntered(Item item)
+        public void GetPanelInfo(ItemStack itemStack, int num, bool isbuying, int index)
+        {
+            if (isbuying)
+            {
+                if (num != 0)
+                {
+                    shopOnDict.Add(itemStack, num);
+                    shopItemListView.OnOffItemIcon(true, index, true);
+                    shopItemListView.ShopItemIconList[index].UpdateAppearance(itemStack.Item, itemStack.ItemNum, index, itemStack.BuyCost, num, itemStack.isInfinite);
+                }
+                else if (shopOnDict.ContainsKey(itemStack))
+                {
+                    shopOnDict.Remove(itemStack);
+                    shopItemListView.OnOffItemIcon(false, index, true);
+                    shopItemListView.ShopItemIconList[index].UpdateAppearance(itemStack.Item, itemStack.ItemNum, index, itemStack.BuyCost, num, itemStack.isInfinite);
+                }
+            }
+            else
+            {
+                if (num != 0)
+                    playerOnDict.Add(itemStack, num);
+                else if (playerOnDict.ContainsKey(itemStack))
+                    playerOnDict.Remove(itemStack);
+            }
+            Refresh();
+        }
+
+        private void PointerEntered(Item item)
         {
             if (item != null)
                 _panelRequestId = UiWindowsManager.Instance.itemInfoPanel.Open(item.Code);
         }
 
-        void PointerExited()
+        private void PointerExited()
         {
             if (_panelRequestId == 0) return;
             UiWindowsManager.Instance.itemInfoPanel.Close(_panelRequestId);
             _panelRequestId = 0;
         }
-        void PlayerClicked(ItemStack itemStack, int index)
+        private void ShopClicked(ItemStack itemStack, int index)
         {
-            ResetIconOnOff();
-            playerShopItemListView.OnOffItemIcon(true, index);
-            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, false);
+            shopItemListView.OnOffItemIcon(true, index, true);
+            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, true, index);
+        }
+        private void PlayerClicked(ItemStack itemStack, int index)
+        {
+            playerShopItemListView.OnOffItemIcon(true, index, false);
+            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, false, index);
         }
 
-        void ShopClicked(ItemStack itemStack, int index)
-        {
-            ResetIconOnOff();
-            shopItemListView.OnOffItemIcon(true, index);
-            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, true);
-        }
         private bool _changeCategoryBlock = false;
-        public void ChangeCategory(PlayerInventory.ItemCategory category)
+        private void ChangeCategory(PlayerInventory.ItemCategory category)
         {
             if (_changeCategoryBlock) return;
             _changeCategoryBlock = true;
@@ -108,23 +135,42 @@ namespace GuildMaster.Windows
             ShopName.text = shopname;
             playerShopItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
             shopItemListView.SetInventory(npcInventory);
-            
         }
         private void BuildNPCInventory()
         {
             npcInventory = new Inventory(npcInventoryInf.Count + npcInventoryNotInf.Count, false);
             foreach (Item item in npcInventoryInf)
             {
-                if (item == null) continue;
+                if (item == null) throw new ArgumentException("npcInventoryInf의 item이 null입니다.");
                 npcInventory.TryAddInfiniteItem(item);
             }
             foreach (ItemCount itemcount in npcInventoryNotInf)
             {
-                if (itemcount.Item == null) continue;
+                if (itemcount.Item == null) throw new ArgumentException("npcInventoryNotInf의 item이 null입니다.");
                 npcInventory.TryAddItem(itemcount.Item, itemcount.Number);
             }
         }
         private void Refresh()
+        {
+            //Gold Refresh
+            PlayerGold.text = Player.Instance.PlayerGuild.Balance.Value.ToString();
+            int buycost = 0, sellcost = 0, totalcost;
+            foreach (KeyValuePair<ItemStack, int> pair in shopOnDict)
+            {
+                buycost += pair.Value * pair.Key.BuyCost;
+            }
+            foreach (KeyValuePair<ItemStack, int> pair in playerOnDict)
+            {
+                sellcost += pair.Value * pair.Key.SellCost;
+            }
+            totalcost = sellcost - buycost;
+            BuyText.text = buycost.ToString();
+            SellText.text = sellcost.ToString();
+            TotalText.text = totalcost.ToString();
+            //ICons Refresh
+
+        }
+        private void EventRefresh()
         {
             shopItemListView.Refresh();
             playerShopItemListView.Refresh();
@@ -142,16 +188,11 @@ namespace GuildMaster.Windows
             playerShopItemListView.SClick -= PlayerClicked;
             playerShopItemListView.SClick += PlayerClicked;
         }
-        private void ResetIconOnOff()
-        {
-            shopItemListView.ResetOnOffItemIcon();
-            playerShopItemListView.ResetOnOffItemIcon();
-        }
         private int _panelRequestId;
         private ReadOnlyCollection<Item> npcInventoryInf;
         private List<ItemCount> npcInventoryNotInf;
-        private Dictionary<int, int> shopOnDict = new Dictionary<int, int>();
-        private Dictionary<int, int> playerOnDict = new Dictionary<int, int>();
+        private Dictionary<ItemStack, int> shopOnDict = new Dictionary<ItemStack, int>();
+        private Dictionary<ItemStack, int> playerOnDict = new Dictionary<ItemStack, int>();
         private Inventory npcInventory;
         private string shopname;
         private bool initialized = false;

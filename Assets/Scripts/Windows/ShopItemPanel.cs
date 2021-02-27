@@ -15,16 +15,16 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
     {
         base.OpenWindow();
     }
-    public void Close()
+    public void SendToShopWindow()
     {
-        base.Close();
-
+        UiWindowsManager.Instance.shopWindow.GetPanelInfo(itemStack, num, isbuy, index);
+        Close();
     }
-
-    public void Open(ItemStack itemStack, bool isbuy)
+    public void Open(ItemStack itemStack, bool isbuy, int index)
     {
-        this.ItemStack = itemStack;
+        this.itemStack = itemStack;
         this.isbuy = isbuy;
+        this.index = index;
         if (isbuy)
             shopItemIcon.UpdateAppearance(itemStack.Item, itemStack.ItemNum, 0, itemStack.BuyCost, 0, itemStack.isInfinite);
         else
@@ -38,13 +38,14 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
     }
     private void Refresh()
     {
-        int value = (int) slider.value;
+        int value = (int) Math.Round(slider.value);
+        slider.value = value;
+        num = value;
         Num.text = value.ToString();
         if (isbuy)
-            gold.text = (value * ItemStack.BuyCost).ToString();
+            gold.text = (value * itemStack.BuyCost).ToString();
         else
-            gold.text = (value * ItemStack.SellCost).ToString();
-        slider.value = value;
+            gold.text = (value * itemStack.SellCost).ToString();
     }
     private void Awake()
     {
@@ -64,8 +65,14 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
             slider.value -= 1;
             Refresh();
         }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SendToShopWindow();
+            Close();
+        }
     }
     private bool isbuy;
-    private ItemStack ItemStack;
-    private Action Changed;
+    private int num;
+    private int index;
+    private ItemStack itemStack;
 }

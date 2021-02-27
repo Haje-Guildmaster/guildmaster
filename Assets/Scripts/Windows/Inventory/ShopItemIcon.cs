@@ -22,7 +22,7 @@ namespace GuildMaster.Windows
         }
         public void UpdateAppearance(Item item, int number, int index, int cost, int quantity, bool infinite)
         {
-            if (item == null || (number == 0 && infinite == false))
+            if (item == null)
             {
                 _item = null;
                 _number = 0;

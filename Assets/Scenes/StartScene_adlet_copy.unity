@@ -17961,6 +17961,7 @@ MonoBehaviour:
   ShopName: {fileID: 1036767765}
   shopItemListView: {fileID: 1896336630}
   playerShopItemListView: {fileID: 1532522588}
+  PlayerGold: {fileID: 1232608720}
   BuyText: {fileID: 500310324}
   SellText: {fileID: 569189194}
   TotalText: {fileID: 356917424}
@@ -36942,7 +36943,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100000
+  m_Text: '0
+
+'
 --- !u!222 &1157988602
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -56440,13 +56443,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1481134408}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1481134410}
+        m_TargetAssemblyTypeName: ShopItemPanel, Assembly-CSharp
+        m_MethodName: SendToShopWindow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
