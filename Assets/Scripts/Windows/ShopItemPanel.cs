@@ -20,15 +20,12 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
         UiWindowsManager.Instance.shopWindow.GetPanelInfo(itemStack, num, isbuy, index);
         Close();
     }
-    public void Open(ItemStack itemStack, bool isbuy, int index)
+    public void Open(ItemStack itemStack, int itemnum, bool isbuy, int index)
     {
         this.itemStack = itemStack;
         this.isbuy = isbuy;
         this.index = index;
-        if (isbuy)
-            shopItemIcon.UpdateAppearance(itemStack.Item, itemStack.ItemNum, 0, itemStack.BuyCost, 0, itemStack.isInfinite);
-        else
-            shopItemIcon.UpdateAppearance(itemStack.Item, itemStack.ItemNum, 0, itemStack.SellCost, 0, itemStack.isInfinite);
+        shopItemIcon.UpdateAppearance(itemStack, 0, isbuy);
         Open();
         if (itemStack.isInfinite)
             slider.maxValue = 1000;

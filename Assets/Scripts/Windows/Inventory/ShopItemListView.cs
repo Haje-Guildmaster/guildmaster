@@ -53,10 +53,7 @@ public class ShopItemListView : MonoBehaviour
     public void OnOffItemIcon(bool onoff, int _index, bool isbuy)
     {
         ItemStack itemstack = _inventory.TryGetItemStack(_index);
-        if (isbuy)
-            _ShopItemIconList[_index].UpdateAppearance(itemstack.Item, itemstack.ItemNum, _index, itemstack.BuyCost, itemstack.Quantity, itemstack.isInfinite);
-        else
-            _ShopItemIconList[_index].UpdateAppearance(itemstack.Item, itemstack.ItemNum, _index, itemstack.SellCost, itemstack.Quantity, itemstack.isInfinite);
+        _ShopItemIconList[_index].UpdateAppearance(itemstack, _index, isbuy);
         _ShopItemIconList[_index].ItemIconOnOff(onoff);
     }
     public void ResetOnOffItemIcon()
@@ -76,9 +73,9 @@ public class ShopItemListView : MonoBehaviour
             var itemicon = Instantiate(ShopItemIconPrefab, transform);
 
             if (buyOrSell == BuyOrSell.Buy)
-                itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].BuyCost, 0, itemList[i].isInfinite);
+                itemicon.UpdateAppearance(itemList[i], i, true);
             if (buyOrSell == BuyOrSell.Sell)
-                itemicon.UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].SellCost, 0, itemList[i].isInfinite);
+                itemicon.UpdateAppearance(itemList[i], i, false);
 
             _ShopItemIconList.Add(itemicon);
 
@@ -96,9 +93,9 @@ public class ShopItemListView : MonoBehaviour
         for (int i = 0; i < _inventory.Size; i++)
         {
             if (buyOrSell == BuyOrSell.Buy)
-                _ShopItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].BuyCost, 0, itemList[i].isInfinite);
+                _ShopItemIconList[i].UpdateAppearance(itemList[i], i, true);
             if (buyOrSell == BuyOrSell.Sell)
-                _ShopItemIconList[i].UpdateAppearance(itemList[i].Item, itemList[i].ItemNum, i, itemList[i].SellCost, 0, itemList[i].isInfinite);
+                _ShopItemIconList[i].UpdateAppearance(itemList[i], i, false);
 
             _ShopItemIconList[i].PointerEntered -= InvokePointerEntered;
             _ShopItemIconList[i].PointerEntered += InvokePointerEntered;

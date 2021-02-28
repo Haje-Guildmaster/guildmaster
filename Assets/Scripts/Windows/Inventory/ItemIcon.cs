@@ -1,4 +1,5 @@
 
+using GuildMaster.Data;
 using GuildMaster.Databases;
 using GuildMaster.Items;
 using GuildMaster.Tools;
@@ -22,26 +23,26 @@ namespace GuildMaster.Windows
         [SerializeField] protected Image _itemImage;
         [SerializeField] protected Text _itemNumberLabel;
         protected ItemIcon() { }
-        public ItemIcon(Item item, int number, int index)
+        public ItemIcon(ItemStack itemStack, int index)
         {
-            UpdateAppearance(item, number, index);
+            UpdateAppearance(itemStack, index);
         }
 
-        public void UpdateAppearance(Item _item, int _number, int _index)
+        public void UpdateAppearance(ItemStack itemStack, int index)
         {
-            if (_item == null || _number <= 0)
+            if (itemStack == null || itemStack.Item == null)
             {
-                this._item = null;
-                this._number = 0;
-                this._index = _index;
+                _item = null;
+                _number = 0;
+                _index = index;
                 _itemImage.sprite = (Sprite)null;
                 _itemNumberLabel.text = "";
             }
             else
             {
-                this._item = _item;
-                this._number = _number;
-                this._index = _index;
+                _item = itemStack.Item;
+                _number = itemStack.ItemNum;
+                _index = index;
                 _itemImage.sprite = ItemDatabase.Get(_item.Code).ItemImage;
                 _itemNumberLabel.text = _number.ToString();
             }

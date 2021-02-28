@@ -15,33 +15,36 @@ namespace GuildMaster.Windows
         [SerializeField] private Text _itemCostLabel;
         [SerializeField] private Text _itemQuantityLabel;
         public event Action<ItemStack, int> SClick;
-        public ShopItemIcon(Item item, int number, int index, int cost, int quantity, bool infinite) 
+        public ShopItemIcon(ItemStack itemStack, int index, bool isbuy) 
             : base()
         {
-            UpdateAppearance(item, number, index, cost, quantity, infinite);
+            UpdateAppearance(itemStack, index, isbuy);
         }
-        public void UpdateAppearance(Item item, int number, int index, int cost, int quantity, bool infinite)
+        public void UpdateAppearance(ItemStack itemStack, int index, bool isbuy)
         {
-            if (item == null)
+            if (itemStack == null || itemStack.Item == null)
             {
                 _item = null;
                 _number = 0;
                 _index = index;
-                _cost = cost;
+                _cost = 0;
                 _quantity = 0;
-                _isinfinite = infinite;
+                _isinfinite = false;
                 _itemImage.sprite = (Sprite)null;
                 _itemNumberLabel.text = "";
                 _itemCostLabel.text = "";
                 _itemQuantityLabel.text = "";
             }
-            else if (infinite == true)
+            else if (itemStack.isInfinite == true)
             {
-                _item = item;
+                _item = itemStack.Item;
                 _number = 0;
                 _index = index;
-                _cost = cost;
-                _quantity = quantity;
+                if (isbuy)
+                    _cost = itemStack.BuyCost;
+                else
+                    _cost = itemStack.SellCost;
+                _quantity = itemStack.Quantity;
                 _isinfinite = true;
                 _itemImage.sprite = ItemDatabase.Get(_item.Code).ItemImage;
                 _itemNumberLabel.text = "";
@@ -53,11 +56,14 @@ namespace GuildMaster.Windows
             }
             else
             {
-                _item = item;
-                _number = number;
+                _item = itemStack.Item;
+                _number = itemStack.ItemNum;
                 _index = index;
-                _cost = cost;
-                _quantity = quantity;
+                if (isbuy)
+                    _cost = itemStack.BuyCost;
+                else
+                    _cost = itemStack.SellCost;
+                _quantity = itemStack.Quantity;
                 _isinfinite = false;
                 _itemImage.sprite = ItemDatabase.Get(_item.Code).ItemImage;
                 _itemNumberLabel.text = _number.ToString();

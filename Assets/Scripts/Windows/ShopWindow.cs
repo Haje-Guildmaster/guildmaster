@@ -57,17 +57,25 @@ namespace GuildMaster.Windows
         {
             if (isbuying)
             {
-                if (num != 0)
+                if (num == 0)
+                {
+                    shopItemListView.ShopItemIconList[index].UpdateAppearance(itemStack, index, isbuying);
+                }
+                else if (shopOnDict.TryGetValue(itemStack, out int itemnum))
+                {
+                    shopOnDict[itemStack] = itemnum;
+                    if (itemnum == 0)
+                    {
+                        shopOnDict.Remove(itemStack);
+                        shopItemListView.OnOffItemIcon(false, index, true);
+                    }
+                    shopItemListView.ShopItemIconList[index].UpdateAppearance(itemStack, index, isbuying);
+                }
+                else
                 {
                     shopOnDict.Add(itemStack, num);
                     shopItemListView.OnOffItemIcon(true, index, true);
-                    shopItemListView.ShopItemIconList[index].UpdateAppearance(itemStack.Item, itemStack.ItemNum, index, itemStack.BuyCost, num, itemStack.isInfinite);
-                }
-                else if (shopOnDict.ContainsKey(itemStack))
-                {
-                    shopOnDict.Remove(itemStack);
-                    shopItemListView.OnOffItemIcon(false, index, true);
-                    shopItemListView.ShopItemIconList[index].UpdateAppearance(itemStack.Item, itemStack.ItemNum, index, itemStack.BuyCost, num, itemStack.isInfinite);
+                    shopItemListView.ShopItemIconList[index].UpdateAppearance(itemStack, index, isbuying);
                 }
             }
             else
@@ -95,12 +103,18 @@ namespace GuildMaster.Windows
         private void ShopClicked(ItemStack itemStack, int index)
         {
             shopItemListView.OnOffItemIcon(true, index, true);
-            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, true, index);
+            int num = 0;
+            if (shopOnDict.TryGetValue(itemStack, out int n))
+                num = n;
+            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, num, true, index);
         }
         private void PlayerClicked(ItemStack itemStack, int index)
         {
             playerShopItemListView.OnOffItemIcon(true, index, false);
-            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, false, index);
+            int num = 0;
+            if (playerOnDict.TryGetValue(itemStack, out int n))
+                num = n;
+            UiWindowsManager.Instance.shopItemPanel.Open(itemStack, num, false, index);
         }
 
         private bool _changeCategoryBlock = false;
