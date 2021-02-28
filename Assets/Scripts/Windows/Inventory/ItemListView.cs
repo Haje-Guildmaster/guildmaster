@@ -75,7 +75,7 @@ namespace GuildMaster.Windows
             {
                 var itemicon = Instantiate(ItemIconPrefab, transform);
 
-                itemicon.UpdateAppearance(new ItemStack(itemList[i].Item, itemList[i].ItemNum), i);
+                itemicon.UpdateAppearance(itemList[i], i);
 
                 _ItemIconList.Add(itemicon);
 
@@ -100,7 +100,7 @@ namespace GuildMaster.Windows
             IReadOnlyList<ItemStack> itemList = _inventory.InventoryList;
             for (int i = 0; i < _inventory.Size; i++)
             {
-                _ItemIconList[i].UpdateAppearance(itemStack: new ItemStack(itemList[i].Item, itemList[i].ItemNum), i);
+                _ItemIconList[i].UpdateAppearance(itemList[i], i);
 
                 _ItemIconList[i].PointerEntered -= InvokePointerEntered;
                 _ItemIconList[i].PointerExited -= InvokePointerExited;
@@ -129,7 +129,7 @@ namespace GuildMaster.Windows
         }
         public void OnOffItemIcon(bool onoff, int _index)
         {
-            _ItemIconList[_index].UpdateAppearance(itemStack : new ItemStack(_inventory.TryGetItemStack(_index).Item, _inventory.TryGetItemStack(_index).ItemNum), _index);
+            _ItemIconList[_index].UpdateAppearance(_inventory.TryGetItemStack(_index), _index);
             _ItemIconList[_index].ItemIconOnOff(onoff);
         }
         public void Refresh()

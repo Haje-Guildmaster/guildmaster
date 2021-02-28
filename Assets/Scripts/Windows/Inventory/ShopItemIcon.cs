@@ -14,7 +14,18 @@ namespace GuildMaster.Windows
     {
         [SerializeField] private Text _itemCostLabel;
         [SerializeField] private Text _itemQuantityLabel;
-        public event Action<ItemStack, int> SClick;
+        public event Action<int> SClick;
+        public ItemStack ItemStack
+        {
+            get
+            {
+                if (_isinfinite)
+                    return new ItemStack(itemStack.Item, true);
+                else
+                    return new ItemStack(itemStack.Item, itemStack.ItemNum);
+            }
+        }
+            
         public ShopItemIcon(ItemStack itemStack, int index, bool isbuy) 
             : base()
         {
@@ -22,6 +33,7 @@ namespace GuildMaster.Windows
         }
         public void UpdateAppearance(ItemStack itemStack, int index, bool isbuy)
         {
+            this.itemStack = itemStack;
             if (itemStack == null || itemStack.Item == null)
             {
                 _item = null;
@@ -77,13 +89,9 @@ namespace GuildMaster.Windows
         }
         public override void OnPointerClick(PointerEventData eventData)
         {
-            ItemStack itemStack;
-            if (_isinfinite)
-                itemStack = new ItemStack(_item, true);
-            else
-                itemStack = new ItemStack(_item, _number);
-            SClick?.Invoke(itemStack, _index);
+            SClick?.Invoke(_index);
         }
+        private ItemStack itemStack;
         private int _cost;
         private int _quantity;
         private bool _isinfinite;

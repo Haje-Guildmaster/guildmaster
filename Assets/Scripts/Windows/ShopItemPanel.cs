@@ -17,27 +17,29 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
     }
     public void SendToShopWindow()
     {
-        UiWindowsManager.Instance.shopWindow.GetPanelInfo(itemStack, num, isbuy, index);
+        itemStack.Quantity = quantity;
+        UiWindowsManager.Instance.shopWindow.GetPanelInfo(itemStack, isbuy, index);
         Close();
     }
-    public void Open(ItemStack itemStack, int itemnum, bool isbuy, int index)
+    public void Open(ItemStack itemStack, bool isbuy, int index)
     {
         this.itemStack = itemStack;
         this.isbuy = isbuy;
         this.index = index;
+        this.quantity = itemStack.Quantity;
         shopItemIcon.UpdateAppearance(itemStack, 0, isbuy);
         Open();
         if (itemStack.isInfinite)
             slider.maxValue = 1000;
         else
             slider.maxValue = itemStack.ItemNum;
-        slider.value = 0;
+        slider.value = quantity;
     }
     private void Refresh()
     {
         int value = (int) Math.Round(slider.value);
         slider.value = value;
-        num = value;
+        quantity = value;
         Num.text = value.ToString();
         if (isbuy)
             gold.text = (value * itemStack.BuyCost).ToString();
@@ -69,7 +71,7 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
         }
     }
     private bool isbuy;
-    private int num;
+    private int quantity;
     private int index;
     private ItemStack itemStack;
 }

@@ -30,8 +30,8 @@ public class ShopItemListView : MonoBehaviour
 
     public event Action<Item> PointerEntered;
     public event Action PointerExited;
-    public event Action<ItemStack, int> SClick;
-    public IReadOnlyList<ShopItemIcon> ShopItemIconList => _ShopItemIconList.AsReadOnly();
+    public event Action<int> SClick;
+    public List<ShopItemIcon> ShopItemIconList => _ShopItemIconList;
 
     private void InvokePointerEntered(Item item)
     {
@@ -41,9 +41,9 @@ public class ShopItemListView : MonoBehaviour
     {
         PointerExited?.Invoke();
     }
-    private void InvokeClick(ItemStack itemStack, int index)
+    private void InvokeClick( int index)
     {
-        SClick?.Invoke(itemStack, index);
+        SClick?.Invoke(index);
     }
     private void Awake()
     {
