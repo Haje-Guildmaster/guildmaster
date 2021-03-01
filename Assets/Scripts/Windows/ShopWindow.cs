@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.UI;
+using static GuildMaster.Data.PlayerInventory;
 
 namespace GuildMaster.Windows
 {
@@ -57,9 +58,10 @@ namespace GuildMaster.Windows
         {
             if (isbuying)
             {
+                shopItemListView.setItemStack(index, itemStack, isbuying);
                 if (itemStack.Quantity == 0)
                 {
-                    if (!shopOnDict.TryGetValue(index, out ItemStack _itemStack))
+                    if (shopOnDict.TryGetValue(index, out ItemStack _itemStack))
                         shopOnDict.Remove(index);
                     shopItemListView.OnOffItemIcon(false, index, true);
                 }
@@ -76,21 +78,27 @@ namespace GuildMaster.Windows
             }
             else
             {
+                playerShopItemListView.setItemStack(index, itemStack, isbuying);
                 if (itemStack.Quantity == 0)
                 {
-                    if (!playerOnDict.TryGetValue(index, out ItemStack _itemStack))
-                        playerOnDict.Remove(index);
-                    playerShopItemListView.OnOffItemIcon(false, index, true);
+                    if (playerOnDict.TryGetValue(_currentCategory, out var PDict) && PDict.TryGetValue(index, out ItemStack _itemStack))
+                        PDict.Remove(index);
+                    playerShopItemListView.OnOffItemIcon(false, index, false);
                 }
-                else if (playerOnDict.TryGetValue(index, out ItemStack _itemStack))
+                else if (playerOnDict.TryGetValue(_currentCategory, out var PDict))
                 {
-                    playerOnDict[index].Quantity = itemStack.Quantity;
-                    playerShopItemListView.OnOffItemIcon(true, index, true);
+                    if (PDict.TryGetValue(index, out ItemStack _itemStack))
+                        PDict[index].Quantity = itemStack.Quantity;
+                    else
+                        PDict.Add(index, itemStack);
+                    playerShopItemListView.OnOffItemIcon(true, index, false);
                 }
                 else
                 {
-                    playerOnDict.Add(index, itemStack);
-                    playerShopItemListView.OnOffItemIcon(true, index, true);
+                    Dictionary<int, ItemStack> Dict = new Dictionary<int, ItemStack>();
+                    Dict.Add(index, itemStack);
+                    playerOnDict.Add(_currentCategory, Dict);
+                    playerShopItemListView.OnOffItemIcon(true, index, false);
                 }
             }
             Refresh();
@@ -115,15 +123,17 @@ namespace GuildMaster.Windows
             if (shopOnDict.TryGetValue(index, out ItemStack itemStack))
                 UiWindowsManager.Instance.shopItemPanel.Open(itemStack, true, index);
             else
-                UiWindowsManager.Instance.shopItemPanel.Open(shopItemListView.ShopItemIconList[index].ItemStack, true, index);
+                UiWindowsManager.Instance.shopItemPanel.Open(shopItemListView.getItemStack(index), true, index);
         }
         private void PlayerClicked(int index)
         {
-            playerShopItemListView.OnOffItemIcon(true, index, true);
-            if (playerOnDict.TryGetValue(index, out ItemStack itemStack))
-                UiWindowsManager.Instance.shopItemPanel.Open(itemStack, true, index);
+            if (playerShopItemListView.getItemStack(index) == null || playerShopItemListView.getItemStack(index).Item == null) 
+                return;
+            playerShopItemListView.OnOffItemIcon(true, index, false);
+            if (playerOnDict.TryGetValue(_currentCategory, out var pDict) && pDict.TryGetValue(index, out ItemStack itemStack))
+                UiWindowsManager.Instance.shopItemPanel.Open(itemStack, false, index);
             else
-                UiWindowsManager.Instance.shopItemPanel.Open(playerShopItemListView.ShopItemIconList[index].ItemStack, true, index);
+                UiWindowsManager.Instance.shopItemPanel.Open(playerShopItemListView.getItemStack(index), false, index);
         }
 
         private bool _changeCategoryBlock = false;
@@ -148,6 +158,7 @@ namespace GuildMaster.Windows
                 ict.Toggle.onValueChanged.AddListener(b =>
                 {
                     if (b) ChangeCategory(cat);
+                    Refresh();
                 });
             }
             ChangeCategory(PlayerInventory.ItemCategory.Equipable);
@@ -158,6 +169,8 @@ namespace GuildMaster.Windows
             ShopName.text = shopname;
             playerShopItemListView.SetPlayerInventory(Player.Instance.PlayerInventory);
             shopItemListView.SetInventory(npcInventory);
+            shopOnDict.Clear();
+            playerOnDict.Clear();
         }
         private void BuildNPCInventory()
         {
@@ -180,20 +193,23 @@ namespace GuildMaster.Windows
             int buycost = 0, sellcost = 0, totalcost;
             foreach (KeyValuePair<int, ItemStack> pair in shopOnDict)
             {
-                shopItemListView.ShopItemIconList[pair.Key].UpdateAppearance(pair.Value, pair.Key, true);
+                shopItemListView.OnOffItemIcon(true, pair.Key, true);
                 buycost += pair.Value.Quantity * pair.Value.BuyCost;
             }
-            foreach (KeyValuePair<int, ItemStack> pair in playerOnDict)
+            foreach (var Dictpair in playerOnDict)
             {
-                playerShopItemListView.ShopItemIconList[pair.Key].UpdateAppearance(pair.Value, pair.Key, false);
-                sellcost += pair.Value.Quantity * pair.Value.SellCost;
+                foreach (var pair in Dictpair.Value)
+                {
+                    if (Dictpair.Key == _currentCategory) 
+                        playerShopItemListView.OnOffItemIcon(true, pair.Key, false);
+                    sellcost += pair.Value.Quantity * pair.Value.SellCost;
+                }
             }
             totalcost = sellcost - buycost;
             BuyText.text = buycost.ToString();
             SellText.text = sellcost.ToString();
             TotalText.text = totalcost.ToString();
             //ICons Refresh
-
         }
         private void EventRefresh()
         {
@@ -217,7 +233,7 @@ namespace GuildMaster.Windows
         private ReadOnlyCollection<Item> npcInventoryInf;
         private List<ItemCount> npcInventoryNotInf;
         private Dictionary<int, ItemStack> shopOnDict = new Dictionary<int, ItemStack>();
-        private Dictionary<int, ItemStack> playerOnDict = new Dictionary<int, ItemStack>();
+        private Dictionary<ItemCategory, Dictionary<int, ItemStack>> playerOnDict = new Dictionary<ItemCategory, Dictionary<int, ItemStack>>();
         private Inventory npcInventory;
         private string shopname;
         private bool initialized = false;

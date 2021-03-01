@@ -19,6 +19,8 @@ namespace GuildMaster.Windows
         {
             get
             {
+                if (_item == null)
+                    return null;
                 if (_isinfinite)
                     return new ItemStack(itemStack.Item, true);
                 else

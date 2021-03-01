@@ -31,8 +31,6 @@ public class ShopItemListView : MonoBehaviour
     public event Action<Item> PointerEntered;
     public event Action PointerExited;
     public event Action<int> SClick;
-    public List<ShopItemIcon> ShopItemIconList => _ShopItemIconList;
-
     private void InvokePointerEntered(Item item)
     {
         PointerEntered?.Invoke(item);
@@ -55,13 +53,6 @@ public class ShopItemListView : MonoBehaviour
         ItemStack itemstack = _inventory.TryGetItemStack(_index);
         _ShopItemIconList[_index].UpdateAppearance(itemstack, _index, isbuy);
         _ShopItemIconList[_index].ItemIconOnOff(onoff);
-    }
-    public void ResetOnOffItemIcon()
-    {
-        foreach (ShopItemIcon shopItemIcon in _ShopItemIconList)
-        {
-            shopItemIcon.ItemIconOnOff(false);
-        }
     }
     private void InitializeIcons()
     {
@@ -105,9 +96,9 @@ public class ShopItemListView : MonoBehaviour
             _ShopItemIconList[i].SClick += InvokeClick;
         }
     }
-    public void ChangeItemStackIndex(int _index1, int _index2)
+    public void setItemStack(int index, ItemStack itemStack, bool isbuy)
     {
-        _inventory.ChangeItemIndex(_index1, _index2);
+        _ShopItemIconList[index].UpdateAppearance(itemStack, index, isbuy);
     }
     public ItemStack getItemStack(int _index)
     {

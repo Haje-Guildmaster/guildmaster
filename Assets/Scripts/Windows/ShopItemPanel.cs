@@ -17,22 +17,28 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
     }
     public void SendToShopWindow()
     {
-        itemStack.Quantity = quantity;
         UiWindowsManager.Instance.shopWindow.GetPanelInfo(itemStack, isbuy, index);
         Close();
     }
     public void Open(ItemStack itemStack, bool isbuy, int index)
     {
+        if (itemStack == null) 
+            Close();
         this.itemStack = itemStack;
         this.isbuy = isbuy;
         this.index = index;
         this.quantity = itemStack.Quantity;
-        shopItemIcon.UpdateAppearance(itemStack, 0, isbuy);
         Open();
         if (itemStack.isInfinite)
-            slider.maxValue = 1000;
+        {
+            slider.maxValue = 100;
+            shopItemIcon.UpdateAppearance(new ItemStack(itemStack.Item, true), 0, isbuy);
+        }
         else
+        {
             slider.maxValue = itemStack.ItemNum;
+            shopItemIcon.UpdateAppearance(new ItemStack(itemStack.Item, itemStack.ItemNum), 0, isbuy);
+        }
         slider.value = quantity;
     }
     private void Refresh()
@@ -41,6 +47,7 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
         slider.value = value;
         quantity = value;
         Num.text = value.ToString();
+        itemStack.Quantity = value;
         if (isbuy)
             gold.text = (value * itemStack.BuyCost).ToString();
         else
@@ -57,12 +64,10 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
         if(Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             slider.value += 1;
-            Refresh();
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             slider.value -= 1;
-            Refresh();
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
