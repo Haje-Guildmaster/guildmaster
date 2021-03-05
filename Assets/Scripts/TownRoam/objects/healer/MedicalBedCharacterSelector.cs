@@ -32,10 +32,23 @@ namespace GuildMaster.TownRoam
             _waitingSelect = true;
 
             _dropdown.options = _playerListCapture.Select(ch => new Dropdown.OptionData(ch.UsingName)).ToList();
-            _dropdown.SetValueWithoutNotify(_playerListCapture.FindIndex(ch => ch == medicalBed.OnBeds[_bedIndex]));
+            var initialIndex = _playerListCapture.FindIndex(ch => ch == medicalBed.OnBeds[_bedIndex]);
+            if (initialIndex < 0)
+            {
+                _dropdown.options.Add(new Dropdown.OptionData("None"));
+                var size = _dropdown.options.Count;
+                _dropdown.SetValueWithoutNotify(size - 1);
+                _dropdown.options.RemoveAt(size - 1);
+            }
+            else
+            {
+                _dropdown.SetValueWithoutNotify(initialIndex);
+            }
+
             Assert.IsTrue(Camera.main != null);
             var prevPos = _dropdown.template.position;
-            _dropdown.template.position= Camera.main.ScreenToWorldPoint(new Vector3(position.x, position.y, prevPos.z));
+            _dropdown.template.position =
+                Camera.main.ScreenToWorldPoint(new Vector3(position.x, position.y, prevPos.z));
             _dropdown.Show();
         }
 
