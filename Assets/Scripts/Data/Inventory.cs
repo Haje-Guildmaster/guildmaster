@@ -1,6 +1,7 @@
 using GuildMaster.Items;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Assertions;
 
 namespace GuildMaster.Data
@@ -10,12 +11,11 @@ namespace GuildMaster.Data
         public Inventory(int size, bool isStacked)
         {
             this.IsStacked = isStacked;
-            this.Size = size;
             _itemStackList = new ItemStack[size];
         }
 
         public readonly bool IsStacked;
-        public readonly int Size;
+        public int Size => _itemStackList.Length;
         public IReadOnlyList<ItemStack> ItemStackList => _itemStackList;
         public event Action Changed;
 
@@ -35,8 +35,7 @@ namespace GuildMaster.Data
 
         public ItemStack TryGetItemStack(int index)
         {
-            if (index >= 0 && index < Size) return _itemStackList[index];
-            return new ItemStack();
+            return _itemStackList.ElementAtOrDefault(index);
         }
 
 

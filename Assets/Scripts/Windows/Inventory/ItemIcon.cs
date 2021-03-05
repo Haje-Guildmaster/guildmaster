@@ -14,6 +14,17 @@ namespace GuildMaster.Windows
         [CanBeNull] public Button Button { get; private set; }
         [CanBeNull] public DragForwarder DragForwarder { get; private set; }
 
+        public bool Interactable
+        {
+            get => _interactable;
+            set
+            {
+                _interactable = value;
+                if (Button != null) Button.interactable = _interactable;
+                if (DragForwarder != null) DragForwarder.enabled = _interactable;
+                if (PointerEnterExitEvents != null) PointerEnterExitEvents.enabled = _interactable;
+            }
+        }
 
         private void Awake()
         {
@@ -21,5 +32,7 @@ namespace GuildMaster.Windows
             Button = GetComponent<Button>();
             DragForwarder = GetComponent<DragForwarder>();
         }
+
+        private bool _interactable = true;
     }
 }
