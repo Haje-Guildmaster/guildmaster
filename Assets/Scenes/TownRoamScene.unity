@@ -1668,8 +1668,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0785585d76bb4e2cba4f1c303d152b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hpHealPerTime: 30
-  _stmHealPerTime: 30
+  _hpHealPerTime: 5
+  _stmHealPerTime: 5
 --- !u!1 &1233957629
 GameObject:
   m_ObjectHideFlags: 0
