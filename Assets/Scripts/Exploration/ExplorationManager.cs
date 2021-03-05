@@ -71,10 +71,14 @@ namespace GuildMaster.Exploration
                         ForcedExpEndTool.DecreaseStaminaPerNode(characters);
 
                         //이동 이후 캐릭터들의 stamina / hp 상황 확인
+                        async Task ShowForcedExpEndMessage()
+                        {
+                            await UiWindowsManager.Instance.AsyncShowMessageBox("강제 탐색 종료!", "파티원 중 한 명 이상이 탈진했습니다.\n더 이상 탐색을 진행할 수 없습니다.", new[] { "마을로.." });
+                        }
                         // TODO : 아래의 이벤트 발생 이후 캐릭터 상태 확인 코드와 겹침 - 중복 코드 해소 필요.
                         if (ForcedExpEndTool.CheckExpEndCond(characters))
                         {
-                            await UiWindowsManager.Instance.AsyncShowMessageBox("강제 탐색 종료!", "파티원 중 한 명 이상이 탈진했습니다.\n더 이상 탐색을 진행할 수 없습니다.", new[] { "마을로.." });
+                            await ShowForcedExpEndMessage();
                             break;
                         }
 
@@ -110,7 +114,7 @@ namespace GuildMaster.Exploration
                         //이벤트 발생 이후 캐릭터들의 stamina / hp 상황 확인
                         if (ForcedExpEndTool.CheckExpEndCond(characters))
                         {
-                            await UiWindowsManager.Instance.AsyncShowMessageBox("강제 탐색 종료!", "파티원 중 한 명 이상이 탈진했습니다.\n더 이상 탐색을 진행할 수 없습니다.", new[] { "마을로.." });
+                            await ShowForcedExpEndMessage();
                             break;
                         }
                     }

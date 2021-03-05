@@ -12,7 +12,7 @@ namespace GuildMaster.Exploration.Events
         /// </summary>
         /// <param name="expParty"> 탐색에 참여한 캐릭터들을 담은 리스트 </param>
         /// <returns>  </returns>
-        public static void DecreaseStaminaPerNode(List<Character> expParty)
+        public static void DecreaseStaminaPerNode(IEnumerable<Character> expParty)
         {
             foreach (Character member in expParty)
             {
@@ -26,7 +26,7 @@ namespace GuildMaster.Exploration.Events
         /// </summary>
         /// <param name="expParty"> 탐색에 참여한 캐릭터들을 담은 리스트 </param>
         /// <returns> 탐색을 지속할 수 있는 경우 false, 지속할 수 없는 경우 true 반환 </returns>
-        public static bool CheckExpEndCond(List<Character> expParty)
+        public static bool CheckExpEndCond(IEnumerable<Character> expParty)
         {
             bool expEnd = true;
             foreach (Character member in expParty)
@@ -34,6 +34,7 @@ namespace GuildMaster.Exploration.Events
                 expEnd = expEnd && CheckCharacterExhausted(member);
             }
             return expEnd;
+
         }
         /// <summary>
         /// 한 캐릭터를 대상으로 탐색 중 발생하는 이벤트에 참여할 수 있는지 점검
@@ -43,14 +44,7 @@ namespace GuildMaster.Exploration.Events
         /// <returns> 이벤트에 참여할 수 있는 경우 false, 참여할 수 없는 경우 true 반환 </returns>
         public static bool CheckCharacterExhausted(Character member)
         {
-            if (member.Stamina == 0 || member.Hp == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return member.Stamina <= 0 || member.Hp <= 0;
         }
     }
 
