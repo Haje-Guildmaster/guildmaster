@@ -1,27 +1,10 @@
-using GuildMaster.Databases;
 using GuildMaster.Items;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace GuildMaster.Data
 {
-    public readonly struct ItemStack
-    {
-        public readonly Item Item;
-        public readonly int ItemNum;
-
-        public ItemStack(Item item, int itemNum)
-        {
-            if (item == null && itemNum != 0) throw new ArgumentException("ItemStack의 item이 null이면 itemNum은 0이어야 합니다.");
-            if (item != null && itemNum == 0) throw new ArgumentException("ItemStack의 itemNum이 0이면 item은 null이어야 합니다.");
-            if (itemNum < 0) throw new ArgumentException($"ItemStack: itemNum({itemNum}) should be equal to or higher than 0");
-            Item = item;
-            ItemNum = itemNum;
-        }
-    }
-
     public class Inventory
     {
         public Inventory(int size, bool isStacked)
@@ -115,7 +98,7 @@ namespace GuildMaster.Data
 
             int remaining = number;
 
-            for (int index = Size-1; index >= 0 && remaining > 0; index--)
+            for (int index = Size - 1; index >= 0 && remaining > 0; index--)
             {
                 ItemStack stack = _itemStackList[index];
                 if (!item.Equals(stack.Item)) continue;
