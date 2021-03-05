@@ -79,8 +79,12 @@ namespace GuildMaster.Databases
 
         private TDb GetDatabase()
         {
+            if (_databaseCache != null) return _databaseCache;
+
             string path = AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("t:"+ typeof(TDb).Name)[0]);
-            return AssetDatabase.LoadAssetAtPath<TDb>(path);
+            return _databaseCache = AssetDatabase.LoadAssetAtPath<TDb>(path);
         }
+
+        private TDb _databaseCache;
     }
 }

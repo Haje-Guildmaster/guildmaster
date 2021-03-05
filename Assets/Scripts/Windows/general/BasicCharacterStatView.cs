@@ -1,21 +1,20 @@
 using GuildMaster.Characters;
 using GuildMaster.Tools;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GuildMaster.Windows
 {
     public class BasicCharacterStatView : MonoBehaviour, IValueView<Character.CharacterStat>
     {
-        [SerializeField] private ObjectWith<IValueView<Box<int>>> _atkView;
-        [SerializeField] private ObjectWith<IValueView<Box<int>>> _defView;
-        [SerializeField] private ObjectWith<IValueView<Box<int>>> _agiView;
-        [SerializeField] private ObjectWith<IValueView<Box<int>>> _intView;
+        [FormerlySerializedAs("_atkView")] [SerializeField] private ObjectWith<IValueView<Box<int>>> _strengthView;
+        [FormerlySerializedAs("_defView")] [SerializeField] private ObjectWith<IValueView<Box<int>>> _trickView;
+        [FormerlySerializedAs("_agiView")] [SerializeField] private ObjectWith<IValueView<Box<int>>> _wisdomView;
         public void SetValue(Character.CharacterStat stat)
         {
-            _atkView.Object?.SetValue(stat?.Atk ?? 0);
-            _defView.Object?.SetValue(stat?.Def ?? 0);
-            _agiView.Object?.SetValue(stat?.Agi ?? 0);
-            _intView.Object?.SetValue(stat?.Int ?? 0);
+            _strengthView.Object?.SetValue(stat?.Strength ?? 0);
+            _trickView.Object?.SetValue(stat?.Trick ?? 0);
+            _wisdomView.Object?.SetValue(stat?.Wisdom ?? 0);
         }
     }
 }

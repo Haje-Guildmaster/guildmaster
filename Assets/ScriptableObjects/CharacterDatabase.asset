@@ -14,40 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - BasicData:
-      Illustration: {fileID: 21300000, guid: b1827364651434741980f41ec64eb171, type: 3}
+      Illustration: {fileID: 21300000, guid: d9252f30ca202904e877130c52625f4f, type: 3}
       NameList:
-      - "\uD669"
-      ActiveTraits: 0000000002000000
-    BattleStatData:
-      MaxHp: 123
-      SpIsMp: 0
-      MaxSp: 332
-      MaxStamina: 155
-      BaseAtk: 1
-      BaseDef: 100
-      BaseAgi: 100
-      BaseInt: 100
-    DefaultAlignment:
-      LawOrChaos: 3
-      GoodOrEvil: 3
-      SmartOrStupid: 3
+      - "\uAC80\uC740 \uAE30\uC0AC"
+      - "\uC545\uB9C8 \uAE30\uC0AC"
+      ActiveTraits: 01000000
+    StatData:
+      MaxHp: 0000000064000000c80000002c01000090010000f4010000
+      MaxStamina: 00000000320000003c000000410000004600000050000000
+      Strength: 000000000500000006000000070000000800000009000000
+      Trick: 000000000200000002000000030000000300000003000000
+      Wisdom: 000000000300000004000000050000000600000007000000
+      MaxLoyalty: 100
+      MaxLevel: 5
+      LevelupXP: 00000000640000006e00000078000000820000008c000000
   - BasicData:
-      Illustration: {fileID: 21300000, guid: d2c424fe63d9d6745a4bbd23b05f7e25, type: 3}
+      Illustration: {fileID: 21300000, guid: 5d225545d16723d42ac04496b35c13d9, type: 3}
       NameList:
-      - "\uB378\uB9AC\uACE0"
-      ActiveTraits: 040000000500000007000000
-    BattleStatData:
-      MaxHp: 4321
-      SpIsMp: 0
-      MaxSp: 1
-      MaxStamina: 7075
-      BaseAtk: 1000
-      BaseDef: 1000
-      BaseAgi: 10
-      BaseInt: 1000
-    DefaultAlignment:
-      LawOrChaos: 3
-      GoodOrEvil: 3
-      SmartOrStupid: 3
+      - "\uD558\uC580 \uAE30\uC0AC"
+      - "\uC131\uAE30\uC0AC"
+      ActiveTraits: 03000000
+    StatData:
+      MaxHp: 0000000064000000c80000002c01000090010000f4010000
+      MaxStamina: 00000000320000003c000000410000004600000050000000
+      Strength: 000000000400000005000000060000000700000008000000
+      Trick: 000000000100000002000000030000000300000003000000
+      Wisdom: 000000000400000005000000050000000700000008000000
+      MaxLoyalty: 100
+      MaxLevel: 5
+      LevelupXP: 00000000640000006e00000078000000820000008c000000
   currentEditingIndex:
-    Value: 1
+    Value: 0

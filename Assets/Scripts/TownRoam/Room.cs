@@ -4,6 +4,9 @@ using UnityEngine.Assertions;
 
 namespace GuildMaster.TownRoam
 {
+    /// <summary>
+    /// 장소 하나를 나타내는 유니티 오브젝트.
+    /// </summary>
     public class Room : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer _backgroundRenderer;

@@ -99,14 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ac00044cd545ea87f504811fdc0553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _atkView:
+  _strengthView:
     _innerValue: {fileID: 2527536079993025339}
-  _defView:
+  _trickView:
     _innerValue: {fileID: 7212654852892144554}
-  _agiView:
+  _wisdomView:
     _innerValue: {fileID: 3331507581676071227}
-  _intView:
-    _innerValue: {fileID: 0}
 --- !u!1 &686202582038955568
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,7 +884,7 @@ GameObject:
   - component: {fileID: 2527536079993025332}
   - component: {fileID: 2527536079993025339}
   m_Layer: 5
-  m_Name: Atk Label
+  m_Name: Strength Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -952,7 +950,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Atk: 12'
+  m_Text: 'Strength: 12'
 --- !u!114 &2527536079993025332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,7 +977,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _outputView:
     _innerValue: {fileID: 2527536079993025332}
-  _formatString: 'Atk: {0}'
+  _formatString: 'Strength: {0}'
 --- !u!1 &3330205660229009372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1073,7 +1071,7 @@ GameObject:
   - component: {fileID: 3331507581676071220}
   - component: {fileID: 3331507581676071227}
   m_Layer: 5
-  m_Name: Agi Label
+  m_Name: Wisdom Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1139,7 +1137,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Agi: 12'
+  m_Text: 'Wisdom: 12'
 --- !u!114 &3331507581676071220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1166,7 +1164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _outputView:
     _innerValue: {fileID: 3331507581676071220}
-  _formatString: 'Agi: {0}'
+  _formatString: 'Wisdom: {0}'
 --- !u!1 &3349271339976731246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1927,7 +1925,7 @@ GameObject:
   - component: {fileID: 7212654852892144555}
   - component: {fileID: 7212654852892144554}
   m_Layer: 5
-  m_Name: Def Label
+  m_Name: Trick Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1993,7 +1991,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Def: 12'
+  m_Text: 'Trick: 12'
 --- !u!114 &7212654852892144555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2020,7 +2018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _outputView:
     _innerValue: {fileID: 7212654852892144555}
-  _formatString: 'Def: {0}'
+  _formatString: 'Trick: {0}'
 --- !u!1 &7378292954732840358
 GameObject:
   m_ObjectHideFlags: 0

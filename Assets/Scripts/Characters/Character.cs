@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using GuildMaster.Databases;
 using GuildMaster.Tools;
+using System.Linq;
 
 namespace GuildMaster.Characters
 {
@@ -14,108 +15,154 @@ namespace GuildMaster.Characters
         public Character(CharacterCode code)
         {
             void InvokeChanged() => Changed?.Invoke();
-            _injury.Changed += InvokeChanged;
-            _loyalty.Changed += InvokeChanged;
-            _hp.Changed += InvokeChanged;
-            _sp.Changed += InvokeChanged;
-            _stamina.Changed += InvokeChanged;
+            _loyaltyInnerValue.Changed += InvokeChanged;
             _usingNameIndex.Changed += InvokeChanged;
-
+            _hp.Changed += InvokeChanged;
+            _stamina.Changed += InvokeChanged;
+            _level.Changed += InvokeChanged;
+            _xp.Changed += InvokeChanged;
+            _hpChange.Changed += InvokeChanged;
+            _staminaChange.Changed += InvokeChanged;
+            _strengthChange.Changed += InvokeChanged;
+            _trickChange.Changed += InvokeChanged;
+            _wisdomChange.Changed += InvokeChanged;
+            
             _code = code;
-            _hp.Value = MaxHp;
-            _sp.Value = MaxSp;
-            _stamina.Value = MaxStamina;
-            Alignment = StaticData.DefaultAlignment;
-        }
+            _hp.Value = StatMaxHpList[1];
+            _stamina.Value = StatMaxStaminaList[1];
 
-        public const int MaxLoyalty = 100;
-
-
-        public string UsingName => NameList[_usingNameIndex]; //현재 이름
-        public string RealName => StaticData.BasicData.RealName; //실제 이름
-        public bool KnowUseRealName => _usingNameIndex == NameList.Count; //현재 실제 이름을 사용중인지
-        public int MaxSp => StaticData.BattleStatData.MaxSp;
-
-        public int MaxHp =>
-            StaticData.BattleStatData.MaxHp; // MaxSp, MaxSp, Hp 등은 후에 캐릭터 종류에 종속된 값이 아니게 될 것이라 판단하여 Character에 넣습니다.
-
-        public int MaxStamina => StaticData.BattleStatData.MaxStamina;
-
-
-        public float Injury // 현재 부상 정도(0~1). 퍼센트로 최대 체력이 깎인다.
-        {
-            get => _injury;
-            set
+            //스텟 List 길이 MaxLevel과 비교
+            var levelBoundList = new List<ReadOnlyCollection<int>> { StatMaxHpList, StatMaxStaminaList, StatStrengthList, StatTrickList, StatWisdomList };
+            string errormessage = "";
+            foreach(var list in levelBoundList)
             {
-                _injury.Value = Math.Min(1, Math.Max(value, 0));
-                Hp = Hp;
+                if (list.Count <= MaxLevel) errormessage += $"{nameof(list)}의 길이: {list.Count}으로 Unity 상에서 MaxLevel({MaxLevel})보다 적게 설정되어있음.\n";
             }
+            if (errormessage != "") throw new Exception(errormessage.Trim());
         }
-
-        public int Hp
-        {
-            get => _hp;
-            set => _hp.Value = Math.Min(CurrentMaxHp, Math.Max(value, 0));
-        }
-
-        public int Sp
-        {
-            get => _sp;
-            set => _sp.Value = Math.Min(MaxSp, Math.Max(value, 0));
-        }
-
-        public int Stamina
-        {
-            get => _stamina;
-            set => _stamina.Value = Math.Min(MaxSp, Math.Max(value, 0));
-        }
-
-        public int Loyalty
-        {
-            get => _loyalty;
-            set => _loyalty.Value = Math.Min(MaxLoyalty, Math.Max(value, 0));
-        }
-
-        public int CurrentMaxHp => (int) (MaxHp * (1 - Injury));
-
-        public class CharacterStat
-        {
-            public CharacterStat(int agi, int atk, int def, int statInt)
-            {
-                Agi = agi;
-                Atk = atk;
-                Def = def;
-                Int = statInt;
-            }
-            public readonly int Agi;
-            public readonly int Atk;
-            public readonly int Def;
-            public readonly int Int;
-        }
-
-        [Obsolete] public int Agi => StaticData.BattleStatData.BaseAgi;
-        [Obsolete] public int Atk => StaticData.BattleStatData.BaseAtk;
-        [Obsolete] public int Def => StaticData.BattleStatData.BaseDef;
-        [Obsolete] public int Int => StaticData.BattleStatData.BaseInt;
-
-        public CharacterStat GetStat() => new CharacterStat(
-            agi: StaticData.BattleStatData.BaseAgi,
-            atk: StaticData.BattleStatData.BaseAtk,
-            def: StaticData.BattleStatData.BaseDef,
-            statInt: StaticData.BattleStatData.BaseInt);
-
-
-        public CharacterAlignmentData Alignment;
-
+        //보정값 안 붙는 애들
+        public string UsingName => NameList[_usingNameIndex].Trim();                // 현재 이름
+        public string RealName => StaticData.BasicData.RealName.Trim();             // 실제 이름
+        public bool KnowUseRealName => _usingNameIndex == NameList.Count;           // 현재 실제 이름을 사용중인지
+        public CharacterStaticData StaticData => CharacterDatabase.Get(_code);      // 캐릭터 코드
+        public ReadOnlyCollection<Trait> ActiveTraits => StaticData.BasicData.ActiveTraits.AsReadOnly();       // 캐릭터 특성
+        public int MaxLoyalty => StaticData.StatData.MaxLoyalty;                    // 외부로 보이는 충성도 최대 값 (아래 Loyalty 참고)
+        //보정값 안 붙는 애들 private
         private readonly CharacterCode _code;
-        private readonly ChangeTrackedValue<float> _injury = new ChangeTrackedValue<float>(0);
-        private readonly ChangeTrackedValue<int> _loyalty = new ChangeTrackedValue<int>(0);
         private readonly ChangeTrackedValue<int> _usingNameIndex = new ChangeTrackedValue<int>(0); // 현재 나타날 이름의 index
         private readonly ChangeTrackedValue<int> _hp = new ChangeTrackedValue<int>();
-        private readonly ChangeTrackedValue<int> _sp = new ChangeTrackedValue<int>();
         private readonly ChangeTrackedValue<int> _stamina = new ChangeTrackedValue<int>();
+        private readonly ChangeTrackedValue<int> _level = new ChangeTrackedValue<int>(1);
+        private readonly ChangeTrackedValue<int> _xp = new ChangeTrackedValue<int>(0);
+        private readonly ChangeTrackedValue<int> _loyaltyInnerValue = new ChangeTrackedValue<int>(0);
         private ReadOnlyCollection<string> NameList => StaticData.BasicData.NameList.AsReadOnly();
-        public List<Trait> ActiveTraits => StaticData.BasicData.ActiveTraits;
-        public CharacterStaticData StaticData => CharacterDatabase.Get(_code);
+        private ReadOnlyCollection<int> LevelupXP => StaticData.StatData.LevelupXP.AsReadOnly();
+        private int MaxLevel => StaticData.StatData.MaxLevel;
+        //보정값 붙는 애들 (보정값 붙기 전)
+        private ReadOnlyCollection<int> StatMaxHpList => StaticData.StatData.MaxHp.AsReadOnly();
+        private ReadOnlyCollection<int> StatMaxStaminaList => StaticData.StatData.MaxStamina.AsReadOnly();
+        private ReadOnlyCollection<int> StatStrengthList => StaticData.StatData.Strength.AsReadOnly();
+        private ReadOnlyCollection<int> StatTrickList => StaticData.StatData.Trick.AsReadOnly();
+        private ReadOnlyCollection<int> StatWisdomList => StaticData.StatData.Wisdom.AsReadOnly();
+        //보정값
+        private readonly ChangeTrackedValue<int> _hpChange = new ChangeTrackedValue<int>(0);
+        private readonly ChangeTrackedValue<int> _staminaChange = new ChangeTrackedValue<int>(0);
+        private readonly ChangeTrackedValue<int> _strengthChange = new ChangeTrackedValue<int>(0);
+        private readonly ChangeTrackedValue<int> _trickChange = new ChangeTrackedValue<int>(0);
+        private readonly ChangeTrackedValue<int> _wisdomChange = new ChangeTrackedValue<int>(0);
+        
+        public int Hp
+        {
+            get => _hp.Value; 
+            set => _hp.Value = Math.Min(MaxHp, Math.Max(value, 0));
+        }
+        public int HpChange
+        {
+            get => _hpChange.Value;
+            set => _hpChange.Value = value;
+        }
+        public int MaxHp => Math.Max(1, StatMaxHpList[_level] + _hpChange.Value);
+        public int Stamina
+        {
+            get => _stamina.Value;
+            set => _stamina.Value = Math.Min(MaxStamina, Math.Max(value, 0));
+        }
+        public int StaminaChange
+        {
+            get => _staminaChange.Value;
+            set => _staminaChange.Value = value;
+        }
+        public int MaxStamina => Math.Max(1, StatMaxStaminaList[_level] + _staminaChange.Value);
+
+        [Obsolete] public int Strength => GetStat().Wisdom;
+        public int StrengthChange
+        {
+            get => _strengthChange.Value;
+            set => _strengthChange.Value = value;
+        }
+        [Obsolete] public int Trick => GetStat().Trick;
+        public int TrickChange
+        {
+            get => _trickChange.Value;
+            set => _trickChange.Value = value;
+        }
+
+        [Obsolete] public int Wisdom => GetStat().Wisdom;
+        public int WisdomChange
+        {
+            get => _wisdomChange.Value;
+            set => _wisdomChange.Value = value;
+        }
+        public int Level
+        { 
+            get => _level.Value;
+            private set
+            {
+                if (value < 1 || value > MaxLevel) throw new Exception("Level is lower than 1 or Bigger than Max Level");
+                _level.Value = value;
+            }
+        }
+        public int XP
+        {
+            get => _xp.Value;
+            set
+            {
+                while (value >= LevelupXP[_level])
+                {
+                    value -= LevelupXP[_level];
+                    Level += 1;
+                }
+                _xp.Value = Math.Min(0, value);
+            }
+        }
+        
+        public class CharacterStat
+        {
+            public CharacterStat(int strength, int trick, int wisdom)
+            {
+                Strength = strength;
+                Trick = trick;
+                Wisdom = wisdom;
+            }
+            public readonly int Strength;
+            public readonly int Trick;
+            public readonly int Wisdom;
+        }
+
+        public CharacterStat GetStat() => new CharacterStat(
+            strength: Math.Max(StrengthChange + StatStrengthList[_level], 0),
+            trick: Math.Max(TrickChange + StatTrickList[_level], 0),
+            wisdom: Math.Max(WisdomChange + StatWisdomList[_level], 0));
+        
+        public int CurrentLevelupXP => LevelupXP[_level];                           // 현재 레벨업에 필요한 경험치 값
+        /// <summary>
+        /// 충성도 변경시 LoyaltyInnerValue를 변경해주세요.
+        /// </summary>
+        public int Loyalty => (_loyaltyInnerValue.Value + 9) / 10; //보여지는 Loyalty는 loyaltyInnerValue를 올림하여 10으로 나눈 몫.
+        public int LoyaltyInnerValue
+        {
+            get => _loyaltyInnerValue.Value;
+            set => _loyaltyInnerValue.Value = Math.Min(MaxLoyalty * 10, Math.Max(value, 0));
+        }
     }
 }

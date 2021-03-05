@@ -1,12 +1,12 @@
-using System;
+using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 
 namespace GuildMaster.Tools
 {
     public class SignalWaiter
     {
-        public int WaitersCount { get; private set; } = 0;
+        public int WaitersCount => _tcsSet.Count;
         public bool WaiterExist => WaitersCount > 0;
 
         /// <summary>
@@ -15,14 +15,13 @@ namespace GuildMaster.Tools
         /// <returns></returns>
         public int Signal()
         {
-            if (!WaiterExist) return 0;
-            var temp = _signalCompletionSource;
-
-            _signalCompletionSource = new TaskCompletionSource<bool>();
             var ret = WaitersCount;
-            WaitersCount = 0;
+            foreach (var tcs in _tcsSet)
+            {
+                tcs.TrySetResult(true);
+            }
 
-            temp.SetResult(false);
+            _tcsSet.Clear();
             return ret;
         }
 
@@ -32,16 +31,18 @@ namespace GuildMaster.Tools
         /// <returns></returns>
         public async Task Wait(CancellationToken cancellationToken = default)
         {
-            WaitersCount += 1;
+            var tcs = new TaskCompletionSource<bool>();
+            _tcsSet.Add(tcs);
             using (cancellationToken.Register(() =>
             {
-                WaitersCount -= 1;
+                if (tcs.TrySetCanceled())
+                    _tcsSet.Remove(tcs);
             }))
             {
-                await _signalCompletionSource.Task;
+                await tcs.Task;
             }
         }
 
-        private TaskCompletionSource<bool> _signalCompletionSource = new TaskCompletionSource<bool>();
+        private readonly HashSet<TaskCompletionSource<bool>> _tcsSet = new HashSet<TaskCompletionSource<bool>>();
     }
 }

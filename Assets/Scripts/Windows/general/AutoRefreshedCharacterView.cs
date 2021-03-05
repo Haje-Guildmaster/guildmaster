@@ -36,7 +36,7 @@ namespace GuildMaster.Windows
         {
             _nameView.Object?.SetValue(_character?.UsingName ?? "");
             _hpPairView.Object?.SetValue(new Tuple<int, int>(_character?.Hp ?? 0, _character?.MaxHp ?? 0));
-            _staminaPairView.Object?.SetValue(new Tuple<int, int>(_character?.Sp ?? 0, _character?.MaxSp ?? 0));
+            _staminaPairView.Object?.SetValue(new Tuple<int, int>(_character?.Stamina ?? 0, _character?.MaxStamina ?? 0));
             _statView.Object?.SetValue(_character?.GetStat());
             _illustView.Object?.SetValue(_character?.StaticData.BasicData.Illustration);
             _loyaltyView.Object?.SetValue(_character?.Loyalty ?? 0);
