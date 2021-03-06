@@ -6,12 +6,13 @@ namespace GuildMaster.Windows
 {
     public class PlayerInventoryView: MonoBehaviour
     {
-        [SerializeField] private AutoRefreshedInventoryView _inventoryView;
+        [field: SerializeField] public AutoRefreshedInventoryView InventoryView { get; private set; }
         public PlayerInventory.ItemCategory CurrentCategory { get; private set; }
+        
         
         public void ChangeCategory(PlayerInventory.ItemCategory category)
         {
-            _inventoryView.Inventory = _playerInventory.GetInventory(category);
+            InventoryView.SetInventory(_playerInventory.GetInventory(category));
             CurrentCategory = category;
         }
 

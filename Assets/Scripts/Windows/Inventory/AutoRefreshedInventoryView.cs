@@ -36,8 +36,8 @@ namespace GuildMaster.Windows
                 {
                     return (PointerEventData ped) =>
                     {
-                        Assert.IsTrue(indexCapture < _inventory.Size);
-                        Assert.IsTrue(itemIcon.ItemStackView.ItemStack == _inventory.ItemStackList[indexCapture]);
+                        Assert.IsTrue(indexCapture < Inventory.Size);
+                        Assert.IsTrue(itemIcon.ItemStackView.ItemStack == Inventory.ItemStackList[indexCapture]);
                         handler?.Invoke(indexCapture, ped);
                     };
                 }
@@ -59,35 +59,31 @@ namespace GuildMaster.Windows
             }
         }
 
-        public Inventory Inventory
-        {
-            get => _inventory;
-            set => SetInventory(value);
-        }
-        
+        public Inventory Inventory { get; private set; }
+
         private void Refresh()
         {
             foreach (var itemIcon in _itemIconList)
                 itemIcon.ItemStackView.ItemStack = new ItemStack(null, 0);
-            foreach (var (itemIcon, itemStack) in Enumerable.Zip(_itemIconList, _inventory.ItemStackList,
+            foreach (var (itemIcon, itemStack) in Enumerable.Zip(_itemIconList, Inventory.ItemStackList,
                 (a, b) => (a, b)))
             {
                 itemIcon.ItemStackView.ItemStack = itemStack;
             }
         }
 
-        private void SetInventory(Inventory inventory)
+        public void SetInventory(Inventory inventory)
         {
-            var prevInventory = _inventory;
-            _inventory = inventory;
+            var prevInventory = Inventory;
+            Inventory = inventory;
 
             if (prevInventory != null)
                 prevInventory.Changed -= Refresh;
-            if (_inventory != null)
-                _inventory.Changed += Refresh;
+            if (Inventory != null)
+                Inventory.Changed += Refresh;
 
             
-            foreach (var icon in _itemIconList.Skip(_inventory?.Size ?? 0))
+            foreach (var icon in _itemIconList.Skip(Inventory?.Size ?? 0))
             {
                 icon.Interactable = false;
             }
@@ -95,7 +91,6 @@ namespace GuildMaster.Windows
             Refresh();
         }
 
-        private Inventory _inventory;
         private ItemIcon[] _itemIconList;
     }
 }

@@ -47,9 +47,9 @@ namespace GuildMaster.TownRoam
                         {
                             var itemResponse = await ItemSelector.GetResponse(inventory, cancellationToken);
                             var next = itemResponse.NextAction;
-                            if (next == ExplorationItemSelectingWindow.Response.ActionEnum.GoNext)
+                            if (next == ItemSelectingWindow.Response.ActionEnum.GoNext)
                                 goto case Step.MapSelect;
-                            if (next == ExplorationItemSelectingWindow.Response.ActionEnum.GoBack)
+                            if (next == ItemSelectingWindow.Response.ActionEnum.GoBack)
                                 goto case Step.CharacterSelect;
                             return;
                         }
@@ -108,7 +108,7 @@ namespace GuildMaster.TownRoam
         private ExplorationCharacterSelectingWindow CharacterSelector =>
             UiWindowsManager.Instance.ExplorationCharacterSelectingWindow;
 
-        private ExplorationItemSelectingWindow ItemSelector =>
+        private ItemSelectingWindow ItemSelector =>
             UiWindowsManager.Instance.ExplorationItemSelectingWindow;
 
         private WorldMapWindow WorldMapWindow => UiWindowsManager.Instance.worldMapWindow;

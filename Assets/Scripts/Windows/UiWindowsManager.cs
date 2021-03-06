@@ -29,7 +29,7 @@ namespace GuildMaster.Windows
         public TextspeedWindow TextspeedWindow;
         public BGMWindow BGMWindow;
         public ExplorationCharacterSelectingWindow ExplorationCharacterSelectingWindow;
-        public ExplorationItemSelectingWindow ExplorationItemSelectingWindow;
+        public ItemSelectingWindow ExplorationItemSelectingWindow;
         public WorldMapWindow worldMapWindow;
 
         public ItemInfoPanel itemInfoPanel;    // 임시.
