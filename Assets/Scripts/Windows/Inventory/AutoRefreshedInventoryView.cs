@@ -59,6 +59,12 @@ namespace GuildMaster.Windows
             }
         }
 
+        public Inventory Inventory
+        {
+            get => _inventory;
+            set => SetInventory(value);
+        }
+        
         private void Refresh()
         {
             foreach (var itemIcon in _itemIconList)
@@ -70,7 +76,7 @@ namespace GuildMaster.Windows
             }
         }
 
-        public void SetInventory(Inventory inventory)
+        private void SetInventory(Inventory inventory)
         {
             var prevInventory = _inventory;
             _inventory = inventory;

@@ -33,7 +33,7 @@ namespace GuildMaster.Data
             Changed?.Invoke();
         }
 
-        public ItemStack TryGetItemStack(int index)
+        public ItemStack GetItemStack(int index)
         {
             return _itemStackList.ElementAtOrDefault(index);
         }

@@ -1,4 +1,5 @@
 using GuildMaster.Databases;
+using GuildMaster.Items;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,14 +16,14 @@ namespace GuildMaster.Windows.Inven
             JumpToMouse();
         }
 
-        public int Open(ItemCode itemCode)
+        public int Open(Item item)
         {
             gameObject.SetActive(true);
             JumpToMouse();
-            var itemData = ItemDatabase.Get(itemCode);
-            itemImage.sprite = itemData.ItemImage;
-            nameLabel.text = itemData.ItemName;
-            descriptionLabel.text = itemData.ItemDescription;
+            var staticData = item.StaticData;
+            itemImage.sprite = staticData.ItemImage;
+            nameLabel.text = staticData.ItemName;
+            descriptionLabel.text = staticData.ItemDescription;
 
             return ++_currentRequestId;
         }

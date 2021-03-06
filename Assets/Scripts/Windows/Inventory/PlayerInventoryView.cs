@@ -10,7 +10,7 @@ namespace GuildMaster.Windows
         
         public void ChangeCategory(PlayerInventory.ItemCategory category)
         {
-            _inventoryView.SetInventory(_playerInventory.GetInventory(category));
+            _inventoryView.Inventory = _playerInventory.GetInventory(category);
         }
 
         public void SetPlayerInventory(PlayerInventory playerInventory)
