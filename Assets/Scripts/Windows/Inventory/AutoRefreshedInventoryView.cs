@@ -1,8 +1,5 @@
 using GuildMaster.Data;
-using GuildMaster.Items;
-using GuildMaster.Windows.Inven;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -18,13 +15,13 @@ namespace GuildMaster.Windows
 
         public event ItemIconPointerEventHandler PointerEnteredItemIcon;
         public event ItemIconPointerEventHandler PointerExitedItemIcon;
-        public event ItemIconPointerEventHandler BeginDragItemIcon;
-        public event ItemIconPointerEventHandler EndDragItemIcon;
-        public event ItemIconPointerEventHandler DragItemIcon;
+        public event ItemIconPointerEventHandler BeganDragItemIcon;
+        public event ItemIconPointerEventHandler EndedDragItemIcon;
+        public event ItemIconPointerEventHandler DraggedItemIcon;
 
         public delegate void ItemIconClickHandler(int index);
 
-        public event ItemIconClickHandler ClickItemIcon;
+        public event ItemIconClickHandler ClickedItemIcon;
 
         private void Awake()
         {
@@ -55,9 +52,9 @@ namespace GuildMaster.Windows
                 var dragEvents = itemIcon.DragForwarder;
                 if (dragEvents != null)
                 {
-                    dragEvents.Drag += Adapter(DragItemIcon);
-                    dragEvents.BeginDrag += Adapter(BeginDragItemIcon);
-                    dragEvents.EndDrag += Adapter(EndDragItemIcon);
+                    dragEvents.Drag += Adapter(DraggedItemIcon);
+                    dragEvents.BeginDrag += Adapter(BeganDragItemIcon);
+                    dragEvents.EndDrag += Adapter(EndedDragItemIcon);
                 }
             }
         }
