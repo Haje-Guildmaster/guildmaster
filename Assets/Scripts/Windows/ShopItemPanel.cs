@@ -31,13 +31,13 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
         Open();
         if (itemStack.isInfinite)
         {
-            slider.maxValue = 100;
-            shopItemIcon.UpdateAppearance(new ItemStack(itemStack.Item, true), 0, isbuy);
+            slider.maxValue = 1000;
+            shopItemIcon.UpdateAppearance(itemStack, 0, isbuy);
         }
         else
         {
             slider.maxValue = itemStack.ItemNum;
-            shopItemIcon.UpdateAppearance(new ItemStack(itemStack.Item, itemStack.ItemNum), 0, isbuy);
+            shopItemIcon.UpdateAppearance(itemStack, 0, isbuy);
         }
         slider.value = quantity;
     }

@@ -9,7 +9,17 @@ public class PlayerShopItemListView : ShopItemListView
         Console.WriteLine(_index);
         SetInventory(_playerInventory.PlayerInventoryList[_index]);
     }
-
+    public void ResetQuantity()
+    {
+        foreach (var pinven in _playerInventory.PlayerInventoryList)
+        {
+            foreach (ItemStack itemStack in pinven.InventoryList)
+            {
+                if (itemStack.Item == null) continue;
+                itemStack.Quantity = 0;
+            }
+        }
+    }
     public void SetPlayerInventory(PlayerInventory _playerInventory)
     {
         this._playerInventory = _playerInventory;

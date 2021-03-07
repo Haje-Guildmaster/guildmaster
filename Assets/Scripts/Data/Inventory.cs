@@ -122,6 +122,18 @@ namespace GuildMaster.Data
         public readonly bool IsStacked;
         public readonly int Size;
         public IReadOnlyList<ItemStack> InventoryList => _inventoryList;
+        public int Num
+        {
+            get
+            {
+                int num = 0;
+                foreach (ItemStack itemStack in _inventoryList)
+                {
+                    if (itemStack.Item != null) num += 1;
+                }
+                return num;
+            }
+        }
         public event Action Changed;
 
         public void ChangeItemIndex(int index1, int index2)
@@ -136,6 +148,20 @@ namespace GuildMaster.Data
         {
             if (_index >= 0 && _index < Size) return _inventoryList[_index]; 
             else return (ItemStack)null;
+        }
+        /// <summary>
+        /// 상점에서 플레이어가 판 물건을 npc 인벤토리에 넣기 위한 메서드. 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public bool TryAddSelledItemInNPC(Item item, int number)
+        {
+            if (item == null || number == 0) return false;
+            int index = _inventoryList.FindIndex(x => x.Item == null);
+            _inventoryList[index] = new ItemStack(item, number);
+            _inventoryList[index].BuyCost = _inventoryList[index].SellCost;
+            return true;
         }
         public bool TryAddInfiniteItem(Item item)
         {

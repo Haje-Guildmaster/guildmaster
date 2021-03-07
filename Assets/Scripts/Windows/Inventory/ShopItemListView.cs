@@ -48,13 +48,22 @@ public class ShopItemListView : MonoBehaviour
         if(view_Category == View_Category.Player_Inventory)
             _ShopItemIconList = GetComponentsInChildren<ShopItemIcon>().ToList();
     }
-    public void OnOffItemIcon(bool onoff, int _index, bool isbuy)
+    public void ActiveItemIcon(bool onoff, int _index, bool isbuy)
     {
         ItemStack itemstack = _inventory.TryGetItemStack(_index);
         _ShopItemIconList[_index].UpdateAppearance(itemstack, _index, isbuy);
         _ShopItemIconList[_index].ItemIconOnOff(onoff);
     }
-    private void InitializeIcons()
+    public void ResetQuantity(bool isbuy)
+    {
+        for (int i=0; i<_ShopItemIconList.Count; i++)
+        {
+            if (_ShopItemIconList[i].ItemStack == null) continue;
+            _ShopItemIconList[i].ItemStack.Quantity = 0;
+            _ShopItemIconList[i].UpdateAppearance(_ShopItemIconList[i].ItemStack, i, isbuy);
+        }
+    }
+    public void InitializeIcons()
     {
         foreach (var icn in GetComponentsInChildren<ItemIcon>()) Destroy(icn.gameObject);
         _ShopItemIconList.Clear();
