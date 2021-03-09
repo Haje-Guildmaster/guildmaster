@@ -9,8 +9,6 @@ namespace GuildMaster.Windows
 {
     public class AutoRefreshedInventoryView : MonoBehaviour
     {
-        [SerializeField] public ItemIcon ItemIconPrefab;
-
         public delegate void ItemIconPointerEventHandler(int index, PointerEventData pointerEventData);
 
         public event ItemIconPointerEventHandler PointerEnteredItemIcon;
@@ -61,17 +59,6 @@ namespace GuildMaster.Windows
 
         public Inventory Inventory { get; private set; }
 
-        private void Refresh()
-        {
-            foreach (var itemIcon in _itemIconList)
-                itemIcon.ItemStackView.ItemStack = new ItemStack(null, 0);
-            foreach (var (itemIcon, itemStack) in Enumerable.Zip(_itemIconList, Inventory.ItemStackList,
-                (a, b) => (a, b)))
-            {
-                itemIcon.ItemStackView.ItemStack = itemStack;
-            }
-        }
-
         public void SetInventory(Inventory inventory)
         {
             var prevInventory = Inventory;
@@ -90,6 +77,18 @@ namespace GuildMaster.Windows
 
             Refresh();
         }
+        
+        private void Refresh()
+        {
+            foreach (var itemIcon in _itemIconList)
+                itemIcon.ItemStackView.ItemStack = new ItemStack(null, 0);
+            foreach (var (itemIcon, itemStack) in Enumerable.Zip(_itemIconList, Inventory.ItemStackList,
+                (a, b) => (a, b)))
+            {
+                itemIcon.ItemStackView.ItemStack = itemStack;
+            }
+        }
+
 
         private ItemIcon[] _itemIconList;
     }

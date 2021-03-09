@@ -18,7 +18,7 @@ namespace GuildMaster
                 UiWindowsManager.Instance.questListWindow.Toggle();
             if (Input.GetKeyDown(KeyCode.I)) // 인벤토리
             {
-                UiWindowsManager.Instance.inventoryWindow.Toggle();
+                UiWindowsManager.Instance.playerInventoryWindow.Toggle();
             }
             if (Input.GetKeyDown(KeyCode.P)) //캐릭터
                 UiWindowsManager.Instance.characterInspectWindow.Toggle();

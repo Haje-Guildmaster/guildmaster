@@ -8,11 +8,14 @@ namespace GuildMaster.Windows
 {
     public sealed class ItemIcon : MonoBehaviour
     {
-        [field: SerializeReference] public ItemStackView ItemStackView { get; private set; }
+        [field: SerializeField] public ItemStackView ItemStackView { get; private set; }
 
-        [CanBeNull] public PointerEnterExitForwarder PointerEnterExitEvents { get; private set; }
-        [CanBeNull] public Button Button { get; private set; }
-        [CanBeNull] public DragForwarder DragForwarder { get; private set; }
+        [field: SerializeField]
+        [CanBeNull]
+        public PointerEnterExitForwarder PointerEnterExitEvents { get; private set; }
+
+        [field: SerializeField] [CanBeNull] public Button Button { get; private set; }
+        [field: SerializeField] [CanBeNull] public DragForwarder DragForwarder { get; private set; }
 
         public bool Interactable
         {
@@ -25,14 +28,7 @@ namespace GuildMaster.Windows
                 if (PointerEnterExitEvents != null) PointerEnterExitEvents.enabled = _interactable;
             }
         }
-
-        private void Awake()
-        {
-            PointerEnterExitEvents = GetComponent<PointerEnterExitForwarder>();
-            Button = GetComponent<Button>();
-            DragForwarder = GetComponent<DragForwarder>();
-        }
-
+        
         private bool _interactable = true;
     }
 }

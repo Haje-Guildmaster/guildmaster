@@ -14,7 +14,7 @@ namespace GuildMaster.Windows
         public QuestListWindow questListWindow;
         public QuestInspectWindow questInspectWindow;
         public InGameEventWindow inGameEventWindow;
-        public InventoryWindow inventoryWindow;
+        public PlayerInventoryWindow playerInventoryWindow;
         public MessageBox messageBoxPrefab;
         public Transform messageBoxesParent;
         public CharacterInspectWindow characterInspectWindow;
@@ -78,9 +78,9 @@ namespace GuildMaster.Windows
             {
                 questListWindow.Close();
             }
-            else if (inventoryWindow.IsOpen)
+            else if (playerInventoryWindow.IsOpen)
             {
-                inventoryWindow.Close();
+                playerInventoryWindow.Close();
             }
             else if (characterInspectWindow.IsOpen)
             {

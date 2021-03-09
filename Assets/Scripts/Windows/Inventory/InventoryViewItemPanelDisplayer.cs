@@ -28,6 +28,7 @@ namespace GuildMaster.Windows
         {
             ClosePanel(index);
             var itemStack = _targetInventoryView.Inventory.GetItemStack(index);
+            if (itemStack.Item == null) return;
             var panelRequestId = UiWindowsManager.Instance.itemInfoPanel.Open(itemStack.Item);
             _requestedPanelIdMap[index] = panelRequestId;
         }

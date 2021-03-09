@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GuildMaster.Windows
 {
-    public class InventoryWindow : DraggableWindow, IToggleableWindow
+    public class PlayerInventoryWindow : DraggableWindow, IToggleableWindow
     {
         [SerializeField] private PlayerInventoryView _playerInventoryView;
         
@@ -11,14 +11,10 @@ namespace GuildMaster.Windows
         {
             base.OpenWindow();
         }
-
-        private void Awake()
-        {
-            _playerInventoryView.SetPlayerInventory(Player.Instance.PlayerInventory);
-        }
-
+        
         private void Start()
         {
+            _playerInventoryView.SetPlayerInventory(Player.Instance.PlayerInventory);
             foreach (var ict in GetComponentsInChildren<ItemCategoryToggle>())
             {
                 var cat = ict.category;

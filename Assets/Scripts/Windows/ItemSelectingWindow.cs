@@ -14,10 +14,14 @@ namespace GuildMaster.Windows
 
         private void Awake()
         {
-            _playerInventoryView.SetPlayerInventory(Player.Instance.PlayerInventory);
-            _selectedInventoryView.SetInventory(_selectedItemInventory);
             _playerInventoryView.InventoryView.ClickedItemIcon += MoveItemPlayerInventoryToSelected;
             _selectedInventoryView.ClickedItemIcon += MoveItemSelectedToPlayerInventory;
+        }
+
+        private void Start()
+        {
+            _selectedInventoryView.SetInventory(_selectedItemInventory);
+            _playerInventoryView.SetPlayerInventory(Player.Instance.PlayerInventory);
         }
 
         public class Response
