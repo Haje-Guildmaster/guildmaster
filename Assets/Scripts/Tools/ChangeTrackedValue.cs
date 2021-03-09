@@ -10,7 +10,7 @@ namespace GuildMaster.Tools
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class ChangeTrackedValue<T>
+    public class ChangeTrackedValue<T>: IReadOnlyChangeTrackedValue<T>
     {
         public event Action Changed;
 
