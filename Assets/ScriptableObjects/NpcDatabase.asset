@@ -47,10 +47,6 @@ MonoBehaviour:
       - equipmentStats:
           id: 0
         code:
-          Value: 0
-      - equipmentStats:
-          id: 0
-        code:
           Value: 2
       npcInventoryLimit:
       - Item:
@@ -59,6 +55,12 @@ MonoBehaviour:
           code:
             Value: 1
         Number: 5
+      - Item:
+          equipmentStats:
+            id: 0
+          code:
+            Value: 0
+        Number: 20
   currentEditingIndex:
     Value: 2
   references:

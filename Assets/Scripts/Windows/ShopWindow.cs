@@ -53,6 +53,8 @@ namespace GuildMaster.Windows
             Open();
             EventRefresh();
             Refresh();
+            shopItemListView.ResetQuantity(true);
+            playerShopItemListView.ResetQuantity();
         }
         public void GetPanelInfo(ItemStack itemStack, bool isbuying, int index)
         {
@@ -107,7 +109,6 @@ namespace GuildMaster.Windows
         public void Deal()
         {
             if (Player.Instance.PlayerGuild.Balance.Value + totalcost < 0) return;
-            Player.Instance.PlayerGuild.Balance.Value += totalcost;
             foreach (KeyValuePair<int, ItemStack> keyValuePair in shopOnDict)
             {
                 if (!keyValuePair.Value.isInfinite) npcInventory.TryDeleteItem(keyValuePair.Value.Item, keyValuePair.Value.Quantity);
@@ -115,9 +116,20 @@ namespace GuildMaster.Windows
             }
             shopOnDict.Clear();
             int size = npcInventory.Num;
+            List<ItemStack> npcShopItemList = new List<ItemStack>();
+            foreach (ItemStack itemStack in npcInventory.InventoryList)
+            {
+                npcShopItemList.Add(itemStack);
+            }
             foreach (KeyValuePair<ItemCategory, Dictionary<int, ItemStack>> categoryDict in playerOnDict)
             {
-                size += categoryDict.Value.Count;
+                foreach (KeyValuePair<int, ItemStack> items in categoryDict.Value)
+                {
+                    if (!npcShopItemList.Exists(x => x.Item == items.Value.Item && !x.isInfinite))
+                    {
+                        size++;
+                    }
+                }
             }
             Inventory inventory = new Inventory(size, false);
             foreach (ItemStack itemstack in npcInventory.InventoryList)
@@ -133,7 +145,7 @@ namespace GuildMaster.Windows
                 foreach (KeyValuePair<int, ItemStack> keyValuePair in categoryDict.Value)
                 {
                     Player.Instance.PlayerInventory.TryDeleteItem(keyValuePair.Value.Item, keyValuePair.Value.Quantity);
-                    inventory.TryAddSelledItemInNPC(keyValuePair.Value.Item, keyValuePair.Value.Quantity);
+                    inventory.TryAddItem(keyValuePair.Value.Item, keyValuePair.Value.Quantity);
                 }
             }
             playerOnDict.Clear();
@@ -144,6 +156,7 @@ namespace GuildMaster.Windows
             shopItemListView.ResetQuantity(true);
             playerShopItemListView.ResetQuantity();
             ChangeCategory(_currentCategory);
+            Player.Instance.PlayerGuild.Balance.Value += totalcost;
         }
         private void PointerEntered(Item item)
         {
@@ -214,7 +227,8 @@ namespace GuildMaster.Windows
         }
         private void BuildNPCInventory()
         {
-            npcInventory = new Inventory(npcInventoryInf.Count + npcInventoryNotInf.Count, false);
+            originalShopSize = npcInventoryInf.Count + npcInventoryNotInf.Count;
+            npcInventory = new Inventory(originalShopSize, false);
             foreach (Item item in npcInventoryInf)
             {
                 if (item == null) throw new ArgumentException("npcInventoryInf의 item이 null입니다.");
@@ -275,6 +289,7 @@ namespace GuildMaster.Windows
         }
         private int _panelRequestId;
         private int buycost = 0, sellcost = 0, totalcost;
+        private int originalShopSize;
         private ReadOnlyCollection<Item> npcInventoryInf;
         private List<ItemCount> npcInventoryNotInf;
         private Dictionary<int, ItemStack> shopOnDict = new Dictionary<int, ItemStack>();

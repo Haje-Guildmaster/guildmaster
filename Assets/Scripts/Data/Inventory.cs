@@ -72,7 +72,7 @@ namespace GuildMaster.Data
             BuyCost = item.StaticData.BuyPrice;
             SellCost = item.StaticData.SellPrice;
             Quantity = 0;
-            isInfinite = infinite; 
+            isInfinite = infinite;
         }
         public void setInfiniteItemStack(Item item)
         {
@@ -87,7 +87,7 @@ namespace GuildMaster.Data
         }
         public void setItemStack(Item item, int itemNum)
         {
-            if (item == (Item)null && itemNum != 0) 
+            if (item == (Item)null && itemNum != 0)
                 throw new ArgumentException("아이템 값이 null인데 아이템 개수가 0이 아닙니다.");
             Item = item;
             ItemNum = itemNum;
@@ -102,9 +102,9 @@ namespace GuildMaster.Data
         }
         public void setItemQuantity(int quantity)
         {
-            if (Item == (Item)null && quantity != 0) 
+            if (Item == (Item)null && quantity != 0)
                 throw new ArgumentException("아이템 값이 null인 ItemStack의 quantity를 바꾸려고 시도했습니다.");
-            if (quantity > ItemNum || quantity < 0) 
+            if (quantity > ItemNum || quantity < 0)
                 return;
             Quantity = quantity;
         }
@@ -146,7 +146,7 @@ namespace GuildMaster.Data
         }
         public ItemStack TryGetItemStack(int _index)
         {
-            if (_index >= 0 && _index < Size) return _inventoryList[_index]; 
+            if (_index >= 0 && _index < Size) return _inventoryList[_index];
             else return (ItemStack)null;
         }
         /// <summary>
@@ -155,14 +155,6 @@ namespace GuildMaster.Data
         /// <param name="item"></param>
         /// <param name="number"></param>
         /// <returns></returns>
-        public bool TryAddSelledItemInNPC(Item item, int number)
-        {
-            if (item == null || number == 0) return false;
-            int index = _inventoryList.FindIndex(x => x.Item == null);
-            _inventoryList[index] = new ItemStack(item, number);
-            _inventoryList[index].BuyCost = _inventoryList[index].SellCost;
-            return true;
-        }
         public bool TryAddInfiniteItem(Item item)
         {
             if (item == null) return false;
@@ -177,7 +169,7 @@ namespace GuildMaster.Data
             int index, emptyIndex;
             if (IsStacked)
             {
-                if(_inventoryList.Exists(x => item.Equals(x.Item) && !x.isInfinite))
+                if (_inventoryList.Exists(x => item.Equals(x.Item) && !x.isInfinite))
                 {
                     index = _inventoryList.FindLastIndex(x => item.Equals(x.Item) && !x.isInfinite);
                     ItemStack itemStack = _inventoryList.FindLast(x => item.Equals(x.Item) && !x.isInfinite);
@@ -200,6 +192,8 @@ namespace GuildMaster.Data
                 {
                     int newStackSize = Math.Min(number, itemData.MaxStack);
                     emptyIndex = _inventoryList.FindIndex(x => x.Item == (Item)null);
+                    if (emptyIndex < 0 || emptyIndex >= Size) 
+                        throw new Exception("인벤토리의 사이즈가 충분하지 않습니다.");
                     number -= newStackSize;
                     _inventoryList[emptyIndex].setItemStack(item, newStackSize);
                 }
@@ -208,7 +202,7 @@ namespace GuildMaster.Data
             {
                 if (_inventoryList.Exists(x => item.Equals(x.Item) && !x.isInfinite))
                 {
-                    index = _inventoryList.FindIndex(x => item.Equals(x.Item));
+                    index = _inventoryList.FindIndex(x => item.Equals(x.Item) && !x.isInfinite);
                     Item _item = _inventoryList[index].Item;
                     int _number = _inventoryList[index].ItemNum;
                     _inventoryList[index].setItemStack(_item, _number + number);
@@ -235,6 +229,7 @@ namespace GuildMaster.Data
         {
             if (item == (Item)null || number == 0) return false;
             if (!_inventoryList.Exists(x => item.Equals(x.Item))) return false;
+            if (_inventoryList.Exists(x => x.isInfinite)) return true;
             var itemData = ItemDatabase.Get(item.Code);
             int totalNum = 0;
             int index;
