@@ -13,12 +13,13 @@ namespace GuildMaster.Exploration.Events
     /// </summary>
     public class ProbabilityTool<T>
     {
-        private Random _rnd = new Random();
+        private Random _rnd;
         private List<Weighteditem> _elementlist;
 
-        public ProbabilityTool(List<Weighteditem> elementlist)
+        public ProbabilityTool(List<Weighteditem> elementlist, Random random)
         {
             _elementlist = elementlist.ToList<Weighteditem>();
+            _rnd = random;
         }
         /// <summary>
         /// 멤버로 가지고 있는 _elementlist에서 랜덤한 요소를 뽑는 메서드입니다.

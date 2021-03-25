@@ -27,6 +27,9 @@ namespace GuildMaster.Data
         public readonly PlayerInventory PlayerInventory;
         public readonly InGameEventManager InGameEventManager;
         public readonly Guild PlayerGuild;
+        
+        // Todo: MedicalBed에 Character가 추가될 때, Player가 지닌 캐릭터인지 등을 체크해야 함. PlayerMedicalBed같은 Wrapper로 감싸줄까 생각. 우선도가 밀리므로 일단 둠.
+        public readonly MedicalBed MedicalBed;
 
         private readonly Dictionary<NpcCode, Npc> _npcDataMap = new Dictionary<NpcCode, Npc>(); // Todo: NpcCode 이중저장. Set이나 리스트 사용 고려.
 
@@ -104,12 +107,13 @@ namespace GuildMaster.Data
             PlayerInventory = new PlayerInventory(4, 36, false);
             PlayerGuild = new Guild();
             TimeManager = new Timemanagement(new Timeblock(), new Timeblock(), new Timeblock(), new Timeblock()) ;
-
+            MedicalBed = new MedicalBed(3);
             
             void InvokeChanged() => Changed?.Invoke();
             QuestManager.Changed += InvokeChanged;
             PlayerInventory.Changed += InvokeChanged;
             PlayerGuild.Changed += InvokeChanged;
+            MedicalBed.Changed += InvokeChanged;
         }
     }
 }
