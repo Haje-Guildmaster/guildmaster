@@ -92,6 +92,9 @@ GameObject:
   - component: {fileID: 8809527742116872368}
   - component: {fileID: 7970904629084907890}
   - component: {fileID: 4359270126286552298}
+  - component: {fileID: 570173224575417890}
+  - component: {fileID: 8450734586216698775}
+  - component: {fileID: 458930970340298529}
   m_Layer: 9
   m_Name: ItemImage
   m_TagString: Untagged
@@ -157,6 +160,73 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &570173224575417890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8114545953456590625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4359270126286552298}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8450734586216698775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8114545953456590625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fb71eb4aa8141c2b1307b46ec21fe17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &458930970340298529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8114545953456590625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 165fb055435742cea88775d6e601ed26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8327882171448193660
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,6 +239,7 @@ GameObject:
   - component: {fileID: 8327882171448193663}
   - component: {fileID: 8327882171448193662}
   - component: {fileID: 5594947628906278521}
+  - component: {fileID: 8878960773412823575}
   m_Layer: 5
   m_Name: InventoryItem
   m_TagString: Untagged
@@ -244,6 +315,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1cfa25435a74c68a05501248dae5fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ItemStackView>k__BackingField: {fileID: 8878960773412823575}
+  <PointerEnterExitEvents>k__BackingField: {fileID: 8450734586216698775}
+  <Button>k__BackingField: {fileID: 570173224575417890}
+  <DragForwarder>k__BackingField: {fileID: 458930970340298529}
+--- !u!114 &8878960773412823575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8327882171448193660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61acdf3468074a6f8f7db52a9c3dff09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _itemImage: {fileID: 4359270126286552298}
