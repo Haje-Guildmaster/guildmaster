@@ -1,28 +1,34 @@
 ﻿using GuildMaster.Data;
-using System;
 using UnityEngine;
 
 namespace GuildMaster.Windows
 {
-    public class PlayerInventoryView: MonoBehaviour
+    public class PlayerInventoryView : MonoBehaviour
     {
-        [field: SerializeField] public AutoRefreshedInventoryView InventoryView { get; private set; }
+        [SerializeField] private ItemCategorySelector _categorySelector;
         public PlayerInventory.ItemCategory CurrentCategory { get; private set; }
-        
-        
-        public void ChangeCategory(PlayerInventory.ItemCategory category)
+        [field: SerializeField] public AutoRefreshedInventoryView InventoryView { get; private set; }
+
+        private void Awake()
         {
+            if (_categorySelector != null)
+                _categorySelector.CategoryChanged += SetCategory;
+        }
+        
+        public void SetCategory(PlayerInventory.ItemCategory category)
+        {
+            if (_categorySelector != null)
+                _categorySelector.SetCategoryWithoutNotify(category);
             InventoryView.SetInventory(_playerInventory.GetInventory(category));
             CurrentCategory = category;
         }
 
         public void SetPlayerInventory(PlayerInventory playerInventory)
         {
-            this._playerInventory = playerInventory;
-            ChangeCategory(PlayerInventory.ItemCategory.Equipable);
+            _playerInventory = playerInventory;
+            SetCategory(PlayerInventory.ItemCategory.Equipable);
         }
-        
+
         private PlayerInventory _playerInventory;
     }
-
 }

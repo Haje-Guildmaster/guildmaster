@@ -12,6 +12,7 @@ namespace GuildMaster.Windows
         {
             _childTogglesCache = GetComponentsInChildren<ItemCategoryToggle>();
         }
+
         private void Start()
         {
             foreach (var ict in _childTogglesCache)
@@ -23,8 +24,8 @@ namespace GuildMaster.Windows
                 };
             }
         }
-        
-        public void SetCategory(PlayerInventory.ItemCategory category)
+
+        public void SetCategoryWithoutNotify(PlayerInventory.ItemCategory category)
         {
             foreach (var ict in _childTogglesCache)
             {
