@@ -23,10 +23,9 @@ namespace GuildMaster.Windows
 
         private void Awake()
         {
-            _itemIconList = GetComponentsInChildren<ItemIcon>();
-            for (int i = 0; i < _itemIconList.Length; i++)
+            for (int i = 0; i < ItemIconList.Length; i++)
             {
-                var itemIcon = _itemIconList[i];
+                var itemIcon = ItemIconList[i];
                 var indexCapture = i;
 
                 // (indexCapture를 추가해 주어진 핸들러를 실행하는 함수)를 반환하는 함수.
@@ -73,7 +72,7 @@ namespace GuildMaster.Windows
                 Inventory.Changed += Refresh;
 
             
-            foreach (var icon in _itemIconList.Skip(Inventory?.Size ?? 0))
+            foreach (var icon in ItemIconList.Skip(Inventory?.Size ?? 0))
             {
                 icon.Interactable = false;
             }
@@ -83,9 +82,9 @@ namespace GuildMaster.Windows
         
         private void Refresh()
         {
-            foreach (var itemIcon in _itemIconList)
+            foreach (var itemIcon in ItemIconList)
                 itemIcon.ItemStackView.ItemStack = new ItemStack(null, 0);
-            foreach (var (itemIcon, itemStack) in Enumerable.Zip(_itemIconList, Inventory.ItemStackList,
+            foreach (var (itemIcon, itemStack) in Enumerable.Zip(ItemIconList, Inventory.ItemStackList,
                 (a, b) => (a, b)))
             {
                 itemIcon.ItemStackView.ItemStack = itemStack;
@@ -93,6 +92,9 @@ namespace GuildMaster.Windows
         }
 
 
-        private ItemIcon[] _itemIconList;
+        private ItemIcon[] ItemIconList => _itemIconListCache ?? (_itemIconListCache = GetComponentsInChildren<ItemIcon>());
+
+        private ItemIcon[] _itemIconListCache;
+
     }
 }

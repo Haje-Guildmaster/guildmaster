@@ -9,7 +9,7 @@ namespace GuildMaster.Windows
         private void Awake()
         {
             foreach (var epb in GetComponentsInChildren<ExplorationPrepareButton>())
-                epb.BeforeAction += base.Close;
+                epb.StartPreparation += base.Close;
             foreach (var mpb in GetComponentsInChildren<MovePlaceButton>())
                 mpb.BeforeMoving += base.Close;
         }

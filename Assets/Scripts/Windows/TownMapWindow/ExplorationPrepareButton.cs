@@ -8,7 +8,7 @@ namespace GuildMaster.Windows
     [RequireComponent(typeof(Button))]
     public class ExplorationPrepareButton: MonoBehaviour
     {
-        public event Action BeforeAction;
+        public event Action StartPreparation;
         
         private void Awake()
         {
@@ -18,7 +18,7 @@ namespace GuildMaster.Windows
 
         private void StartExplorationPreparation()
         {
-            BeforeAction?.Invoke();
+            StartPreparation?.Invoke();
             ExplorationPreparer.Instance.GoExplore();
         }
 
