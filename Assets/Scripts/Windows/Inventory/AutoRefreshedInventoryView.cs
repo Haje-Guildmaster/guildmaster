@@ -28,33 +28,27 @@ namespace GuildMaster.Windows
                 var itemIcon = ItemIconList[i];
                 var indexCapture = i;
 
-                // (indexCapture를 추가해 주어진 핸들러를 실행하는 함수)를 반환하는 함수.
-                // handler를 직접 안 받고 getter를 받는 이유는, 안 그러면 딱 그 순간 구독한 핸들러 delegate만 캡쳐해서입니다.
-                // ref로 못 받는 건 람다가 ref 변수를 캡쳐하지 못하기 때문.
-                Action<PointerEventData> Adapter(Func<ItemIconPointerEventHandler> handlerGetter)
+                void CallWithIndex(PointerEventData ped, ItemIconPointerEventHandler handler)
                 {
-                    return ped =>
-                    {
-                        Assert.IsTrue(Inventory != null);
-                        Assert.IsTrue(indexCapture < Inventory.Size);
-                        Assert.IsTrue(itemIcon.ItemStackView.ItemStack == Inventory.ItemStackList[indexCapture]);
-                        handlerGetter()?.Invoke(indexCapture, ped);
-                    };
+                    Assert.IsTrue(Inventory != null);
+                    Assert.IsTrue(indexCapture < Inventory.Size);
+                    Assert.IsTrue(itemIcon.ItemStackView.ItemStack == Inventory.ItemStackList[indexCapture]);
+                    handler?.Invoke(indexCapture, ped);
                 }
 
                 var pointerEvents = itemIcon.PointerEnterExitEvents;
                 if (pointerEvents != null)
                 {
-                    pointerEvents.PointerEnter += Adapter(() => PointerEnteredItemIcon);
-                    pointerEvents.PointerExit += Adapter(() => PointerExitedItemIcon);
+                    pointerEvents.PointerEnter += ped => CallWithIndex(ped, PointerEnteredItemIcon);
+                    pointerEvents.PointerExit += ped => CallWithIndex(ped, PointerExitedItemIcon);
                 }
 
                 var dragEvents = itemIcon.DragForwarder;
                 if (dragEvents != null)
                 {
-                    dragEvents.Drag += Adapter(() => DraggedItemIcon);
-                    dragEvents.BeginDrag += Adapter(() => BeganDragItemIcon);
-                    dragEvents.EndDrag += Adapter(() => EndedDragItemIcon);
+                    dragEvents.Drag += ped => CallWithIndex(ped, DraggedItemIcon);
+                    dragEvents.BeginDrag += ped => CallWithIndex(ped, BeganDragItemIcon);
+                    dragEvents.EndDrag += ped => CallWithIndex(ped, EndedDragItemIcon);
                 }
 
                 var btn = itemIcon.Button;
@@ -77,7 +71,7 @@ namespace GuildMaster.Windows
             if (Inventory != null)
                 Inventory.Changed += Refresh;
 
-            
+
             foreach (var icon in ItemIconList.Skip(Inventory?.Size ?? 0))
             {
                 icon.Interactable = false;
@@ -85,7 +79,7 @@ namespace GuildMaster.Windows
 
             Refresh();
         }
-        
+
         private void Refresh()
         {
             foreach (var itemIcon in ItemIconList)
@@ -98,9 +92,9 @@ namespace GuildMaster.Windows
         }
 
 
-        private ItemIcon[] ItemIconList => _itemIconListCache ?? (_itemIconListCache = GetComponentsInChildren<ItemIcon>());
+        private ItemIcon[] ItemIconList =>
+            _itemIconListCache ?? (_itemIconListCache = GetComponentsInChildren<ItemIcon>());
 
         private ItemIcon[] _itemIconListCache;
-
     }
 }
