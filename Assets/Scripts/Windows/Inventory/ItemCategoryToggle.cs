@@ -2,7 +2,7 @@ using GuildMaster.Windows;
 
 namespace GuildMaster.Data
 {
-    public class ItemCategoryToggle: ColorIfToggleIsOn
+    public class ItemCategoryToggle: ColorMarkedToggle
     {
         public PlayerInventory.ItemCategory category;
     }

@@ -10,6 +10,8 @@ namespace GuildMaster.Windows
     {
         [SerializeField] private AutoRefreshedInventoryView _targetInventoryView;
 
+        
+        // Todo: SetInventoryView? window 꺼질 때 panel도 꺼지게 해야 함;
         private void OnEnable()
         {
             _targetInventoryView.PointerEnteredItemIcon += OnPointerEnteredItemIcon;
