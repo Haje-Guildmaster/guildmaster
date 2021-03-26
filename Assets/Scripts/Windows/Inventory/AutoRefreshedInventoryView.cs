@@ -56,6 +56,12 @@ namespace GuildMaster.Windows
                     dragEvents.BeginDrag += Adapter(() => BeganDragItemIcon);
                     dragEvents.EndDrag += Adapter(() => EndedDragItemIcon);
                 }
+
+                var btn = itemIcon.Button;
+                if (btn != null)
+                {
+                    btn.onClick.AddListener(() => ClickedItemIcon?.Invoke(indexCapture));
+                }
             }
         }
 
