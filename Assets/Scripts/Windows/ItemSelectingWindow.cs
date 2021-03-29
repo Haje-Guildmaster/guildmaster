@@ -1,6 +1,7 @@
 ﻿using GuildMaster.Data;
 using System.Threading;
 using System.Threading.Tasks;
+using GuildMaster.Items;
 using GuildMaster.Tools;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -9,7 +10,7 @@ namespace GuildMaster.Windows
 {
     public class ItemSelectingWindow : DraggableWindow
     {
-        [SerializeField] public AutoRefreshedInventoryView _selectedInventoryView;
+        [SerializeField] private AutoRefreshedInventoryView _selectedInventoryView;
         [SerializeField] private PlayerInventoryView _playerInventoryView;
 
         private void Awake()
@@ -91,11 +92,21 @@ namespace GuildMaster.Windows
 
         private async void MoveItemPlayerInventoryToSelected(int playerInventoryItemIndex)
         {
+            var fromInv = _playerInventoryView.CurrentInventory;
+            var capture = fromInv.GetItemStack(playerInventoryItemIndex);
+            if (capture.IsEmpty()) return;
+            
             switch (await UiWindowsManager.Instance.AsyncShowMessageBox("확인", "가방으로 이동하겠습니까?",
                 new[] {"확인", "취소"}))
             {
                 case 0:
-                    // Todo: 아이템 보내기&기능 분리?
+                    var movingStack = fromInv.GetItemStack(playerInventoryItemIndex);
+                    // 질문을 할 때와 지정된 위치의 스택에 변화가 생겼으면 이동 취소.
+                    if (!capture.Equals(movingStack)) return;
+                    var addedNum = _selectedItemInventory.TryAddItem(movingStack);
+                    fromInv.RemoveItemFromIndex(playerInventoryItemIndex, addedNum, movingStack.Item);
+                    if (addedNum != movingStack.ItemNum)
+                        Debug.LogWarning("Todo: 아이템 옮기기 실패 알리기");
                     break;
                 case 1:
                     break;
@@ -107,11 +118,20 @@ namespace GuildMaster.Windows
 
         private async void MoveItemSelectedToPlayerInventory(int selectedInventoryItemIndex)
         {
+            var fromInv = _selectedItemInventory;
+            var capture = fromInv.GetItemStack(selectedInventoryItemIndex);
+            if (capture.IsEmpty()) return;
             switch (await UiWindowsManager.Instance.AsyncShowMessageBox("확인", "가방으로 이동하겠습니까?",
                 new[] {"확인", "취소"}))
             {
                 case 0:
-                    // Todo: 아이템 보내기&기능 분리?
+                    var movingStack = fromInv.GetItemStack(selectedInventoryItemIndex);
+                    // 질문을 할 때와 지정된 위치의 스택에 변화가 생겼으면 이동 취소.
+                    if (!capture.Equals(movingStack)) return;
+                    var addedNum = _playerInventoryView.CurrentPlayerInventory.TryAddItem(movingStack);
+                    fromInv.RemoveItemFromIndex(selectedInventoryItemIndex, addedNum, movingStack.Item);
+                    if (addedNum != movingStack.ItemNum)
+                        Debug.LogWarning("Todo: 아이템 옮기기 실패 알리기");
                     break;
                 case 1:
                     break;

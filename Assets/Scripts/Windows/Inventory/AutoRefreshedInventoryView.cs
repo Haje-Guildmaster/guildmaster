@@ -32,7 +32,7 @@ namespace GuildMaster.Windows
                 {
                     Assert.IsTrue(Inventory != null);
                     Assert.IsTrue(indexCapture < Inventory.Size);
-                    Assert.IsTrue(itemIcon.ItemStackView.ItemStack == Inventory.ItemStackList[indexCapture]);
+                    Assert.IsTrue(itemIcon.ItemStackView.ItemStack == Inventory.ItemStackList[indexCapture]); // consistency check
                     handler?.Invoke(indexCapture, ped);
                 }
 

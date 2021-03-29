@@ -7,6 +7,9 @@ namespace GuildMaster.Windows
     {
         [SerializeField] private ItemCategorySelector _categorySelector;
         public PlayerInventory.ItemCategory CurrentCategory { get; private set; }
+        public PlayerInventory CurrentPlayerInventory { get; private set; }
+
+        public Inventory CurrentInventory => CurrentPlayerInventory.GetInventory(CurrentCategory);
         [field: SerializeField] public AutoRefreshedInventoryView InventoryView { get; private set; }
 
         private void Awake()
@@ -19,16 +22,14 @@ namespace GuildMaster.Windows
         {
             if (_categorySelector != null)
                 _categorySelector.SetCategoryWithoutNotify(category);
-            InventoryView.SetInventory(_playerInventory.GetInventory(category));
+            InventoryView.SetInventory(CurrentPlayerInventory.GetInventory(category));
             CurrentCategory = category;
         }
 
         public void SetPlayerInventory(PlayerInventory playerInventory)
         {
-            _playerInventory = playerInventory;
+            CurrentPlayerInventory = playerInventory;
             SetCategory(PlayerInventory.ItemCategory.Equipable);
         }
-
-        private PlayerInventory _playerInventory;
     }
 }
