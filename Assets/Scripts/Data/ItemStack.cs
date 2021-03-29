@@ -18,6 +18,11 @@ namespace GuildMaster.Data
             ItemNum = itemNum;
         }
 
+        public bool IsEmpty()
+        {
+            return Item == null || ItemNum == 0;
+        }
+        
         public bool Equals(ItemStack other)
         {
             return Equals(Item, other.Item) && ItemNum == other.ItemNum;
@@ -45,5 +50,6 @@ namespace GuildMaster.Data
         {
             return !left.Equals(right);
         }
+
     }
 }

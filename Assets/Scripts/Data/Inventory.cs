@@ -38,7 +38,6 @@ namespace GuildMaster.Data
             return _itemStackList.ElementAtOrDefault(index);
         }
 
-
         /// <summary>
         /// 지정한 아이템을 지정한 숫자만큼 인벤토리에 넣습니다. <br/>
         /// 넣는 데에 성공한 개수를 반환합니다.
@@ -59,11 +58,7 @@ namespace GuildMaster.Data
                 ItemStack stack = _itemStackList[index];
                 if (!item.Equals(stack.Item)) continue;
 
-                int prevNum = stack.ItemNum;
-                int afterNum = Math.Min(prevNum + remaining, maxStackSize);
-
-                remaining -= (afterNum - prevNum);
-                _itemStackList[index] = new ItemStack(item, afterNum);
+                remaining -= _TryAddItemToIndexWithoutOverflow(index, item, remaining);
             }
 
 
@@ -71,17 +66,17 @@ namespace GuildMaster.Data
             for (int index = 0; index < Size && remaining > 0; index++)
             {
                 ItemStack stack = _itemStackList[index];
-                if (stack.Item != null) continue;
-                int puttingNum = Math.Min(remaining, maxStackSize);
+                if (!stack.IsEmpty()) continue;
 
-                remaining -= puttingNum;
-                _itemStackList[index] = new ItemStack(puttingNum <= 0 ? null : item, puttingNum);
+                remaining -= _TryAddItemToIndexWithoutOverflow(index, item, remaining);
             }
 
             Assert.IsTrue(remaining >= 0);
             Changed?.Invoke();
             return number - remaining;
         }
+
+        public int TryAddItem(ItemStack stack) => TryAddItem(stack.Item, stack.ItemNum);
 
         /// <summary>
         /// 지정한 아이템을 지정한 숫자만큼 제거합니다. <br/>
@@ -137,7 +132,6 @@ namespace GuildMaster.Data
 
             int cntSpace = 0;
 
-            // 이미 이 아이템이 지정된 스택이 있다면 그곳에 넣기.
             foreach (ItemStack stack in _itemStackList)
             {
                 if (stack.Item == null)
@@ -184,6 +178,59 @@ namespace GuildMaster.Data
             Assert.IsTrue(removed == number);
         }
 
+        /// <summary>
+        /// 지정된 index의 itemStack에서 일정 개수를 제거합니다. <br/>
+        /// item은 기능에는 필요가 없는데, 실수로 다른 거 지우지 말라고 확인용으로 받습니다.
+        /// </summary>
+        /// <param name="targetIndex"></param>
+        /// <param name="removingNumber"></param>
+        /// <param name="targetItem"></param>
+        public void RemoveItemFromIndex(int targetIndex, int removingNumber, Item targetItem)
+        {
+            var prev = _itemStackList[targetIndex];
+            if (prev.IsEmpty())
+                throw new InvalidOperationException($"지정한 인덱스 {targetIndex}에 아이템이 존재하지 않습니다.");
+            if (!prev.Item.Equals(targetItem))
+                throw new InvalidOperationException("item이 일치하지 않습니다.");
+            if (prev.ItemNum < removingNumber)
+                throw new InvalidCastException(
+                    $"지정한 인덱스 {targetIndex}의 아이템 개수가 {prev.ItemNum}으로 제거하는 개수 {removingNumber}보다 많습니다.");
+
+            var afterNum = prev.ItemNum - removingNumber;
+            _itemStackList[targetIndex] = new ItemStack(afterNum <= 0 ? null : prev.Item, afterNum);
+            Changed?.Invoke();
+        }
+
+        /// <summary>
+        /// 지정한 index의 itemStack에 아이템을 추가합니다. 지정된 위치에 추가되지 못하는 양은 TryAddItem을 이용해 임의의 위치에
+        /// 추가됩니다. 그래도 남은 양은 반환값(실제로 추가된 양)을 통해 구할 수 있습니다.
+        /// </summary>
+        /// <param name="targetIndex"></param>
+        /// <param name="addingItem"></param>
+        /// <param name="addingNumber"></param>
+        /// <returns> 실제로 추가된 아이템 개수</returns>
+        public int TryAddItemToIndex(int targetIndex, Item addingItem, int addingNumber)
+        {
+            int remaining = addingNumber;
+            remaining -= _TryAddItemToIndexWithoutOverflow(targetIndex, addingItem, addingNumber);
+            remaining -= TryAddItem(addingItem, remaining);
+            // Changed?.Invoke  // TryAddItem에서 불림.
+            return addingNumber - remaining;
+        }
+
+        private int _TryAddItemToIndexWithoutOverflow(int targetIndex, Item addingItem, int addingNumber)
+        {
+            var stack = _itemStackList[targetIndex];
+            if (!stack.IsEmpty() && !stack.Item.Equals(addingItem))
+                return 0;
+            int maxStackSize = this.IsStacked ? addingItem.StaticData.MaxStack : int.MaxValue;
+            
+            int prevNum = stack.ItemNum;
+            int afterNum = Math.Min(prevNum + addingNumber, maxStackSize);
+            _itemStackList[targetIndex] = new ItemStack(addingItem, afterNum);
+            return (afterNum - prevNum);
+        }
+        
         private readonly ItemStack[] _itemStackList;
     }
 }

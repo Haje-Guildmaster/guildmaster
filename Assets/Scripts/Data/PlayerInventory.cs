@@ -59,6 +59,8 @@ namespace GuildMaster.Data
             return GetInventory(GetItemCategory(item)).TryAddItem(item, number);
         }
 
+        public int TryAddItem(ItemStack stack) => TryAddItem(stack.Item, stack.ItemNum);
+
         /// <summary>
         /// 지정한 아이템을 지정한 숫자만큼 제거합니다. <br/>
         /// 실제로 제거된 아이템 개수를 반환합니다.
