@@ -48,9 +48,16 @@ namespace GuildMaster.Testing
                             ExplorationLoader.Load(
                                 members.Where((c, i) => _explorationSelectedCharacter[i]).ToList(), _explorationSceneName);
                     }
+
+                if (GUILayout.Button("Asdf"))
+                {
+                    Debug.Log(new System.Random().NextDouble());
+                }
             }
         }
 
+        private System.Random _random = new System.Random();
+        
         private class Indent : GUI.Scope
         {
             public Indent(float pixels)

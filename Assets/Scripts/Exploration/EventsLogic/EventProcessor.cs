@@ -17,12 +17,12 @@ namespace GuildMaster.Exploration.Events
     public class EventProcessor
     {
         public EventProcessor(ExplorationView explorationView, ReadOnlyCollection<Character> characters,
-            Inventory inventory, Event ev, ExplorationLog log = null)
+            Inventory inventory, Event ev, Random random, ExplorationLog log = null)
         {
             _explorationView = explorationView;
             _characters = characters;
             _inventory = inventory;
-            _randomGenerator = new Random();
+            _randomGenerator = random;
             _ev = ev;
             _log = log;
         }

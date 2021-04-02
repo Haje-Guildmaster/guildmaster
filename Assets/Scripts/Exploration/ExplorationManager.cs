@@ -12,6 +12,7 @@ using GuildMaster.TownRoam;
 using GuildMaster.Windows;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Random = System.Random;
 
 namespace GuildMaster.Exploration
 {
@@ -98,7 +99,7 @@ namespace GuildMaster.Exploration
                         }
 
                         //위에서 생성된 weightedSeedList를 인자로 ProbabilityTool 오브젝트를 만듭니다.
-                        ProbabilityTool<EventSeedCode> seedChoiceTool = new ProbabilityTool<EventSeedCode>(weightedSeedList);
+                        ProbabilityTool<EventSeedCode> seedChoiceTool = new ProbabilityTool<EventSeedCode>(weightedSeedList, _random);
 
                         // 이벤트 발생
                         // 확률적으로 택해진 EventSeedCode를 담을 변수 생성
@@ -108,7 +109,7 @@ namespace GuildMaster.Exploration
                         var eventSeed = EventSeedDatabase.Get(chosenEventSeedCode).EventSeed;
                         var testEvent = eventSeed.Generate(new System.Random());
                         await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory, testEvent,
-                                _log)
+                                _random, _log)
                             .Run(); // EventProcessor에게 이벤트 처리 떠넘김. Todo: EventProcessor 재사용 고려.
                         
                         //이벤트 발생 이후 캐릭터들의 stamina / hp 상황 확인
@@ -225,6 +226,7 @@ namespace GuildMaster.Exploration
         private List<Character> _characters;
         private ExplorationMap _map;
         private MapNode _currentNode;
+        private Random _random = new Random();
 
         private readonly SignalWaiter _exitRequestWaiter = new SignalWaiter();
 

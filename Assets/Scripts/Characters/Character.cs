@@ -94,26 +94,27 @@ namespace GuildMaster.Characters
         }
         public int MaxStamina => Math.Max(1, StatMaxStaminaList[_level] + _staminaChange.Value);
 
-        public int Strength => Math.Max(StrengthChange + StatStrengthList[_level], 0);
+        [Obsolete] public int Strength => GetStat().Wisdom;
         public int StrengthChange
         {
             get => _strengthChange.Value;
             set => _strengthChange.Value = value;
         }
-        public int Trick => Math.Max(TrickChange + StatTrickList[_level], 0);
+        [Obsolete] public int Trick => GetStat().Trick;
         public int TrickChange
         {
             get => _trickChange.Value;
             set => _trickChange.Value = value;
         }
-        public int Wisdom => Math.Max(WisdomChange + StatWisdomList[_level], 0);
+
+        [Obsolete] public int Wisdom => GetStat().Wisdom;
         public int WisdomChange
         {
             get => _wisdomChange.Value;
             set => _wisdomChange.Value = value;
         }
         public int Level
-        {
+        { 
             get => _level.Value;
             private set
             {
@@ -134,6 +135,25 @@ namespace GuildMaster.Characters
                 _xp.Value = Math.Min(0, value);
             }
         }
+        
+        public class CharacterStat
+        {
+            public CharacterStat(int strength, int trick, int wisdom)
+            {
+                Strength = strength;
+                Trick = trick;
+                Wisdom = wisdom;
+            }
+            public readonly int Strength;
+            public readonly int Trick;
+            public readonly int Wisdom;
+        }
+
+        public CharacterStat GetStat() => new CharacterStat(
+            strength: Math.Max(StrengthChange + StatStrengthList[_level], 0),
+            trick: Math.Max(TrickChange + StatTrickList[_level], 0),
+            wisdom: Math.Max(WisdomChange + StatWisdomList[_level], 0));
+        
         public int CurrentLevelupXP => LevelupXP[_level];                           // 현재 레벨업에 필요한 경험치 값
         /// <summary>
         /// 충성도 변경시 LoyaltyInnerValue를 변경해주세요.

@@ -11,8 +11,13 @@ enum TimeTable
     Night = 2,
     Dawn = 3
 }
-public class Timemanagement 
+public class Timemanagement
 {
+    /// <summary>
+    /// 인수만큼의 시간이 지남을 알림.
+    /// </summary>
+    public event Action<int> TimeChanged;
+    
     public Timeblock[] TimeBlockList = new Timeblock[4];
     private TimeTable TimeIndex = TimeTable.Morning;
     private Timeblock CurrentTimeBlock = null; 
@@ -37,6 +42,8 @@ public class Timemanagement
         CurrentTimeBlock = TimeBlockList[(int)TimeIndex];
         Debug.Log("시간대가 변경되었습니다");
         Debug.Log("현재 시각 : " + TimeIndex.ToString());
+
+        TimeChanged?.Invoke(1);
         UiWindowsManager.Instance.ShowMessageBox("시간 변경 알림", "시간대가 변경되었습니다" + "\n현재 시각 : " + TimeIndex.ToString(), new (string, Action)[] { ("확인", () => { }) });
     }
     public void GetEventListNormal()
