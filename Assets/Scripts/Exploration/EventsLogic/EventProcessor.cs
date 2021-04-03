@@ -259,12 +259,10 @@ namespace GuildMaster.Exploration.Events
                     case Instruction.GetItem getItem:
                     {
                         var number = CalculateToInt(getItem.Number, selectedCharacter);
-                        if (_inventory.TryAddItem(getItem.Item, number))
-                        {
-                            var key = getItem.Item;
-                            resultRecord.AcquiredItems.TryGetValue(key, out var original);
-                            resultRecord.AcquiredItems[key] = original + number;
-                        }
+                        _inventory.TryAddItem(getItem.Item, number);
+                        var key = getItem.Item;
+                        resultRecord.AcquiredItems.TryGetValue(key, out var original);
+                        resultRecord.AcquiredItems[key] = original + number;
 
                         return false;
                     }

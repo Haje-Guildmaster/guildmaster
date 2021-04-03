@@ -155,16 +155,32 @@ namespace GuildMaster.Data
         /// <param name="item"></param>
         /// <param name="number"></param>
         /// <returns></returns>
-        public bool TryAddInfiniteItem(Item item)
+        public void TryAddInfiniteItem(Item item)
         {
-            if (item == null) return false;
+            if (item == null)
+                throw new Exception("TryAddInfiniteItem 에서 추가하고자 하는 아이템이 Null 입니다.");
             int index = _inventoryList.FindIndex(x => x.Item == null);
             _inventoryList[index] = new ItemStack(item, true);
-            return true;
+            return;
         }
-        public bool TryAddItem(Item item, int number)
+        /// <summary>
+        /// 가장 마지막 인덱스에 주어진 아이템을 넣기 위한 메서드
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public void TryAddItemAtLastIndex(ItemStack itemstack)
         {
-            if (item == (Item)null || number == 0) return false;
+            if (itemstack.Item == null || itemstack.ItemNum == 0)
+                throw new Exception("TryAddItemAtLastIndex 에서 추가하고자 하는 아이템이 Null이거나 아이템의 개수가 0개입니다.");
+            int index = _inventoryList.FindIndex(x => x.Item == null);
+            _inventoryList[index] = new ItemStack(itemstack.Item, itemstack.ItemNum);
+            return;
+        }
+        public void TryAddItem(Item item, int number)
+        {
+            if (item == (Item)null || number == 0)
+                throw new Exception("TryAddItem 에서 추가하고자 하는 아이템이 Null이거나 아이템의 개수가 0개입니다.");
             var itemData = ItemDatabase.Get(item.Code);
             int index, emptyIndex;
             if (IsStacked)
@@ -212,7 +228,7 @@ namespace GuildMaster.Data
                 {
                     if (!_inventoryList.Exists(x => x.Item == (Item)null))
                     {
-                        return false;
+                        throw new Exception("인벤토리의 칸이 부족합니다");
                     }
                     else
                     {
@@ -222,14 +238,17 @@ namespace GuildMaster.Data
                 }
             }
             Changed?.Invoke();
-            return true;
+            return;
         }
 
-        public bool TryDeleteItem(Item item, int number)
+        public void TryDeleteItem(Item item, int number)
         {
-            if (item == (Item)null || number == 0) return false;
-            if (!_inventoryList.Exists(x => item.Equals(x.Item))) return false;
-            if (_inventoryList.Exists(x => x.isInfinite)) return true;
+            if (item == (Item)null || number == 0)
+                throw new Exception("TryDelete 할 때 아이템이 null 이거나 number이 0입니다.");
+            if (!_inventoryList.Exists(x => item.Equals(x.Item)))
+                throw new Exception("Delete할 아이템이 없습니다.");
+            if (_inventoryList.Exists(x => x.isInfinite && x.Item == item)) 
+                return;
             var itemData = ItemDatabase.Get(item.Code);
             int totalNum = 0;
             int index;
@@ -239,7 +258,8 @@ namespace GuildMaster.Data
                 int _number = items.ItemNum;
                 totalNum += _number;
             }
-            if (totalNum < number) return false;
+            if (totalNum < number)
+                throw new Exception("TryDelete 할 때 아이템이 아이템의 개수보다 많습니다.");
             if (IsStacked)
             {
                 while (number > 0)
@@ -270,7 +290,7 @@ namespace GuildMaster.Data
                 if (_number == number) _inventoryList[index].setItemStack(null, 0);
             }
             Changed?.Invoke();
-            return true;
+            return;
         }
         private readonly List<ItemStack> _inventoryList;
     }
