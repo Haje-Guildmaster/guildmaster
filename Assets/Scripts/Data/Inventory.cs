@@ -181,6 +181,7 @@ namespace GuildMaster.Data
         /// <summary>
         /// 지정된 index의 itemStack에서 일정 개수를 제거합니다. <br/>
         /// item은 기능에는 필요가 없는데, 실수로 다른 거 지우지 말라고 확인용으로 받습니다.
+        /// 지정된 index에 주어진 item이 없거나, 충분한 양이 없으면 에러를 던집니다.
         /// </summary>
         /// <param name="targetIndex"></param>
         /// <param name="removingNumber"></param>
@@ -203,7 +204,7 @@ namespace GuildMaster.Data
 
         /// <summary>
         /// 지정한 index의 itemStack에 아이템을 추가합니다. 지정된 위치에 추가되지 못하는 양은 TryAddItem을 이용해 임의의 위치에
-        /// 추가됩니다. 그래도 남은 양은 반환값(실제로 추가된 양)을 통해 구할 수 있습니다.
+        /// 추가됩니다. 인벤토리가 꽉 차서 그조차 불가능하다면 추가 작업을 하지 않아 아이템이 남습니다. 실제로 추가된 아이템 개수를 반환합니다.
         /// </summary>
         /// <param name="targetIndex"></param>
         /// <param name="addingItem"></param>
