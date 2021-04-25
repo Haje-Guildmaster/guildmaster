@@ -1,4 +1,7 @@
-﻿using GuildMaster.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GuildMaster.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using GuildMaster.Items;
@@ -12,9 +15,11 @@ namespace GuildMaster.Windows
     {
         [SerializeField] private AutoRefreshedInventoryView _selectedInventoryView;
         [SerializeField] private PlayerInventoryView _playerInventoryView;
-
+        [SerializeField] private DragManager _dragManager;
+        
         private void Awake()
         {
+            _dragManager.Initialize(this);
             _playerInventoryView.InventoryView.ClickedItemIcon += MoveItemPlayerInventoryToSelected;
             _selectedInventoryView.ClickedItemIcon += MoveItemSelectedToPlayerInventory;
         }
@@ -23,6 +28,16 @@ namespace GuildMaster.Windows
         {
             _selectedInventoryView.SetInventory(_selectedItemInventory);
             _playerInventoryView.SetPlayerInventory(Player.Instance.PlayerInventory);
+        }
+
+        private void OnEnable()
+        {
+            _dragManager.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _dragManager.Disable();
         }
 
         public class Response
@@ -141,6 +156,47 @@ namespace GuildMaster.Windows
             }
         }
 
+        [Serializable]
+        private class DragManager : ItemDragManager
+        {
+            public void Initialize(ItemSelectingWindow parent)
+            {
+                _parent = parent;
+                _dragFromPlayerInvSlot = new InventoryDragFromSlotAdapter(parent._playerInventoryView.InventoryView);
+                _dropInPlayerInvSlot = new InventoryDropInSlotAdapter(parent._playerInventoryView.InventoryView);
+                _dragFromSelectedInvSlot = new InventoryDragFromSlotAdapter(parent._selectedInventoryView);
+                _dropInSelectedInvSlot = new InventoryDropInSlotAdapter(parent._selectedInventoryView);
+            }
+            
+            protected override List<IDragFrom> GetAllDragFroms()
+            {
+                return _dragFromPlayerInvSlot.DragFromSlots.Concat(_dragFromSelectedInvSlot.DragFromSlots).ToList();
+            }
+
+            protected override List<IDropIn> GetAllDropIns()
+            {
+                return _dropInPlayerInvSlot.DropInSlots.Concat(_dropInSelectedInvSlot.DropInSlots).ToList();
+            }
+
+            protected override void ProcessDragResult(IDragFrom dragStart, IDropIn dragEnd)
+            {
+                // Todo: 다른 카테고리로 아이템 안 가게.
+                TransferItem(dragStart.Giver, dragEnd.Receiver);
+            }
+
+            protected override bool IsDragAble(IDragFrom dragStart, IDropIn dragEnd)
+            {
+                return true;
+            }
+
+            private ItemSelectingWindow _parent;
+            private InventoryDragFromSlotAdapter _dragFromPlayerInvSlot;
+            private InventoryDropInSlotAdapter _dropInPlayerInvSlot;
+            private InventoryDragFromSlotAdapter _dragFromSelectedInvSlot;
+            private InventoryDropInSlotAdapter _dropInSelectedInvSlot;
+
+        }
+        
 
         private readonly SingularRun _getResponseSingularRun = new SingularRun();
         private Inventory _selectedItemInventory = new Inventory(12, true);

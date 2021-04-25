@@ -17,6 +17,8 @@ namespace GuildMaster.Windows
             public void Initialize(InventoryViewItemDragManagerComponent parent)
             {
                 _parent = parent;
+                _dragFromSlotAdapter = new InventoryDragFromSlotAdapter(parent._inventoryView);
+                _dropInSlotAdapter = new InventoryDropInSlotAdapter(parent._inventoryView);
             }
             protected override void ProcessDragResult(IDragFrom dragStart, IDropIn dragEnd)
             {
@@ -24,11 +26,11 @@ namespace GuildMaster.Windows
             }
             protected override List<IDragFrom> GetAllDragFroms()
             {
-                return _parent._dragFromSlotAdapter.DragFromSlots.ToList();
+                return _dragFromSlotAdapter.DragFromSlots.ToList();
             }
             protected override List<IDropIn> GetAllDropIns()
             {
-                return _parent._dropInSlotAdapter.DropInSlots.ToList();
+                return _dropInSlotAdapter.DropInSlots.ToList();
             }
             protected override bool IsDragAble(IDragFrom dragStart, IDropIn dragEnd)
             {
@@ -36,13 +38,13 @@ namespace GuildMaster.Windows
             }
 
             private InventoryViewItemDragManagerComponent _parent;
+            private InventoryDragFromSlotAdapter _dragFromSlotAdapter;
+            private InventoryDropInSlotAdapter _dropInSlotAdapter;
         }
         
         private void Awake()
         {
             _dragManager.Initialize(this);
-            _dragFromSlotAdapter = new InventoryDragFromSlotAdapter(_inventoryView);
-            _dropInSlotAdapter = new InventoryDropInSlotAdapter(_inventoryView);
         }
 
         private void OnEnable()
@@ -54,8 +56,5 @@ namespace GuildMaster.Windows
         {
             _dragManager.Disable();
         }
-
-        private InventoryDragFromSlotAdapter _dragFromSlotAdapter;
-        private InventoryDropInSlotAdapter _dropInSlotAdapter;
     }
 }
