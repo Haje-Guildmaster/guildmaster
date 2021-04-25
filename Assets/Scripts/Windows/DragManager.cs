@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -10,14 +11,14 @@ namespace GuildMaster.Windows
     public abstract class DragManager<TGiver, TReceiver> : MonoBehaviour
     {
         [SerializeField] private Transform DragGhostParent;
-        
+
         public interface IDragFrom
         {
             event Action<PointerEventData> Dragged;
             event Action<PointerEventData> BeganDrag;
             event Action<PointerEventData> EndedDrag;
 
-            void IndicateBeingDragged(bool doIndicate);
+            void IndicateBeingDragged(bool doIndicate); // Todo: Remove
 
             TGiver Giver { get; }
         }
@@ -27,7 +28,7 @@ namespace GuildMaster.Windows
             event Action<PointerEventData> PointerEntered;
             event Action<PointerEventData> PointerExited;
 
-            void Highlight(bool doHighlight);
+            void Highlight(bool doHighlight);   // Todo: Remove
             TReceiver Receiver { get; }
         }
 
@@ -71,7 +72,7 @@ namespace GuildMaster.Windows
         /// <param name="dragEnd"></param>
         /// <returns> </returns>
         protected abstract bool IsDragAble(IDragFrom dragStart, IDropIn dragEnd);
-        
+
         protected virtual void Awake()
         {
         }
@@ -97,7 +98,8 @@ namespace GuildMaster.Windows
             ).ToList();
 
             var dropIns = GetAllDropIns();
-            _dropInWithListenerList = dropIns.Select(di => {
+            _dropInWithListenerList = dropIns.Select(di =>
+            {
                 var diCapture = di;
                 var record = new DropInEventListenerRecord
                 {
@@ -133,10 +135,19 @@ namespace GuildMaster.Windows
         /// </summary>
         /// <param name="dragFrom"> 현재 드래그가 시작된 dragFrom </param>
         /// <returns> 드래그를 진행해야 하는지 여부</returns>
+        [Pure]
         protected virtual bool CheckBeforeBeginDrag(IDragFrom dragFrom, PointerEventData pointerEventData)
         {
             return pointerEventData.button == PointerEventData.InputButton.Left;
         }
+
+        // protected virtual void OnDragBegin(IDragFrom dragFrom, PointerEventData pointerEventData)
+        // {
+        // }
+        //
+        // protected virtual void OnDragEnd()
+        // {
+        // }
 
         private void OnBeginElementDrag(IDragFrom dragFrom, PointerEventData pointerEventData)
         {
@@ -144,16 +155,18 @@ namespace GuildMaster.Windows
             if (!CheckBeforeBeginDrag(dragFrom, pointerEventData))
                 return;
             
+            // OnDragBegin(dragFrom, pointerEventData);
+            
             dragFrom.IndicateBeingDragged(true);
             _currentDragIndicator = CreateDragGhost(dragFrom, pointerEventData);
             _currentDragIndicator.transform.SetParent(DragGhostParent, false);
-            _currentDragIndicator.transform.position = pointerEventData.position;   
-            
+            _currentDragIndicator.transform.position = pointerEventData.position;
+
             foreach (var di in DropIns.Where(a => IsDragAble(dragFrom, a)))
             {
                 di.Highlight(true);
             }
-            
+
             _currentDragging = dragFrom;
         }
 
@@ -180,6 +193,7 @@ namespace GuildMaster.Windows
             {
                 di.Highlight(false);
             }
+
             _currentDragging.IndicateBeingDragged(false);
             _currentDragging = null;
             GameObject.Destroy(_currentDragIndicator);
@@ -199,9 +213,9 @@ namespace GuildMaster.Windows
         private IDropIn GetCurrentlySelectedDropIn()
         {
             if (_currentDragging == null) return null;
-            return _dropInsUnderPointer.FindLast(di=>IsDragAble(_currentDragging, di));
+            return _dropInsUnderPointer.FindLast(di => IsDragAble(_currentDragging, di));
         }
-        
+
         /// <summary>
         /// 드래그 시 마우스를 따라가는 'ghost'를 생성함. raycast를 받지 않아야 함에 주의해 주세요. 
         /// </summary>

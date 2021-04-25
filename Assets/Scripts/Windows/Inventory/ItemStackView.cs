@@ -7,8 +7,8 @@ namespace GuildMaster.Windows
 {
     public class ItemStackView: MonoBehaviour
     {
-        [SerializeField] private Image _itemImage;
-        [SerializeField] private Text _itemNumberLabel;
+        [field: SerializeField] public Image ItemImage { get; private set; }
+        [field: SerializeField] public Text ItemNumberLabel { get; private set; }
 
         public ItemStack ItemStack
         {
@@ -26,13 +26,13 @@ namespace GuildMaster.Windows
             int number = _itemStack.ItemNum;
             if (item == null || number == 0)
             {
-                _itemImage.sprite = null;
-                _itemNumberLabel.text = "";
+                ItemImage.sprite = null;
+                ItemNumberLabel.text = "";
             }
             else
             {
-                _itemImage.sprite = item.StaticData.ItemImage;
-                _itemNumberLabel.text = number.ToString();
+                ItemImage.sprite = item.StaticData.ItemImage;
+                ItemNumberLabel.text = number.ToString();
             }
         }
 

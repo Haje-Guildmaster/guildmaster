@@ -216,6 +216,7 @@ GameObject:
   - component: {fileID: 8878960773412823575}
   - component: {fileID: 332451774708577190}
   - component: {fileID: 2567690448241230719}
+  - component: {fileID: 6944951446891374425}
   m_Layer: 5
   m_Name: InventoryItem
   m_TagString: Untagged
@@ -297,6 +298,7 @@ MonoBehaviour:
   <PointerEnterExitEvents>k__BackingField: {fileID: 2567690448241230719}
   <Button>k__BackingField: {fileID: 570173224575417890}
   <DragForwarder>k__BackingField: {fileID: 332451774708577190}
+  <BackGroundImage>k__BackingField: {fileID: 8327882171448193662}
 --- !u!114 &8878960773412823575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,8 +311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61acdf3468074a6f8f7db52a9c3dff09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemImage: {fileID: 4359270126286552298}
-  _itemNumberLabel: {fileID: 5031351292030672138}
+  <ItemImage>k__BackingField: {fileID: 4359270126286552298}
+  <ItemNumberLabel>k__BackingField: {fileID: 5031351292030672138}
 --- !u!114 &332451774708577190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,3 +337,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb71eb4aa8141c2b1307b46ec21fe17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &6944951446891374425
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8327882171448193660}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

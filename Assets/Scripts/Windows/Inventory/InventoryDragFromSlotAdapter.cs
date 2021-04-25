@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using GuildMaster.Data;
 using GuildMaster.Items;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace GuildMaster.Windows
@@ -47,7 +48,7 @@ namespace GuildMaster.Windows
 
             public void IndicateBeingDragged(bool doIndicate)
             {
-                // Todo:
+                _inventoryView.SetSlotBackgroundColor(_itemIndex, doIndicate ? Color.red: Color.white);
             }
 
             public void InvokeDragged(PointerEventData ped) => Dragged?.Invoke(ped);

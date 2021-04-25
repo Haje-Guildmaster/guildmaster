@@ -247,8 +247,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61acdf3468074a6f8f7db52a9c3dff09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemImage: {fileID: 4359270126286552298}
-  _itemNumberLabel: {fileID: 5031351292030672138}
+  <ItemImage>k__BackingField: {fileID: 4359270126286552298}
+  <ItemNumberLabel>k__BackingField: {fileID: 5031351292030672138}
 --- !u!225 &4242692883818581299
 CanvasGroup:
   m_ObjectHideFlags: 0
