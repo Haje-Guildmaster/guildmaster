@@ -39,7 +39,7 @@ namespace GuildMaster.Windows
         protected override bool CheckBeforeBeginDrag(IDragFrom dragFrom, PointerEventData pointerEventData)
         {
             _draggingItem = dragFrom.Giver.GetAvailable();
-            return !_draggingItem.IsEmpty();
+            return !_draggingItem.IsEmpty() && base.CheckBeforeBeginDrag(dragFrom, pointerEventData);
         }
 
         protected override GameObject CreateDragGhost(IDragFrom dragFrom, PointerEventData pointerEvent)

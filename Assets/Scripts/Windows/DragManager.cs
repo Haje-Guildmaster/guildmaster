@@ -135,7 +135,7 @@ namespace GuildMaster.Windows
         /// <returns> 드래그를 진행해야 하는지 여부</returns>
         protected virtual bool CheckBeforeBeginDrag(IDragFrom dragFrom, PointerEventData pointerEventData)
         {
-            return true;
+            return pointerEventData.button == PointerEventData.InputButton.Left;
         }
 
         private void OnBeginElementDrag(IDragFrom dragFrom, PointerEventData pointerEventData)
