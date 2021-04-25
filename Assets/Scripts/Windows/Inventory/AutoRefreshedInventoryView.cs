@@ -60,6 +60,7 @@ namespace GuildMaster.Windows
         }
 
         public Inventory Inventory { get; private set; }
+        public int ItemIconCount => ItemIconList.Length;
 
         public void SetInventory(Inventory inventory)
         {
