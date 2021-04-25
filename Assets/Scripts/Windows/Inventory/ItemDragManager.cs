@@ -1,8 +1,10 @@
+using System;
 using GuildMaster.Data;
 using GuildMaster.Items;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
+using Object = UnityEngine.Object;
 
 namespace GuildMaster.Windows
 {
@@ -32,9 +34,10 @@ namespace GuildMaster.Windows
         int GiveItem(Item item, int number);
     }
 
+    [Serializable]
     public abstract class ItemDragManager : DragManager<IItemGiver, IItemReceiver>
     {
-        [SerializeField] private ItemStackView _dragIndicatorPrefab;
+        [SerializeField] private ItemStackView _dragGhostPrefab;
 
         protected override bool CheckBeforeBeginDrag(IDragFrom dragFrom, PointerEventData pointerEventData)
         {
@@ -44,7 +47,7 @@ namespace GuildMaster.Windows
 
         protected override GameObject CreateDragGhost(IDragFrom dragFrom, PointerEventData pointerEvent)
         {
-            var made = Object.Instantiate(_dragIndicatorPrefab);
+            var made = Object.Instantiate(_dragGhostPrefab);
             made.ItemStack = dragFrom.Giver.GetAvailable();
             return made.gameObject;
         }

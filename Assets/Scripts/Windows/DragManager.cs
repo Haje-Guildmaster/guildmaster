@@ -8,7 +8,8 @@ using UnityEngine.EventSystems;
 
 namespace GuildMaster.Windows
 {
-    public abstract class DragManager<TGiver, TReceiver> : MonoBehaviour
+    [Serializable]
+    public abstract class DragManager<TGiver, TReceiver>
     {
         [SerializeField] private Transform DragGhostParent;
 
@@ -77,7 +78,7 @@ namespace GuildMaster.Windows
         {
         }
 
-        protected virtual void OnEnable()
+        public void Enable()
         {
             // 이벤트 구독.
             var dragFroms = GetAllDragFroms();
@@ -112,7 +113,7 @@ namespace GuildMaster.Windows
             }).ToList();
         }
 
-        protected virtual void OnDisable()
+        public void Disable()
         {
             // 이벤트 구독 해제.
             foreach (var (df, record) in _dragFromWithListenerList)
