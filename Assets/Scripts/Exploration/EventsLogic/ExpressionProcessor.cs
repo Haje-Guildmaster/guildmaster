@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using GuildMaster.Characters;
 
 namespace GuildMaster.Exploration.Events
@@ -20,17 +21,26 @@ namespace GuildMaster.Exploration.Events
             switch (expression)
             {
                 case Expression.BinaryOperator binaryOperator:
-                    var left = Calculate(binaryOperator.Left, selectedCharacter);
-                    var right = Calculate(binaryOperator.Right, selectedCharacter);
-                    switch (binaryOperator.Type)
                     {
-                        case Expression.BinaryOperator.OperatorType.Add:
-                            return left + right;
-                        case Expression.BinaryOperator.OperatorType.Multiply:
-                            return left * right;
-                        default:
-                            throw new NotImplementedException();
+                        var left = Calculate(binaryOperator.Left, selectedCharacter);
+                        var right = Calculate(binaryOperator.Right, selectedCharacter);
+                        switch (binaryOperator.Type)
+                        {
+                            case Expression.BinaryOperator.OperatorType.Add:
+                                return left + right;
+                            case Expression.BinaryOperator.OperatorType.Multiply:
+                                return left * right;
+                            case Expression.BinaryOperator.OperatorType.Subtract:
+                                return left - right;
+                            default:
+                                throw new NotImplementedException();
+                        }
                     }
+                case Expression.MultipleAdd multipleAdd:
+                    {
+                        return multipleAdd.expressions.Select((a) => Calculate(a, selectedCharacter)).Aggregate((a,b) => a+b);
+                    }
+
                 case Expression.Constant constant:
                     return constant.Value;
                 case Expression.CharacterStatus characterStatus:

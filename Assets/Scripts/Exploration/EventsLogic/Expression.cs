@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GuildMaster.Exploration.Events
@@ -31,7 +32,7 @@ namespace GuildMaster.Exploration.Events
         {
             public enum OperatorType
             {
-                Add, Multiply
+                Add, Subtract, Multiply
             }
 
             public OperatorType Type;
@@ -41,7 +42,14 @@ namespace GuildMaster.Exploration.Events
             [SerializeReference] [SerializeReferenceButton]
             public Expression Right;
         }
-        
+        public class MultipleAdd : Expression
+        {
+
+            [SerializeReference]
+            [SerializeReferenceButton]
+            public List<Expression> expressions;
+        }
+
         [Serializable]
         public class CharacterStatus : Expression
         {

@@ -19,14 +19,14 @@ MonoBehaviour:
   - Name: "\uC774\uBCA4\uD2B8 \uC5C6\uC74C"
     EventSeed:
       id: 1
-  - Name: 
+  - Name: "\uC2E4\uD5D8\uC6A9 \uC774\uBCA4\uD2B8"
     EventSeed:
       id: 2
-  - Name: 
+  - Name: "\uC804\uD22C \uC774\uBCA4\uD2B8 \uD14C\uC2A4\uD2B8"
     EventSeed:
-      id: 2
+      id: 3
   currentEditingIndex:
-    Value: 1
+    Value: 3
   references:
     version: 1
     00000000:
@@ -40,38 +40,38 @@ MonoBehaviour:
           Choices:
           - Description: "\"\uC800 \uBCF4\uBB3C\uC0C1\uC790\uB294 \uC2E0 \uBCF4\uBB3C\uC0C1\uC790\uC77C\uAC70\uC57C\""
             ActivationCondition:
-              id: 2
+              id: 4
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uB2F9\uC2E0\uC740 \uBCF4\uBB3C\uC0C1\uC790\uB97C \uB4A4\uB85C
                   \uD55C \uCC44 \uAE38\uC744 \uB5A0\uB0AC\uB2E4."
               Instructions:
-              - id: 3
+              - id: 5
           - Description: "\uC0B4\uD3B4\uBCF8\uB2E4. "
             ActivationCondition:
-              id: 2
+              id: 4
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uB2F9\uC2E0\uC740 \uC0C1\uC790\uB97C \uCC2C\uCC2C\uD788 \uC0B4\uD3B4\uBCF4\uC558\uB2E4."
               Instructions:
-              - id: 4
+              - id: 6
           - Description: "\uBD80\uC234\uBCF8\uB2E4."
             ActivationCondition:
-              id: 2
+              id: 4
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uB2F9\uC2E0\uC740 \uC0C1\uC790\uB97C \uD798\uAECF \uCCE4\uB2E4."
               Instructions:
-              - id: 5
+              - id: 7
           - Description: "\uAC00\uC9C0\uACE0 \uAC04\uB2E4."
             ActivationCondition:
-              id: 2
+              id: 4
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uB2F9\uC2E0\uC740 \uC0C1\uC790\uB97C \uD1B5\uC9F8\uB85C \uCC59\uACBC\uB2E4."
               Instructions:
-              - id: 6
-              - id: 7
+              - id: 8
+              - id: 9
     00000001:
       type: {class: AsIsEventSeed, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
@@ -81,46 +81,97 @@ MonoBehaviour:
           Choices:
           - Description: "\uD734\uC2DD\uC744 \uCDE8\uD55C\uB2E4(\uC784\uC2DC)"
             ActivationCondition:
-              id: 2
+              id: 4
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uD734\uC2DD\uC744 \uCDE8\uD588\uB2E4"
               Instructions:
-              - id: 8
+              - id: 10
           - Description: "\uD589\uB3D9\uC744 \uC885\uB8CC\uD55C\uB2E4"
             ActivationCondition:
-              id: 2
+              id: 4
             Sequential:
               <FlavorText>k__BackingField:
                 Text: "\uD589\uB3D9 \uC885\uB8CC"
               Instructions:
-              - id: 9
+              - id: 11
     00000002:
-      type: {class: , ns: , asm: }
+      type: {class: AsIsEventSeed, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        _event:
+          ShortDescription: "\uC124\uBA85"
+          FullDescription: "\uC124\uBA85\uC124\uBA85"
+          Choices:
+          - Description: 
+            ActivationCondition:
+              id: 0
+            Sequential:
+              <FlavorText>k__BackingField:
+                Text: 
+              Instructions: []
     00000003:
-      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      type: {class: AsIsEventSeed, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        _event:
+          ShortDescription: "~\uC801~ \uACFC \uC870\uC6B0 \uD558\uC600\uB2E4! ~ \uC801\uC774
+            \uD560 \uD589\uB3D9"
+          FullDescription: 
+          Choices:
+          - Description: "\uC815\uBA74 \uACF5\uACA9"
+            ActivationCondition:
+              id: 4
+            Sequential:
+              <FlavorText>k__BackingField:
+                Text: "\uC815\uBA74 \uACF5\uACA9 \uC2DC\uB3C4"
+              Instructions:
+              - id: 12
+          - Description: "\uC57D\uC810 \uACF5\uACA9"
+            ActivationCondition:
+              id: 4
+            Sequential:
+              <FlavorText>k__BackingField:
+                Text: 
+              Instructions: []
+          - Description: "\uBC29\uC5B4"
+            ActivationCondition:
+              id: 4
+            Sequential:
+              <FlavorText>k__BackingField:
+                Text: 
+              Instructions: []
+          - Description: "\uB208\uAE38\uC744 \uB04C\uACE0 \uB3C4\uB9DD"
+            ActivationCondition:
+              id: 4
+            Sequential:
+              <FlavorText>k__BackingField:
+                Text: 
+              Instructions: []
     00000004:
+      type: {class: , ns: , asm: }
+    00000005:
+      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+    00000006:
       type: {class: Instruction/If, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Condition:
-          id: 10
+          id: 13
         IfTrue:
           <FlavorText>k__BackingField:
             Text: "\uC774 \uC0C1\uC790\uC758 \uC790\uBB3C\uC1E0\uB294 \uD568\uC815\uD574\uCCB4
               \uAE30\uC220\uB85C \uB538 \uC218 \uC788\uC744 \uAC83 \uAC19\uB2E4."
           Instructions:
-          - id: 11
-          - id: 12
+          - id: 14
+          - id: 15
         Else:
           <FlavorText>k__BackingField:
             Text: "\uD558\uC9C0\uB9CC \uD3C9\uBC94\uD558\uAC8C \uC5F4 \uBC29\uBC95\uC740
               \uC5C6\uC744 \uAC83 \uAC19\uB2E4."
           Instructions: []
-    00000005:
+    00000007:
       type: {class: Instruction/PerChance, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Chance:
-          id: 13
+          id: 16
         Success:
           <FlavorText>k__BackingField:
             Text: "\uB2F9\uC2E0\uC740 \uC0C1\uC790\uB97C \uBD80\uC248\uC9C0\uB9CC
@@ -128,8 +179,8 @@ MonoBehaviour:
               \uBD80\uC11C\uC9C4 \uC0C1\uD0DC\uC600\uB2E4. \uC5BB\uC5B4\uAC08 \uC218
               \uC788\uB294 \uAC74 \uBA87 \uC548\uB418\uB294 \uAE08\uD654 \uBFD0\uC774\uC5C8\uB2E4. "
           Instructions:
-          - id: 14
-          - id: 15
+          - id: 17
+          - id: 18
         Failure:
           <FlavorText>k__BackingField:
             Text: "\uB2F9\uC2E0\uC740 \uACC4\uC18D\uD574\uC11C \uC0C1\uC790\uB97C
@@ -137,138 +188,235 @@ MonoBehaviour:
               \uD558\uC9C0 \uC54A\uC558\uB2E4. \uBB34\uAE30\uC5D0 \uAE08\uC774 \uAC00\uB824\uACE0
               \uD558\uC790 \uB2F9\uC2E0\uC740 \uD669\uAE09\uD788 \uBA48\uCDC4\uB2E4."
           Instructions:
-          - id: 16
-    00000006:
+          - id: 19
+    00000008:
       type: {class: Instruction/GetItem, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Item:
           equipmentStats:
-            id: 2
+            id: 4
           code:
             Value: 3
         Number:
-          id: 17
-    00000007:
-      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
-    00000008:
-      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+          id: 20
     00000009:
       type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
     0000000A:
+      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+    0000000B:
+      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+    0000000C:
+      type: {class: Instruction/Battle, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        SuccessChance:
+          id: 21
+        BigSuccessChance:
+          id: 22
+        FailureChance:
+          id: 23
+        BigFailureChance:
+          id: 4
+        Success:
+          <FlavorText>k__BackingField:
+            Text: 
+          Instructions: []
+        BigSuccess:
+          <FlavorText>k__BackingField:
+            Text: 
+          Instructions: []
+        Failure:
+          <FlavorText>k__BackingField:
+            Text: 
+          Instructions: []
+        BigFailure:
+          <FlavorText>k__BackingField:
+            Text: 
+          Instructions: []
+    0000000D:
       type: {class: Condition/HasTrait, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Trait: 7
-    0000000B:
+    0000000E:
       type: {class: Instruction/AddChoice, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Choice:
           Description: "\uD568\uC815\uD574\uC81C\uB85C \uB530\uBCF8\uB2E4"
           ActivationCondition:
-            id: 18
+            id: 24
           Sequential:
             <FlavorText>k__BackingField:
               Text: "\uB2F9\uC2E0\uC740 \uB2A5\uC219\uD55C \uC190\uB180\uB9BC\uC744
                 \uBC1C\uD718\uD574\uC11C \uC0C1\uC790\uB97C \uB544\uB2E4. \uB2F9\uC2E0\uC740
                 \uC0C1\uC790 \uC548\uC758 \uBCF4\uBB3C\uC744 \uCDE8\uD588\uB2E4."
             Instructions:
-            - id: 19
-            - id: 20
-    0000000C:
+            - id: 25
+            - id: 26
+    0000000F:
       type: {class: Instruction/RemoveCurrentChoice, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
-    0000000D:
+    00000010:
       type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         Type: 0
         Left:
-          id: 21
+          id: 27
         Right:
-          id: 22
-    0000000E:
+          id: 28
+    00000011:
       type: {class: Instruction/GetItem, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Item:
           equipmentStats:
-            id: 2
+            id: 4
           code:
             Value: 5
         Number:
-          id: 23
-    0000000F:
+          id: 29
+    00000012:
       type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
-    00000010:
+    00000013:
       type: {class: Instruction/ChangeEnergy, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         TargetType: 0
         Amount:
-          id: 24
-    00000011:
+          id: 30
+    00000014:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Value: 1
-    00000012:
-      type: {class: Condition/HasTrait, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
-      data:
-        Trait: 7
-    00000013:
-      type: {class: Instruction/GetItem, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
-      data:
-        Item:
-          equipmentStats:
-            id: 2
-          code:
-            Value: 4
-        Number:
-          id: 25
-    00000014:
-      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
     00000015:
-      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
-      data:
-        Value: 0.5
-    00000016:
-      type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
-        asm: Assembly-CSharp}
-      data:
-        Type: 1
-        Left:
-          id: 26
-        Right:
-          id: 27
-    00000017:
       type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         Type: 0
         Left:
-          id: 28
+          id: 31
         Right:
-          id: 29
+          id: 32
+    00000016:
+      type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        Type: 0
+        Left:
+          id: 33
+        Right:
+          id: 34
+    00000017:
+      type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        Type: 1
+        Left:
+          id: 35
+        Right:
+          id: 36
     00000018:
+      type: {class: Condition/HasTrait, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Trait: 7
+    00000019:
+      type: {class: Instruction/GetItem, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Item:
+          equipmentStats:
+            id: 4
+          code:
+            Value: 4
+        Number:
+          id: 37
+    0000001A:
+      type: {class: Instruction/EndEvent, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+    0000001B:
+      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Value: 0.5
+    0000001C:
+      type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        Type: 1
+        Left:
+          id: 38
+        Right:
+          id: 39
+    0000001D:
+      type: {class: Expression/BinaryOperator, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        Type: 0
+        Left:
+          id: 40
+        Right:
+          id: 41
+    0000001E:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
         Value: -10
-    00000019:
+    0000001F:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
-        Value: 1
-    0000001A:
-      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
-      data:
-        Value: 0.05
-    0000001B:
+        Value: 35
+    00000020:
       type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         StatusTarget: 2
-    0000001C:
+    00000021:
       type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
       data:
-        Value: 0
-    0000001D:
+        Value: 5
+    00000022:
       type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
         asm: Assembly-CSharp}
       data:
         StatusTarget: 3
+    00000023:
+      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Value: 100
+    00000024:
+      type: {class: Expression/MultipleAdd, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        expressions:
+        - id: 42
+        - id: 43
+        - id: 44
+    00000025:
+      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Value: 1
+    00000026:
+      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Value: 0.05
+    00000027:
+      type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        StatusTarget: 2
+    00000028:
+      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Value: 0
+    00000029:
+      type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        StatusTarget: 3
+    0000002A:
+      type: {class: Expression/Constant, ns: GuildMaster.Exploration.Events, asm: Assembly-CSharp}
+      data:
+        Value: 40
+    0000002B:
+      type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        StatusTarget: 0
+    0000002C:
+      type: {class: Expression/CharacterStatus, ns: GuildMaster.Exploration.Events,
+        asm: Assembly-CSharp}
+      data:
+        StatusTarget: 0
