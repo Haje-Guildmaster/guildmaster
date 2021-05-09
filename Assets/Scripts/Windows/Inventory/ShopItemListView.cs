@@ -58,7 +58,8 @@ public class ShopItemListView : MonoBehaviour
     {
         for (int i=0; i<_ShopItemIconList.Count; i++)
         {
-            if (_ShopItemIconList[i].ItemStack == null) continue;
+            if (_ShopItemIconList[i].ItemStack == null) 
+                continue;
             _ShopItemIconList[i].ItemStack.Quantity = 0;
             _ShopItemIconList[i].UpdateAppearance(_ShopItemIconList[i].ItemStack, i, isbuy);
         }

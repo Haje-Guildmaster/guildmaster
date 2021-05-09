@@ -41,7 +41,11 @@ namespace GuildMaster.Windows
         /// <param name="shopname"></param>
         public void Open(ReadOnlyCollection<Item> npcInventoryInf, ReadOnlyCollection<ItemCount> npcInventoryNotInf, string shopname)
         {
-            this.npcInventoryInf = npcInventoryInf;
+            this.npcInventoryInf = new List<Item>();
+            foreach (Item item in npcInventoryInf)
+            {
+                this.npcInventoryInf.Add(item);
+            }
             this.npcInventoryNotInf = new List<ItemCount>();
             foreach (ItemCount itemCount in npcInventoryNotInf)
             {
@@ -56,52 +60,59 @@ namespace GuildMaster.Windows
             shopItemListView.ResetQuantity(true);
             playerShopItemListView.ResetQuantity();
         }
-        public void GetPanelInfo(ItemStack itemStack, bool isbuying, int index)
+        public void GetPanelInfo(ItemStack istack, bool isbuying, int index)
         {
+            ItemStack itemStack = new ItemStack(istack);
             if (isbuying)
             {
-                shopItemListView.setItemStack(index, itemStack, isbuying);
                 if (itemStack.Quantity == 0)
                 {
-                    if (shopOnDict.TryGetValue(index, out ItemStack _itemStack))
+                    if (shopOnDict.ContainsKey(index))
                         shopOnDict.Remove(index);
                     shopItemListView.ActiveItemIcon(false, index, true);
+                    Refresh();
+                    return;
                 }
-                else if (shopOnDict.TryGetValue(index, out ItemStack _itemStack))
+                else if (shopOnDict.ContainsKey(index))
                 {
                     shopOnDict[index].Quantity = itemStack.Quantity;
+                    shopItemListView.setItemStack(index, new ItemStack(shopOnDict[index]), true);
                     shopItemListView.ActiveItemIcon(true, index, true);
                 }
                 else
                 {
-                    shopOnDict.Add(index, itemStack);
+                    shopOnDict.Add(index, new ItemStack(itemStack));
+                    shopItemListView.setItemStack(index, new ItemStack(shopOnDict[index]), true);
                     shopItemListView.ActiveItemIcon(true, index, true);
                 }
+                shopItemListView.setItemStack(index, itemStack, isbuying);
             }
             else
             {
-                playerShopItemListView.setItemStack(index, itemStack, isbuying);
                 if (itemStack.Quantity == 0)
                 {
-                    if (playerOnDict.TryGetValue(_currentCategory, out var PDict) && PDict.TryGetValue(index, out ItemStack _itemStack))
+                    if (playerOnDict.TryGetValue(_currentCategory, out var PDict) && PDict.ContainsKey(index))
                         PDict.Remove(index);
                     playerShopItemListView.ActiveItemIcon(false, index, false);
+                    Refresh();
+                    return;
                 }
                 else if (playerOnDict.TryGetValue(_currentCategory, out var PDict))
                 {
                     if (PDict.TryGetValue(index, out ItemStack _itemStack))
                         PDict[index].Quantity = itemStack.Quantity;
                     else
-                        PDict.Add(index, itemStack);
+                        PDict.Add(index, new ItemStack(itemStack));
                     playerShopItemListView.ActiveItemIcon(true, index, false);
                 }
                 else
                 {
                     Dictionary<int, ItemStack> Dict = new Dictionary<int, ItemStack>();
-                    Dict.Add(index, itemStack);
+                    Dict.Add(index, new ItemStack(itemStack));
                     playerOnDict.Add(_currentCategory, Dict);
                     playerShopItemListView.ActiveItemIcon(true, index, false);
                 }
+                playerShopItemListView.setItemStack(index, new ItemStack(playerOnDict[_currentCategory][index]), isbuying);
             }
             Refresh();
             return;
@@ -119,56 +130,44 @@ namespace GuildMaster.Windows
             shopOnDict.Clear();
             //npc에서 플레이어 인벤토리로 보내고 나서 인벤토리.
             int size = 0; // 새로 npc 인벤토리의 사이즈
-            //npcShopItemList 기존 + 추가되는 것 (기존에 무한 아이템이 있는데 추가-> 삭제, 유한 아이템이 있는데 추가-> 새로운 칸으로 추가)
             List<ItemStack> npcShopItemList = new List<ItemStack>();
             List<ItemStack> npcAddItemList = new List<ItemStack>();
-            foreach (ItemStack itemStack in npcInventory.InventoryList)//기존에 npc 인벤토리에 있던 itemStack 추가
+            foreach (ItemStack itemStack in npcInventory.InventoryList)
             {
-                //아이템이 null이면 스킵, 무한이 아닌데 아이템 개수가 0개이면 스킵 (사라짐)
-                if (itemStack.Item == null || (itemStack.ItemNum == 0 && itemStack.isInfinite == false))
+                //이미 infinite인 아이템이 존재하면 스킵
+                if (npcShopItemList.Exists(x => x.Item.Equals(itemStack.Item) && x.isInfinite == true))
                     continue;
-                //npcShopItemList에 아이템이 이미 있으면(상점 아이템 이외의 것이 있다면) npcShopAddition으로 삽입
-                if (npcShopItemList.Exists(x => x.Item == itemStack.Item))
-                    npcAddItemList.Add(itemStack);
+                else if (itemStack.Item == null || itemStack.ItemNum == 0)
+                    continue;
+                //겹치는것이 존재하면 npcAddItemList에 추가
+                else if (npcShopItemList.Exists(x => x.Item.Equals(itemStack.Item) && x.isInfinite == false))
+                    npcAddItemList.Add(new ItemStack(itemStack));
+                //겹치는 것이 존재하지 않으면 npcShopItemList에 추가
                 else
-                    npcShopItemList.Add(itemStack);
-                size++;
-            }
-            int index;
-            //플레이어가 파는 물건들은 무조건 npcAddItemList 추가
-            foreach (KeyValuePair<ItemCategory, Dictionary<int, ItemStack>> categoryDict in playerOnDict)
-            {
-                foreach (KeyValuePair<int, ItemStack> items in categoryDict.Value)
                 {
-                    //npcShopAddition에 있으면 기존 itemstack에 추가, 아니면 새로 추가
-                    if (npcAddItemList.Exists(x => x.Item == items.Value.Item))
-                    {
-                        index = npcAddItemList.FindIndex(x => x.Item == items.Value.Item);
-                        npcAddItemList[index].setItemStack(npcAddItemList[index].Item, npcAddItemList[index].ItemNum);
-                    }
-                    else
-                    {
-                        npcAddItemList.Add(items.Value);
-                        size++;
-                    }
+                    ItemStack newItemStack = new ItemStack(itemStack);
+                    npcShopItemList.Add(newItemStack);
                 }
             }
-            Inventory inventory = new Inventory(size, false);
-            foreach (ItemStack itemstack in npcShopItemList)
+            int index;
+            foreach (var categoryItemlist in playerOnDict)
             {
-                if (itemstack.Item == null)
-                    throw new Exception("npcShopItemList에 item 값이 null인 itemstack이 있습니다.");
-                if (itemstack.isInfinite)
-                    inventory.TryAddInfiniteItem(itemstack.Item);
-                else
-                    inventory.TryAddItem(itemstack.Item, itemstack.ItemNum);
+                foreach (KeyValuePair<int, ItemStack> itemPair in categoryItemlist.Value)
+                {
+                    index = npcAddItemList.FindIndex(x => x.Item.Equals(itemPair.Value.Item));
+                    if (index == -1)
+                        npcAddItemList.Add(new ItemStack(itemPair.Value.Item, itemPair.Value.Quantity));
+                    else
+                        npcAddItemList[index].ItemNum += itemPair.Value.Quantity;
+
+                    Player.Instance.PlayerInventory.TryDeleteItem(itemPair.Value.Item, itemPair.Value.Quantity);
+                }
             }
             foreach (ItemStack itemstack in npcAddItemList)
             {
-                if (itemstack.Item == null)
-                    throw new Exception("npcAddItemList에 item 값이 null인 itemstack이 있습니다.");
-                inventory.TryAddItemAtLastIndex(itemstack);
+                npcShopItemList.Add(itemstack);
             }
+            Inventory inventory = new Inventory(false, npcShopItemList);
             playerOnDict.Clear();
             //Refresh Player Inventory
             npcInventory = inventory;
@@ -204,10 +203,16 @@ namespace GuildMaster.Windows
             if (playerShopItemListView.getItemStack(index) == null || playerShopItemListView.getItemStack(index).Item == null) 
                 return;
             playerShopItemListView.ActiveItemIcon(true, index, false);
-            if (playerOnDict.TryGetValue(_currentCategory, out var pDict) && pDict.TryGetValue(index, out ItemStack itemStack))
-                UiWindowsManager.Instance.shopItemPanel.Open(itemStack, false, index);
+            if (playerOnDict.TryGetValue(_currentCategory, out var pDict))
+                if (pDict.TryGetValue(index, out ItemStack itemStack))
+                    UiWindowsManager.Instance.shopItemPanel.Open(new ItemStack(itemStack), false, index);
+                else
+                    UiWindowsManager.Instance.shopItemPanel.Open(new ItemStack(playerShopItemListView.getItemStack(index)), false, index);
             else
-                UiWindowsManager.Instance.shopItemPanel.Open(playerShopItemListView.getItemStack(index), false, index);
+            {
+                playerOnDict.Add(_currentCategory, new Dictionary<int, ItemStack>());
+                UiWindowsManager.Instance.shopItemPanel.Open(new ItemStack(playerShopItemListView.getItemStack(index)), false, index);
+            }
         }
 
         private bool _changeCategoryBlock = false;
@@ -312,7 +317,7 @@ namespace GuildMaster.Windows
         private int _panelRequestId;
         private int buycost = 0, sellcost = 0, totalcost;
         private int originalShopSize;
-        private ReadOnlyCollection<Item> npcInventoryInf;
+        private List<Item> npcInventoryInf;
         private List<ItemCount> npcInventoryNotInf;
         //플레이어에 의해 선택된 사고 팔 아이템들
         private Dictionary<int, ItemStack> shopOnDict = new Dictionary<int, ItemStack>();

@@ -24,7 +24,10 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
     {
         if (itemStack == null) 
             Close();
-        this.itemStack = itemStack;
+        if (itemStack.isInfinite)
+            this.itemStack = new ItemStack(itemStack);
+        else
+            this.itemStack = new ItemStack(itemStack);
         this.isbuy = isbuy;
         this.index = index;
         this.quantity = itemStack.Quantity;
@@ -53,21 +56,17 @@ public class ShopItemPanel : DraggableWindow, IToggleableWindow
         else
             gold.text = (value * itemStack.SellCost).ToString();
     }
-    private void Awake()
-    {
-        slider.onValueChanged.AddListener(delegate {
-            Refresh();
-        });
-    }
     private void Update()
     {
         if(Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             slider.value += 1;
+            Refresh();
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             slider.value -= 1;
+            Refresh();
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {

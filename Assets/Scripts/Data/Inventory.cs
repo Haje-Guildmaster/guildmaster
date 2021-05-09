@@ -49,6 +49,7 @@ namespace GuildMaster.Data
         /// <param name="itemNum"></param>
         public ItemStack(Item item, int itemNum)
         {
+            if (item == null || itemNum <= 0) new ItemStack();
             Item = item;
             ItemNum = itemNum;
             BuyCost = item.StaticData.BuyPrice;
@@ -73,6 +74,19 @@ namespace GuildMaster.Data
             SellCost = item.StaticData.SellPrice;
             Quantity = 0;
             isInfinite = infinite;
+        }
+        /// <summary>
+        /// itemStack 복사. itemStack은 null이 되지 않아야함
+        /// </summary>
+        /// <param name="itemStack"></param>
+        public ItemStack(ItemStack itemStack)
+        {
+            Item = itemStack.Item;
+            ItemNum = itemStack.ItemNum;
+            Quantity = itemStack.Quantity;
+            isInfinite = itemStack.isInfinite;
+            BuyCost = Item.StaticData.BuyPrice;
+            SellCost = Item.StaticData.SellPrice;
         }
         public void setInfiniteItemStack(Item item)
         {
@@ -119,21 +133,25 @@ namespace GuildMaster.Data
             _inventoryList.Clear();
             for (int i = 0; i < Size; i++) _inventoryList.Add(new ItemStack());
         }
+        public Inventory(bool IsStacked, List<ItemStack> itemList)
+        {
+            this.IsStacked = IsStacked;
+            this.Size = itemList.Count;
+            _inventoryList = new List<ItemStack>();
+            _inventoryList.Clear();
+            foreach (ItemStack itemStack in itemList)
+            {
+                if (itemStack.Item == null || itemStack.ItemNum <= 0)
+                {
+                    this.Size -= 1;
+                    continue;
+                }
+                _inventoryList.Add(new ItemStack(itemStack.Item, itemStack.ItemNum));
+            }
+        }
         public readonly bool IsStacked;
         public readonly int Size;
         public IReadOnlyList<ItemStack> InventoryList => _inventoryList;
-        public int Num
-        {
-            get
-            {
-                int num = 0;
-                foreach (ItemStack itemStack in _inventoryList)
-                {
-                    if (itemStack.Item != null) num += 1;
-                }
-                return num;
-            }
-        }
         public event Action Changed;
 
         public void ChangeItemIndex(int index1, int index2)

@@ -19,12 +19,9 @@ namespace GuildMaster.Windows
         {
             get
             {
-                if (_item == null)
+                if (_item == null || itemStack == null)
                     return null;
-                if (_isinfinite)
-                    return new ItemStack(itemStack.Item, true);
-                else
-                    return new ItemStack(itemStack.Item, itemStack.ItemNum);
+                return new ItemStack(itemStack);
             }
         }
             
@@ -35,7 +32,6 @@ namespace GuildMaster.Windows
         }
         public void UpdateAppearance(ItemStack itemStack, int index, bool isbuy)
         {
-            this.itemStack = itemStack;
             if (itemStack == null || itemStack.Item == null)
             {
                 _item = null;
@@ -45,6 +41,7 @@ namespace GuildMaster.Windows
                 _quantity = 0;
                 _isinfinite = false;
                 _itemImage.sprite = (Sprite)null;
+                //아이콘 업데이트
                 _itemNumberLabel.text = "";
                 _itemCostLabel.text = "";
                 _itemQuantityLabel.text = "";
@@ -52,7 +49,7 @@ namespace GuildMaster.Windows
             else if (itemStack.isInfinite == true)
             {
                 _item = itemStack.Item;
-                _number = 0;
+                _number = 1;
                 _index = index;
                 if (isbuy)
                     _cost = itemStack.BuyCost;
@@ -61,6 +58,7 @@ namespace GuildMaster.Windows
                 _quantity = itemStack.Quantity;
                 _isinfinite = true;
                 _itemImage.sprite = ItemDatabase.Get(_item.Code).ItemImage;
+                //아이콘 업데이트
                 _itemNumberLabel.text = "";
                 _itemCostLabel.text = _cost.ToString();
                 if (_quantity == 0)
@@ -80,6 +78,7 @@ namespace GuildMaster.Windows
                 _quantity = itemStack.Quantity;
                 _isinfinite = false;
                 _itemImage.sprite = ItemDatabase.Get(_item.Code).ItemImage;
+                //아이콘 업데이트
                 _itemNumberLabel.text = _number.ToString();
                 _itemCostLabel.text = _cost.ToString();
                 if (_quantity == 0)
