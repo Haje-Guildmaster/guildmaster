@@ -31,6 +31,26 @@ namespace GuildMaster.Exploration.Events
             public Sequential Success;
             public Sequential Failure;
         }
+        public class Battle : Instruction
+        {
+            [SerializeReference]
+            [SerializeReferenceButton]
+            public Expression SuccessChance;
+            [SerializeReference]
+            [SerializeReferenceButton]
+            public Expression BigSuccessChance;
+            [SerializeReference]
+            [SerializeReferenceButton]
+            public Expression FailureChance;
+            [SerializeReference]
+            [SerializeReferenceButton]
+            public Expression BigFailureChance;
+
+            public Sequential Success;
+            public Sequential BigSuccess;
+            public Sequential Failure;
+            public Sequential BigFailure;
+        }
 
         /// <summary>
         /// 아이템을 얻음. Todo: GiveItem이 더 적합한 이름일 것 같음.

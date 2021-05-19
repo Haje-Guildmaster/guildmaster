@@ -11,6 +11,7 @@ using Random = System.Random;
 
 namespace GuildMaster.Exploration.Events
 {
+    using Weighteditem = ProbabilityTool<Instruction>.Weighteditem;
     /// <summary>
     /// EventManager로부터 탐색 진행을 넘겨받아 탐색 이벤트 전체를 처리하고 다시 EventManager로 반환하는 역할입니다.
     /// </summary>
@@ -235,6 +236,19 @@ namespace GuildMaster.Exploration.Events
                         {
                             return FollowInstr(perChance.Failure);
                         }
+                    }
+                    case Instruction.Battle battle:
+                    {
+                            List<Weighteditem> instructions = new List<Weighteditem>();
+                            
+                            instructions.Add(new Weighteditem(battle.Success, (int)Calculate(battle.SuccessChance, selectedCharacter)));
+                            instructions.Add(new Weighteditem(battle.BigSuccess, (int)Calculate(battle.BigSuccessChance, selectedCharacter)));
+                            instructions.Add(new Weighteditem(battle.Failure, (int)Calculate(battle.FailureChance, selectedCharacter)));
+                            instructions.Add(new Weighteditem(battle.BigFailure, (int)Calculate(battle.BigFailureChance, selectedCharacter)));
+
+                            ProbabilityTool<Instruction> probabilityTool = new ProbabilityTool<Instruction>(instructions, _randomGenerator);
+                            return FollowInstr(probabilityTool.Getitem().item);
+
                     }
                     case Instruction.ChangeEnergy changeEnergy:
                     {

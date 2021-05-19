@@ -9,6 +9,7 @@ using GuildMaster.Databases;
 using GuildMaster.Exploration.Events;
 using GuildMaster.Tools;
 using GuildMaster.TownRoam;
+using GuildMaster.Windows;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Random = System.Random;
@@ -68,6 +69,19 @@ namespace GuildMaster.Exploration
                         // 이동
                         await _explorationView.PlayRoadView(_currentNode, destination);
                         _currentNode = destination;
+                        ForcedExpEndTool.DecreaseStaminaPerNode(characters);
+
+                        //이동 이후 캐릭터들의 stamina / hp 상황 확인
+                        async Task ShowForcedExpEndMessage()
+                        {
+                            await UiWindowsManager.Instance.AsyncShowMessageBox("강제 탐색 종료!", "파티원 중 한 명 이상이 탈진했습니다.\n더 이상 탐색을 진행할 수 없습니다.", new[] { "마을로.." });
+                        }
+                        // TODO : 아래의 이벤트 발생 이후 캐릭터 상태 확인 코드와 겹침 - 중복 코드 해소 필요.
+                        if (ForcedExpEndTool.CheckExpEndCond(characters))
+                        {
+                            await ShowForcedExpEndMessage();
+                            break;
+                        }
 
                         // 현재 Node에서 이벤트 풀 정보를 가져오고 처리
                         List<Weighteditem> weightedSeedList = _currentNode.Content._eventSeedCodeList.ToList();
@@ -97,6 +111,13 @@ namespace GuildMaster.Exploration
                         await new EventProcessor(_explorationView, _characters.AsReadOnly(), _inventory, testEvent,
                                 _random, _log)
                             .Run(); // EventProcessor에게 이벤트 처리 떠넘김. Todo: EventProcessor 재사용 고려.
+                        
+                        //이벤트 발생 이후 캐릭터들의 stamina / hp 상황 확인
+                        if (ForcedExpEndTool.CheckExpEndCond(characters))
+                        {
+                            await ShowForcedExpEndMessage();
+                            break;
+                        }
                     }
                 }
 

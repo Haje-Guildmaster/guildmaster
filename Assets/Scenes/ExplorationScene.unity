@@ -4710,57 +4710,165 @@ MonoBehaviour:
       - _content:
           LocationCode:
             Value: 0
-          Position: {x: -2.5, y: -1}
+          Position: {x: 0, y: 0}
           _eventSeedCodeList:
           - item:
               Value: 0
             Weight: 50
-        Connected: 0100000005000000
+        Connected: 050000000600000008000000
       - _content:
           LocationCode:
             Value: 1
-          Position: {x: -2, y: 2.3}
+          Position: {x: 2.98, y: 1.59}
           _eventSeedCodeList:
           - item:
               Value: 0
             Weight: 50
-        Connected: 0000000002000000
+        Connected: 050000000b0000000e000000
       - _content:
           LocationCode:
             Value: 2
-          Position: {x: 0.6, y: 2.3}
+          Position: {x: -4, y: -2}
           _eventSeedCodeList:
           - item:
               Value: 0
             Weight: 50
-        Connected: 010000000300000004000000
+        Connected: 0700000009000000
       - _content:
           LocationCode:
             Value: 3
-          Position: {x: 3.2, y: 2.6}
+          Position: {x: 2, y: -4}
           _eventSeedCodeList:
           - item:
               Value: 0
             Weight: 0
-        Connected: 0200000004000000
+        Connected: 080000000a0000000d00000010000000
       - _content:
           LocationCode:
             Value: 4
-          Position: {x: 2.5, y: 0.5}
+          Position: {x: 5, y: -2}
           _eventSeedCodeList:
           - item:
               Value: 0
             Weight: 0
-        Connected: 020000000300000005000000
+        Connected: 0c0000000d000000
       - _content:
           LocationCode:
             Value: 5
-          Position: {x: -0.3, y: -1.8}
+          Position: {x: 1.49, y: 0.795}
           _eventSeedCodeList:
           - item:
               Value: 0
             Weight: 0
-        Connected: 0400000000000000
+        Connected: 0000000001000000
+      - _content:
+          LocationCode:
+            Value: 6
+          Position: {x: -1, y: -0.5}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 0000000007000000
+      - _content:
+          LocationCode:
+            Value: 7
+          Position: {x: -2, y: -1}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 0600000002000000
+      - _content:
+          LocationCode:
+            Value: 8
+          Position: {x: 1, y: -2.5}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 0000000003000000
+      - _content:
+          LocationCode:
+            Value: 9
+          Position: {x: -1, y: -3.5}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 020000000a000000
+      - _content:
+          LocationCode:
+            Value: 10
+          Position: {x: 0.5, y: -4.25}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 0900000003000000
+      - _content:
+          LocationCode:
+            Value: 11
+          Position: {x: 3.99, y: -0.205}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 010000000c000000
+      - _content:
+          LocationCode:
+            Value: 12
+          Position: {x: 4.495, y: -1.1025}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 0b00000004000000
+      - _content:
+          LocationCode:
+            Value: 13
+          Position: {x: 3.5, y: -3.5}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 0300000004000000
+      - _content:
+          LocationCode:
+            Value: 14
+          Position: {x: 3.49, y: 3.295}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 010000000f000000
+      - _content:
+          LocationCode:
+            Value: 15
+          Position: {x: 4, y: 4.2}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 0e000000
+      - _content:
+          LocationCode:
+            Value: 16
+          Position: {x: 4, y: -4}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 0300000011000000
+      - _content:
+          LocationCode:
+            Value: 9
+          Position: {x: 6, y: -4}
+          _eventSeedCodeList:
+          - item:
+              Value: 0
+            Weight: 0
+        Connected: 10000000
     Background: {fileID: 21300000, guid: 20a854d7f88d75644a72c4d0aaf4717c, type: 3}
 --- !u!4 &1229755652
 Transform:
